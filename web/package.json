@@ -1,0 +1,27 @@
+{
+  "name": "luo-yi-ba-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:data": "node scripts/generate-song-data.mjs",
+    "predev": "npm run generate:data",
+    "dev": "vite",
+    "prebuild": "npm run generate:data",
+    "build": "vite build",
+    "pretest": "npm run generate:data",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "vite": "^7.1.9",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "jsdom": "^27.0.0",
+    "vitest": "^3.2.4"
+  }
+}

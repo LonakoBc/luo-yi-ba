@@ -1,0 +1,14 @@
+{
+  "name": "luo-yi-ba-song-crawler",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "crawl": "node scripts/crawl.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "cheerio": "1.1.2",
+    "pinyin-pro": "3.27.0"
+  }
+}
