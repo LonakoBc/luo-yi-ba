@@ -1,5 +1,5 @@
 曲名：《达拉崩吧》
-STAFF：ilem（UP主）；折腾5号（作词）
+STAFF：ilem（UP主）
 声库：VOCALOID
 年份：2017
 独唱或合唱：合唱
