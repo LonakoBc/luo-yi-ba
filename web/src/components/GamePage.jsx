@@ -4,8 +4,8 @@ import ResultDialog from './ResultDialog';
 import SongTable from './SongTable';
 import { createLocalGameService } from '../services/gameService';
 
-// 开发完成后将此处改为 false，即可隐藏整个开发者指定答案入口。
-const SHOW_DEVELOPER_TOOLS = false;
+// 如需彻底隐藏开发者入口，将此处改为 false；生产构建默认不会显示。
+const SHOW_DEVELOPER_TOOLS = import.meta.env.DEV;
 
 const HINT_LABELS = ['提示 1/3：揭示年份', '提示 2/3：揭示 STAFF', '提示 3/3：揭示歌词', '提示已全部使用'];
 
@@ -45,7 +45,12 @@ export default function GamePage({ songs, mode, random, onBack }) {
     const result = service.submitGuess(game, song.id);
     if (result.error) return setNotice(result.error);
     setGame(result.game);
-    setNotice(result.game.status === 'won' ? '' : '还不是这首，看看新线索吧');
+    const lyricsAutoRevealed = result.game.status === 'playing'
+      && result.game.hintLevel === 3
+      && game.hintLevel < 3;
+    setNotice(result.game.status === 'won'
+      ? ''
+      : lyricsAutoRevealed ? '现有线索已全部匹配，已自动揭示歌词' : '还不是这首，看看新线索吧');
     if (result.game.status === 'won') setShowResultDialog(true);
   };
 

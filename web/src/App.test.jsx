@@ -65,6 +65,23 @@ describe('App 交互', () => {
     expect(screen.getByRole('button', { name: '提示已全部使用' })).toBeDisabled();
   });
 
+  it('所有有效线索均为完全匹配时自动显示歌词', () => {
+    const matchingGuess = {
+      ...songs[0],
+      id: 'matching-guess',
+      title: '另一曲',
+      lyrics: '另一首歌的歌词',
+      bilibiliUrl: 'https://www.bilibili.com/video/av3',
+    };
+    render(<App songs={[songs[0], matchingGuess]} simpleSongsOverride={[songs[0], matchingGuess]} random={() => 0} initialPage="game" initialMode="hard" />);
+
+    submitTitle('另一曲');
+
+    expect(screen.getByText('现有线索已全部匹配，已自动揭示歌词')).toBeVisible();
+    expect(screen.getByText('答案歌词完整的一行')).toBeVisible();
+    expect(screen.getByRole('button', { name: '提示已全部使用' })).toBeDisabled();
+  });
+
   it('显示错误反馈并在答对后弹出原视频链接', () => {
     renderGame();
     submitTitle('猜测曲');
@@ -96,8 +113,8 @@ describe('App 交互', () => {
     expect(within(dialog).getByText('《答案曲》')).toBeVisible();
   });
 
-  it('默认隐藏开发者入口', () => {
+  it('开发环境显示开发者入口', () => {
     renderGame();
-    expect(screen.queryByRole('button', { name: '开发者' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '开发者' })).toBeVisible();
   });
 });

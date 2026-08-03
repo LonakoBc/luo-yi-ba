@@ -82,6 +82,13 @@ describe('游戏流程', () => {
     expect(service.submitGuess(game, 'second').error).toBe('游戏已经结束');
   });
 
+  it('错误猜测的全部有效线索均匹配时自动揭示歌词', () => {
+    const game = service.submitGuess(service.startGame(), 'second').game;
+    expect(game.status).toBe('playing');
+    expect(game.guesses[0].feedback.isCorrect).toBe(false);
+    expect(game.hintLevel).toBe(3);
+  });
+
   it('可以投降并揭晓答案', () => {
     const game = service.surrender(service.startGame());
     expect(game.status).toBe('surrendered');

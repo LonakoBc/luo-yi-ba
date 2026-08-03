@@ -71,6 +71,12 @@ function randomIndex(length, random) {
   return Math.min(length - 1, Math.floor(random() * length));
 }
 
+function hasExhaustedFeedback(feedback) {
+  return !feedback.isCorrect
+    && ['title', 'staff', 'year', 'voicebank', 'vocalType']
+      .every((key) => feedback[key].state === 'exact');
+}
+
 export function createLocalGameService(rawSongs, { random = Math.random } = {}) {
   if (!Array.isArray(rawSongs) || rawSongs.length === 0) {
     throw new Error('题库为空，无法开始游戏');
@@ -128,9 +134,11 @@ export function createLocalGameService(rawSongs, { random = Math.random } = {}) 
     }
 
     const feedback = evaluateGuess(song, game.answer);
+    const shouldRevealLyrics = hasExhaustedFeedback(feedback);
     const nextGame = {
       ...game,
       guesses: [{ song, feedback }, ...game.guesses],
+      hintLevel: shouldRevealLyrics ? 3 : game.hintLevel,
       status: feedback.isCorrect ? 'won' : 'playing',
     };
     return { game: nextGame, error: null };
