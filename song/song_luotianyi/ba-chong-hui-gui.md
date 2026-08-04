@@ -1,0 +1,10 @@
+曲名：《八重回归》
+staff：UP主：DELA；作曲：DELA；作词：雨狸；编曲：DELA
+发布时间：2017-03
+演唱歌姬：洛天依；乐正绫
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：系列/企划曲目
+歌词：睁开眼重新堕入平凡的世界
+哔哩哔哩地址：https://www.bilibili.com/video/av9072485/
+歌曲页面URL：https://vcpedia.cn/%E5%85%AB%E9%87%8D%E5%9B%9E%E5%BD%92

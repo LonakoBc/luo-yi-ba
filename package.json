@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "crawl": "node scripts/crawl.mjs",
+    "rebuild:songs": "node scripts/build-song-markdown.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

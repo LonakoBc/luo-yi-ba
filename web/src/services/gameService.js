@@ -23,20 +23,45 @@ function miss(direction = null) {
   return { state: 'miss', direction };
 }
 
-function evaluateYear(guessYear, answerYear) {
-  if (guessYear === answerYear) return exact();
+function normalizeMember(value) {
+  return String(value ?? '').normalize('NFKC').toLocaleLowerCase('zh-CN').trim();
+}
+
+function evaluateReleaseMonth(guessValue, answerValue) {
+  const [guessYear, guessMonth] = guessValue.split('-').map(Number);
+  const [answerYear, answerMonth] = answerValue.split('-').map(Number);
   return {
-    state: Math.abs(guessYear - answerYear) === 1 ? 'near' : 'miss',
-    direction: answerYear > guessYear ? 'up' : 'down',
+    year: guessYear === answerYear ? exact() : {
+      state: Math.abs(guessYear - answerYear) <= 2 ? 'near' : 'miss',
+      direction: null,
+    },
+    month: guessMonth === answerMonth ? exact() : miss(),
+    direction: answerValue === guessValue ? null : answerValue > guessValue ? 'up' : 'down',
   };
 }
 
-export function countTitleCharacters(title) {
-  return String(title ?? '').normalize('NFKC').match(/[\p{L}\p{N}]/gu)?.length ?? 0;
+function evaluateCount(guessCount, answerCount) {
+  if (guessCount === answerCount) return exact();
+  return {
+    state: Math.abs(guessCount - answerCount) <= 2 ? 'near' : 'miss',
+    direction: answerCount > guessCount ? 'up' : 'down',
+  };
 }
 
 function sameMembers(left, right) {
-  return left.length === right.length && left.every((member) => right.includes(member));
+  const normalizedLeft = [...new Set(left.map(normalizeMember))];
+  const normalizedRight = [...new Set(right.map(normalizeMember))];
+  return normalizedLeft.length === normalizedRight.length && normalizedLeft.every((member) => normalizedRight.includes(member));
+}
+
+function evaluateMembers(guessMembers, answerMembers) {
+  const answerSet = new Set(answerMembers.map(normalizeMember));
+  const matches = [...new Set(guessMembers.map(normalizeMember).filter((member) => answerSet.has(member)))];
+  return {
+    state: sameMembers(guessMembers, answerMembers) ? 'exact' : matches.length ? 'partial' : 'miss',
+    matches,
+    direction: null,
+  };
 }
 
 export function evaluateGuess(guess, answer) {
@@ -44,26 +69,25 @@ export function evaluateGuess(guess, answer) {
   if (isCorrect) {
     return {
       isCorrect: true,
-      title: exact(),
-      staff: exact(),
-      year: exact(),
-      voicebank: exact(),
-      vocalType: exact(),
+      title: { state: 'neutral', direction: null },
+      staff: evaluateMembers(guess.staffPeople, answer.staffPeople),
+      releaseMonth: evaluateReleaseMonth(guess.releaseMonth, answer.releaseMonth),
+      singers: evaluateMembers(guess.singerMembers, answer.singerMembers),
+      voicebanks: evaluateMembers(guess.voicebankMembers, answer.voicebankMembers),
+      concertCount: evaluateCount(guess.concertCount, answer.concertCount),
+      special: exact(),
     };
   }
 
-  const sharedStaff = guess.staffMembers.some((member) => answer.staffMembers.includes(member));
-  const guessTitleLength = countTitleCharacters(guess.title);
-  const answerTitleLength = countTitleCharacters(answer.title);
   return {
     isCorrect: false,
-    title: guessTitleLength === answerTitleLength ? exact() : miss(answerTitleLength > guessTitleLength ? 'up' : 'down'),
-    staff: sameMembers(guess.staffMembers, answer.staffMembers)
-      ? exact()
-      : sharedStaff ? { state: 'near', direction: null } : miss(),
-    year: evaluateYear(guess.year, answer.year),
-    voicebank: guess.voicebank === answer.voicebank ? exact() : miss(),
-    vocalType: guess.vocalType === answer.vocalType ? exact() : miss(),
+    title: { state: 'neutral', direction: null },
+    staff: evaluateMembers(guess.staffPeople, answer.staffPeople),
+    releaseMonth: evaluateReleaseMonth(guess.releaseMonth, answer.releaseMonth),
+    singers: evaluateMembers(guess.singerMembers, answer.singerMembers),
+    voicebanks: evaluateMembers(guess.voicebankMembers, answer.voicebankMembers),
+    concertCount: evaluateCount(guess.concertCount, answer.concertCount),
+    special: guess.special === answer.special ? exact() : miss(),
   };
 }
 
@@ -73,8 +97,11 @@ function randomIndex(length, random) {
 
 function hasExhaustedFeedback(feedback) {
   return !feedback.isCorrect
-    && ['title', 'staff', 'year', 'voicebank', 'vocalType']
-      .every((key) => feedback[key].state === 'exact');
+    && feedback.staff.state === 'exact'
+    && feedback.releaseMonth.year.state === 'exact'
+    && feedback.singers.state === 'exact'
+    && feedback.voicebanks.state === 'exact'
+    && feedback.special.state === 'exact';
 }
 
 export function createLocalGameService(rawSongs, { random = Math.random } = {}) {

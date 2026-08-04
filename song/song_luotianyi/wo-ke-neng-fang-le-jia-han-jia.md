@@ -1,0 +1,10 @@
+曲名：《我可能放了假寒假》
+staff：UP主：PoKeR
+发布时间：2017-01
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：一身轻松终于放寒假
+哔哩哔哩地址：https://www.bilibili.com/video/av8037466/
+歌曲页面URL：https://vcpedia.cn/%E6%88%91%E5%8F%AF%E8%83%BD%E6%94%BE%E4%BA%86%E5%81%87%E5%AF%92%E5%81%87

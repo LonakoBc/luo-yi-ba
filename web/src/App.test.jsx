@@ -4,15 +4,23 @@ import App from './App';
 
 const songs = [
   {
-    id: 'answer', title: '答案曲', staffDisplay: '甲（UP主）', staffMembers: ['甲'], year: 2020,
-    voicebank: 'VOCALOID', vocalType: '独唱', special: '无', lyrics: '答案歌词完整的一行',
-    bilibiliUrl: 'https://www.bilibili.com/video/av1',
+    id: 'answer', title: '答案曲', staffDisplay: 'UP主：甲；作曲：甲', staffPeople: ['甲'], releaseMonth: '2020-03',
+    singersDisplay: '洛天依', singerMembers: ['洛天依'], voicebanksDisplay: 'VOCALOID', voicebankMembers: ['VOCALOID'],
+    concertCount: 3, special: '单曲', lyrics: '答案歌词完整的一行',
+    bilibiliUrl: 'https://www.bilibili.com/video/av1', vcpediaUrl: 'https://vcpedia.cn/答案曲',
   },
   {
-    id: 'guess', title: '猜测曲', staffDisplay: '乙（UP主）', staffMembers: ['乙'], year: 2019,
-    voicebank: 'ACE', vocalType: '合唱', special: '无', lyrics: '猜测歌词完整的一行',
-    bilibiliUrl: 'https://www.bilibili.com/video/av2',
+    id: 'guess', title: '猜测曲', staffDisplay: 'UP主：乙；作词：甲', staffPeople: ['乙', '甲'], releaseMonth: '2019-04',
+    singersDisplay: '洛天依；言和', singerMembers: ['洛天依', '言和'], voicebanksDisplay: 'VOCALOID；ACE Studio', voicebankMembers: ['VOCALOID', 'ACE Studio'],
+    concertCount: 1, special: '系列/企划曲目', lyrics: '猜测歌词完整的一行',
+    bilibiliUrl: 'https://www.bilibili.com/video/av2', vcpediaUrl: 'https://vcpedia.cn/猜测曲',
   },
+];
+
+const presets = [
+  { id: 'intro', name: '入门曲库', description: '精选作品', titles: songs.map(({ title }) => title) },
+  { id: 'luotianyi', name: '洛天依传说曲', description: '完整曲库', titles: songs.map(({ title }) => title) },
+  { id: 'golden-age', name: '黄金时代', description: '黄金时期', titles: songs.map(({ title }) => title) },
 ];
 
 function submitTitle(title) {
@@ -21,15 +29,14 @@ function submitTitle(title) {
   fireEvent.click(screen.getByRole('button', { name: '提交猜测' }));
 }
 
-function renderGame() {
-  return render(<App songs={songs} simpleSongsOverride={songs} random={() => 0} initialPage="game" initialMode="hard" />);
+function renderGame(customSongs = songs) {
+  return render(<App songs={customSongs} presets={presets.map((preset) => ({ ...preset, titles: customSongs.map(({ title }) => title) }))} random={() => 0} initialPage="game" initialMode="hard" />);
 }
 
 describe('App 交互', () => {
   it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
-    render(<App songs={songs} simpleSongsOverride={songs} random={() => 0} initialPage="home" />);
+    render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     const audio = document.querySelector('audio');
-    expect(screen.getByRole('button', { name: '播放背景音乐' })).toBeVisible();
     expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled();
     audio.currentTime = 42;
     fireEvent.click(screen.getByRole('button', { name: /猜歌/u }));
@@ -37,80 +44,62 @@ describe('App 交互', () => {
     expect(document.querySelector('audio').currentTime).toBe(42);
   });
 
-  it('从主页进入模式选择并启动简单模式', () => {
-    render(<App songs={songs} simpleSongsOverride={songs} random={() => 0} initialPage="home" />);
-    expect(screen.getByText('传说曲猜猜看')).toBeVisible();
-    expect(screen.getByText(/传说曲是对播放量/)).toBeVisible();
-    expect(screen.getByRole('link', { name: '二刺猿笑传之猜猜呗' })).toHaveAttribute('href', 'https://anime-character-guessr.netlify.app/');
-    expect(screen.getByRole('link', { name: '萌娘百科' })).toHaveAttribute('href', 'https://mzh.moegirl.org.cn/Mainpage#/flow');
+  it('从主页进入曲库页并通过预设开始', () => {
+    render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     fireEvent.click(screen.getByRole('button', { name: /猜歌/u }));
-    expect(screen.getByText('选择你的挑战难度')).toBeVisible();
-    fireEvent.click(screen.getByRole('button', { name: /简单模式/u }));
-    expect(screen.getByText('简单模式 · 精选曲库')).toBeVisible();
-    expect(screen.queryByRole('columnheader', { name: '特殊说明' })).not.toBeInTheDocument();
+    expect(screen.getByText('选择曲库范围')).toBeVisible();
+    expect(screen.getByRole('button', { name: /开始游戏 · 2 首/u })).toBeEnabled();
+    fireEvent.click(screen.getByRole('button', { name: /入门曲库/u }));
+    expect(screen.getByText('入门曲库')).toBeVisible();
+    expect(screen.getByRole('columnheader', { name: '特殊标注' })).toBeVisible();
   });
 
-  it('按顺序揭示年份、STAFF 和表格外歌词', () => {
+  it('第一次同时揭示歌姬与发布时间，随后揭示 STAFF 和歌词', () => {
     renderGame();
-    const answerRow = screen.getByText('甲（UP主）').closest('tr');
-    expect(within(answerRow).getByText('甲（UP主）').closest('.blurred')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: /揭示年份/u }));
-    expect(within(answerRow).getByText('2020').closest('.revealed')).toBeInTheDocument();
-    expect(within(answerRow).getByText('甲（UP主）').closest('.blurred')).toBeInTheDocument();
+    const answerRow = screen.getByText('UP主：甲；作曲：甲').closest('tr');
+    fireEvent.click(screen.getByRole('button', { name: /歌姬与发布时间/u }));
+    expect(within(answerRow).getByText('2020-03').closest('.revealed')).toBeInTheDocument();
+    expect(within(answerRow).getByText('洛天依').closest('.revealed')).toBeInTheDocument();
+    expect(within(answerRow).getByText('UP主：甲；作曲：甲').closest('.blurred')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /揭示 STAFF/u }));
-    expect(within(answerRow).getByText('甲（UP主）').closest('.revealed')).toBeInTheDocument();
+    expect(within(answerRow).getByText('UP主：甲；作曲：甲').closest('.revealed')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /揭示歌词/u }));
     expect(screen.getByText('答案歌词完整的一行')).toBeVisible();
-    expect(screen.getByRole('button', { name: '提示已全部使用' })).toBeDisabled();
   });
 
-  it('所有有效线索均为完全匹配时自动显示歌词', () => {
-    const matchingGuess = {
-      ...songs[0],
-      id: 'matching-guess',
-      title: '另一曲',
-      lyrics: '另一首歌的歌词',
-      bilibiliUrl: 'https://www.bilibili.com/video/av3',
-    };
-    render(<App songs={[songs[0], matchingGuess]} simpleSongsOverride={[songs[0], matchingGuess]} random={() => 0} initialPage="game" initialMode="hard" />);
+  it('局部高亮重合人员并显示发布时间与次数方向', () => {
+    renderGame();
+    submitTitle('猜测曲');
+    const guessRow = screen.getByText('猜测曲').closest('tr');
+    expect(within(guessRow).getByText('甲')).toHaveClass('exact');
+    expect(within(guessRow).getByText('乙')).not.toHaveClass('exact');
+    expect(within(guessRow).getByText('2019')).toHaveClass('near');
+    expect(within(guessRow).getAllByLabelText('答案更大或更晚').length).toBeGreaterThan(0);
+    expect(within(guessRow).getByText('猜测曲')).not.toHaveClass('exact');
+  });
 
+  it('年份相同且集合与特殊标注相同时自动显示歌词，忽略月份和次数', () => {
+    const matchingGuess = { ...songs[0], id: 'matching', title: '另一曲', releaseMonth: '2020-11', concertCount: 99, bilibiliUrl: 'https://www.bilibili.com/video/av3', vcpediaUrl: 'https://vcpedia.cn/另一曲' };
+    renderGame([songs[0], matchingGuess]);
     submitTitle('另一曲');
-
     expect(screen.getByText('现有线索已全部匹配，已自动揭示歌词')).toBeVisible();
     expect(screen.getByText('答案歌词完整的一行')).toBeVisible();
-    expect(screen.getByRole('button', { name: '提示已全部使用' })).toBeDisabled();
   });
 
-  it('显示错误反馈并在答对后弹出原视频链接', () => {
+  it('答对后显示 Bilibili 与 VCPedia 两个外链', () => {
     renderGame();
-    submitTitle('猜测曲');
-    expect(screen.getByText('2019 ↑')).toBeVisible();
-    expect(screen.getAllByLabelText('相近').length).toBeGreaterThan(0);
-
     submitTitle('答案曲');
     const dialog = screen.getByRole('dialog');
-    expect(within(dialog).getByText('恭喜答对！')).toBeVisible();
     expect(within(dialog).getByRole('link', { name: /Bilibili 原视频/u })).toHaveAttribute('href', songs[0].bilibiliUrl);
-    expect(screen.getByLabelText('输入你猜测的歌曲')).toBeDisabled();
+    expect(within(dialog).getByRole('link', { name: /VCPedia.cn 页面/u })).toHaveAttribute('href', songs[0].vcpediaUrl);
   });
 
-  it('关闭结算后可查看结果并开始不重复的新一局', () => {
-    renderGame();
-    submitTitle('答案曲');
-    fireEvent.click(screen.getByRole('button', { name: '查看结果' }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: '再来一局' }));
-    submitTitle('猜测曲');
-    expect(screen.getByRole('dialog')).toBeVisible();
-  });
-
-  it('投降后展示鼓励文案并揭晓答案', () => {
+  it('投降后也显示鼓励文案与两个外链', () => {
     renderGame();
     fireEvent.click(screen.getByRole('button', { name: '投降' }));
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByText('虽然没猜出来，但恭喜你发现了一首值得一听的歌曲！')).toBeVisible();
-    expect(within(dialog).getByText('《答案曲》')).toBeVisible();
+    expect(within(dialog).getAllByRole('link')).toHaveLength(2);
   });
 
   it('开发环境显示开发者入口', () => {

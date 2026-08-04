@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate:data": "node scripts/generate-song-data.mjs",
+    "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs",
     "predev": "npm run generate:data",
     "dev": "vite",
     "prebuild": "npm run generate:data",

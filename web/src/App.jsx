@@ -1,13 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import songData from './data/songs.generated.json';
-import { selectSimpleSongs } from './data/simpleSongTitles';
+import presetData from './data/presets.generated.json';
 import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
+import LibraryPage from './components/LibraryPage';
+import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
-function routeFromPath(pathname) {
+function routeFromLocation(pathname, search = '') {
   if (pathname === '/modes') return { page: 'modes', mode: null };
-  if (pathname === '/play/easy') return { page: 'game', mode: 'easy' };
-  if (pathname === '/play/hard') return { page: 'game', mode: 'hard' };
+  if (pathname === '/play/easy') return { page: 'game', kind: 'preset', presetId: 'intro', routeKey: pathname };
+  if (pathname === '/play/hard') return { page: 'game', kind: 'preset', presetId: 'luotianyi', routeKey: pathname };
+  const presetMatch = pathname.match(/^\/play\/preset\/([a-z0-9-]+)$/u);
+  if (presetMatch) return { page: 'game', kind: 'preset', presetId: presetMatch[1], routeKey: pathname };
+  if (pathname === '/play/custom') return { page: 'game', kind: 'custom', search, routeKey: `${pathname}${search}` };
   return { page: 'home', mode: null };
 }
 
@@ -41,60 +46,53 @@ function HomePage({ onChooseGame }) {
       </main>
       <footer>
         参考于<a href="https://anime-character-guessr.netlify.app/" target="_blank" rel="noreferrer noopener">二刺猿笑传之猜猜呗</a>，
-        数据来自于<a href="https://mzh.moegirl.org.cn/Mainpage#/flow" target="_blank" rel="noreferrer noopener">萌娘百科</a>，如有错误欢迎指出
+        数据来自于<a href="https://vcpedia.cn/" target="_blank" rel="noreferrer noopener">VCPedia</a>，如有错误欢迎指出
       </footer>
     </div>
   );
 }
 
-function ModePage({ onBack, onChooseMode, totalSongs, simpleCount }) {
-  return (
-    <div className="page-shell mode-page">
-      <header className="inner-header"><button type="button" className="back-button" onClick={onBack}>← 返回主页</button><Brand compact /></header>
-      <main className="mode-main">
-        <p className="eyebrow">猜歌模式</p><h2>选择你的挑战难度</h2><p className="mode-intro">两种模式使用相同规则，仅候选曲库范围不同。</p>
-        <div className="mode-grid">
-          <button type="button" className="mode-card easy" onClick={() => onChooseMode('easy')}>
-            <span className="mode-number">精选 {simpleCount} 首</span><strong>简单模式</strong>
-            <p>精选了更加热门以及出圈的作品，大多是登上了演唱会或生日会。</p><span className="mode-action">开始游玩 →</span>
-          </button>
-          <button type="button" className="mode-card hard" onClick={() => onChooseMode('hard')}>
-            <span className="mode-number">完整 {totalSongs} 首</span><strong>困难模式</strong>
-            <p>截止2026年8月1日为止的洛天依全传说曲，数据来源自萌娘百科。</p><span className="mode-action">接受挑战 →</span>
-          </button>
-        </div>
-      </main>
-    </div>
-  );
-}
-
-export default function App({ songs = songData, simpleSongsOverride = null, random = Math.random, initialPage = null, initialMode = null }) {
-  const initialRoute = initialPage ? { page: initialPage, mode: initialMode } : routeFromPath(window.location.pathname);
+export default function App({ songs = songData, presets = presetData, random = Math.random, initialPage = null, initialMode = null }) {
+  const testRoute = initialPage
+    ? initialPage === 'game'
+      ? { page: 'game', kind: 'preset', presetId: initialMode === 'easy' ? 'intro' : 'luotianyi', routeKey: `test-${initialMode}` }
+      : { page: initialPage }
+    : null;
+  const initialRoute = testRoute ?? routeFromLocation(window.location.pathname, window.location.search);
   const [route, setRoute] = useState(initialRoute);
-  const simpleSongs = useMemo(() => simpleSongsOverride ?? selectSimpleSongs(songs), [songs, simpleSongsOverride]);
 
   useEffect(() => {
     if (initialPage) return undefined;
-    const handlePopState = () => setRoute(routeFromPath(window.location.pathname));
+    const handlePopState = () => setRoute(routeFromLocation(window.location.pathname, window.location.search));
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [initialPage]);
 
-  const navigate = (page, mode = null) => {
-    const path = page === 'home' ? '/' : page === 'modes' ? '/modes' : `/play/${mode}`;
+  const navigate = (path) => {
     if (!initialPage) window.history.pushState({}, '', path);
-    setRoute({ page, mode });
+    const parsed = routeFromLocation(new URL(path, window.location.origin).pathname, new URL(path, window.location.origin).search);
+    setRoute(parsed);
     if (!initialPage) window.scrollTo?.({ top: 0, behavior: 'smooth' });
   };
 
+  const startPreset = (presetId) => navigate(`/play/preset/${presetId}`);
+  const startCustom = (filters) => navigate(`/play/custom?${filtersToSearch(filters)}`);
+
   let pageContent;
   if (route.page === 'modes') {
-    pageContent = <ModePage onBack={() => navigate('home')} onChooseMode={(mode) => navigate('game', mode)} totalSongs={songs.length} simpleCount={simpleSongs.length} />;
+    pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startPreset} onStartCustom={startCustom} Brand={Brand} />;
   } else if (route.page === 'game') {
-    const mode = route.mode === 'easy' ? 'easy' : 'hard';
-    pageContent = <GamePage key={mode} songs={mode === 'easy' ? simpleSongs : songs} mode={mode} random={random} onBack={() => navigate('modes')} />;
+    const preset = route.kind === 'preset' ? presets.find((item) => item.id === route.presetId) : null;
+    const gameSongs = route.kind === 'custom'
+      ? filterSongs(songs, filtersFromSearch(route.search, songs))
+      : songsForPreset(songs, preset);
+    if (!gameSongs.length) {
+      pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startPreset} onStartCustom={startCustom} Brand={Brand} />;
+    } else {
+      pageContent = <GamePage key={route.routeKey} songs={gameSongs} poolName={preset?.name ?? '自定义曲库'} random={random} onBack={() => navigate('/modes')} />;
+    }
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('modes')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }

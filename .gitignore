@@ -3,10 +3,12 @@ node_modules/
 web/node_modules/
 web/dist/
 web/coverage/
+.codex-spreadsheet/
 
 # Reference-only repositories and generated data
 reference/
 web/src/data/songs.generated.json
+web/src/data/presets.generated.json
 
 # Local deployment and environment files
 .netlify/

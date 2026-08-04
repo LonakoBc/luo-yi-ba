@@ -1,171 +1,173 @@
-import { mkdir, readFile, readdir, rename, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { PoliteFetcher } from './vcpedia-fetcher.mjs';
 import {
-  TEMPLATE_URL,
-  allocateSlug,
-  missingFields,
-  parseCandidates,
-  parseSongPage,
-  renderSongMarkdown,
-  slugifyCandidate,
-  slugifyTitle,
-} from './lib.mjs';
+  UNKNOWN,
+  VCPEDIA_API_URL,
+  YEARS,
+  dedupeCandidates,
+  missingReviewFields,
+  normalizeApiTitle,
+  parseRenderedFallback,
+  parseVcpediaSong,
+  parseYearCandidates,
+} from './vcpedia-lib.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const SONG_DIR = path.join(ROOT, 'song');
-const CACHE_DIR = path.join(ROOT, '.cache', 'moegirl');
-const REPORT_PATH = path.join(ROOT, 'crawl-report.md');
-const MIN_DELAY_MS = 1000;
-const MAX_ATTEMPTS = 3;
+const CACHE_DIR = path.join(ROOT, '.cache', 'vcpedia');
+const OUTPUT_DIR = path.join(ROOT, 'outputs', 'vcpedia-crawl');
+const RESULT_PATH = path.join(OUTPUT_DIR, 'songs.normalized.json');
+const REPORT_PATH = path.join(OUTPUT_DIR, 'crawl-report.md');
+const BATCH_SIZE = 10;
 const refresh = process.argv.includes('--refresh');
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-class PoliteFetcher {
-  #lastCompletedAt = 0;
-
-  async fetch(url, cacheKey) {
-    const cachePath = path.join(CACHE_DIR, `${cacheKey}.html`);
-    if (!refresh) {
-      try {
-        return await readFile(cachePath, 'utf8');
-      } catch {
-        // Cache miss.
-      }
-    }
-
-    let lastError;
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-      const remainingDelay = MIN_DELAY_MS - (Date.now() - this.#lastCompletedAt);
-      if (remainingDelay > 0) await sleep(remainingDelay);
-      try {
-        const response = await fetch(url, {
-          headers: {
-            'user-agent': 'Mozilla/5.0 (compatible; luo-yi-ba-data-builder/1.0; local research project)',
-            accept: 'text/html,application/xhtml+xml',
-          },
-          redirect: 'follow',
-          signal: AbortSignal.timeout(30_000),
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
-        const html = await response.text();
-        this.#lastCompletedAt = Date.now();
-        await writeFile(cachePath, html, 'utf8');
-        return html;
-      } catch (error) {
-        this.#lastCompletedAt = Date.now();
-        lastError = error;
-        console.warn(`  请求失败（${attempt}/${MAX_ATTEMPTS}）：${error.message}`);
-      }
-    }
-    throw lastError;
-  }
+function apiUrl(params) {
+  const url = new URL(VCPEDIA_API_URL);
+  for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
+  return url.href;
 }
 
-function cacheKeyFor(candidate, index) {
-  return `${String(index + 1).padStart(4, '0')}-${slugifyTitle(candidate.title)}`;
+function batchKey(titles) {
+  return createHash('sha256').update(titles.join('\n')).digest('hex').slice(0, 16);
 }
 
-async function existingGeneratedSongs() {
-  const existing = new Map();
-  try {
-    for (const file of await readdir(SONG_DIR)) {
-      if (!file.endsWith('.md')) continue;
-      const content = await readFile(path.join(SONG_DIR, file), 'utf8');
-      const title = content.match(/^曲名：《(.+)》/m)?.[1];
-      if (title) existing.set(file, title);
-    }
-  } catch {
-    // First run has no song directory.
-  }
-  return existing;
+function chunks(values, size) {
+  return Array.from({ length: Math.ceil(values.length / size) }, (_, index) => values.slice(index * size, (index + 1) * size));
 }
 
-function renderReport({ candidates, completed, issues, failures, collisions, stale }) {
-  const lines = [
-    '# 萌娘百科洛天依曲目爬取报告',
-    '',
-    `- 生成时间：${new Date().toISOString()}`,
-    `- 候选曲目：${candidates}`,
-    `- 成功生成：${completed}`,
-    `- 含待核验字段：${issues.length}`,
-    `- 页面失败：${failures.length}`,
-    `- 拼音冲突：${collisions.length}`,
-    `- 疑似过期旧文件：${stale.length}`,
-    '',
-  ];
+function queryPageMap(data) {
+  const redirects = new Map((data.query?.redirects ?? []).map((row) => [normalizeApiTitle(row.from), normalizeApiTitle(row.to)]));
+  const pages = new Map();
+  for (const page of data.query?.pages ?? []) pages.set(normalizeApiTitle(page.title), page);
+  return { redirects, pages };
+}
 
-  const section = (title, rows, formatter) => {
-    lines.push(`## ${title}`, '');
-    if (rows.length === 0) lines.push('无', '');
-    else {
-      for (const row of rows) lines.push(`- ${formatter(row)}`);
-      lines.push('');
-    }
+function pageForCandidate(candidate, maps) {
+  let key = normalizeApiTitle(candidate.pageTitle);
+  key = maps.redirects.get(key) ?? key;
+  return maps.pages.get(key);
+}
+
+function pagePayload(page) {
+  return {
+    wikitext: page?.revisions?.[0]?.slots?.main?.content ?? '',
+    categories: (page?.categories ?? []).map(({ title }) => title.replace(/^Category:/u, '')),
   };
+}
 
-  section('待核验字段', issues, (row) => `《${row.title}》：${row.fields.join('、')}（${row.url}）`);
-  section('页面失败', failures, (row) => `《${row.title}》：${row.error}（${row.url}）`);
-  section('拼音文件名冲突', collisions, (row) => `《${row.title}》：${row.base}.md → ${row.actual}.md`);
-  section('疑似过期旧文件', stale, (row) => `${row.file}（《${row.title}》）`);
+function needsFallback(song) {
+  return song.staff === UNKNOWN || song.singers === UNKNOWN;
+}
+
+function mergeFallback(song, fallback) {
+  const merged = { ...song };
+  if (merged.staff === UNKNOWN && fallback.staff !== UNKNOWN) merged.staff = fallback.staff;
+  if (merged.singers === UNKNOWN && fallback.singers !== UNKNOWN) merged.singers = fallback.singers;
+  merged.issues = missingReviewFields(merged);
+  return merged;
+}
+
+function renderReport({ candidates, songs, failures, duplicateCount }) {
+  const issues = songs.filter((song) => song.issues.length);
+  const lines = [
+    '# VCPedia 洛天依传说曲采集报告', '',
+    `- 生成时间：${new Date().toISOString()}`,
+    `- 年度引用：${candidates + duplicateCount}`,
+    `- 去重后候选：${candidates}`,
+    `- 跨年份重复：${duplicateCount}`,
+    `- 成功解析：${songs.length}`,
+    `- 含待核验字段：${issues.length}`,
+    `- 页面失败：${failures.length}`, '',
+    '说明：演唱会次数 0 表示 VCPedia 歌曲简介未明确记载演出活动，并非断言从未演出。', '',
+    '## 待核验字段', '',
+    ...(issues.length ? issues.map((song) => `- 《${song.title}》：${song.issues.join('、')}（${song.pageUrl}）`) : ['无']),
+    '', '## 页面失败', '',
+    ...(failures.length ? failures.map((row) => `- 《${row.title}》：${row.error}（${row.url}）`) : ['无']), '',
+  ];
   return lines.join('\n');
 }
 
 async function main() {
-  await mkdir(SONG_DIR, { recursive: true });
-  await mkdir(CACHE_DIR, { recursive: true });
-  const oldSongs = await existingGeneratedSongs();
-  const fetcher = new PoliteFetcher();
+  await mkdir(OUTPUT_DIR, { recursive: true });
+  const fetcher = new PoliteFetcher({ cacheDir: CACHE_DIR, refresh });
+  const annualCandidates = [];
 
-  console.log('读取洛天依曲目模板…');
-  const templateHtml = await fetcher.fetch(TEMPLATE_URL, 'template-luo-tian-yi');
-  const candidates = parseCandidates(templateHtml);
-  if (candidates.length === 0) throw new Error('模板解析结果为空，停止写入以避免产生错误数据。');
-  console.log(`发现 ${candidates.length} 首原创传说曲/神话曲。`);
+  for (const [index, year] of YEARS.entries()) {
+    console.log(`[年度 ${index + 1}/${YEARS.length}] ${year}`);
+    const page = `Template:洛天依/${year}`;
+    const data = await fetcher.requestJson({
+      url: apiUrl({ action: 'parse', page, prop: 'text', format: 'json', formatversion: '2', maxlag: '5' }),
+      cacheKey: `year-${year}`,
+    });
+    const templateUrl = `https://vcpedia.cn/Template:${encodeURIComponent(`洛天依/${year}`)}`;
+    const parsed = parseYearCandidates(data.parse?.text ?? '', templateUrl);
+    if (!parsed.length) throw new Error(`${year} 年模板未解析出原创传说曲/神话曲，停止运行。`);
+    annualCandidates.push(...parsed.map((candidate) => ({ ...candidate, sourceOrder: annualCandidates.length + candidate.sourceOrder })));
+  }
 
-  const usedSlugs = new Set();
-  const currentFiles = new Set();
-  const issues = [];
+  const candidates = dedupeCandidates(annualCandidates);
+  const duplicateCount = annualCandidates.length - candidates.length;
+  console.log(`年度引用 ${annualCandidates.length} 条，去重后 ${candidates.length} 首。`);
+
+  const songs = [];
   const failures = [];
-  const collisions = [];
-  let completed = 0;
-
-  for (const [index, candidate] of candidates.entries()) {
-    console.log(`[${index + 1}/${candidates.length}] ${candidate.title}`);
-    const base = slugifyCandidate(candidate);
-    const slug = allocateSlug(base, usedSlugs);
-    if (slug !== base) collisions.push({ title: candidate.title, base, actual: slug });
-    const file = `${slug}.md`;
-    currentFiles.add(file);
-
+  for (const [batchIndex, batch] of chunks(candidates, BATCH_SIZE).entries()) {
+    console.log(`[详情批次 ${batchIndex + 1}/${Math.ceil(candidates.length / BATCH_SIZE)}] ${batch.map(({ title }) => title).join('、')}`);
+    const titles = batch.map(({ pageTitle }) => pageTitle);
+    const body = new URLSearchParams({
+      action: 'query', prop: 'revisions|categories', rvprop: 'content', rvslots: 'main',
+      cllimit: 'max', redirects: '1', titles: titles.join('|'), format: 'json', formatversion: '2', maxlag: '5',
+    }).toString();
     try {
-      const html = await fetcher.fetch(candidate.url, cacheKeyFor(candidate, index));
-      const song = parseSongPage(html, candidate);
-      const fields = missingFields(song);
-      if (fields.length) issues.push({ title: candidate.title, fields, url: candidate.url });
-      const targetPath = path.join(SONG_DIR, file);
-      const tempPath = `${targetPath}.tmp`;
-      await writeFile(tempPath, renderSongMarkdown(song), 'utf8');
-      await rename(tempPath, targetPath);
-      completed += 1;
+      const data = await fetcher.requestJson({ url: VCPEDIA_API_URL, method: 'POST', body, cacheKey: `details-${batchKey(titles)}` });
+      const maps = queryPageMap(data);
+      for (const candidate of batch) {
+        const page = pageForCandidate(candidate, maps);
+        if (!page || page.missing) {
+          failures.push({ title: candidate.title, url: candidate.url, error: '详情页不存在或 API 未返回页面' });
+          continue;
+        }
+        songs.push(parseVcpediaSong(pagePayload(page), candidate));
+      }
     } catch (error) {
-      failures.push({ title: candidate.title, url: candidate.url, error: error.message });
+      for (const candidate of batch) failures.push({ title: candidate.title, url: candidate.url, error: error.message });
     }
   }
 
-  const stale = [...oldSongs.entries()]
-    .filter(([file]) => !currentFiles.has(file))
-    .map(([file, title]) => ({ file, title }));
-  const report = renderReport({
-    candidates: candidates.length,
-    completed,
-    issues,
-    failures,
-    collisions,
-    stale,
+  for (let index = 0; index < songs.length; index += 1) {
+    if (!needsFallback(songs[index])) continue;
+    console.log(`[补充解析] ${songs[index].title}`);
+    try {
+      const data = await fetcher.requestJson({
+        url: apiUrl({ action: 'parse', page: decodeURIComponent(new URL(songs[index].pageUrl).pathname.slice(1)), prop: 'text', format: 'json', formatversion: '2', maxlag: '5' }),
+        cacheKey: `fallback-${batchKey([songs[index].pageUrl])}`,
+      });
+      songs[index] = mergeFallback(songs[index], parseRenderedFallback(data.parse?.text ?? ''));
+    } catch (error) {
+      songs[index].issues.push(`补充解析失败：${error.message}`);
+    }
+  }
+
+  songs.sort((a, b) => {
+    const left = a.releaseMonth === UNKNOWN ? `${a.originalYear}-99` : a.releaseMonth;
+    const right = b.releaseMonth === UNKNOWN ? `${b.originalYear}-99` : b.releaseMonth;
+    return left.localeCompare(right, 'zh-CN') || a.title.localeCompare(b.title, 'zh-CN');
   });
-  await writeFile(REPORT_PATH, report, 'utf8');
-  console.log(`完成：生成 ${completed}/${candidates.length} 首，${issues.length} 首待核验，${failures.length} 首失败。`);
+  const result = {
+    source: 'https://vcpedia.cn/',
+    license: 'CC BY-NC-SA 3.0 CN',
+    generatedAt: new Date().toISOString(),
+    annualReferenceCount: annualCandidates.length,
+    duplicateCount,
+    candidateCount: candidates.length,
+    songs,
+    failures,
+  };
+  await writeFile(RESULT_PATH, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
+  await writeFile(REPORT_PATH, renderReport({ candidates: candidates.length, songs, failures, duplicateCount }), 'utf8');
+  console.log(`完成：${songs.length}/${candidates.length} 首，${songs.filter((song) => song.issues.length).length} 首待核验，${failures.length} 首失败。`);
+  console.log(`规范化结果：${RESULT_PATH}`);
   if (failures.length) process.exitCode = 1;
 }
 

@@ -4,33 +4,37 @@ import { fileURLToPath } from 'node:url';
 
 const REQUIRED_FIELDS = [
   '曲名',
-  'STAFF',
-  '声库',
-  '年份',
-  '独唱或合唱',
+  'staff',
+  '发布时间',
+  '演唱歌姬',
+  '使用声库',
+  '演唱会\\生日会次数',
+  '特殊标注',
   '歌词',
-  '特殊注明',
   '哔哩哔哩地址',
+  '歌曲页面URL',
 ];
-const VOICEBANKS = new Set(['VOCALOID', 'ACE', 'Xstudio']);
-const VOCAL_TYPES = new Set(['独唱', '合唱']);
-const SPECIALS = new Set(['无', '神话曲', '生贺曲', '演唱会曲目', '生日会曲目']);
-const ROLE_SUFFIX = /（(?:UP主|作曲|作词|编曲)(?:、(?:UP主|作曲|作词|编曲))*）$/u;
+const VOICEBANKS = new Set(['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V']);
+const SPECIALS = new Set(['单曲', '生贺曲', '拜年/贺岁纪曲目', '系列/企划曲目']);
+const ROLE_PREFIX = /^(?:UP主|作曲|作词|编曲)\s*[：:]/u;
 
 export function normalizeStaffName(value) {
   return value.normalize('NFKC').toLocaleLowerCase('zh-CN').replace(/[\p{P}\p{S}\s]/gu, '');
 }
 
-export function parseStaffMembers(staff, source = '歌曲文件') {
-  const entries = staff.split('；').map((value) => value.trim()).filter(Boolean);
-  if (!entries.length) throw new Error(`${source}: STAFF 为空`);
+export function splitMembers(value) {
+  return String(value).split('；').map((member) => member.trim()).filter(Boolean);
+}
 
-  return entries.map((entry) => {
-    const name = entry.replace(ROLE_SUFFIX, '').trim();
-    if (!name || name === entry) {
-      throw new Error(`${source}: STAFF 项缺少可识别职责：${entry}`);
-    }
-    return normalizeStaffName(name);
+export function parseStaffPeople(staff, source = '歌曲文件') {
+  const entries = staff.split('；').map((value) => value.trim()).filter(Boolean);
+  if (!entries.length) throw new Error(`${source}: staff 为空`);
+
+  return entries.flatMap((entry) => {
+    if (!ROLE_PREFIX.test(entry)) throw new Error(`${source}: staff 项缺少可识别职责：${entry}`);
+    const names = entry.replace(ROLE_PREFIX, '').trim().split(/[、,，/]/u).map((name) => name.trim()).filter(Boolean);
+    if (!names.length) throw new Error(`${source}: staff 项缺少人员：${entry}`);
+    return names;
   });
 }
 
@@ -58,17 +62,24 @@ export function parseSongMarkdown(markdown, id, source = id) {
   const titleMatch = fields.get('曲名').match(/^《(.+)》$/u);
   if (!titleMatch) throw new Error(`${source}: 曲名必须使用《》包裹`);
 
-  const year = Number(fields.get('年份'));
-  if (!Number.isInteger(year) || year < 2012 || year > 2100) {
-    throw new Error(`${source}: 年份无效：${fields.get('年份')}`);
+  const releaseMonth = fields.get('发布时间');
+  if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(releaseMonth)) throw new Error(`${source}: 发布时间无效：${releaseMonth}`);
+
+  const singersDisplay = fields.get('演唱歌姬');
+  const singerMembers = splitMembers(singersDisplay);
+  if (!singerMembers.length) throw new Error(`${source}: 演唱歌姬为空`);
+
+  const voicebanksDisplay = fields.get('使用声库');
+  const voicebankMembers = splitMembers(voicebanksDisplay);
+  if (!voicebankMembers.length || voicebankMembers.some((value) => !VOICEBANKS.has(value))) {
+    throw new Error(`${source}: 使用声库无效：${voicebanksDisplay}`);
   }
 
-  const voicebank = fields.get('声库');
-  const vocalType = fields.get('独唱或合唱');
-  const special = fields.get('特殊注明');
-  if (!VOICEBANKS.has(voicebank)) throw new Error(`${source}: 声库无效：${voicebank}`);
-  if (!VOCAL_TYPES.has(vocalType)) throw new Error(`${source}: 独唱或合唱无效：${vocalType}`);
-  if (!SPECIALS.has(special)) throw new Error(`${source}: 特殊注明无效：${special}`);
+  const concertCount = Number(fields.get('演唱会\\生日会次数'));
+  if (!Number.isInteger(concertCount) || concertCount < 0) throw new Error(`${source}: 演唱会\\生日会次数无效`);
+
+  const special = fields.get('特殊标注');
+  if (!SPECIALS.has(special)) throw new Error(`${source}: 特殊标注无效：${special}`);
 
   const bilibiliUrl = fields.get('哔哩哔哩地址');
   let parsedUrl;
@@ -81,18 +92,33 @@ export function parseSongMarkdown(markdown, id, source = id) {
     throw new Error(`${source}: 哔哩哔哩地址必须是 HTTPS 视频页`);
   }
 
-  const staffDisplay = fields.get('STAFF');
+  const vcpediaUrl = fields.get('歌曲页面URL');
+  let parsedVcpediaUrl;
+  try {
+    parsedVcpediaUrl = new URL(vcpediaUrl);
+  } catch {
+    throw new Error(`${source}: 歌曲页面URL不是合法 URL`);
+  }
+  if (parsedVcpediaUrl.protocol !== 'https:' || parsedVcpediaUrl.hostname !== 'vcpedia.cn') {
+    throw new Error(`${source}: 歌曲页面URL必须是 VCPedia HTTPS 页面`);
+  }
+
+  const staffDisplay = fields.get('staff');
   return {
     id,
     title: titleMatch[1],
     staffDisplay,
-    staffMembers: [...new Set(parseStaffMembers(staffDisplay, source))],
-    year,
-    voicebank,
-    vocalType,
+    staffPeople: [...new Set(parseStaffPeople(staffDisplay, source).map(normalizeStaffName))],
+    releaseMonth,
+    singersDisplay,
+    singerMembers,
+    voicebanksDisplay,
+    voicebankMembers,
+    concertCount,
     special,
     lyrics: fields.get('歌词'),
     bilibiliUrl,
+    vcpediaUrl,
   };
 }
 
@@ -128,7 +154,7 @@ export async function generateSongData({ songDirectory, outputFile }) {
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
   const webRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-  const songDirectory = path.resolve(webRoot, '..', 'song');
+  const songDirectory = path.resolve(webRoot, '..', 'song', 'song_luotianyi');
   const outputFile = path.resolve(webRoot, 'src', 'data', 'songs.generated.json');
   const songs = await generateSongData({ songDirectory, outputFile });
   console.log(`已生成 ${songs.length} 首歌曲：${outputFile}`);

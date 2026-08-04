@@ -1,0 +1,10 @@
+曲名：《警察蜀黍!!!就是这个人!!!!》
+staff：UP主：ZYL；作曲：DMYOUNG；编曲：DMYOUNG
+发布时间：2014-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：今天天气真好！我去上学校！
+哔哩哔哩地址：https://www.bilibili.com/video/av1328642/
+歌曲页面URL：https://vcpedia.cn/%E8%AD%A6%E5%AF%9F%E8%9C%80%E9%BB%8D!!!%E5%B0%B1%E6%98%AF%E8%BF%99%E4%B8%AA%E4%BA%BA!!!!

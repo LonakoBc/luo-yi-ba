@@ -1,0 +1,10 @@
+曲名：《我要鲨人》
+staff：UP主：忘记了P；作曲：忘记了P；作词：00、ameki、玄；编曲：忘记了P
+发布时间：2022-10
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：我精神挺好的呀
+哔哩哔哩地址：https://www.bilibili.com/video/BV1LG411j715/
+歌曲页面URL：https://vcpedia.cn/%E6%88%91%E8%A6%81%E9%B2%A8%E4%BA%BA

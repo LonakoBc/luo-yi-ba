@@ -1,4 +1,4 @@
-# 洛一把（本地试玩版）
+# 洛一把前端
 
 ## 启动
 
@@ -8,7 +8,7 @@ npm install
 npm run dev
 ```
 
-开发服务器启动时会自动读取上一级目录中的 `song/*.md`，校验并生成 `src/data/songs.generated.json`。修改歌曲 Markdown 后重启开发服务器即可刷新题库。
+开发和构建前会自动读取 `song/song_luotianyi/*.md` 与 `presets/*.md`，校验后生成前端题库和预设数据。修改 Markdown 后重新启动开发服务器即可刷新数据。
 
 ## 验证
 
@@ -17,9 +17,9 @@ npm test
 npm run build
 ```
 
-- `npm test`：运行数据解析、游戏规则和页面交互测试。
+- `npm test`：运行数据解析、预设校验、游戏规则和页面交互测试。
 - `npm run build`：生成可部署的生产文件到 `web/dist/`。
 
-当前版本是纯前端单人模式。选题、搜索和反馈逻辑集中在 `src/services/gameService.js`，未来可在不重写页面组件的情况下替换为服务端实现。
+当前版本为纯前端单人模式。选题、搜索和反馈逻辑位于 `src/services/gameService.js`，曲库筛选逻辑位于 `src/services/libraryService.js`。
 
-简单模式曲目清单位于 `src/data/simpleSongTitles.js`。游戏页左上角的开发者入口由 `src/components/GamePage.jsx` 中的 `SHOW_DEVELOPER_TOOLS` 控制，将该常量改为 `false` 即可整体隐藏。
+三个预设分别位于上级目录的 `presets/intro.md`、`presets/luotianyi.md` 和 `presets/golden-age.md`。开发者入口由 `import.meta.env.DEV` 控制：运行开发服务器时显示，生产构建中自动隐藏。

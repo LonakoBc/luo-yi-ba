@@ -7,7 +7,7 @@ import { createLocalGameService } from '../services/gameService';
 // 如需彻底隐藏开发者入口，将此处改为 false；生产构建默认不会显示。
 const SHOW_DEVELOPER_TOOLS = import.meta.env.DEV;
 
-const HINT_LABELS = ['提示 1/3：揭示年份', '提示 2/3：揭示 STAFF', '提示 3/3：揭示歌词', '提示已全部使用'];
+const HINT_LABELS = ['提示 1/3：歌姬与发布时间', '提示 2/3：揭示 STAFF', '提示 3/3：揭示歌词', '提示已全部使用'];
 
 function DeveloperTools({ service, onForceAnswer }) {
   const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ function DeveloperTools({ service, onForceAnswer }) {
   );
 }
 
-export default function GamePage({ songs, mode, random, onBack }) {
+export default function GamePage({ songs, poolName, random, onBack }) {
   const service = useMemo(() => createLocalGameService(songs, { random }), [songs, random]);
   const [game, setGame] = useState(() => service.startGame());
   const [notice, setNotice] = useState('');
@@ -57,7 +57,7 @@ export default function GamePage({ songs, mode, random, onBack }) {
   const handleHint = () => {
     const next = service.useHint(game);
     setGame(next);
-    setNotice(next.hintLevel === game.hintLevel ? '' : ['已揭示答案年份', '已揭示答案 STAFF', '已揭示歌词提示'][next.hintLevel - 1]);
+    setNotice(next.hintLevel === game.hintLevel ? '' : ['已揭示答案歌姬与发布时间', '已揭示答案 STAFF', '已揭示歌词提示'][next.hintLevel - 1]);
   };
 
   const restart = (forcedAnswerId = null) => {
@@ -77,9 +77,9 @@ export default function GamePage({ songs, mode, random, onBack }) {
       <div className="ambient ambient-one" aria-hidden="true" /><div className="ambient ambient-two" aria-hidden="true" />
       {SHOW_DEVELOPER_TOOLS && <DeveloperTools service={service} onForceAnswer={restart} />}
       <header className="hero">
-        <button type="button" className="back-button game-back" onClick={onBack}>← 选择模式</button>
+        <button type="button" className="back-button game-back" onClick={onBack}>← 选择曲库</button>
         <div className="brand-mark" aria-hidden="true" />
-        <div><p className="eyebrow">{mode === 'easy' ? '简单模式 · 精选曲库' : '困难模式 · 全传说曲'}</p><h1>洛一把</h1><p className="tagline">一首歌，五组线索。看看你要几次才能找到答案？</p></div>
+        <div><p className="eyebrow">{poolName}</p><h1>洛一把</h1><p className="tagline">一首歌，七类线索。看看你要几次才能找到答案？</p></div>
         <div className="game-stats" aria-label="游戏状态">
           <span><strong>{songs.length}</strong> 首候选</span><span><strong>{game.guesses.length}</strong> 次猜测</span><span><strong>{3 - game.hintLevel}</strong> 次提示</span>
         </div>
@@ -95,10 +95,10 @@ export default function GamePage({ songs, mode, random, onBack }) {
         </section>
         <div className={`notice ${notice ? 'visible' : ''}`} role="status">{notice || '\u00a0'}</div>
         {game.hintLevel >= 3 && <aside className="lyrics-card" aria-label="歌词提示"><span className="quote-mark" aria-hidden="true">“</span><div><p className="eyebrow">歌词提示</p><p>{game.answer.lyrics}</p></div></aside>}
-        <SongTable answer={game.answer} guesses={game.guesses} hintLevel={game.hintLevel} won={finished} />
+        <SongTable answer={game.answer} guesses={game.guesses} hintLevel={game.hintLevel} finished={finished} />
         {finished && !showResultDialog && <div className="after-win-actions"><button type="button" className="primary-button" onClick={() => setShowResultDialog(true)}>查看本局结果</button><button type="button" className="ghost-button" onClick={() => restart()}>再来一局</button></div>}
       </main>
-      <footer>数据来自本地歌曲资料库 · 当前为本地试玩版</footer>
+      <footer>数据来自 VCPedia · 当前为本地试玩版</footer>
       {showResultDialog && <ResultDialog answer={game.answer} guessCount={game.guesses.length} outcome={game.status} onClose={() => setShowResultDialog(false)} onRestart={() => restart()} />}
     </div>
   );

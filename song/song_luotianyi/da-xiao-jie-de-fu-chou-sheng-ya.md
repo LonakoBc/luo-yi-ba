@@ -1,0 +1,10 @@
+曲名：《大小姐的复仇生涯》
+staff：UP主：JUSF周存
+发布时间：2018-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：系列/企划曲目
+歌词：冰冷的枪口指着一条复仇路
+哔哩哔哩地址：https://www.bilibili.com/video/av27174014/
+歌曲页面URL：https://vcpedia.cn/%E5%A4%A7%E5%B0%8F%E5%A7%90%E7%9A%84%E5%A4%8D%E4%BB%87%E7%94%9F%E6%B6%AF

@@ -1,0 +1,10 @@
+曲名：《泠重乞愿》
+staff：UP主：DELA；作曲：DELA；作词：雨狸；编曲：DELA
+发布时间：2016-05
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：系列/企划曲目
+歌词：当我初次听见她天籁之音
+哔哩哔哩地址：https://www.bilibili.com/video/av4704894/
+歌曲页面URL：https://vcpedia.cn/%E6%B3%A0%E9%87%8D%E4%B9%9E%E6%84%BF

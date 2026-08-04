@@ -1,0 +1,10 @@
+曲名：《前尘如梦》
+staff：UP主：唐乐林
+发布时间：2013-01
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：1
+特殊标注：单曲
+歌词：梦里那座小桥桥头瞧啊瞧
+哔哩哔哩地址：https://www.bilibili.com/video/av378332/
+歌曲页面URL：https://vcpedia.cn/%E5%89%8D%E5%B0%98%E5%A6%82%E6%A2%A6

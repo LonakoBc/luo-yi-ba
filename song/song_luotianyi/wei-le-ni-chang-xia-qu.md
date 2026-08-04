@@ -1,0 +1,10 @@
+曲名：《为了你唱下去》
+staff：UP主：COP
+发布时间：2016-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：8
+特殊标注：单曲
+歌词：机械的心律带动血肉的共鸣
+哔哩哔哩地址：https://www.bilibili.com/video/av5306111/
+歌曲页面URL：https://vcpedia.cn/%E4%B8%BA%E4%BA%86%E4%BD%A0%E5%94%B1%E4%B8%8B%E5%8E%BB
