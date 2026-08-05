@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { loadSingerCatalog, loadSingerConfig, singerIdFromArgs, singerPaths, singerYears } from '../scripts/singer-config.mjs';
+import { usesAllowedVoicebanks } from '../scripts/crawl.mjs';
+
+test('歌姬配置包含已发布的洛天依与乐正绫', async () => {
+  const catalog = await loadSingerCatalog();
+  assert.deepEqual(catalog.allowedVoicebanks, ['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V']);
+  const luotianyi = await loadSingerConfig('luotianyi');
+  const yuezhengling = await loadSingerConfig('yuezhengling');
+  assert.equal(luotianyi.published, true);
+  assert.equal(yuezhengling.published, true);
+  assert.equal(yuezhengling.templatePrefix, 'Template:乐正绫');
+  assert.equal(yuezhengling.birthday, '04-12');
+  assert.deepEqual(singerYears(yuezhengling), [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);
+  assert.notEqual(singerPaths(luotianyi).cacheDir, singerPaths(yuezhengling).cacheDir);
+});
+
+test('命令行歌姬参数支持分离与等号写法', () => {
+  assert.equal(singerIdFromArgs(['--singer', 'yuezhengling']), 'yuezhengling');
+  assert.equal(singerIdFromArgs(['--singer=yuezhengling']), 'yuezhengling');
+  assert.equal(singerIdFromArgs([]), 'luotianyi');
+});
+
+test('只允许四种目标声库，混入其他引擎时排除', () => {
+  const allowed = ['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V'];
+  assert.equal(usesAllowedVoicebanks({ voicebanks: 'VOCALOID；ACE Studio' }, allowed), true);
+  assert.equal(usesAllowedVoicebanks({ voicebanks: 'VOCALOID；UTAU' }, allowed), false);
+  assert.equal(usesAllowedVoicebanks({ voicebanks: 'DiffSinger' }, allowed), false);
+  assert.equal(usesAllowedVoicebanks({ voicebanks: '待核验' }, allowed), true);
+});

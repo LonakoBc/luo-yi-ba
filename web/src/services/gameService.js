@@ -11,7 +11,7 @@ function withSearchKeys(song) {
   return {
     ...song,
     titleSearchKey: normalizeSearchText(song.title),
-    idSearchKey: normalizeSearchText(song.id),
+    slugSearchKey: normalizeSearchText(song.slug ?? song.id),
   };
 }
 
@@ -115,10 +115,10 @@ export function createLocalGameService(rawSongs, { random = Math.random } = {}) 
     const key = normalizeSearchText(query);
     if (!key) return [];
     return songs
-      .filter((song) => song.titleSearchKey.includes(key) || song.idSearchKey.includes(key))
+      .filter((song) => song.titleSearchKey.includes(key) || song.slugSearchKey.includes(key))
       .sort((a, b) => {
-        const aExact = a.titleSearchKey === key || a.idSearchKey === key;
-        const bExact = b.titleSearchKey === key || b.idSearchKey === key;
+        const aExact = a.titleSearchKey === key || a.slugSearchKey === key;
+        const bExact = b.titleSearchKey === key || b.slugSearchKey === key;
         if (aExact !== bExact) return aExact ? -1 : 1;
         return a.title.localeCompare(b.title, 'zh-CN');
       })
@@ -128,8 +128,8 @@ export function createLocalGameService(rawSongs, { random = Math.random } = {}) 
   function resolveSong(query) {
     const key = normalizeSearchText(query);
     if (!key) return null;
-    const exactSong = songs.find((song) => song.titleSearchKey === key || song.idSearchKey === key);
-    if (exactSong) return exactSong;
+    const exactSongs = songs.filter((song) => song.titleSearchKey === key || song.slugSearchKey === key);
+    if (exactSongs.length === 1) return exactSongs[0];
     const matches = searchSongs(query, songs.length);
     return matches.length === 1 ? matches[0] : null;
   }

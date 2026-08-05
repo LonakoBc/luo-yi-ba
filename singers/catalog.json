@@ -1,0 +1,40 @@
+{
+  "allowedVoicebanks": [
+    "VOCALOID",
+    "ACE Studio",
+    "X Studio",
+    "Synthesizer V"
+  ],
+  "singers": [
+    {
+      "id": "luotianyi",
+      "name": "洛天依",
+      "shortName": "依",
+      "themeColor": "#66CCFF",
+      "profileUrl": "https://vcpedia.cn/%E6%B4%9B%E5%A4%A9%E4%BE%9D",
+      "templatePrefix": "Template:洛天依",
+      "startYear": 2012,
+      "endYear": 2026,
+      "birthday": "07-12",
+      "officialKeywords": ["洛天依官方", "Vsinger官方"],
+      "published": true,
+      "reviewedData": "database/singers/luotianyi.json",
+      "songDirectory": "song/song_luotianyi"
+    },
+    {
+      "id": "yuezhengling",
+      "name": "乐正绫",
+      "shortName": "绫",
+      "themeColor": "#EE0000",
+      "profileUrl": "https://vcpedia.cn/%E4%B9%90%E6%AD%A3%E7%BB%AB",
+      "templatePrefix": "Template:乐正绫",
+      "startYear": 2015,
+      "endYear": 2026,
+      "birthday": "04-12",
+      "officialKeywords": ["乐正绫官方", "Vsinger官方"],
+      "published": true,
+      "reviewedData": "database/singers/yuezhengling.json",
+      "songDirectory": "song/song_yuezhengling"
+    }
+  ]
+}

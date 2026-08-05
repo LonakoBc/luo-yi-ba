@@ -1,11 +1,8 @@
 import { mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pinyin } from 'pinyin-pro';
+import { loadSingerConfig, singerIdFromArgs, singerPaths } from './singer-config.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
-const DEFAULT_INPUT = path.join(ROOT, 'outputs', 'vcpedia-crawl', 'songs.reviewed.json');
-const SONG_ROOT = path.join(ROOT, 'song');
-const DEFAULT_OUTPUT = path.join(SONG_ROOT, 'song_luotianyi');
 
 // 多音字曲名需要固定读音，避免依赖拼音库的默认词频判断。
 const TITLE_SLUG_OVERRIDES = new Map([
@@ -29,10 +26,14 @@ function cleanField(value) {
   return String(value ?? '').replace(/[\r\n]+/gu, ' ').replace(/\s{2,}/gu, ' ').trim();
 }
 
-function markdownFor(song) {
+function markdownFor(song, allowedVoicebanks) {
   const releaseMonth = cleanField(song.releaseMonth);
   if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(releaseMonth)) {
     throw new Error(`《${song.title}》发布时间无效：${song.releaseMonth}`);
+  }
+  const voicebanks = cleanField(song.voicebanks).split('；').filter(Boolean);
+  if (!voicebanks.length || voicebanks.some((voicebank) => !allowedVoicebanks.includes(voicebank))) {
+    throw new Error(`《${song.title}》使用了范围外声库：${song.voicebanks}`);
   }
   const fields = {
     曲名: `《${cleanField(song.title)}》`,
@@ -59,14 +60,16 @@ async function deleteMarkdownFiles(directory) {
   }
 }
 
-export async function rebuildSongLibrary({ inputPath = DEFAULT_INPUT, outputDirectory = DEFAULT_OUTPUT } = {}) {
-  const songs = JSON.parse(await readFile(inputPath, 'utf8'));
+export async function rebuildSongLibrary({ singerId = singerIdFromArgs(), inputPath, outputDirectory } = {}) {
+  const singer = await loadSingerConfig(singerId);
+  const paths = singerPaths(singer);
+  const resolvedInput = inputPath ?? paths.reviewedData;
+  const resolvedOutput = outputDirectory ?? paths.songDirectory;
+  const songs = JSON.parse(await readFile(resolvedInput, 'utf8'));
   if (!Array.isArray(songs) || !songs.length) throw new Error('审核数据中没有歌曲');
-  await mkdir(outputDirectory, { recursive: true });
+  await mkdir(resolvedOutput, { recursive: true });
 
-  // 已获用户明确授权：迁移完成后，song 根目录不再保留旧版 Markdown。
-  await deleteMarkdownFiles(SONG_ROOT);
-  await deleteMarkdownFiles(outputDirectory);
+  await deleteMarkdownFiles(resolvedOutput);
 
   const slugCounts = new Map();
   const files = [];
@@ -76,15 +79,15 @@ export async function rebuildSongLibrary({ inputPath = DEFAULT_INPUT, outputDire
     slugCounts.set(baseSlug, count);
     const slug = count === 1 ? baseSlug : `${baseSlug}-${count}`;
     const filename = `${slug}.md`;
-    await writeFile(path.join(outputDirectory, filename), markdownFor(song), 'utf8');
+    await writeFile(path.join(resolvedOutput, filename), markdownFor(song, singer.allowedVoicebanks), 'utf8');
     files.push({ title: song.title, filename });
   }
-  return { count: files.length, files, collisions: [...slugCounts].filter(([, count]) => count > 1) };
+  return { singer, outputDirectory: resolvedOutput, count: files.length, files, collisions: [...slugCounts].filter(([, count]) => count > 1) };
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.slice(1));
 if (isMain) {
   const result = await rebuildSongLibrary();
-  console.log(`已重建 ${result.count} 首：${DEFAULT_OUTPUT}`);
+  console.log(`已重建 ${result.singer.name} ${result.count} 首：${result.outputDirectory}`);
   if (result.collisions.length) console.log(`拼音冲突：${result.collisions.map(([slug, count]) => `${slug}×${count}`).join('、')}`);
 }

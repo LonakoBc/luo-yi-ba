@@ -33,9 +33,11 @@ describe('数据库数据生成', () => {
     tempDirectories.push(root);
     await fs.mkdir(path.join(root, 'singers'));
     await fs.writeFile(path.join(root, 'singers', 'luotianyi.json'), JSON.stringify([validSong]), 'utf8');
-    await fs.writeFile(path.join(root, 'catalog.json'), JSON.stringify([{ id: 'luotianyi', name: '洛天依', file: 'singers/luotianyi.json', expectedSongCount: 1 }]), 'utf8');
-    const result = await generateDatabaseData({ catalogFile: path.join(root, 'catalog.json'), databaseRoot: root, outputFile: path.join(root, 'out.json') });
-    expect(result.catalog).toEqual([{ id: 'luotianyi', name: '洛天依', songCount: 1 }]);
+    await fs.writeFile(path.join(root, 'catalog.json'), JSON.stringify([{ id: 'luotianyi', file: 'singers/luotianyi.json', expectedSongCount: 1 }]), 'utf8');
+    const singerCatalogFile = path.join(root, 'singer-catalog.json');
+    await fs.writeFile(singerCatalogFile, JSON.stringify({ singers: [{ id: 'luotianyi', name: '洛天依', shortName: '洛', themeColor: '#66CCFF', profileUrl: 'https://vcpedia.cn/洛天依', published: true }] }), 'utf8');
+    const result = await generateDatabaseData({ catalogFile: path.join(root, 'catalog.json'), singerCatalogFile, databaseRoot: root, outputFile: path.join(root, 'out.json') });
+    expect(result.catalog).toEqual([{ id: 'luotianyi', name: '洛天依', shortName: '洛', themeColor: '#66CCFF', profileUrl: 'https://vcpedia.cn/洛天依', songCount: 1 }]);
     expect(result.libraries.luotianyi).toHaveLength(1);
   });
 });

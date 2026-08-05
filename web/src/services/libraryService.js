@@ -1,16 +1,31 @@
-export const SINGER_OPTIONS = ['洛天依'];
-export const VOICEBANK_OPTIONS = [
-  { value: 'VOCALOID', label: 'VOCALOID' },
-  { value: 'ACE Studio', label: 'ACE' },
-  { value: 'X Studio', label: 'XStudio' },
-  { value: 'Synthesizer V', label: 'Synthesizer V' },
-];
+const VOICEBANK_LABELS = new Map([
+  ['ACE Studio', 'ACE'],
+  ['X Studio', 'XStudio'],
+]);
+
+function uniqueBy(values, keyFor) {
+  const seen = new Set();
+  return values.filter((value) => {
+    const key = keyFor(value);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 export function getLibraryOptions(songs) {
   const years = songs.map((song) => Number(song.releaseMonth.slice(0, 4)));
+  const collections = uniqueBy(songs.flatMap((song) => song.sourceLibraries ?? []), (item) => item.id)
+    .sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+  const singers = [...new Set(songs.flatMap((song) => song.singerMembers))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
+  const voicebanks = [...new Set(songs.flatMap((song) => song.voicebankMembers))].sort((a, b) => a.localeCompare(b, 'zh-CN'))
+    .map((value) => ({ value, label: VOICEBANK_LABELS.get(value) ?? value }));
   return {
     minYear: Math.min(...years),
     maxYear: Math.max(...years),
+    collections,
+    singers,
+    voicebanks,
     specials: [...new Set(songs.map((song) => song.special))].sort((a, b) => a.localeCompare(b, 'zh-CN')),
   };
 }
@@ -18,8 +33,9 @@ export function getLibraryOptions(songs) {
 export function createDefaultFilters(songs) {
   const options = getLibraryOptions(songs);
   return {
-    singers: [...SINGER_OPTIONS],
-    voicebanks: VOICEBANK_OPTIONS.map(({ value }) => value),
+    collections: options.collections.map(({ id }) => id),
+    singers: [],
+    voicebanks: options.voicebanks.map(({ value }) => value),
     specials: [...options.specials],
     fromYear: options.minYear,
     toYear: options.maxYear,
@@ -28,13 +44,15 @@ export function createDefaultFilters(songs) {
 }
 
 export function filterSongs(songs, filters) {
-  if (!filters.singers.length || !filters.voicebanks.length || !filters.specials.length) return [];
+  if (!filters.collections.length || !filters.voicebanks.length || !filters.specials.length) return [];
+  const collections = new Set(filters.collections);
   const singers = new Set(filters.singers);
   const voicebanks = new Set(filters.voicebanks);
   const specials = new Set(filters.specials);
   return songs.filter((song) => {
     const year = Number(song.releaseMonth.slice(0, 4));
-    return [...singers].every((singer) => song.singerMembers.includes(singer))
+    return (song.sourceLibraries ?? []).some(({ id }) => collections.has(id))
+      && [...singers].every((singer) => song.singerMembers.includes(singer))
       && song.voicebankMembers.every((voicebank) => voicebanks.has(voicebank))
       && specials.has(song.special)
       && year >= filters.fromYear
@@ -56,8 +74,9 @@ export function filtersFromSearch(search, songs) {
   const fromYear = Math.max(options.minYear, Math.min(options.maxYear, Number(params.get('from')) || defaults.fromYear));
   const toYear = Math.max(fromYear, Math.min(options.maxYear, Number(params.get('to')) || defaults.toYear));
   return {
-    singers: listFromParams(params, 'singers', SINGER_OPTIONS, defaults.singers),
-    voicebanks: listFromParams(params, 'voicebanks', VOICEBANK_OPTIONS.map(({ value }) => value), defaults.voicebanks),
+    collections: listFromParams(params, 'collections', options.collections.map(({ id }) => id), defaults.collections),
+    singers: listFromParams(params, 'singers', options.singers, defaults.singers),
+    voicebanks: listFromParams(params, 'voicebanks', options.voicebanks.map(({ value }) => value), defaults.voicebanks),
     specials: listFromParams(params, 'specials', options.specials, defaults.specials),
     fromYear,
     toYear,
@@ -67,6 +86,7 @@ export function filtersFromSearch(search, songs) {
 
 export function filtersToSearch(filters) {
   const params = new URLSearchParams();
+  params.set('collections', filters.collections.join('|'));
   params.set('singers', filters.singers.join('|'));
   params.set('voicebanks', filters.voicebanks.join('|'));
   params.set('specials', filters.specials.join('|'));
@@ -78,6 +98,10 @@ export function filtersToSearch(filters) {
 
 export function songsForPreset(songs, preset) {
   if (!preset) return [];
+  if (preset.songIds?.length) {
+    const byId = new Map(songs.map((song) => [song.id, song]));
+    return preset.songIds.map((id) => byId.get(id)).filter(Boolean);
+  }
   const byTitle = new Map(songs.map((song) => [song.title, song]));
   return preset.titles.map((title) => byTitle.get(title)).filter(Boolean);
 }

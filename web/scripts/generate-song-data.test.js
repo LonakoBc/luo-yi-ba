@@ -52,13 +52,29 @@ describe('歌曲 Markdown 解析', () => {
     expect(() => parseSongMarkdown(markdown, 'bad.md')).toThrow(message);
   });
 
-  it('拒绝重复曲名', async () => {
+  it('拒绝同一歌姬曲库中的重复曲目', async () => {
     const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'luoyiba-'));
     tempDirectories.push(directory);
     const source = path.join(directory, 'songs');
     await fs.mkdir(source);
     await fs.writeFile(path.join(source, 'a.md'), validMarkdown('同名'), 'utf8');
     await fs.writeFile(path.join(source, 'b.md'), validMarkdown('同名'), 'utf8');
-    await expect(generateSongData({ songDirectory: source, outputFile: path.join(directory, 'out.json') })).rejects.toThrow('曲名重复');
+    await expect(generateSongData({ songDirectory: source, outputFile: path.join(directory, 'out.json') })).rejects.toThrow('曲目重复');
+  });
+
+  it('按 VCPedia 页面合并跨歌姬共享歌曲并记录曲库来源', async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'luoyiba-shared-'));
+    tempDirectories.push(directory);
+    const first = path.join(directory, 'first');
+    const second = path.join(directory, 'second');
+    await fs.mkdir(first); await fs.mkdir(second);
+    await fs.writeFile(path.join(first, 'shared.md'), validMarkdown('共享曲'), 'utf8');
+    await fs.writeFile(path.join(second, 'shared.md'), validMarkdown('共享曲'), 'utf8');
+    const result = await generateSongData({
+      songLibraries: [{ id: 'a', name: '甲歌姬', directory: first }, { id: 'b', name: '乙歌姬', directory: second }],
+      outputFile: path.join(directory, 'out.json'),
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({ id: 'vcpedia:测试歌曲', sourceLibraries: [{ id: 'a' }, { id: 'b' }] });
   });
 });

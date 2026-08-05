@@ -1,19 +1,46 @@
-import { useEffect, useRef, useState } from 'react';
-import bgmUrl from '../../../bgm/一花依世界-伴奏.mp3?url';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import ichikaUrl from '../../../bgm/01一花依世界-伴奏.mp3?url';
+import seimatsuUrl from '../../../bgm/02世末歌者-伴奏.mp3?url';
 
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
+
+export const BGM_TRACKS = [
+  { id: 'ichika', name: '01一花依世界-伴奏', url: ichikaUrl },
+  { id: 'seimatsu', name: '02世末歌者-伴奏', url: seimatsuUrl },
+];
 
 function readInitialVolume() {
   const stored = Number.parseFloat(window.localStorage.getItem(VOLUME_STORAGE_KEY));
   return Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : DEFAULT_VOLUME;
 }
 
-export default function GlobalBgm() {
+export default function GlobalBgm({ random = Math.random }) {
   const audioRef = useRef(null);
+  const [trackIndex, setTrackIndex] = useState(() => Math.min(BGM_TRACKS.length - 1, Math.floor(random() * BGM_TRACKS.length)));
+  const previousTrackIndex = useRef(trackIndex);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(readInitialVolume);
   const [error, setError] = useState('');
+  const track = BGM_TRACKS[trackIndex];
+
+  const playCurrent = useCallback(async (fallbackMessage = '浏览器暂时无法播放音频') => {
+    const audio = audioRef.current;
+    if (!audio) return false;
+    try {
+      await audio.play();
+      setError('');
+      return true;
+    } catch {
+      setError(fallbackMessage);
+      return false;
+    }
+  }, []);
+
+  const nextTrack = useCallback(() => {
+    setError('');
+    setTrackIndex((current) => (current + 1) % BGM_TRACKS.length);
+  }, []);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -23,19 +50,14 @@ export default function GlobalBgm() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return undefined;
-    let disposed = false;
-
     const removeFallback = () => {
       document.removeEventListener('pointerdown', resumeAfterInteraction, true);
       document.removeEventListener('keydown', resumeAfterInteraction, true);
     };
     const tryPlay = async () => {
-      try {
-        await audio.play();
-        if (!disposed) setError('');
+      const succeeded = await playCurrent('等待首次操作后自动播放');
+      if (succeeded) {
         removeFallback();
-      } catch {
-        if (!disposed) setError('等待首次操作后自动播放');
       }
     };
     function resumeAfterInteraction() {
@@ -46,10 +68,15 @@ export default function GlobalBgm() {
     document.addEventListener('pointerdown', resumeAfterInteraction, true);
     document.addEventListener('keydown', resumeAfterInteraction, true);
     return () => {
-      disposed = true;
       removeFallback();
     };
-  }, []);
+  }, [playCurrent]);
+
+  useEffect(() => {
+    if (previousTrackIndex.current === trackIndex) return;
+    previousTrackIndex.current = trackIndex;
+    void playCurrent();
+  }, [playCurrent, trackIndex]);
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
@@ -59,30 +86,26 @@ export default function GlobalBgm() {
       audio.pause();
       return;
     }
-    try {
-      await audio.play();
-    } catch {
-      setError('浏览器暂时无法播放音频');
-    }
+    await playCurrent();
   };
 
   return (
     <aside className={`bgm-player ${playing ? 'playing' : ''}`} aria-label="背景音乐播放器">
       <audio
         ref={audioRef}
-        src={bgmUrl}
+        src={track.url}
         autoPlay
-        loop
         preload="metadata"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        onEnded={() => setPlaying(false)}
+        onEnded={nextTrack}
         onError={() => setError('背景音乐加载失败')}
       />
       <button type="button" className="bgm-toggle" onClick={togglePlayback} aria-label={playing ? '暂停背景音乐' : '播放背景音乐'}>
         <span className="bgm-icon" aria-hidden="true">{playing ? 'Ⅱ' : '♪'}</span>
-        <span className="bgm-copy"><strong>一花依世界</strong><small>{error || (playing ? '正在播放 · 伴奏' : '点击播放背景音乐')}</small></span>
+        <span className="bgm-copy"><strong>{track.name}</strong><small>{error || (playing ? '正在播放' : '点击播放背景音乐')}</small></span>
       </button>
+      <button type="button" className="bgm-next" onClick={nextTrack} aria-label="播放下一首背景音乐" title="下一首">››</button>
       <label className="volume-control">
         <span className="sr-only">背景音乐音量</span>
         <span aria-hidden="true">{volume === 0 ? '×' : '◖'}</span>

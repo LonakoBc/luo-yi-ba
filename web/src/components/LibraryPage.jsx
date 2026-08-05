@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
 import {
-  SINGER_OPTIONS,
-  VOICEBANK_OPTIONS,
   createDefaultFilters,
   filterSongs,
   getLibraryOptions,
@@ -32,7 +30,7 @@ export default function LibraryPage({ songs, presets, onBack, onStartPreset, onS
     ...current,
     [field]: current[field].includes(value) ? current[field].filter((item) => item !== value) : [...current[field], value],
   }));
-  const invalidReason = !filters.singers.length ? '请至少选择一位歌姬'
+  const invalidReason = !filters.collections.length ? '请至少选择一个主要曲库'
     : !filters.voicebanks.length ? '请至少选择一种声库'
       : !filters.specials.length ? '请至少选择一种特殊标注'
         : !candidates.length ? '当前条件下没有可用歌曲' : '';
@@ -48,14 +46,16 @@ export default function LibraryPage({ songs, presets, onBack, onStartPreset, onS
             {presets.map((preset) => (
               <button type="button" className="preset-card" key={preset.id} onClick={() => onStartPreset(preset.id)}>
                 <strong>{preset.name}</strong><span>{preset.description}</span><small>{preset.titles.length} 首 →</small>
+                {preset.badge && <span className="preset-singer-badge" style={{ '--preset-badge-color': preset.badge.color }} aria-hidden="true">{preset.badge.text}</span>}
               </button>
             ))}
           </div>
         </section>
         <section className="filter-panel" aria-labelledby="custom-title">
           <div className="section-heading"><h3 id="custom-title">自定义曲库</h3><span>当前 {candidates.length} 首候选</span></div>
-          <ToggleGroup label="演唱歌姬" options={SINGER_OPTIONS} selected={filters.singers} onToggle={(value) => toggle('singers', value)} />
-          <ToggleGroup label="使用声库" options={VOICEBANK_OPTIONS} selected={filters.voicebanks} onToggle={(value) => toggle('voicebanks', value)} />
+          <ToggleGroup label="主要曲库（多选取并集）" options={options.collections.map(({ id, name }) => ({ value: id, label: name }))} selected={filters.collections} onToggle={(value) => toggle('collections', value)} />
+          <ToggleGroup label="必须包含的演唱歌姬（可选）" options={options.singers} selected={filters.singers} onToggle={(value) => toggle('singers', value)} />
+          <ToggleGroup label="使用声库" options={options.voicebanks} selected={filters.voicebanks} onToggle={(value) => toggle('voicebanks', value)} />
           <ToggleGroup label="特殊标注" options={options.specials} selected={filters.specials} onToggle={(value) => toggle('specials', value)} />
           <fieldset className="filter-group">
             <legend>发布时间</legend>

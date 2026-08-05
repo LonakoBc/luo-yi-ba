@@ -7,24 +7,28 @@ const songs = [
     id: 'answer', title: '答案曲', staffDisplay: 'UP主：甲；作曲：甲', staffPeople: ['甲'], releaseMonth: '2020-03',
     singersDisplay: '洛天依', singerMembers: ['洛天依'], voicebanksDisplay: 'VOCALOID', voicebankMembers: ['VOCALOID'],
     concertCount: 3, special: '单曲', lyrics: '答案歌词完整的一行',
+    sourceLibraries: [{ id: 'luotianyi', name: '洛天依' }],
     bilibiliUrl: 'https://www.bilibili.com/video/av1', vcpediaUrl: 'https://vcpedia.cn/答案曲',
   },
   {
     id: 'guess', title: '猜测曲', staffDisplay: 'UP主：乙；作词：甲', staffPeople: ['乙', '甲'], releaseMonth: '2019-04',
     singersDisplay: '洛天依；言和', singerMembers: ['洛天依', '言和'], voicebanksDisplay: 'VOCALOID；ACE Studio', voicebankMembers: ['VOCALOID', 'ACE Studio'],
     concertCount: 1, special: '系列/企划曲目', lyrics: '猜测歌词完整的一行',
+    sourceLibraries: [{ id: 'luotianyi', name: '洛天依' }],
     bilibiliUrl: 'https://www.bilibili.com/video/av2', vcpediaUrl: 'https://vcpedia.cn/猜测曲',
   },
 ];
 
 const presets = [
-  { id: 'intro', name: '入门曲库', description: '精选作品', titles: songs.map(({ title }) => title) },
-  { id: 'luotianyi', name: '洛天依传说曲', description: '完整曲库', titles: songs.map(({ title }) => title) },
+  { id: 'all', name: '挑战全曲库！', description: '全部曲库', titles: songs.map(({ title }) => title) },
+  { id: 'intro', name: '洛天依入门曲库', description: '精选作品', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
+  { id: 'luotianyi', name: '洛天依传说曲', description: '完整曲库', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
+  { id: 'yuezhengling', name: '乐正绫传说曲', description: '完整曲库', badge: { text: '绫', color: '#EE0000' }, titles: songs.map(({ title }) => title) },
   { id: 'golden-age', name: '黄金时代', description: '黄金时期', titles: songs.map(({ title }) => title) },
 ];
 
 const database = {
-  catalog: [{ id: 'luotianyi', name: '洛天依', songCount: 2 }],
+  catalog: [{ id: 'luotianyi', name: '洛天依', shortName: '依', themeColor: '#66CCFF', songCount: 2 }],
   libraries: {
     luotianyi: songs.map((song, index) => ({
       index: index + 1,
@@ -70,8 +74,11 @@ describe('App 交互', () => {
     fireEvent.click(screen.getByRole('button', { name: /猜歌/u }));
     expect(screen.getByText('选择曲库范围')).toBeVisible();
     expect(screen.getByRole('button', { name: /开始游戏 · 2 首/u })).toBeEnabled();
-    fireEvent.click(screen.getByRole('button', { name: /入门曲库/u }));
-    expect(screen.getByText('入门曲库')).toBeVisible();
+    expect(screen.getByRole('button', { name: /挑战全曲库/u })).toBeVisible();
+    expect(screen.getAllByText('洛')).toHaveLength(2);
+    expect(screen.getByText('绫')).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: /洛天依入门曲库/u }));
+    expect(screen.getByText('洛天依入门曲库')).toBeVisible();
     expect(screen.getByRole('columnheader', { name: '特殊标注' })).toBeVisible();
   });
 

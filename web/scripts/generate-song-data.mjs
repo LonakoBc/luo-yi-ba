@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadSingerCatalog, singerPaths } from '../../scripts/singer-config.mjs';
 
 const REQUIRED_FIELDS = [
   '曲名',
@@ -24,6 +25,12 @@ export function normalizeStaffName(value) {
 
 export function splitMembers(value) {
   return String(value).split('；').map((member) => member.trim()).filter(Boolean);
+}
+
+export function canonicalSongId(vcpediaUrl) {
+  const url = new URL(vcpediaUrl);
+  const page = decodeURIComponent(url.pathname).replace(/^\/+|\/+$/gu, '').replaceAll('_', ' ').normalize('NFKC').toLocaleLowerCase('zh-CN');
+  return `vcpedia:${page}`;
 }
 
 export function parseStaffPeople(staff, source = '歌曲文件') {
@@ -122,25 +129,36 @@ export function parseSongMarkdown(markdown, id, source = id) {
   };
 }
 
-export async function generateSongData({ songDirectory, outputFile }) {
-  const entries = (await fs.readdir(songDirectory, { withFileTypes: true }))
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.md'))
-    .sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-  if (!entries.length) throw new Error(`题库目录中没有 Markdown：${songDirectory}`);
-
+export async function generateSongData({ songDirectory, songLibraries, outputFile }) {
+  const libraries = songLibraries ?? [{ id: 'default', name: '默认曲库', directory: songDirectory }];
+  if (!libraries.length) throw new Error('没有启用的歌姬曲库');
   const songs = [];
-  const ids = new Set();
-  const titles = new Set();
-  for (const entry of entries) {
-    const id = entry.name.slice(0, -3);
-    const source = path.join(songDirectory, entry.name);
-    const song = parseSongMarkdown(await fs.readFile(source, 'utf8'), id, source);
-    const titleKey = song.title.normalize('NFKC').toLocaleLowerCase('zh-CN');
-    if (ids.has(id)) throw new Error(`${source}: ID 重复：${id}`);
-    if (titles.has(titleKey)) throw new Error(`${source}: 曲名重复：${song.title}`);
-    ids.add(id);
-    titles.add(titleKey);
-    songs.push(song);
+  const byCanonicalId = new Map();
+  for (const library of libraries) {
+    const entries = (await fs.readdir(library.directory, { withFileTypes: true }).catch(() => []))
+      .filter((entry) => entry.isFile() && entry.name.endsWith('.md'))
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+    if (!entries.length) throw new Error(`题库目录中没有 Markdown：${library.directory}`);
+    for (const entry of entries) {
+      const slug = entry.name.slice(0, -3);
+      const source = path.join(library.directory, entry.name);
+      const parsed = parseSongMarkdown(await fs.readFile(source, 'utf8'), slug, source);
+      const id = canonicalSongId(parsed.vcpediaUrl);
+      const song = { ...parsed, id, slug, sourceLibraries: [{ id: library.id, name: library.name }] };
+      const existing = byCanonicalId.get(id);
+      if (!existing) {
+        byCanonicalId.set(id, song);
+        songs.push(song);
+        continue;
+      }
+      if (existing.sourceLibraries.some(({ id: libraryId }) => libraryId === library.id)) {
+        throw new Error(`${source}: 同一歌姬曲库中曲目重复：${song.title}`);
+      }
+      const factFields = ['title', 'staffDisplay', 'releaseMonth', 'singersDisplay', 'voicebanksDisplay', 'concertCount', 'special', 'lyrics', 'bilibiliUrl', 'vcpediaUrl'];
+      const conflicts = factFields.filter((field) => existing[field] !== song[field]);
+      if (conflicts.length) throw new Error(`${source}: 共享歌曲《${song.title}》与其他歌姬曲库数据冲突：${conflicts.join('、')}`);
+      if (!existing.sourceLibraries.some(({ id: libraryId }) => libraryId === library.id)) existing.sourceLibraries.push({ id: library.id, name: library.name });
+    }
   }
 
   songs.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN'));
@@ -154,8 +172,14 @@ export async function generateSongData({ songDirectory, outputFile }) {
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
   const webRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-  const songDirectory = path.resolve(webRoot, '..', 'song', 'song_luotianyi');
+  const root = path.resolve(webRoot, '..');
+  const singerCatalog = await loadSingerCatalog(path.join(root, 'singers', 'catalog.json'));
+  const songLibraries = singerCatalog.singers.filter((singer) => singer.published).map((singer) => ({
+    id: singer.id,
+    name: singer.name,
+    directory: singerPaths(singer).songDirectory,
+  }));
   const outputFile = path.resolve(webRoot, 'src', 'data', 'songs.generated.json');
-  const songs = await generateSongData({ songDirectory, outputFile });
+  const songs = await generateSongData({ songLibraries, outputFile });
   console.log(`已生成 ${songs.length} 首歌曲：${outputFile}`);
 }

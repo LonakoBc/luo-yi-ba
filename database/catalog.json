@@ -1,8 +1,12 @@
 [
   {
     "id": "luotianyi",
-    "name": "洛天依",
     "file": "singers/luotianyi.json",
     "expectedSongCount": 219
+  },
+  {
+    "id": "yuezhengling",
+    "file": "singers/yuezhengling.json",
+    "expectedSongCount": 51
   }
 ]

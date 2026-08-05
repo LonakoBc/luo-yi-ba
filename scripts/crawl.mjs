@@ -5,7 +5,6 @@ import { PoliteFetcher } from './vcpedia-fetcher.mjs';
 import {
   UNKNOWN,
   VCPEDIA_API_URL,
-  YEARS,
   dedupeCandidates,
   missingReviewFields,
   normalizeApiTitle,
@@ -13,12 +12,8 @@ import {
   parseVcpediaSong,
   parseYearCandidates,
 } from './vcpedia-lib.mjs';
+import { loadSingerConfig, singerIdFromArgs, singerPaths, singerYears } from './singer-config.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
-const CACHE_DIR = path.join(ROOT, '.cache', 'vcpedia');
-const OUTPUT_DIR = path.join(ROOT, 'outputs', 'vcpedia-crawl');
-const RESULT_PATH = path.join(OUTPUT_DIR, 'songs.normalized.json');
-const REPORT_PATH = path.join(OUTPUT_DIR, 'crawl-report.md');
 const BATCH_SIZE = 10;
 const refresh = process.argv.includes('--refresh');
 
@@ -68,50 +63,102 @@ function mergeFallback(song, fallback) {
   return merged;
 }
 
-function renderReport({ candidates, songs, failures, duplicateCount }) {
+function singerMembers(value) {
+  return String(value ?? '').split('；').map((member) => member.trim()).filter(Boolean);
+}
+
+function databaseDraftFor(songs) {
+  return songs.map((song) => ({
+    title: song.title,
+    staff: song.staff,
+    releaseMonth: song.releaseMonth,
+    singers: song.singers,
+    voicebanks: song.voicebanks,
+    concertCount: song.concertCount,
+    special: song.special,
+    lyrics: song.lyrics,
+    bilibiliUrl: song.bilibiliUrl,
+    vcpediaUrl: song.vcpediaUrl,
+  }));
+}
+
+export function usesAllowedVoicebanks(song, allowedVoicebanks) {
+  if (song.voicebanks === UNKNOWN) return true;
+  const allowed = new Set(allowedVoicebanks);
+  return song.voicebanks.split('；').every((voicebank) => allowed.has(voicebank));
+}
+
+function renderReport({ singer, candidates, songs, failures, duplicateCount, excluded }) {
   const issues = songs.filter((song) => song.issues.length);
   const lines = [
-    '# VCPedia 洛天依传说曲采集报告', '',
+    `# VCPedia ${singer.name}传说曲采集报告`, '',
     `- 生成时间：${new Date().toISOString()}`,
     `- 年度引用：${candidates + duplicateCount}`,
     `- 去重后候选：${candidates}`,
     `- 跨年份重复：${duplicateCount}`,
     `- 成功解析：${songs.length}`,
     `- 含待核验字段：${issues.length}`,
+    `- 排除候选：${excluded.length}`,
     `- 页面失败：${failures.length}`, '',
+    `允许声库：${singer.allowedVoicebanks.join('、')}。其他声库以及与其他声库混用的原版不纳入曲库。`, '',
     '说明：演唱会次数 0 表示 VCPedia 歌曲简介未明确记载演出活动，并非断言从未演出。', '',
     '## 待核验字段', '',
     ...(issues.length ? issues.map((song) => `- 《${song.title}》：${song.issues.join('、')}（${song.pageUrl}）`) : ['无']),
     '', '## 页面失败', '',
     ...(failures.length ? failures.map((row) => `- 《${row.title}》：${row.error}（${row.url}）`) : ['无']), '',
+    '## 排除候选', '',
+    ...(excluded.length ? excluded.map((row) => `- 《${row.title}》：${row.exclusionReason ?? row.voicebanks}（${row.pageUrl}）`) : ['无']), '',
   ];
   return lines.join('\n');
 }
 
-async function main() {
-  await mkdir(OUTPUT_DIR, { recursive: true });
-  const fetcher = new PoliteFetcher({ cacheDir: CACHE_DIR, refresh });
+export async function main() {
+  const singer = await loadSingerConfig(singerIdFromArgs());
+  const paths = singerPaths(singer);
+  const years = singerYears(singer);
+  const resultPath = path.join(paths.outputDir, 'songs.normalized.json');
+  const draftPath = path.join(paths.outputDir, 'database-draft.json');
+  const reportPath = path.join(paths.outputDir, 'crawl-report.md');
+  if (process.argv.includes('--dry-run')) {
+    console.log(JSON.stringify({
+      singer: singer.name,
+      templatePages: years.map((year) => `${singer.templatePrefix}/${year}`),
+      allowedVoicebanks: singer.allowedVoicebanks,
+      cacheDir: paths.cacheDir,
+      outputDir: paths.outputDir,
+      published: singer.published,
+    }, null, 2));
+    return;
+  }
+  await mkdir(paths.outputDir, { recursive: true });
+  const fetcher = new PoliteFetcher({ cacheDir: paths.cacheDir, refresh });
   const annualCandidates = [];
 
-  for (const [index, year] of YEARS.entries()) {
-    console.log(`[年度 ${index + 1}/${YEARS.length}] ${year}`);
-    const page = `Template:洛天依/${year}`;
+  console.log(`目标歌姬：${singer.name}（${years[0]}–${years.at(-1)}）`);
+  for (const [index, year] of years.entries()) {
+    console.log(`[年度 ${index + 1}/${years.length}] ${year}`);
+    const page = `${singer.templatePrefix}/${year}`;
     const data = await fetcher.requestJson({
       url: apiUrl({ action: 'parse', page, prop: 'text', format: 'json', formatversion: '2', maxlag: '5' }),
-      cacheKey: `year-${year}`,
+      cacheKey: `year-${singer.id}-${year}`,
     });
-    const templateUrl = `https://vcpedia.cn/Template:${encodeURIComponent(`洛天依/${year}`)}`;
-    const parsed = parseYearCandidates(data.parse?.text ?? '', templateUrl);
-    if (!parsed.length) throw new Error(`${year} 年模板未解析出原创传说曲/神话曲，停止运行。`);
+    const templateUrl = `https://vcpedia.cn/${encodeURIComponent(page)}`;
+    const parsed = parseYearCandidates(data.parse?.text ?? '', templateUrl, singer.name);
+    if (!parsed.length) {
+      console.warn(`${year} 年模板没有原创传说曲/神话曲，继续下一年度。`);
+      continue;
+    }
     annualCandidates.push(...parsed.map((candidate) => ({ ...candidate, sourceOrder: annualCandidates.length + candidate.sourceOrder })));
   }
 
   const candidates = dedupeCandidates(annualCandidates);
+  if (!candidates.length) throw new Error(`${singer.name}全部年度模板均未解析出原创传说曲/神话曲，停止运行。`);
   const duplicateCount = annualCandidates.length - candidates.length;
   console.log(`年度引用 ${annualCandidates.length} 条，去重后 ${candidates.length} 首。`);
 
   const songs = [];
   const failures = [];
+  const excluded = [];
   for (const [batchIndex, batch] of chunks(candidates, BATCH_SIZE).entries()) {
     console.log(`[详情批次 ${batchIndex + 1}/${Math.ceil(candidates.length / BATCH_SIZE)}] ${batch.map(({ title }) => title).join('、')}`);
     const titles = batch.map(({ pageTitle }) => pageTitle);
@@ -128,7 +175,9 @@ async function main() {
           failures.push({ title: candidate.title, url: candidate.url, error: '详情页不存在或 API 未返回页面' });
           continue;
         }
-        songs.push(parseVcpediaSong(pagePayload(page), candidate));
+        const song = parseVcpediaSong(pagePayload(page), candidate, { singer });
+        if (usesAllowedVoicebanks(song, singer.allowedVoicebanks)) songs.push(song);
+        else excluded.push({ ...song, exclusionReason: `使用范围外声库：${song.voicebanks}` });
       }
     } catch (error) {
       for (const candidate of batch) failures.push({ title: candidate.title, url: candidate.url, error: error.message });
@@ -149,12 +198,19 @@ async function main() {
     }
   }
 
+  for (let index = songs.length - 1; index >= 0; index -= 1) {
+    if (songs[index].singers === UNKNOWN || singerMembers(songs[index].singers).includes(singer.name)) continue;
+    const [song] = songs.splice(index, 1);
+    excluded.push({ ...song, exclusionReason: `原版演唱歌姬不包含${singer.name}：${song.singers}` });
+  }
+
   songs.sort((a, b) => {
     const left = a.releaseMonth === UNKNOWN ? `${a.originalYear}-99` : a.releaseMonth;
     const right = b.releaseMonth === UNKNOWN ? `${b.originalYear}-99` : b.releaseMonth;
     return left.localeCompare(right, 'zh-CN') || a.title.localeCompare(b.title, 'zh-CN');
   });
   const result = {
+    singer: { id: singer.id, name: singer.name, profileUrl: singer.profileUrl },
     source: 'https://vcpedia.cn/',
     license: 'CC BY-NC-SA 3.0 CN',
     generatedAt: new Date().toISOString(),
@@ -162,16 +218,22 @@ async function main() {
     duplicateCount,
     candidateCount: candidates.length,
     songs,
+    excluded,
     failures,
   };
-  await writeFile(RESULT_PATH, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
-  await writeFile(REPORT_PATH, renderReport({ candidates: candidates.length, songs, failures, duplicateCount }), 'utf8');
+  await writeFile(resultPath, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
+  await writeFile(draftPath, `${JSON.stringify(databaseDraftFor(songs), null, 2)}\n`, 'utf8');
+  await writeFile(reportPath, renderReport({ singer, candidates: candidates.length, songs, failures, duplicateCount, excluded }), 'utf8');
   console.log(`完成：${songs.length}/${candidates.length} 首，${songs.filter((song) => song.issues.length).length} 首待核验，${failures.length} 首失败。`);
-  console.log(`规范化结果：${RESULT_PATH}`);
+  console.log(`规范化结果：${resultPath}`);
+  console.log(`数据库草稿：${draftPath}`);
   if (failures.length) process.exitCode = 1;
 }
 
-main().catch((error) => {
-  console.error(error.stack ?? error.message);
-  process.exitCode = 1;
-});
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.slice(1));
+if (isMain) {
+  main().catch((error) => {
+    console.error(error.stack ?? error.message);
+    process.exitCode = 1;
+  });
+}

@@ -78,7 +78,7 @@ export default function GuessInput({ service, disabled, guessedIds, onGuess }) {
                   role="option"
                   aria-selected={index === activeIndex}
                 >
-                  <span>{song.title}</span><small>{song.id}</small>
+                  <span>{song.title}</span><small>{song.slug ?? song.id}</small>
                 </button>
               </li>
             )) : <li className="no-results">没有找到未猜过的歌曲</li>}

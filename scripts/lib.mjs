@@ -20,18 +20,25 @@ function isTier(text) {
   return text === '神话曲' || text === '传说曲';
 }
 
-function findYearTables($) {
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function findYearTables($, singerName) {
+  const titlePattern = singerName
+    ? new RegExp(`${escapeRegExp(singerName)}\\s*20\\d{2}年歌曲`)
+    : /20\d{2}年歌曲/;
   return $('th.navbox-title').filter((_, title) => (
-    /洛天依\s*20\d{2}年歌曲/.test(cleanText($(title).text()))
+    titlePattern.test(cleanText($(title).text()))
   )).map((_, title) => $(title).closest('table').get(0)).get();
 }
 
-export function parseCandidates(html, baseUrl = TEMPLATE_URL) {
+export function parseCandidates(html, baseUrl = TEMPLATE_URL, singerName) {
   const $ = cheerio.load(html);
   const found = [];
   const byUrl = new Map();
 
-  for (const table of findYearTables($)) {
+  for (const table of findYearTables($, singerName)) {
     const tableText = cleanText($(table).find('th.navbox-title').first().text());
     const yearMatch = tableText.match(/(20\d{2})年歌曲/);
     if (!yearMatch) continue;
@@ -57,16 +64,18 @@ export function parseCandidates(html, baseUrl = TEMPLATE_URL) {
           if (!title || !href || title === '编辑' || title === '查看') return;
           if (href.startsWith('#') || href.includes('action=edit')) return;
           const parsedUrl = new URL(href, baseUrl);
+          const sectionAnchor = parsedUrl.hash ? decodeURIComponent(parsedUrl.hash.slice(1)) : '';
           parsedUrl.hash = '';
           const url = parsedUrl.href;
-          if (byUrl.has(url)) {
-            const existing = byUrl.get(url);
+          const candidateKey = `${url}#${title.normalize('NFKC').toLocaleLowerCase('zh-CN')}`;
+          if (byUrl.has(candidateKey)) {
+            const existing = byUrl.get(candidateKey);
             existing.year = Math.min(existing.year, year);
             if (tier === '神话曲') existing.tier = '神话曲';
             return;
           }
-          const candidate = { title, year, tier, url };
-          byUrl.set(url, candidate);
+          const candidate = { title, year, tier, url, sectionAnchor };
+          byUrl.set(candidateKey, candidate);
           found.push(candidate);
         });
       });

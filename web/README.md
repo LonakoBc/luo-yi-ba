@@ -8,7 +8,7 @@ npm install
 npm run dev
 ```
 
-开发和构建前会自动读取 `song/song_luotianyi/*.md` 与 `presets/*.md`，校验后生成前端题库和预设数据。修改 Markdown 后重新启动开发服务器即可刷新数据。
+开发和构建前会读取 `singers/catalog.json` 中所有已发布歌姬的 Markdown 目录与 `presets/*.md`，校验、合并共享歌曲后生成前端题库和预设数据。人工审核数据以 `database/singers/*.json` 为准，Markdown 通过根目录脚本生成。
 
 ## 验证
 
@@ -22,4 +22,6 @@ npm run build
 
 当前版本为纯前端单人模式。选题、搜索和反馈逻辑位于 `src/services/gameService.js`，曲库筛选逻辑位于 `src/services/libraryService.js`。
 
-三个预设分别位于上级目录的 `presets/intro.md`、`presets/luotianyi.md` 和 `presets/golden-age.md`。开发者入口由 `import.meta.env.DEV` 控制：运行开发服务器时显示，生产构建中自动隐藏。
+五个预设分别位于上级目录的 `presets/all.md`、`presets/intro.md`、`presets/luotianyi.md`、`presets/yuezhengling.md` 和 `presets/golden-age.md`。当前全局题库包含 239 首不同作品，数据库按歌姬分别展示洛天依 219 首和乐正绫 51 首。开发者入口由 `import.meta.env.DEV` 控制：运行开发服务器时显示，生产构建中自动隐藏。
+
+全局 BGM 播放器维护《一花依世界》和《世末歌者》两首伴奏，首次载入随机选曲，播放结束或点击“下一首”时切换，并在页面路由变化时保持挂载。

@@ -4,7 +4,6 @@ import { parseCandidates as parseRenderedCandidates } from './lib.mjs';
 export const VCPEDIA_BASE_URL = 'https://vcpedia.cn/';
 export const VCPEDIA_API_URL = 'https://vcpedia.cn/api.php';
 export const UNKNOWN = '待核验';
-export const YEARS = Array.from({ length: 15 }, (_, index) => 2012 + index);
 
 const ROLE_ORDER = ['UP主', '作曲', '作词', '编曲'];
 const ENGINE_RULES = [
@@ -64,10 +63,13 @@ function normalizeUrl(url) {
   return parsed.href;
 }
 
-export function parseYearCandidates(html, templateUrl) {
-  return parseRenderedCandidates(html, VCPEDIA_BASE_URL).map((candidate, index) => ({
+export function parseYearCandidates(html, templateUrl, singerName) {
+  return parseRenderedCandidates(html, VCPEDIA_BASE_URL, singerName).map((candidate, index) => ({
     ...candidate,
     url: normalizeUrl(candidate.url),
+    sourceUrl: candidate.sectionAnchor
+      ? `${normalizeUrl(candidate.url)}#${encodeURIComponent(candidate.sectionAnchor)}`
+      : normalizeUrl(candidate.url),
     templateUrl,
     sourceOrder: index,
     pageTitle: decodeURIComponent(new URL(candidate.url).pathname.replace(/^\/(?:zh-(?:hans|cn)\/)?/u, ''))
@@ -78,7 +80,7 @@ export function parseYearCandidates(html, templateUrl) {
 export function dedupeCandidates(candidates) {
   const byPage = new Map();
   for (const candidate of candidates) {
-    const key = normalizeUrl(candidate.url).toLocaleLowerCase('zh-CN');
+    const key = `${normalizeUrl(candidate.url).toLocaleLowerCase('zh-CN')}#${candidate.title.normalize('NFKC').toLocaleLowerCase('zh-CN')}`;
     const existing = byPage.get(key);
     if (!existing) {
       byPage.set(key, { ...candidate });
@@ -168,6 +170,101 @@ function primarySource(wikitext) {
   return removeSecondarySections(originalTab || wikitext);
 }
 
+function sourceForCandidate(wikitext, candidate = {}) {
+  if (!candidate.sectionAnchor) return String(wikitext ?? '');
+  const anchorPattern = new RegExp(`^${escapeRegExp(candidate.sectionAnchor)}$`, 'u');
+  const anchored = section(String(wikitext ?? ''), anchorPattern);
+  if (!anchored) return String(wikitext ?? '');
+  const toggles = extractTemplates(anchored).map(parseTemplate).filter(({ name }) => /^Toggle$/iu.test(name));
+  const songToggle = toggles.find(({ params }) => displayWikiText(params.get('button')).includes(candidate.title));
+  return songToggle?.params.get('content') || anchored;
+}
+
+function normalizeVideoId(value) {
+  const match = String(value ?? '').match(/(?:https?:\/\/(?:www\.)?bilibili\.com\/video\/)?(?:av)?(BV[0-9A-Za-z]{10}|av\d+|\d+)/iu);
+  if (!match) return null;
+  const id = match[1];
+  if (/^BV/iu.test(id)) return id;
+  return /^av/iu.test(id) ? id.toLowerCase() : `av${id}`;
+}
+
+function toBilibiliUrl(id) {
+  return id ? `https://www.bilibili.com/video/${id}/` : UNKNOWN;
+}
+
+export function extractBilibiliUrl(wikitext, candidate) {
+  const source = primarySource(sourceForCandidate(wikitext, candidate));
+  const templates = extractTemplates(source).map(parseTemplate);
+  const songbox = findSongboxes(templates)[0];
+  for (const key of ['bb_id', 'bilibili_id', 'b站id', '链接', '連結', 'link']) {
+    const id = normalizeVideoId(songbox?.params.get(key));
+    if (id) return toBilibiliUrl(id);
+  }
+  const direct = source.match(/https?:\/\/(?:www\.)?bilibili\.com\/video\/(BV[0-9A-Za-z]{10}|av\d+|\d+)/iu);
+  if (direct) return toBilibiliUrl(normalizeVideoId(direct[1]));
+  const videoTemplate = templates.find(({ name }) => /^BilibiliVideo$/iu.test(name));
+  const videoId = normalizeVideoId(videoTemplate?.params.get('id') ?? videoTemplate?.params.get('1'));
+  if (videoId) return toBilibiliUrl(videoId);
+  const avTemplate = templates.find(({ name }) => /^av$/iu.test(name));
+  return toBilibiliUrl(normalizeVideoId(avTemplate?.params.get('1')));
+}
+
+function renderLyricTemplate(raw) {
+  const template = parseTemplate(raw);
+  if (/Songbox\s+Introduction|SongboxIntroduction|歌曲信息|歌曲資訊/iu.test(template.name)) return '';
+  const positional = [...template.params]
+    .filter(([key]) => /^\d+$/u.test(key))
+    .sort(([left], [right]) => Number(left) - Number(right))
+    .map(([, value]) => value);
+  if (/^(?:color|coloredlink|lang|lj)$/iu.test(template.name)) return positional.at(-1) ?? '';
+  if (/^LyricsKai$/iu.test(template.name)) return template.params.get('original') ?? '';
+  if (/^ruby$/iu.test(template.name)) return positional[0] ?? '';
+  if (/交叉颜色|交叉顏色/u.test(template.name)) return positional.join('\n');
+  if (/^(?:textHover|MultiLine Lyric)$/iu.test(template.name)) return positional[0] ?? '';
+  if (/^(?:columns-list|center|shadowcolor)$/iu.test(template.name)) return positional.at(-1) ?? '';
+  return positional.at(-1) ?? '';
+}
+
+function renderLyricWikiText(value) {
+  let text = String(value ?? '');
+  for (let pass = 0; pass < 20 && /\{\{[^{}]*\}\}/u.test(text); pass += 1) {
+    text = text.replace(/\{\{([^{}]*)\}\}/gu, (_, raw) => renderLyricTemplate(raw));
+  }
+  return text
+    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/gu, (_, target, label) => label || target)
+    .replace(/<ref\b[^>]*>[\s\S]*?<\/ref>|<ref\b[^>]*\/>/giu, ' ')
+    .replace(/<[^>]+>/gu, ' ')
+    .replace(/[{}]/gu, ' ');
+}
+
+export function extractLyrics(wikitext, candidate) {
+  const targeted = sourceForCandidate(wikitext, candidate);
+  const source = primarySource(targeted);
+  let lyricSection = section(source, /歌词|歌詞/u);
+  if (!lyricSection) lyricSection = primarySource(section(targeted, /歌词|歌詞/u));
+  if (!lyricSection) {
+    const marker = source.search(/<big[^>]*>[\s\S]{0,40}歌词[\s\S]{0,20}<\/big>/iu);
+    if (marker >= 0) lyricSection = source.slice(marker);
+  }
+  if (!lyricSection) return UNKNOWN;
+  const lyricsKai = extractTemplates(lyricSection).map(parseTemplate).find(({ name }) => /^LyricsKai$/iu.test(name));
+  let poem = lyricSection.match(/<poem\b[^>]*>([\s\S]*?)<\/poem>/iu)?.[1]
+    ?? lyricsKai?.params.get('original')
+    ?? lyricSection;
+  if (/左侧黑字为文案/u.test(lyricSection)) {
+    poem = poem.replace(/-\{([^{}]+)\}-/gu, '$1').replace(/\{\{color\|black\|[^{}]*\}\}/giu, '');
+  }
+  const lines = renderLyricWikiText(poem).split(/\r?\n/u)
+    .filter((line) => !/^\s*''[\s\S]*''\s*$/u.test(line))
+    .map((line) => clean(line.replace(/^\s*[*#:;|]+\s*/u, '').replace(/^(?:【[^】]+】|〔[^〕]+〕)+\s*/u, '')))
+    .filter(Boolean)
+    .filter((line) => !/^(?:【[^】]+】)+$/u.test(line))
+    .filter((line) => !/^[（(][^）)]{1,80}[）)]$/u.test(line))
+    .filter((line) => !/(?:色字|颜色|顏色).{0,20}(?:演唱|合唱)|为文案|扮演者|情节和场景|^(?:作词|作詞|作曲|编曲|編曲|演唱)[：:]/u.test(line));
+  const complete = lines.find((line) => line.replace(/[^\p{Script=Han}\p{L}\p{N}]/gu, '').length >= 8);
+  return complete ?? UNKNOWN;
+}
+
 function section(wikitext, headingPattern) {
   const lines = wikitext.split(/\r?\n/u);
   const start = lines.findIndex((line) => /^==+[^=].*==+\s*$/u.test(line) && headingPattern.test(displayWikiText(line.replaceAll('=', ''))));
@@ -190,11 +287,10 @@ function valuesFromParam(value) {
 function roleFor(label) {
   const value = displayWikiText(label).replace(/\s/g, '');
   if (/UP主|投稿者/i.test(value)) return ['UP主'];
-  if (/作编曲|作編曲/u.test(value)) return ['作曲', '编曲'];
   const roles = [];
-  if (/作曲|曲作/u.test(value)) roles.push('作曲');
+  if (/作编曲|作編曲|作曲|曲作/u.test(value)) roles.push('作曲');
   if (/作词|作詞|填词|填詞/u.test(value)) roles.push('作词');
-  if (/编曲|編曲/u.test(value)) roles.push('编曲');
+  if (/作编曲|作編曲|编曲|編曲/u.test(value)) roles.push('编曲');
   return roles;
 }
 
@@ -208,11 +304,19 @@ function findSongboxes(templates) {
 }
 
 function extractIntro(wikitext) {
-  return section(wikitext, /简介|簡介/u);
+  const standard = section(wikitext, /简介|簡介/u);
+  if (standard) return standard;
+  const marker = wikitext.search(/<big[^>]*>[\s\S]{0,30}(?:简介|簡介)[\s\S]{0,20}<\/big>/iu);
+  if (marker < 0) return '';
+  const tail = wikitext.slice(marker);
+  const markerEnd = tail.search(/<\/big>/iu);
+  const content = markerEnd < 0 ? tail : tail.slice(markerEnd + '</big>'.length);
+  const next = content.search(/<big[^>]*>/iu);
+  return next < 0 ? content : content.slice(0, next);
 }
 
 function extractUploaderFromIntro(intro) {
-  const firstParagraph = intro.split(/\n\s*\n|\n(?=[*#;])/u)[0] ?? intro;
+  const firstParagraph = intro.trim().split(/\n\s*\n|\n(?=[*#;])/u)[0] ?? intro;
   const patterns = [
     /》\s*是\s*(\[\[[^\]]+\]\]|[^于，。]{1,50})\s*于\s*20\d{2}年/u,
     /由\s*(\[\[[^\]]+\]\]|[^，。]{1,50})\s*(?:于\s*20\d{2}年[^，。]*)?投稿/u,
@@ -224,11 +328,18 @@ function extractUploaderFromIntro(intro) {
   return [];
 }
 
+function extractUploaderFromSource(source) {
+  const text = displayWikiText(source);
+  const match = text.match(/《[^》]{1,120}》\s*是\s*([^于，。]{1,50})\s*于\s*20\d{2}年/u);
+  return match ? valuesFromParam(match[1]) : [];
+}
+
 function extractStaff(source, templates, intro) {
   const roleMap = new Map(ROLE_ORDER.map((role) => [role, []]));
   const songbox = findSongboxes(templates)[0];
   if (songbox?.params.get('UP主')) addRole(roleMap, 'UP主', valuesFromParam(songbox.params.get('UP主')));
   if (!roleMap.get('UP主').length) addRole(roleMap, 'UP主', extractUploaderFromIntro(intro));
+  if (!roleMap.get('UP主').length) addRole(roleMap, 'UP主', extractUploaderFromSource(source));
 
   for (const template of templates) {
     if (!/Songbox\s+Introduction|SongboxIntroduction|歌曲信息|歌曲資訊/iu.test(template.name)) continue;
@@ -302,7 +413,7 @@ function enginesIn(text) {
 }
 
 function extractVoicebanks(intro, categories, year) {
-  const firstParagraph = displayWikiText(intro.split(/\n\s*\n|\n(?=[*#;])/u)[0] ?? intro);
+  const firstParagraph = displayWikiText(intro.trim().split(/\n\s*\n|\n(?=[*#;])/u)[0] ?? intro);
   let values = enginesIn(firstParagraph);
   if (!values.length) values = enginesIn(categories.filter((category) => /^使用.+的歌曲$/u.test(category)).join(' '));
   if (values.length > 1 && year < 2020 && values.includes('VOCALOID')) values = ['VOCALOID'];
@@ -349,12 +460,24 @@ function extractConcertActivities(intro) {
   return activities;
 }
 
-function extractSpecial(intro) {
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+function extractSpecial(intro, singer = {}) {
   const text = displayWikiText(intro);
   const labels = [];
-  const officialBirthday = /(?:官方|Vsinger|洛天依官方).{0,60}(?:生贺曲|生賀曲|生日(?:歌曲|纪念曲|紀念曲|贺曲|賀曲))|(?:生贺曲|生賀曲|生日(?:歌曲|纪念曲|紀念曲|贺曲|賀曲)).{0,60}(?:官方|Vsinger|洛天依官方)/iu;
-  const officialBirthdayRelease = /(?:洛天依官方账号|洛天依官方賬號|Vsinger官方).{0,100}20\d{2}年7月12日投稿/u.test(text)
-    && /生日/u.test(text);
+  const officialTerms = [...new Set(['官方', 'Vsinger官方', `${singer.name ?? ''}官方`, ...(singer.officialKeywords ?? [])].filter(Boolean))]
+    .map(escapeRegExp).join('|');
+  const singerTerm = singer.name ? `${escapeRegExp(singer.name)}.{0,30}` : '';
+  const birthdayTerm = '(?:生贺曲|生賀曲|生日(?:歌曲|纪念曲|紀念曲|贺曲|賀曲))';
+  const officialBirthday = new RegExp(`(?:${officialTerms}).{0,80}${singerTerm}${birthdayTerm}|${birthdayTerm}.{0,80}(?:${officialTerms})`, 'iu');
+  const [birthdayMonth, birthdayDay] = String(singer.birthday ?? '').split('-').map(Number);
+  const birthdayDate = birthdayMonth && birthdayDay
+    ? new RegExp(`20\\d{2}年0?${birthdayMonth}月0?${birthdayDay}日`, 'u')
+    : null;
+  const officialBirthdayRelease = new RegExp(`(?:${officialTerms}).{0,120}(?:投稿|发布|發佈)`, 'iu').test(text)
+    && Boolean(birthdayDate?.test(text)) && /生日/u.test(text);
   if (officialBirthday.test(text) || officialBirthdayRelease) labels.push('生贺曲');
   if (/(?:拜年祭|拜年纪|拜年紀).{0,40}(?:曲目|歌曲|投稿|首发|首發)|(?:曲目|歌曲|投稿|首发|首發).{0,40}(?:拜年祭|拜年纪|拜年紀)/u.test(text)) labels.push('拜年祭曲目');
   const withoutAlbums = text.replace(/[^。；;]{0,30}系列专辑[^。；;]*/gu, '');
@@ -362,8 +485,9 @@ function extractSpecial(intro) {
   return labels.length ? labels.join('；') : '单曲';
 }
 
-export function parseVcpediaSong({ wikitext, categories = [] }, candidate) {
-  const source = primarySource(wikitext ?? '');
+export function parseVcpediaSong({ wikitext, categories = [] }, candidate, { singer } = {}) {
+  const targeted = sourceForCandidate(wikitext, candidate);
+  const source = primarySource(targeted);
   const templates = extractTemplates(source).map(parseTemplate);
   const intro = extractIntro(source);
   const activities = extractConcertActivities(intro);
@@ -376,9 +500,12 @@ export function parseVcpediaSong({ wikitext, categories = [] }, candidate) {
     voicebanks: extractVoicebanks(intro, categories, candidate.year),
     concertCount: activities.length,
     concertActivities: activities,
-    special: extractSpecial(intro),
+    special: extractSpecial(intro, singer),
+    lyrics: extractLyrics(wikitext, candidate),
+    bilibiliUrl: extractBilibiliUrl(wikitext, candidate),
     templateUrl: candidate.templateUrl,
-    pageUrl: candidate.url,
+    pageUrl: candidate.sourceUrl ?? candidate.url,
+    vcpediaUrl: candidate.sourceUrl ?? candidate.url,
     originalYear: candidate.year,
   };
   song.issues = missingReviewFields(song);
@@ -391,6 +518,8 @@ export function missingReviewFields(song) {
     ['发布时间', song.releaseMonth],
     ['演唱歌姬', song.singers],
     ['使用声库', song.voicebanks],
+    ['歌词', song.lyrics],
+    ['Bilibili 地址', song.bilibiliUrl],
   ].filter(([, value]) => value === UNKNOWN).map(([field]) => field);
 }
 

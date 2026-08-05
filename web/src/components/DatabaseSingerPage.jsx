@@ -12,7 +12,7 @@ export default function DatabaseSingerPage({ catalog, onSelect, onBack, Brand })
         <div className="singer-card-grid">
           {catalog.map((singer) => (
             <button key={singer.id} type="button" className="singer-card" onClick={() => onSelect(singer.id)}>
-              <span className="singer-avatar" aria-hidden="true">洛</span>
+              <span className="singer-avatar" style={{ '--singer-color': singer.themeColor }} aria-hidden="true">{singer.shortName}</span>
               <span className="singer-card-copy"><strong>{singer.name}</strong><small>当前收录 {singer.songCount} 首</small></span>
               <span className="card-arrow" aria-hidden="true">→</span>
             </button>
