@@ -9,6 +9,7 @@ web/coverage/
 reference/
 web/src/data/songs.generated.json
 web/src/data/presets.generated.json
+web/src/data/database.generated.json
 
 # Local deployment and environment files
 .netlify/

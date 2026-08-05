@@ -23,6 +23,27 @@ const presets = [
   { id: 'golden-age', name: '黄金时代', description: '黄金时期', titles: songs.map(({ title }) => title) },
 ];
 
+const database = {
+  catalog: [{ id: 'luotianyi', name: '洛天依', songCount: 2 }],
+  libraries: {
+    luotianyi: songs.map((song, index) => ({
+      index: index + 1,
+      title: song.title,
+      staff: song.staffDisplay,
+      releaseMonth: song.releaseMonth,
+      singers: song.singersDisplay,
+      singerMembers: song.singerMembers,
+      voicebanks: song.voicebanksDisplay,
+      voicebankMembers: song.voicebankMembers,
+      concertCount: song.concertCount,
+      special: song.special,
+      lyrics: song.lyrics,
+      bilibiliUrl: song.bilibiliUrl,
+      vcpediaUrl: song.vcpediaUrl,
+    })),
+  },
+};
+
 function submitTitle(title) {
   const input = screen.getByLabelText('输入你猜测的歌曲');
   fireEvent.change(input, { target: { value: title } });
@@ -52,6 +73,33 @@ describe('App 交互', () => {
     fireEvent.click(screen.getByRole('button', { name: /入门曲库/u }));
     expect(screen.getByText('入门曲库')).toBeVisible();
     expect(screen.getByRole('columnheader', { name: '特殊标注' })).toBeVisible();
+  });
+
+  it('从主页进入曲名填字且全局 BGM 不会重新挂载', () => {
+    render(<App random={() => 0.27} initialPage="home" />);
+    const audio = document.querySelector('audio');
+    fireEvent.click(screen.getByRole('button', { name: /曲名填字/u }));
+    expect(screen.getByRole('heading', { name: '让熟悉的歌名在交叉处相遇' })).toBeVisible();
+    expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
+    expect(document.querySelector('audio')).toBe(audio);
+  });
+
+  it('从主页选择歌姬并浏览、搜索数据库和打开详情', () => {
+    render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    const audio = document.querySelector('audio');
+    fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
+    expect(screen.getByRole('heading', { name: '选择歌姬' })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: /洛天依/u }));
+    expect(screen.getByRole('heading', { name: '洛天依传说曲资料' })).toBeVisible();
+    expect(screen.getByText('2 / 2 首')).toBeVisible();
+    expect(document.querySelector('audio')).toBe(audio);
+
+    fireEvent.change(screen.getByRole('searchbox', { name: /搜索曲名/u }), { target: { value: '猜测歌词' } });
+    expect(screen.getByText('1 / 2 首')).toBeVisible();
+    fireEvent.click(screen.getByText('《猜测曲》'));
+    const dialog = screen.getByRole('dialog', { name: '《猜测曲》' });
+    expect(within(dialog).getByText('UP主：乙；作词：甲')).toBeVisible();
+    expect(within(dialog).getByRole('link', { name: /Bilibili/u })).toHaveAttribute('href', songs[1].bilibiliUrl);
   });
 
   it('第一次同时揭示歌姬与发布时间，随后揭示 STAFF 和歌词', () => {

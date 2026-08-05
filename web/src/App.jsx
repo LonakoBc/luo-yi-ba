@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
 import songData from './data/songs.generated.json';
 import presetData from './data/presets.generated.json';
+import databaseData from './data/database.generated.json';
+import CrosswordPage from './components/CrosswordPage';
+import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
+import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
 function routeFromLocation(pathname, search = '') {
   if (pathname === '/modes') return { page: 'modes', mode: null };
+  if (pathname === '/crossword') return { page: 'crossword', routeKey: pathname };
+  if (pathname === '/database') return { page: 'database-select', routeKey: pathname };
+  const databaseMatch = pathname.match(/^\/database\/([a-z0-9-]+)$/u);
+  if (databaseMatch) return { page: 'database', databaseId: databaseMatch[1], routeKey: pathname };
   if (pathname === '/play/easy') return { page: 'game', kind: 'preset', presetId: 'intro', routeKey: pathname };
   if (pathname === '/play/hard') return { page: 'game', kind: 'preset', presetId: 'luotianyi', routeKey: pathname };
   const presetMatch = pathname.match(/^\/play\/preset\/([a-z0-9-]+)$/u);
@@ -25,7 +33,7 @@ function Brand({ compact = false }) {
   );
 }
 
-function HomePage({ onChooseGame }) {
+function HomePage({ onChooseGame, onChooseCrossword, onChooseDatabase }) {
   return (
     <div className="page-shell landing-page">
       <header className="landing-header"><Brand /><p>传说曲是对播放量（再生数）超过一百万的作品的称呼，是比殿堂曲（十万播放）的更高荣誉，比此更高的荣誉是神话曲（一千万播放）。</p></header>
@@ -38,10 +46,16 @@ function HomePage({ onChooseGame }) {
             <span className="card-copy"><strong>猜歌</strong><small>根据每次猜测获得线索，找出隐藏的传说曲。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
-          <div className="content-card coming-soon" aria-disabled="true">
-            <span className="card-index">02</span><span className="music-glyph" aria-hidden="true">＋</span>
-            <span className="card-copy"><strong>更多玩法</strong><small>正在准备中</small></span>
-          </div>
+          <button type="button" className="content-card available crossword-card" onClick={onChooseCrossword}>
+            <span className="card-index">02</span><span className="music-glyph" aria-hidden="true">字</span>
+            <span className="card-copy"><strong>曲名填字</strong><small>让熟悉的歌名在交叉处相遇。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
+          <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
+            <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">库</span>
+            <span className="card-copy"><strong>歌曲数据库</strong><small>浏览歌姬收录曲目与完整歌曲资料。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
         </div>
       </main>
       <footer>
@@ -52,7 +66,7 @@ function HomePage({ onChooseGame }) {
   );
 }
 
-export default function App({ songs = songData, presets = presetData, random = Math.random, initialPage = null, initialMode = null }) {
+export default function App({ songs = songData, presets = presetData, database = databaseData, random = Math.random, initialPage = null, initialMode = null }) {
   const testRoute = initialPage
     ? initialPage === 'game'
       ? { page: 'game', kind: 'preset', presetId: initialMode === 'easy' ? 'intro' : 'luotianyi', routeKey: `test-${initialMode}` }
@@ -91,8 +105,18 @@ export default function App({ songs = songData, presets = presetData, random = M
     } else {
       pageContent = <GamePage key={route.routeKey} songs={gameSongs} poolName={preset?.name ?? '自定义曲库'} random={random} onBack={() => navigate('/modes')} />;
     }
+  } else if (route.page === 'crossword') {
+    pageContent = <CrosswordPage key={route.routeKey ?? 'crossword'} songs={songs} random={random} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'database-select') {
+    pageContent = <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'database') {
+    const singer = database.catalog.find((item) => item.id === route.databaseId);
+    const databaseSongs = database.libraries[route.databaseId];
+    pageContent = singer && databaseSongs
+      ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
+      : <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseDatabase={() => navigate('/database')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }
