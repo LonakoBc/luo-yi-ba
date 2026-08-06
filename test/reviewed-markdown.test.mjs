@@ -63,6 +63,7 @@ test('乐正绫人工修订字段已同步到正式数据', async () => {
   assert.equal(byTitle.get('世末歌者').singers, '乐正绫');
   assert.equal(byTitle.get('卷！').special, '系列/企划曲目');
   assert.equal(byTitle.get('跑！').special, '系列/企划曲目');
+  assert.equal(byTitle.get('格兰芬多').special, '系列/企划曲目');
 });
 
 test('多音字曲名使用人工确认的拼音', () => {
