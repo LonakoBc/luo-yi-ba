@@ -7,7 +7,11 @@
     "crawl": "node scripts/crawl.mjs",
     "crawl:yuezhengling": "node scripts/crawl.mjs --singer yuezhengling",
     "crawl:yanhe": "node scripts/crawl.mjs --singer yanhe",
+    "crawl:longya": "node scripts/crawl.mjs --singer longya",
+    "crawl:zhiyu-moke": "node scripts/crawl.mjs --singer zhiyu-moke",
+    "crawl:moqingxian": "node scripts/crawl.mjs --singer moqingxian",
     "rebuild:songs": "node scripts/build-song-markdown.mjs",
+    "rebuild:presets": "node scripts/build-library-presets.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

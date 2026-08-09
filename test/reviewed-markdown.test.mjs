@@ -15,6 +15,8 @@ function fieldsFromMarkdown(markdown) {
 for (const library of [
   { id: 'luotianyi', singer: '洛天依', count: 219 },
   { id: 'yuezhengling', singer: '乐正绫', count: 51 },
+  { id: 'yanhe', singer: '言和', count: 51 },
+  { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 7 },
 ]) {
   test(`${library.singer}审核后曲库包含 ${library.count} 个严格十行 Markdown 且 URL 合法`, async () => {
     const songDirectory = path.join(root, 'song', `song_${library.id}`);
@@ -41,18 +43,26 @@ for (const library of [
   });
 }
 
-test('共享歌曲统一事实字段且全局去重后为 239 首', async () => {
-  const [luo, yue] = await Promise.all([
+test('四位歌姬共享歌曲统一事实字段且全局去重后为 250 首', async () => {
+  const [luo, yue, yan, moke] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'yanhe.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'zhiyu-moke.json'), 'utf8').then(JSON.parse),
   ]);
   const canonical = (url) => decodeURIComponent(new URL(url).pathname).replace(/\/+$/u, '').normalize('NFKC');
   const luoByPage = new Map(luo.map((song) => [canonical(song.vcpediaUrl), song]));
-  const shared = yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl)));
-  assert.equal(shared.length, 31);
-  assert.equal(new Set([...luo, ...yue].map((song) => canonical(song.vcpediaUrl))).size, 239);
-  for (const song of shared) {
+  const sharedWithLuo = [...yue, ...yan, ...moke].filter((song) => luoByPage.has(canonical(song.vcpediaUrl)));
+  assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 31);
+  assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 43);
+  assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 3);
+  assert.equal(new Set([...luo, ...yue, ...yan, ...moke].map((song) => canonical(song.vcpediaUrl))).size, 250);
+  for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
+  }
+  const yueByPage = new Map(yue.map((song) => [canonical(song.vcpediaUrl), song]));
+  for (const song of yan.filter((item) => yueByPage.has(canonical(item.vcpediaUrl)))) {
+    assert.deepEqual(song, yueByPage.get(canonical(song.vcpediaUrl)), song.title);
   }
 });
 

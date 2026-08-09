@@ -17,6 +17,13 @@ import { loadSingerConfig, singerIdFromArgs, singerPaths, singerYears } from './
 const BATCH_SIZE = 10;
 const refresh = process.argv.includes('--refresh');
 
+function intervalMsFromArgs() {
+  const inline = process.argv.find((argument) => argument.startsWith('--interval='));
+  const seconds = inline ? Number(inline.slice('--interval='.length)) : 30;
+  if (!Number.isFinite(seconds) || seconds <= 0) throw new Error('采集间隔必须是正数秒数');
+  return Math.round(seconds * 1000);
+}
+
 function apiUrl(params) {
   const url = new URL(VCPEDIA_API_URL);
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
@@ -119,6 +126,7 @@ export async function main() {
   const resultPath = path.join(paths.outputDir, 'songs.normalized.json');
   const draftPath = path.join(paths.outputDir, 'database-draft.json');
   const reportPath = path.join(paths.outputDir, 'crawl-report.md');
+  const minDelayMs = intervalMsFromArgs();
   if (process.argv.includes('--dry-run')) {
     console.log(JSON.stringify({
       singer: singer.name,
@@ -127,11 +135,12 @@ export async function main() {
       cacheDir: paths.cacheDir,
       outputDir: paths.outputDir,
       published: singer.published,
+      intervalSeconds: minDelayMs / 1000,
     }, null, 2));
     return;
   }
   await mkdir(paths.outputDir, { recursive: true });
-  const fetcher = new PoliteFetcher({ cacheDir: paths.cacheDir, refresh });
+  const fetcher = new PoliteFetcher({ cacheDir: paths.cacheDir, refresh, minDelayMs });
   const annualCandidates = [];
 
   console.log(`目标歌姬：${singer.name}（${years[0]}–${years.at(-1)}）`);

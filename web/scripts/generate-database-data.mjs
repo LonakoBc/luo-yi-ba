@@ -68,7 +68,7 @@ export async function generateDatabaseData({ catalogFile, singerCatalogFile, dat
     ids.add(entry.id);
     const singer = singerConfigs.get(entry.id);
     if (!singer) throw new Error(`数据库歌姬未在全局配置中登记：${entry.id}`);
-    if (!singer.published) throw new Error(`${singer.name}尚未标记为已发布，不能加入数据库目录`);
+    if (!singer.published && !singer.databaseOnly) throw new Error(`${singer.name}尚未标记为已发布，不能加入数据库目录`);
 
     const resolvedFile = path.resolve(databaseRoot, entry.file);
     const relative = path.relative(databaseRoot, resolvedFile);

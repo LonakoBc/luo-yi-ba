@@ -1,0 +1,10 @@
+曲名：《兄/妹控即是正☆义!》
+staff：UP主：YGY；作曲：YGY；编曲：YGY
+发布时间：2014-02
+演唱歌姬：洛天依；言和
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：为什么我有个笨蛋欧尼酱
+哔哩哔哩地址：https://www.bilibili.com/video/av940448/
+歌曲页面URL：https://vcpedia.cn/%E5%85%84%E5%A6%B9%E6%8E%A7%E5%8D%B3%E6%98%AF%E6%AD%A3%E4%B9%89

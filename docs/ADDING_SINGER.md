@@ -6,7 +6,7 @@
 
 每位歌姬需要配置 ID、名称、简称、主题色、VCPedia 条目、年度模板、歌曲起止年份、生日、官方关键词、审核 JSON 和 Markdown 目录。
 
-当前已发布的 `yuezhengling` 配置可作为新增歌姬时的参考：
+当前已发布的 `yuezhengling` 与 `yanhe` 配置可作为新增歌姬时的参考：
 
 - 年度模板：`Template:乐正绫/20XX`
 - 年份：2015–2026
@@ -17,7 +17,7 @@
 - 正式数据：`database/singers/yuezhengling.json`（51 首）
 - Markdown：`song/song_yuezhengling/`
 
-言和采集配置已以 `published: false` 登记，审核完成前不会进入网站：
+言和已完成审核并以 `published: true` 正式接入网站：
 
 - 资料页：`https://vcpedia.cn/%E8%A8%80%E5%92%8C`
 - 年度模板：`Template:言和/20XX`
@@ -25,6 +25,14 @@
 - 生日：7 月 11 日
 - 采集输出：`outputs/vcpedia-crawl/yanhe/`
 - 请求缓存：`.cache/vcpedia/yanhe/`
+- 正式数据：`database/singers/yanhe.json`（51 首）
+- Markdown：`song/song_yanhe/`
+
+本轮新增的乐正龙牙与墨清弦仍保持 `published: false`；徵羽摩柯已完成审核并正式发布：
+
+- `longya`：乐正龙牙，9 首候选，审核表 `outputs/vcpedia-crawl/longya/longya-legend-songs-review.xlsx`
+- `zhiyu-moke`：徵羽摩柯，7 首，审核表 `outputs/vcpedia-crawl/zhiyu-moke/zhiyu-moke-legend-songs-review.xlsx`，正式数据 `database/singers/zhiyu-moke.json`
+- `moqingxian`：墨清弦，2 首候选，审核表 `outputs/vcpedia-crawl/moqingxian/moqingxian-legend-songs-review.xlsx`
 
 ## 2. 采集候选
 
@@ -54,6 +62,14 @@ npm run crawl:yuezhengling -- --dry-run
 
 ```powershell
 npm run crawl:yanhe -- --dry-run
+```
+
+乐正龙牙、徵羽摩柯和墨清弦使用相同流程；本轮为小规模审核采集，使用 2 秒请求间隔：
+
+```powershell
+npm run crawl:longya -- --interval=2
+npm run crawl:zhiyu-moke -- --interval=2
+npm run crawl:moqingxian -- --interval=2
 ```
 
 VCPedia 请求间隔保持至少 30 秒，缓存命中不会再次请求。使用 `--refresh` 会忽略缓存重新请求。

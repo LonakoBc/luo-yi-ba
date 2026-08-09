@@ -39,7 +39,7 @@
     {
       "id": "yanhe",
       "name": "言和",
-      "shortName": "和",
+      "shortName": "言",
       "themeColor": "#00FFCC",
       "profileUrl": "https://vcpedia.cn/%E8%A8%80%E5%92%8C",
       "templatePrefix": "Template:言和",
@@ -47,9 +47,56 @@
       "endYear": 2026,
       "birthday": "07-11",
       "officialKeywords": ["言和官方", "Vsinger官方"],
-      "published": false,
+      "published": true,
       "reviewedData": "database/singers/yanhe.json",
       "songDirectory": "song/song_yanhe"
+    },
+    {
+      "id": "longya",
+      "name": "乐正龙牙",
+      "shortName": "牙",
+      "themeColor": "#8B5CF6",
+      "profileUrl": "https://vcpedia.cn/%E4%B9%90%E6%AD%A3%E9%BE%99%E7%89%99",
+      "templatePrefix": "Template:乐正龙牙",
+      "startYear": 2017,
+      "endYear": 2026,
+      "birthday": "11-12",
+      "officialKeywords": ["乐正龙牙官方", "Vsinger官方"],
+      "published": false,
+      "databaseOnly": true,
+      "reviewedData": "database/singers/longya.json",
+      "songDirectory": "song/song_longya"
+    },
+    {
+      "id": "zhiyu-moke",
+      "name": "徵羽摩柯",
+      "shortName": "柯",
+      "themeColor": "#5B8FF9",
+      "profileUrl": "https://vcpedia.cn/%E5%BE%B5%E7%BE%BD%E6%91%A9%E6%9F%AF",
+      "templatePrefix": "Template:徵羽摩柯",
+      "startYear": 2019,
+      "endYear": 2026,
+      "birthday": "10-12",
+      "officialKeywords": ["徵羽摩柯官方", "Vsinger官方"],
+      "published": true,
+      "reviewedData": "database/singers/zhiyu-moke.json",
+      "songDirectory": "song/song_zhiyu-moke"
+    },
+    {
+      "id": "moqingxian",
+      "name": "墨清弦",
+      "shortName": "弦",
+      "themeColor": "#14B8A6",
+      "profileUrl": "https://vcpedia.cn/%E5%A2%A8%E6%B8%85%E5%BC%A6",
+      "templatePrefix": "Template:墨清弦",
+      "startYear": 2018,
+      "endYear": 2026,
+      "birthday": "10-24",
+      "officialKeywords": ["墨清弦官方", "Vsinger官方"],
+      "published": false,
+      "databaseOnly": true,
+      "reviewedData": "database/singers/moqingxian.json",
+      "songDirectory": "song/song_moqingxian"
     }
   ]
 }

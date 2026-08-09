@@ -35,6 +35,23 @@ function ResultDialog({ attempts, wrongAttempts, elapsed, onReplay, onBack }) {
   );
 }
 
+function SurrenderDialog({ onCancel, onConfirm }) {
+  return (
+    <div className="modal-backdrop">
+      <section className="result-dialog surrender-dialog" role="dialog" aria-modal="true" aria-labelledby="crossword-surrender-title">
+        <div className="result-icon surrender-icon" aria-hidden="true">?</div>
+        <p className="eyebrow">确认投降</p>
+        <h2 id="crossword-surrender-title">要揭晓全部曲名吗？</h2>
+        <p>确认后将停止计时并填入整张棋盘，本局不能继续作答。</p>
+        <div className="result-actions">
+          <button type="button" className="secondary-action" onClick={onCancel}>继续游戏</button>
+          <button type="button" className="danger-action" onClick={onConfirm}>确认投降</button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function CrosswordPage({ songs, random = Math.random, onBack, Brand }) {
   const [round, setRound] = useState(0);
   const generated = useMemo(() => {
@@ -54,6 +71,8 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   const [attempts, setAttempts] = useState(0);
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [elapsed, setElapsed] = useState(0);
+  const [surrenderDialogOpen, setSurrenderDialogOpen] = useState(false);
+  const [surrendered, setSurrendered] = useState(false);
   const startedAt = useRef(Date.now());
   const inputRefs = useRef(new Map());
 
@@ -61,12 +80,12 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   const completed = Boolean(puzzle && solvedCount === puzzle.entries.length);
 
   useEffect(() => {
-    if (completed || !puzzle) return undefined;
+    if (completed || surrendered || !puzzle) return undefined;
     const update = () => setElapsed(Math.floor((Date.now() - startedAt.current) / 1000));
     update();
     const timer = window.setInterval(update, 1000);
     return () => window.clearInterval(timer);
-  }, [completed, puzzle]);
+  }, [completed, surrendered, puzzle]);
 
   const resetRound = () => {
     startedAt.current = Date.now();
@@ -78,6 +97,8 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
     setNotice('');
     setAttempts(0);
     setWrongAttempts(0);
+    setSurrenderDialogOpen(false);
+    setSurrendered(false);
     setSelectedEntryId(null);
     setRound((current) => current + 1);
   };
@@ -92,6 +113,8 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
     setNotice('已重置本局全部填写');
     setAttempts(0);
     setWrongAttempts(0);
+    setSurrenderDialogOpen(false);
+    setSurrendered(false);
     setSelectedEntryId(puzzle.entries[0]?.id ?? null);
   };
 
@@ -127,6 +150,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   };
 
   const editableKeysFor = (entry) => entryCellKeys(entry).filter((key) => {
+    if (surrendered) return false;
     const cell = cellsByKey.get(key);
     return !cell.isFixed && !cell.entryIds.some((id) => statuses[id] === 'solved') && statuses[entry.id] !== 'solved';
   });
@@ -179,6 +203,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   };
 
   const submitEntry = (entry) => {
+    if (surrendered) return;
     const keys = entryCellKeys(entry);
     if (keys.some((key) => !values[key])) {
       setNotice(`${entry.number} 号曲名尚未填写完整`);
@@ -201,13 +226,21 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
     setNotice(`${entry.number} 号曲名填写正确`);
   };
 
+  const confirmSurrender = () => {
+    setValues(Object.fromEntries(puzzle.cells.map((cell) => [keyFor(cell.row, cell.column), cell.character])));
+    setEntryErrors({});
+    setSurrenderDialogOpen(false);
+    setSurrendered(true);
+    setNotice('答案已揭晓，可以查看六首完整曲名');
+  };
+
   return (
     <div className="page-shell crossword-page">
       <header className="inner-header crossword-header">
         <button type="button" className="back-button" onClick={onBack}>← 返回主页</button>
         <Brand compact />
         <div className="crossword-summary" aria-label="游戏状态">
-          <span><strong>{solvedCount}/6</strong> 已完成</span>
+          <span><strong>{surrendered ? '答案' : `${solvedCount}/6`}</strong> {surrendered ? '已揭晓' : '已完成'}</span>
           <span><strong>{attempts}</strong> 次提交</span>
           <span><strong>{formatDuration(elapsed)}</strong> 用时</span>
         </div>
@@ -216,8 +249,11 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
         <div className="crossword-title">
           <div><p className="eyebrow">曲名填字</p><h2>让熟悉的歌名在交叉处相遇</h2></div>
           <div className="crossword-title-actions">
-            <button type="button" className="secondary-action compact-action" onClick={resetProgress}>重置填写</button>
-            <button type="button" className="secondary-action compact-action" onClick={resetRound}>换一盘</button>
+            {surrendered ? <button type="button" className="primary-action compact-action" onClick={resetRound}>再来一盘</button> : <>
+              <button type="button" className="secondary-action compact-action" onClick={resetProgress}>重置填写</button>
+              <button type="button" className="secondary-action compact-action" onClick={resetRound}>换一盘</button>
+              <button type="button" className="danger-action compact-action" onClick={() => setSurrenderDialogOpen(true)}>投降</button>
+            </>}
           </div>
         </div>
         <p className="crossword-instruction">两首歌曲的非交叉首字已经给出。逐格填写曲名，再从右侧分别提交六条答案。</p>
@@ -230,10 +266,10 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
                   const entrySolved = cell.entryIds.some((id) => statuses[id] === 'solved');
                   const active = cell.entryIds.includes(selectedEntry.id);
                   const incorrect = cell.entryIds.some((id) => entryErrors[id]?.includes(key));
-                  const className = ['crossword-cell', cell.isIntersection ? 'intersection' : '', active ? 'active' : '', entrySolved ? 'solved' : '', incorrect ? 'incorrect' : ''].filter(Boolean).join(' ');
+                  const className = ['crossword-cell', cell.isIntersection ? 'intersection' : '', active && !surrendered ? 'active' : '', entrySolved ? 'solved' : '', surrendered ? 'revealed' : '', incorrect ? 'incorrect' : ''].filter(Boolean).join(' ');
                   const label = `${cell.entryIds.map((id) => entriesById.get(id).number).join('、')} 号曲目的格子`;
-                  if (cell.isFixed || entrySolved) {
-                    return <button type="button" key={key} className={`${className} ${cell.isFixed ? 'fixed' : ''}`} style={{ gridRow: cell.row + 1, gridColumn: cell.column + 1 }} onClick={() => selectCellEntry(cell)} aria-label={`${label}，${cell.character}`}>{cell.character}<span className="cell-state" aria-hidden="true">{entrySolved ? '✓' : '◆'}</span></button>;
+                  if (cell.isFixed || entrySolved || surrendered) {
+                    return <button type="button" key={key} className={`${className} ${cell.isFixed && !surrendered ? 'fixed' : ''}`} style={{ gridRow: cell.row + 1, gridColumn: cell.column + 1 }} onClick={() => selectCellEntry(cell)} aria-label={`${label}，${cell.character}`}>{cell.character}<span className="cell-state" aria-hidden="true">{surrendered ? '◇' : entrySolved ? '✓' : '◆'}</span></button>;
                   }
                   const entry = entriesById.get(cell.entryIds.includes(selectedEntry.id) ? selectedEntry.id : cell.entryIds[0]);
                   return (
@@ -269,7 +305,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
                 })}
               </div>
             </div>
-            <div className="crossword-legend"><span>◆ 固定首字</span><span>✓ 已完成</span><span>! 填写错误</span></div>
+            <div className="crossword-legend"><span>◆ 固定首字</span><span>✓ 已完成</span><span>! 填写错误</span>{surrendered && <span>◇ 答案揭晓</span>}</div>
           </section>
           <section className="crossword-clues" aria-label="待填写曲目">
             {puzzle.entries.map((entry) => {
@@ -277,16 +313,16 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
               const selected = selectedEntry.id === entry.id;
               const lyricsVisible = openLyrics.has(entry.id);
               return (
-                <article key={entry.id} className={`crossword-clue ${selected ? 'selected' : ''} ${solved ? 'solved' : ''}`}>
+                <article key={entry.id} className={`crossword-clue ${selected && !surrendered ? 'selected' : ''} ${solved ? 'solved' : ''} ${surrendered ? 'revealed' : ''}`}>
                   <button type="button" className="clue-select" onClick={() => setSelectedEntryId(entry.id)} aria-label={`选择 ${entry.number} 号${DIRECTIONS[entry.direction].label}向曲名`}>
                     <span className="clue-number">{entry.number}</span>
-                    <span><strong>{DIRECTIONS[entry.direction].label}向 · {entry.characters.length} 字</strong><small>{solved ? `已完成：《${entry.song.title}》` : '等待填写'}</small></span>
-                    <span className="clue-status" aria-hidden="true">{solved ? '✓' : '→'}</span>
+                    <span><strong>{DIRECTIONS[entry.direction].label}向 · {entry.characters.length} 字</strong><small>{surrendered ? `答案：《${entry.song.title}》` : solved ? `已完成：《${entry.song.title}》` : '等待填写'}</small></span>
+                    <span className="clue-status" aria-hidden="true">{surrendered ? '◇' : solved ? '✓' : '→'}</span>
                   </button>
                   {lyricsVisible && <p className="crossword-lyrics">“{entry.song.lyrics}”</p>}
                   <div className="clue-actions">
                     <button type="button" className="lyrics-toggle" onClick={() => setOpenLyrics((current) => { const next = new Set(current); if (next.has(entry.id)) next.delete(entry.id); else next.add(entry.id); return next; })}>{lyricsVisible ? '收起歌词' : '歌词提示'}</button>
-                    <button type="button" className="submit-entry" disabled={solved} onClick={() => submitEntry(entry)}>{solved ? '已答对' : '提交本条'}</button>
+                    <button type="button" className="submit-entry" disabled={solved || surrendered} onClick={() => submitEntry(entry)}>{surrendered ? '答案已揭晓' : solved ? '已答对' : '提交本条'}</button>
                   </div>
                 </article>
               );
@@ -297,6 +333,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
         {import.meta.env.DEV && <details className="crossword-developer"><summary>开发者谜底</summary>{puzzle.entries.map((entry) => <span key={entry.id}>{entry.number}. {entry.song.title}</span>)}</details>}
       </main>
       {completed && <ResultDialog attempts={attempts} wrongAttempts={wrongAttempts} elapsed={elapsed} onReplay={resetRound} onBack={onBack} />}
+      {surrenderDialogOpen && <SurrenderDialog onCancel={() => setSurrenderDialogOpen(false)} onConfirm={confirmSurrender} />}
     </div>
   );
 }

@@ -7,10 +7,11 @@ const PRESET_META = {
   intro: { description: '精选 50 首热门与出圈的洛天依作品', badge: { text: '洛', color: '#66CCFF' } },
   luotianyi: { description: '完整洛天依传说曲资料库', badge: { text: '洛', color: '#66CCFF' } },
   yuezhengling: { description: '完整乐正绫传说曲资料库', badge: { text: '绫', color: '#EE0000' } },
+  yanhe: { description: '完整言和传说曲资料库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' } },
   'golden-age': { description: '全部歌姬 2015 至 2019 年投稿作品' },
 };
 
-const PRESET_ORDER = ['all', 'intro', 'luotianyi', 'yuezhengling', 'golden-age'];
+const PRESET_ORDER = ['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'golden-age'];
 
 export function parsePresetMarkdown(markdown, id, source = id) {
   const lines = String(markdown).replace(/^\uFEFF/u, '').split(/\r?\n/u);

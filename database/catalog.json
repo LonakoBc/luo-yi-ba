@@ -8,5 +8,25 @@
     "id": "yuezhengling",
     "file": "singers/yuezhengling.json",
     "expectedSongCount": 51
+  },
+  {
+    "id": "yanhe",
+    "file": "singers/yanhe.json",
+    "expectedSongCount": 51
+  },
+  {
+    "id": "zhiyu-moke",
+    "file": "singers/zhiyu-moke.json",
+    "expectedSongCount": 7
+  },
+  {
+    "id": "longya",
+    "file": "singers/longya.json",
+    "expectedSongCount": 9
+  },
+  {
+    "id": "moqingxian",
+    "file": "singers/moqingxian.json",
+    "expectedSongCount": 2
   }
 ]

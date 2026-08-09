@@ -176,8 +176,8 @@ button.content-card { cursor: pointer; }
 .content-card.available:hover { transform: translateY(-5px); box-shadow: 0 30px 70px rgba(40,159,216,.32); }
 .content-card.crossword-card { background: #EE0000; box-shadow: 0 24px 60px rgba(238,0,0,.22); }
 .content-card.crossword-card:hover { box-shadow: 0 30px 70px rgba(238,0,0,.32); }
-.content-card.database-card { grid-column: 1 / -1; min-height: 185px; background: linear-gradient(135deg, #667fdb, #8e9fec); box-shadow: 0 24px 60px rgba(71,93,177,.22); }
-.content-card.database-card:hover { box-shadow: 0 30px 70px rgba(71,93,177,.3); }
+.content-card.database-card { grid-column: 1 / -1; min-height: 185px; color: #073148; background: #00FFCC; box-shadow: 0 24px 60px rgba(0,184,147,.24); }
+.content-card.database-card:hover { box-shadow: 0 30px 70px rgba(0,184,147,.34); }
 .content-card.coming-soon { color: #77909f; background: rgba(255,255,255,.66); }
 .card-index { position: absolute; right: 25px; top: 18px; opacity: .55; font-size: 12px; font-weight: 800; letter-spacing: .15em; }
 .music-glyph { display: grid; place-items: center; width: 72px; height: 72px; margin-right: 25px; border: 1px solid rgba(255,255,255,.45); border-radius: 22px 22px 22px 7px; background: rgba(255,255,255,.15); font-size: 32px; }
@@ -203,7 +203,7 @@ button.content-card { cursor: pointer; }
 .preset-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; min-height: 150px; padding: 20px; border: 1px solid #bfe5f7; border-radius: 19px; color: var(--ink); background: linear-gradient(145deg, #f9fdff, #eaf8ff); cursor: pointer; text-align: left; transition: transform .18s, border-color .18s, box-shadow .18s; }
 .preset-card:hover { transform: translateY(-3px); border-color: var(--sky); box-shadow: 0 14px 32px rgba(43,145,194,.15); }
 .preset-card strong { font-size: 20px; }.preset-card span { margin-top: 7px; color: var(--muted); font-size: 13px; }.preset-card small { margin-top: auto; color: var(--sky-deep); font-weight: 800; }
-.preset-card .preset-singer-badge { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 48px; height: 48px; margin: 0; border-radius: 16px 16px 16px 5px; color: white; background: var(--preset-badge-color); box-shadow: 0 9px 22px color-mix(in srgb, var(--preset-badge-color) 30%, transparent); font-size: 21px; font-weight: 900; }
+.preset-card .preset-singer-badge { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 48px; height: 48px; margin: 0; border-radius: 16px 16px 16px 5px; color: var(--preset-badge-text, white); background: var(--preset-badge-color); box-shadow: 0 9px 22px color-mix(in srgb, var(--preset-badge-color) 30%, transparent); font-size: 21px; font-weight: 900; }
 .preset-card:has(.preset-singer-badge) strong, .preset-card:has(.preset-singer-badge) > span:not(.preset-singer-badge) { max-width: calc(100% - 58px); }
 .filter-group { margin: 0; padding: 18px 0; border: 0; border-top: 1px solid #e1f1f8; }
 .filter-group legend { float: left; width: 150px; padding: 7px 18px 0 0; color: #496a7e; font-size: 13px; font-weight: 800; }
@@ -235,6 +235,8 @@ button.content-card { cursor: pointer; }
 .primary-action, .secondary-action { min-height: 46px; padding: 0 20px; border: 0; border-radius: 13px; cursor: pointer; font-weight: 800; }
 .primary-action { color: #073148; background: var(--sky); box-shadow: 0 9px 22px rgba(58,180,239,.23); }
 .secondary-action { color: #476375; background: #eaf4f8; }
+.danger-action { min-height: 46px; padding: 0 20px; border: 0; border-radius: 13px; color: #8c3340; background: #ffe8eb; cursor: pointer; font-weight: 800; }
+.danger-action:hover { background: #ffd9de; }
 .compact-action { min-height: 40px; padding-inline: 16px; white-space: nowrap; }
 .crossword-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr); align-items: start; gap: 22px; }
 .crossword-board-panel, .crossword-clues { border: 1px solid rgba(115,197,237,.45); border-radius: 25px; background: rgba(255,255,255,.86); box-shadow: 0 20px 58px rgba(46,124,164,.1); }
@@ -248,12 +250,15 @@ input.crossword-cell { caret-color: var(--sky-deep); }
 .crossword-cell.fixed { cursor: pointer; color: #075c69; border-color: #73d2c5; background: #dff9f4; }
 .crossword-cell.incorrect { color: #a43c49; border-color: #ed8994; background: #fff0f2; box-shadow: 0 0 0 3px rgba(225,84,101,.12); }
 .crossword-cell.solved { cursor: pointer; color: var(--exact-ink); border-color: #67ce91; background: var(--exact); }
+.crossword-cell.revealed { cursor: pointer; color: #67510b; border-color: #e0bd4f; background: #fff6cf; box-shadow: 0 0 0 2px rgba(224,189,79,.14); }
 .cell-state { position: absolute; right: 3px; bottom: 1px; font-size: 8px; line-height: 1; opacity: .72; }
 .crossword-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 17px; color: var(--muted); font-size: 11px; font-weight: 700; }
 .crossword-clues { display: grid; gap: 10px; padding: 14px; }
 .crossword-clue { overflow: hidden; border: 1px solid #d4ebf5; border-radius: 16px; background: #fbfeff; transition: border-color .15s, box-shadow .15s; }
 .crossword-clue.selected { border-color: #69c9f6; box-shadow: 0 0 0 3px rgba(102,204,255,.13); }
 .crossword-clue.solved { border-color: #8bd8aa; background: #f4fff8; }
+.crossword-clue.revealed { border-color: #e4c86b; background: #fffaf0; }
+.crossword-clue.revealed .clue-number { color: #67510b; background: #fff0b8; }
 .clue-select { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 11px; width: 100%; padding: 12px; border: 0; color: var(--ink); background: transparent; cursor: pointer; text-align: left; }
 .clue-number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px 11px 11px 4px; color: #075078; background: #dff5ff; font-size: 15px; font-weight: 900; }
 .crossword-clue.solved .clue-number { color: var(--exact-ink); background: var(--exact); }
@@ -276,6 +281,8 @@ input.crossword-cell { caret-color: var(--sky-deep); }
 .crossword-result-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 24px 0; padding: 13px; border: 1px solid var(--line); border-radius: 17px; background: #f2faff; }
 .crossword-result-stats span { display: grid; gap: 2px; }.crossword-result-stats span + span { border-left: 1px solid var(--line); }.crossword-result-stats strong { font-size: 22px; }.crossword-result-stats small { color: var(--muted); font-size: 10px; }
 .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.surrender-dialog > p:not(.eyebrow) { margin: 14px auto 24px; max-width: 390px; color: var(--muted); line-height: 1.7; }
+.surrender-icon { color: #8c3340; background: linear-gradient(145deg, #ffd6dc, #fff0f2); }
 
 .database-select-main, .database-main { max-width: 1320px; margin-inline: auto; padding: clamp(54px, 8vh, 92px) 0 80px; }
 .database-select-main > h2, .database-title h2 { margin: 0; font-size: clamp(34px, 5vw, 54px); line-height: 1.08; letter-spacing: -.04em; }

@@ -46,7 +46,7 @@ export default function LibraryPage({ songs, presets, onBack, onStartPreset, onS
             {presets.map((preset) => (
               <button type="button" className="preset-card" key={preset.id} onClick={() => onStartPreset(preset.id)}>
                 <strong>{preset.name}</strong><span>{preset.description}</span><small>{preset.titles.length} 首 →</small>
-                {preset.badge && <span className="preset-singer-badge" style={{ '--preset-badge-color': preset.badge.color }} aria-hidden="true">{preset.badge.text}</span>}
+                {preset.badge && <span className="preset-singer-badge" style={{ '--preset-badge-color': preset.badge.color, '--preset-badge-text': preset.badge.textColor ?? '#FFFFFF' }} aria-hidden="true">{preset.badge.text}</span>}
               </button>
             ))}
           </div>

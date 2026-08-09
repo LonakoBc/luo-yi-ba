@@ -24,6 +24,7 @@ const presets = [
   { id: 'intro', name: '洛天依入门曲库', description: '精选作品', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
   { id: 'luotianyi', name: '洛天依传说曲', description: '完整曲库', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
   { id: 'yuezhengling', name: '乐正绫传说曲', description: '完整曲库', badge: { text: '绫', color: '#EE0000' }, titles: songs.map(({ title }) => title) },
+  { id: 'yanhe', name: '言和传说曲', description: '完整曲库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' }, titles: songs.map(({ title }) => title) },
   { id: 'golden-age', name: '黄金时代', description: '黄金时期', titles: songs.map(({ title }) => title) },
 ];
 
@@ -77,6 +78,7 @@ describe('App 交互', () => {
     expect(screen.getByRole('button', { name: /挑战全曲库/u })).toBeVisible();
     expect(screen.getAllByText('洛')).toHaveLength(2);
     expect(screen.getByText('绫')).toBeVisible();
+    expect(screen.getByText('言')).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /洛天依入门曲库/u }));
     expect(screen.getByText('洛天依入门曲库')).toBeVisible();
     expect(screen.getByRole('columnheader', { name: '特殊标注' })).toBeVisible();

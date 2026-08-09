@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import ichikaUrl from '../../../bgm/01一花依世界-伴奏.mp3?url';
-import seimatsuUrl from '../../../bgm/02世末歌者-伴奏.mp3?url';
+import gouzhiUrl from '../../../bgm/01-勾指起誓.mp3?url';
+import discoUrl from '../../../bgm/02-普通DISCO.mp3?url';
+import sadnessUrl from '../../../bgm/03-我的悲伤是水做的.mp3?url';
+import ichikaUrl from '../../../bgm/04-一花依世界.mp3?url';
+import seimatsuUrl from '../../../bgm/05-世末歌者.mp3?url';
 
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
 
 export const BGM_TRACKS = [
-  { id: 'ichika', name: '01一花依世界-伴奏', url: ichikaUrl },
-  { id: 'seimatsu', name: '02世末歌者-伴奏', url: seimatsuUrl },
+  { id: 'gouzhi', name: '01-勾指起誓', url: gouzhiUrl },
+  { id: 'disco', name: '02-普通DISCO', url: discoUrl },
+  { id: 'sadness', name: '03-我的悲伤是水做的', url: sadnessUrl },
+  { id: 'ichika', name: '04-一花依世界', url: ichikaUrl },
+  { id: 'seimatsu', name: '05-世末歌者', url: seimatsuUrl },
 ];
 
 function readInitialVolume() {

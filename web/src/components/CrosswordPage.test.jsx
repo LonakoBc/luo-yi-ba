@@ -121,4 +121,23 @@ describe('曲名填字页面', () => {
     expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
     expect(firstInput).toHaveValue('');
   });
+
+  it('投降前要求确认，确认后揭晓全部答案且不计入提交或触发通关', () => {
+    const puzzle = renderPuzzle(2024);
+    fireEvent.click(screen.getByRole('button', { name: '投降' }));
+    const confirmation = screen.getByRole('dialog', { name: '要揭晓全部曲名吗？' });
+    fireEvent.click(within(confirmation).getByRole('button', { name: '继续游戏' }));
+    expect(screen.queryByRole('dialog', { name: '要揭晓全部曲名吗？' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('textbox').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole('button', { name: '投降' }));
+    fireEvent.click(within(screen.getByRole('dialog', { name: '要揭晓全部曲名吗？' })).getByRole('button', { name: '确认投降' }));
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('答案 已揭晓');
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次提交');
+    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
+    expect(screen.getAllByRole('button', { name: '答案已揭晓' })).toHaveLength(6);
+    for (const entry of puzzle.entries) expect(screen.getByText(`答案：《${entry.song.title}》`)).toBeVisible();
+    expect(screen.queryByRole('dialog', { name: '曲名填字完成！' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '再来一盘' })).toBeEnabled();
+  });
 });

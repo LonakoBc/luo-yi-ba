@@ -1,0 +1,53 @@
+{
+  "singer": {
+    "id": "moqingxian",
+    "name": "墨清弦",
+    "profileUrl": "https://vcpedia.cn/%E5%A2%A8%E6%B8%85%E5%BC%A6"
+  },
+  "source": "https://vcpedia.cn/",
+  "license": "CC BY-NC-SA 3.0 CN",
+  "generatedAt": "2026-08-09T03:40:14.563Z",
+  "annualReferenceCount": 2,
+  "duplicateCount": 0,
+  "candidateCount": 2,
+  "songs": [
+    {
+      "title": "万圣街",
+      "tier": "传说曲",
+      "staff": "UP主：非人哉工作室；作曲：大河内航太；作词：林铭、紫吉；编曲：大河内航太",
+      "releaseMonth": "2020-03",
+      "singers": "洛天依；言和；乐正绫；墨清弦",
+      "voicebanks": "VOCALOID",
+      "concertCount": 0,
+      "concertActivities": [],
+      "special": "单曲",
+      "lyrics": "光照亮万圣街 每天都是新鲜的起点",
+      "bilibiliUrl": "https://www.bilibili.com/video/av96007152/",
+      "templateUrl": "https://vcpedia.cn/Template%3A%E5%A2%A8%E6%B8%85%E5%BC%A6%2F2020",
+      "pageUrl": "https://vcpedia.cn/%E4%B8%87%E5%9C%A3%E8%A1%97",
+      "vcpediaUrl": "https://vcpedia.cn/%E4%B8%87%E5%9C%A3%E8%A1%97",
+      "originalYear": 2020,
+      "issues": []
+    },
+    {
+      "title": "塔与少女的无题诗",
+      "tier": "传说曲",
+      "staff": "UP主：雨狸；作曲：依溪禾；作词：雨狸；编曲：依溪禾、清风疾行",
+      "releaseMonth": "2020-10",
+      "singers": "洛天依；言和；乐正绫；墨清弦",
+      "voicebanks": "VOCALOID",
+      "concertCount": 0,
+      "concertActivities": [],
+      "special": "单曲",
+      "lyrics": "来我画卷里面 把心灵召唤",
+      "bilibiliUrl": "https://www.bilibili.com/video/av839782809/",
+      "templateUrl": "https://vcpedia.cn/Template%3A%E5%A2%A8%E6%B8%85%E5%BC%A6%2F2020",
+      "pageUrl": "https://vcpedia.cn/%E5%A1%94%E4%B8%8E%E5%B0%91%E5%A5%B3%E7%9A%84%E6%97%A0%E9%A2%98%E8%AF%97",
+      "vcpediaUrl": "https://vcpedia.cn/%E5%A1%94%E4%B8%8E%E5%B0%91%E5%A5%B3%E7%9A%84%E6%97%A0%E9%A2%98%E8%AF%97",
+      "originalYear": 2020,
+      "issues": []
+    }
+  ],
+  "excluded": [],
+  "failures": []
+}
