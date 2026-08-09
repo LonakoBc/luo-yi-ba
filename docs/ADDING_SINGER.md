@@ -28,11 +28,11 @@
 - 正式数据：`database/singers/yanhe.json`（51 首）
 - Markdown：`song/song_yanhe/`
 
-本轮新增的乐正龙牙与墨清弦仍保持 `published: false`；徵羽摩柯已完成审核并正式发布：
+乐正龙牙、徵羽摩柯与墨清弦均已完成审核并以 `published: true` 正式接入网站：
 
-- `longya`：乐正龙牙，9 首候选，审核表 `outputs/vcpedia-crawl/longya/longya-legend-songs-review.xlsx`
+- `longya`：乐正龙牙，9 首正式曲目，审核表 `outputs/vcpedia-crawl/longya/longya-legend-songs-review.xlsx`
 - `zhiyu-moke`：徵羽摩柯，7 首，审核表 `outputs/vcpedia-crawl/zhiyu-moke/zhiyu-moke-legend-songs-review.xlsx`，正式数据 `database/singers/zhiyu-moke.json`
-- `moqingxian`：墨清弦，2 首候选，审核表 `outputs/vcpedia-crawl/moqingxian/moqingxian-legend-songs-review.xlsx`
+- `moqingxian`：墨清弦，2 首正式曲目，审核表 `outputs/vcpedia-crawl/moqingxian/moqingxian-legend-songs-review.xlsx`
 
 ## 2. 采集候选
 

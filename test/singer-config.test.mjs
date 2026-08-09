@@ -3,13 +3,15 @@ import assert from 'node:assert/strict';
 import { loadSingerCatalog, loadSingerConfig, singerIdFromArgs, singerPaths, singerYears } from '../scripts/singer-config.mjs';
 import { usesAllowedVoicebanks } from '../scripts/crawl.mjs';
 
-test('歌姬配置包含四位已发布歌姬', async () => {
+test('歌姬配置包含六位已发布歌姬', async () => {
   const catalog = await loadSingerCatalog();
   assert.deepEqual(catalog.allowedVoicebanks, ['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V']);
   const luotianyi = await loadSingerConfig('luotianyi');
   const yuezhengling = await loadSingerConfig('yuezhengling');
   const yanhe = await loadSingerConfig('yanhe');
   const zhiyuMoke = await loadSingerConfig('zhiyu-moke');
+  const longya = await loadSingerConfig('longya');
+  const moqingxian = await loadSingerConfig('moqingxian');
   assert.equal(luotianyi.published, true);
   assert.equal(yuezhengling.published, true);
   assert.equal(yuezhengling.templatePrefix, 'Template:乐正绫');
@@ -21,6 +23,8 @@ test('歌姬配置包含四位已发布歌姬', async () => {
   assert.equal(yanhe.birthday, '07-11');
   assert.deepEqual(singerYears(yanhe), [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);
   assert.equal(zhiyuMoke.published, true);
+  assert.equal(longya.published, true);
+  assert.equal(moqingxian.published, true);
   assert.equal(zhiyuMoke.profileUrl, 'https://vcpedia.cn/%E5%BE%B5%E7%BE%BD%E6%91%A9%E6%9F%AF');
   assert.equal(zhiyuMoke.shortName, '柯');
   assert.deepEqual(singerYears(zhiyuMoke), [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);

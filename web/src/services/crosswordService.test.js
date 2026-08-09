@@ -12,8 +12,8 @@ function seededRandom(seed = 712) {
 
 describe('曲名填字棋盘生成', () => {
   it('严格筛选纯汉字并只保留可组成六首棋盘的连通分量', () => {
-    expect(songs.filter(({ title }) => isPureHanTitle(title))).toHaveLength(212);
-    expect(getCrosswordSongPool(songs, 6)).toHaveLength(193);
+    expect(songs.filter(({ title }) => isPureHanTitle(title))).toHaveLength(213);
+    expect(getCrosswordSongPool(songs, 6)).toHaveLength(195);
     expect(getCrosswordSongPool(songs, 6).some(({ title }) => title === '世末歌者')).toBe(true);
     expect(isPureHanTitle('普通DISCO')).toBe(false);
     expect(isPureHanTitle('滚！')).toBe(false);

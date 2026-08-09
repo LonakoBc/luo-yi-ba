@@ -8,7 +8,7 @@ describe('Markdown 曲库预设', () => {
   it('预设顺序、数量与曲名唯一性正确', () => {
     const counts = Object.fromEntries(presets.map((preset) => [preset.id, preset.titles.length]));
     expect(presets.map(({ id }) => id)).toEqual(['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'golden-age']);
-    expect(counts).toEqual({ all: 250, intro: 50, luotianyi: 219, yuezhengling: 51, yanhe: 51, 'golden-age': 110 });
+    expect(counts).toEqual({ all: 251, intro: 50, luotianyi: 219, yuezhengling: 51, yanhe: 51, 'golden-age': 110 });
     for (const preset of presets) expect(new Set(preset.titles).size).toBe(preset.titles.length);
   });
 
@@ -18,7 +18,7 @@ describe('Markdown 曲库预设', () => {
   });
 
   it('发布曲库按 VCPedia 页面全局去重，数据库包含数据库专用歌姬', () => {
-    expect(songs).toHaveLength(250);
+    expect(songs).toHaveLength(251);
     expect(database.catalog.map(({ id, songCount }) => [id, songCount])).toEqual([
       ['luotianyi', 219], ['yuezhengling', 51], ['yanhe', 51], ['zhiyu-moke', 7], ['longya', 9], ['moqingxian', 2],
     ]);

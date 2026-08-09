@@ -18,8 +18,8 @@
     "singers": "洛天依；乐正龙牙",
     "voicebanks": "VOCALOID",
     "concertCount": 0,
-    "special": "单曲",
-    "lyrics": "他是坠落之火 融于黑白交织",
+    "special": "系列/企划曲目",
+    "lyrics": "他是坠落之火　融于黑白交织",
     "bilibiliUrl": "https://www.bilibili.com/video/av40998140/",
     "vcpediaUrl": "https://vcpedia.cn/Meave"
   },
@@ -31,19 +31,19 @@
     "voicebanks": "VOCALOID",
     "concertCount": 0,
     "special": "单曲",
-    "lyrics": "虚虚实实尘世几幻象 潇潇洒洒众生多喧嚷",
+    "lyrics": "虚虚实实尘世几幻象　潇潇洒洒众生多喧嚷",
     "bilibiliUrl": "https://www.bilibili.com/video/av56836021/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%86%8D%E4%B8%80%E6%9D%AF%EF%BC%81"
   },
   {
     "title": "Attack!",
-    "staff": "UP主：洛天依官方賬號；作曲：人形兎；作词：冥凰；编曲：人形兎、Bitman",
+    "staff": "UP主：洛天依官方账号；作曲：人形兎；作词：冥凰；编曲：人形兎、Bitman",
     "releaseMonth": "2019-06",
     "singers": "洛天依；言和；乐正绫；乐正龙牙；徵羽摩柯；墨清弦",
     "voicebanks": "VOCALOID",
-    "concertCount": 1,
+    "concertCount": 2,
     "special": "单曲",
-    "lyrics": "即便这奇迹的魔法还很渺小 也能觉察到扑通扑通心跳",
+    "lyrics": "即便这奇迹的魔法还很渺小　也能觉察到扑通扑通心跳",
     "bilibiliUrl": "https://www.bilibili.com/video/av54701738/",
     "vcpediaUrl": "https://vcpedia.cn/Attack!"
   },
@@ -79,7 +79,7 @@
     "voicebanks": "ACE Studio",
     "concertCount": 0,
     "special": "单曲",
-    "lyrics": "枝头上三两白鸽沐浴在晚风 数学课昏昏欲睡拖堂几分钟",
+    "lyrics": "如果明天　会是我们此生最后的遇见",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1hm411X77E/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%AF%95%E4%B8%9A%E9%80%9A%E7%9F%A5"
   },
@@ -102,8 +102,8 @@
     "singers": "洛天依；乐正龙牙；言和",
     "voicebanks": "ACE Studio",
     "concertCount": 0,
-    "special": "单曲",
-    "lyrics": "他们在肮脏的囚笼中 亦在荒诞的幻想中",
+    "special": "系列/企划曲目",
+    "lyrics": "他们在肮脏的囚笼中　亦在荒诞的幻想中",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1xi421X7YU/",
     "vcpediaUrl": "https://vcpedia.cn/I.I.IDIOT"
   }

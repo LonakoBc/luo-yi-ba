@@ -62,8 +62,7 @@
       "endYear": 2026,
       "birthday": "11-12",
       "officialKeywords": ["乐正龙牙官方", "Vsinger官方"],
-      "published": false,
-      "databaseOnly": true,
+      "published": true,
       "reviewedData": "database/singers/longya.json",
       "songDirectory": "song/song_longya"
     },
@@ -93,8 +92,7 @@
       "endYear": 2026,
       "birthday": "10-24",
       "officialKeywords": ["墨清弦官方", "Vsinger官方"],
-      "published": false,
-      "databaseOnly": true,
+      "published": true,
       "reviewedData": "database/singers/moqingxian.json",
       "songDirectory": "song/song_moqingxian"
     }

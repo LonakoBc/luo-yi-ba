@@ -34,7 +34,7 @@ export async function rebuildLibraryPresets() {
     const year = Number(releaseMonth.slice(0, 4));
     return year >= 2015 && year <= 2019;
   });
-  if (allSongs.length !== 250) throw new Error(`预设数量异常：全曲库 ${allSongs.length} 首`);
+  if (allSongs.length !== 251) throw new Error(`预设数量异常：全曲库 ${allSongs.length} 首`);
 
   await Promise.all([
     writeFile(path.join(root, 'presets', 'all.md'), presetMarkdown('挑战全曲库！', allSongs), 'utf8'),

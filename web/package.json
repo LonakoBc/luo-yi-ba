@@ -6,11 +6,11 @@
   "scripts": {
     "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs && node scripts/generate-database-data.mjs",
     "predev": "npm run generate:data",
-    "dev": "vite",
+    "dev": "vite --configLoader runner",
     "prebuild": "npm run generate:data",
-    "build": "vite build",
+    "build": "vite build --configLoader runner",
     "pretest": "npm run generate:data",
-    "test": "vitest run"
+    "test": "vitest run --configLoader runner"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
