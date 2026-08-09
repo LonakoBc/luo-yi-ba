@@ -35,6 +35,21 @@
       "published": true,
       "reviewedData": "database/singers/yuezhengling.json",
       "songDirectory": "song/song_yuezhengling"
+    },
+    {
+      "id": "yanhe",
+      "name": "言和",
+      "shortName": "和",
+      "themeColor": "#00FFCC",
+      "profileUrl": "https://vcpedia.cn/%E8%A8%80%E5%92%8C",
+      "templatePrefix": "Template:言和",
+      "startYear": 2013,
+      "endYear": 2026,
+      "birthday": "07-11",
+      "officialKeywords": ["言和官方", "Vsinger官方"],
+      "published": false,
+      "reviewedData": "database/singers/yanhe.json",
+      "songDirectory": "song/song_yanhe"
     }
   ]
 }

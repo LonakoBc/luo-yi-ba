@@ -26,6 +26,13 @@ test('年度页解析器可按其他歌姬名称复用', () => {
   assert.equal(rows.length, 2);
 });
 
+test('年度页解析器支持言和年度模板', () => {
+  const fixture = annualFixture.replace('洛天依 2015年歌曲', '言和 2013年歌曲');
+  const rows = parseYearCandidates(fixture, 'https://vcpedia.cn/Template:言和/2013', '言和');
+  assert.equal(rows.length, 2);
+  assert.ok(rows.every(({ templateUrl }) => templateUrl === 'https://vcpedia.cn/Template:言和/2013'));
+});
+
 test('跨年份同页只保留最早原版且保留神话等级', () => {
   const base = { title: '权御天下', url: 'https://vcpedia.cn/权御天下', sourceOrder: 1, templateUrl: 'a', pageTitle: '权御天下' };
   const rows = dedupeCandidates([
@@ -146,6 +153,15 @@ test('乐正绫官方生贺按 4 月 12 日和歌姬配置识别', () => {
   const singer = { name: '乐正绫', birthday: '04-12', officialKeywords: ['乐正绫官方', 'Vsinger官方'] };
   const official = parseVcpediaSong({ wikitext: '==简介==\n本曲由乐正绫官方账号于2025年4月12日投稿，是十周年生日歌曲。', categories: [] }, candidate, { singer });
   const fan = parseVcpediaSong({ wikitext: '==简介==\n本曲是同人UP主于4月12日创作的乐正绫生贺曲。', categories: [] }, candidate, { singer });
+  assert.equal(official.special, '生贺曲');
+  assert.equal(fan.special, '单曲');
+});
+
+test('言和官方生贺按 7 月 11 日和歌姬配置识别', () => {
+  const candidate = { title: '测试曲', tier: '传说曲', year: 2025, templateUrl: 't', url: 'u' };
+  const singer = { name: '言和', birthday: '07-11', officialKeywords: ['言和官方', 'Vsinger官方'] };
+  const official = parseVcpediaSong({ wikitext: '==简介==\n本曲由言和官方账号于2025年7月11日投稿，是十二周年生日歌曲。', categories: [] }, candidate, { singer });
+  const fan = parseVcpediaSong({ wikitext: '==简介==\n本曲是同人UP主于7月11日创作的言和生贺曲。', categories: [] }, candidate, { singer });
   assert.equal(official.special, '生贺曲');
   assert.equal(fan.special, '单曲');
 });

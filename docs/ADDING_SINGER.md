@@ -17,6 +17,15 @@
 - 正式数据：`database/singers/yuezhengling.json`（51 首）
 - Markdown：`song/song_yuezhengling/`
 
+言和采集配置已以 `published: false` 登记，审核完成前不会进入网站：
+
+- 资料页：`https://vcpedia.cn/%E8%A8%80%E5%92%8C`
+- 年度模板：`Template:言和/20XX`
+- 年份：2013–2026
+- 生日：7 月 11 日
+- 采集输出：`outputs/vcpedia-crawl/yanhe/`
+- 请求缓存：`.cache/vcpedia/yanhe/`
+
 ## 2. 采集候选
 
 ```powershell
@@ -29,10 +38,22 @@ npm run crawl -- --singer yuezhengling
 npm run crawl:yuezhengling
 ```
 
+言和使用：
+
+```powershell
+npm run crawl:yanhe
+```
+
 正式请求前可以只检查配置和年度页面列表，不访问网络：
 
 ```powershell
 npm run crawl:yuezhengling -- --dry-run
+```
+
+言和采集前建议先运行：
+
+```powershell
+npm run crawl:yanhe -- --dry-run
 ```
 
 VCPedia 请求间隔保持至少 30 秒，缓存命中不会再次请求。使用 `--refresh` 会忽略缓存重新请求。
