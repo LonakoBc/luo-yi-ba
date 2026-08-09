@@ -66,6 +66,13 @@ test('乐正绫人工修订字段已同步到正式数据', async () => {
   assert.equal(byTitle.get('格兰芬多').special, '系列/企划曲目');
 });
 
+test('洛天依人工修订字段已同步到正式数据', async () => {
+  const songs = JSON.parse(await readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8'));
+  const byTitle = new Map(songs.map((song) => [song.title, song]));
+  assert.equal(byTitle.get('唱山').special, '系列/企划曲目');
+  assert.equal(byTitle.get('神经病之歌').special, '单曲');
+});
+
 test('多音字曲名使用人工确认的拼音', () => {
   assert.equal(slugifyTitle('乐鸣东方'), 'yue-ming-dong-fang');
 });
