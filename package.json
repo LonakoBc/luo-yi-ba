@@ -20,6 +20,7 @@
     "crawl:minus": "node scripts/crawl.mjs --singer minus --interval=1",
     "rebuild:songs": "node scripts/build-song-markdown.mjs",
     "rebuild:presets": "node scripts/build-library-presets.mjs",
+    "images:refresh": "node scripts/refresh-song-images.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

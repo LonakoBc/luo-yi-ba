@@ -81,4 +81,19 @@ describe('歌曲 Markdown 解析', () => {
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({ id: 'vcpedia:测试歌曲', sourceLibraries: [{ id: 'a' }, { id: 'b' }] });
   });
+
+  it('从独立图片清单合并缩略图且缺图时保持为空', async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'luoyiba-images-'));
+    tempDirectories.push(directory);
+    const source = path.join(directory, 'songs');
+    await fs.mkdir(source);
+    await fs.writeFile(path.join(source, 'a.md'), validMarkdown('图片歌曲'), 'utf8');
+    const imageUrl = 'https://media.vcpedia.cn/thumb/example.jpg';
+    const result = await generateSongData({
+      songDirectory: source,
+      outputFile: path.join(directory, 'out.json'),
+      imageManifest: { images: { 'vcpedia:测试歌曲': { thumbnailUrl: imageUrl } } },
+    });
+    expect(result[0].imageUrl).toBe(imageUrl);
+  });
 });

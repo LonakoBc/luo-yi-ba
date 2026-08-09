@@ -20,7 +20,19 @@ function ToggleGroup({ label, options, selected, onToggle }) {
   );
 }
 
-export default function LibraryPage({ songs, presets, onBack, onStartPreset, onStartCustom, Brand }) {
+export default function LibraryPage({
+  songs,
+  presets,
+  onBack,
+  onStartPreset,
+  onStartCustom,
+  Brand,
+  eyebrow = '猜歌曲库',
+  title = '选择曲库范围',
+  intro = '使用预设立即开始，或者组合条件建立自己的题库。',
+  startLabel = '开始游戏',
+  minimumSongs = 1,
+}) {
   const options = useMemo(() => getLibraryOptions(songs), [songs]);
   const [filters, setFilters] = useState(() => createDefaultFilters(songs));
   const years = Array.from({ length: options.maxYear - options.minYear + 1 }, (_, index) => options.minYear + index);
@@ -32,14 +44,14 @@ export default function LibraryPage({ songs, presets, onBack, onStartPreset, onS
   }));
   const invalidReason = !filters.collections.length ? '请至少选择一个主要曲库'
     : !filters.voicebanks.length ? '请至少选择一种声库'
-      : !filters.specials.length ? '请至少选择一种特殊标注'
-        : !candidates.length ? '当前条件下没有可用歌曲' : '';
+        : !filters.specials.length ? '请至少选择一种特殊标注'
+        : candidates.length < minimumSongs ? `当前条件下至少需要 ${minimumSongs} 首歌曲` : '';
 
   return (
     <div className="page-shell library-page">
       <header className="inner-header"><button type="button" className="back-button" onClick={onBack}>← 返回主页</button><Brand compact /></header>
       <main className="library-main">
-        <p className="eyebrow">猜歌曲库</p><h2>选择曲库范围</h2><p className="mode-intro">使用预设立即开始，或者组合条件建立自己的题库。</p>
+        <p className="eyebrow">{eyebrow}</p><h2>{title}</h2><p className="mode-intro">{intro}</p>
         <section className="preset-section" aria-labelledby="preset-title">
           <div className="section-heading"><h3 id="preset-title">快速预设</h3><span>点击后直接开始</span></div>
           <div className="preset-grid">
@@ -66,7 +78,7 @@ export default function LibraryPage({ songs, presets, onBack, onStartPreset, onS
             </div>
           </fieldset>
           <label className="concert-toggle"><input type="checkbox" checked={filters.concertOnly} onChange={(event) => setFilters((current) => ({ ...current, concertOnly: event.target.checked }))} /><span>仅包含登上过演唱会或生日会的曲目</span></label>
-          <button type="button" className="start-library-button" disabled={Boolean(invalidReason)} onClick={() => onStartCustom(filters)}>开始游戏 · {candidates.length} 首</button>
+          <button type="button" className="start-library-button" disabled={Boolean(invalidReason)} onClick={() => onStartCustom(filters)}>{startLabel} · {candidates.length} 首</button>
           <p className={`filter-notice ${invalidReason ? 'visible' : ''}`} role="status">{invalidReason || '已准备好完整曲库'}</p>
         </section>
       </main>

@@ -133,7 +133,7 @@ export function parseSongMarkdown(markdown, id, source = id) {
   };
 }
 
-export async function generateSongData({ songDirectory, songLibraries, outputFile }) {
+export async function generateSongData({ songDirectory, songLibraries, outputFile, imageManifest = null }) {
   const libraries = songLibraries ?? [{ id: 'default', name: '默认曲库', directory: songDirectory }];
   if (!libraries.length) throw new Error('没有启用的歌姬曲库');
   const songs = [];
@@ -148,7 +148,13 @@ export async function generateSongData({ songDirectory, songLibraries, outputFil
       const source = path.join(library.directory, entry.name);
       const parsed = parseSongMarkdown(await fs.readFile(source, 'utf8'), slug, source);
       const id = canonicalSongId(parsed.vcpediaUrl);
-      const song = { ...parsed, id, slug, sourceLibraries: [{ id: library.id, name: library.name }] };
+      const song = {
+        ...parsed,
+        id,
+        slug,
+        imageUrl: imageManifest?.images?.[id]?.thumbnailUrl ?? null,
+        sourceLibraries: [{ id: library.id, name: library.name }],
+      };
       const existing = byCanonicalId.get(id);
       if (!existing) {
         byCanonicalId.set(id, song);
@@ -184,6 +190,7 @@ if (isMain) {
     directory: singerPaths(singer).songDirectory,
   }));
   const outputFile = path.resolve(webRoot, 'src', 'data', 'songs.generated.json');
-  const songs = await generateSongData({ songLibraries, outputFile });
+  const imageManifest = JSON.parse(await fs.readFile(path.join(root, 'database', 'song-images.json'), 'utf8').catch(() => '{"images":{}}'));
+  const songs = await generateSongData({ songLibraries, outputFile, imageManifest });
   console.log(`已生成 ${songs.length} 首歌曲：${outputFile}`);
 }

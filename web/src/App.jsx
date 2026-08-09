@@ -7,12 +7,17 @@ import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
+import SeniorityPage from './components/SeniorityPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
 function routeFromLocation(pathname, search = '') {
   if (pathname === '/modes') return { page: 'modes', mode: null };
   if (pathname === '/crossword') return { page: 'crossword', routeKey: pathname };
+  if (pathname === '/seniority') return { page: 'seniority-select', routeKey: pathname };
+  const seniorityPresetMatch = pathname.match(/^\/seniority\/preset\/([a-z0-9-]+)$/u);
+  if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], routeKey: pathname };
+  if (pathname === '/seniority/custom') return { page: 'seniority', kind: 'custom', search, routeKey: `${pathname}${search}` };
   if (pathname === '/database') return { page: 'database-select', routeKey: pathname };
   const databaseMatch = pathname.match(/^\/database\/([a-z0-9-]+)$/u);
   if (databaseMatch) return { page: 'database', databaseId: databaseMatch[1], routeKey: pathname };
@@ -33,7 +38,7 @@ function Brand({ compact = false }) {
   );
 }
 
-function HomePage({ onChooseGame, onChooseCrossword, onChooseDatabase }) {
+function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChooseDatabase }) {
   return (
     <div className="page-shell landing-page">
       <header className="landing-header"><Brand /><p>传说曲是对播放量（再生数）超过一百万的作品的称呼，是比殿堂曲（十万播放）的更高荣誉，比此更高的荣誉是神话曲（一千万播放）。</p></header>
@@ -51,8 +56,13 @@ function HomePage({ onChooseGame, onChooseCrossword, onChooseDatabase }) {
             <span className="card-copy"><strong>曲名填字</strong><small>让熟悉的歌名在交叉处相遇。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
+          <button type="button" className="content-card available seniority-card" onClick={onChooseSeniority}>
+            <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">年</span>
+            <span className="card-copy"><strong>谁是老资历？</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
           <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
-            <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">库</span>
+            <span className="card-index">04</span><span className="music-glyph" aria-hidden="true">库</span>
             <span className="card-copy"><strong>歌曲数据库</strong><small>浏览歌姬收录曲目与完整歌曲资料。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
@@ -91,6 +101,8 @@ export default function App({ songs = songData, presets = presetData, database =
 
   const startPreset = (presetId) => navigate(`/play/preset/${presetId}`);
   const startCustom = (filters) => navigate(`/play/custom?${filtersToSearch(filters)}`);
+  const startSeniorityPreset = (presetId) => navigate(`/seniority/preset/${presetId}`);
+  const startSeniorityCustom = (filters) => navigate(`/seniority/custom?${filtersToSearch(filters)}`);
 
   let pageContent;
   if (route.page === 'modes') {
@@ -107,6 +119,16 @@ export default function App({ songs = songData, presets = presetData, database =
     }
   } else if (route.page === 'crossword') {
     pageContent = <CrosswordPage key={route.routeKey ?? 'crossword'} songs={songs} random={random} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'seniority-select') {
+    pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
+  } else if (route.page === 'seniority') {
+    const preset = route.kind === 'preset' ? presets.find((item) => item.id === route.presetId) : null;
+    const senioritySongs = route.kind === 'custom'
+      ? filterSongs(songs, filtersFromSearch(route.search, songs))
+      : songsForPreset(songs, preset);
+    pageContent = senioritySongs.length >= 2
+      ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
+      : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
   } else if (route.page === 'database-select') {
     pageContent = <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database') {
@@ -116,7 +138,7 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseDatabase={() => navigate('/database')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseDatabase={() => navigate('/database')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }

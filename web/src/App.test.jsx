@@ -93,6 +93,18 @@ describe('App 交互', () => {
     expect(document.querySelector('audio')).toBe(audio);
   });
 
+  it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', () => {
+    render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
+    const audio = document.querySelector('audio');
+    fireEvent.click(screen.getByRole('button', { name: /谁是老资历/u }));
+    expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /开始比较 · 2 首/u })).toBeEnabled();
+    fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
+    expect(screen.getByRole('heading', { name: '谁是老资历？' })).toBeVisible();
+    expect(screen.getAllByRole('button', { name: /作为更早发布的歌曲/u })).toHaveLength(2);
+    expect(document.querySelector('audio')).toBe(audio);
+  });
+
   it('从主页选择歌姬并浏览、搜索数据库和打开详情', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     const audio = document.querySelector('audio');
