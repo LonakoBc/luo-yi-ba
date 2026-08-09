@@ -70,7 +70,7 @@ export default function SongDatabasePage({ singer, songs, onBack, onHome, Brand 
       </header>
       <main className="database-main">
         <div className="database-title">
-          <div><p className="eyebrow">歌曲数据库</p><h2>{singer.name}传说曲资料</h2></div>
+          <div><p className="eyebrow">歌曲数据库</p><h2>{singer.name}曲库资料</h2></div>
           <strong>{visibleSongs.length} / {songs.length} 首</strong>
         </div>
 

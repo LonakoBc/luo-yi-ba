@@ -19,6 +19,14 @@ for (const library of [
   { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 7 },
   { id: 'longya', singer: '乐正龙牙', count: 9 },
   { id: 'moqingxian', singer: '墨清弦', count: 2 },
+  { id: 'xinhua', singer: '心华', count: 9 },
+  { id: 'xingchen', singer: '星尘', count: 59 },
+  { id: 'haiyi', singer: '海伊', count: 10 },
+  { id: 'cangqiong', singer: '苍穹', count: 13 },
+  { id: 'chiyu', singer: '赤羽', count: 24 },
+  { id: 'shian', singer: '诗岸', count: 14 },
+  { id: 'muxin', singer: '牧心', count: 3 },
+  { id: 'minus', singer: '永夜Minus', aliases: ['Minus'], count: 7 },
 ]) {
   test(`${library.singer}审核后曲库包含 ${library.count} 个严格十行 Markdown 且 URL 合法`, async () => {
     const songDirectory = path.join(root, 'song', `song_${library.id}`);
@@ -34,7 +42,8 @@ for (const library of [
         '曲名', 'staff', '发布时间', '演唱歌姬', '使用声库', '演唱会\\生日会次数',
         '特殊标注', '歌词', '哔哩哔哩地址', '歌曲页面URL',
       ]);
-      assert.ok(fields.get('演唱歌姬').split('；').includes(library.singer), `${file} 不包含${library.singer}`);
+      const acceptedSingers = new Set([library.singer, ...(library.aliases ?? [])]);
+      assert.ok(fields.get('演唱歌姬').split('；').some((singer) => acceptedSingers.has(singer)), `${file} 不包含${library.singer}`);
       assert.match(fields.get('发布时间'), /^20\d{2}-(?:0[1-9]|1[0-2])$/u);
       assert.ok(Number.isInteger(Number(fields.get('演唱会\\生日会次数'))) && Number(fields.get('演唱会\\生日会次数')) >= 0);
       assert.match(fields.get('哔哩哔哩地址'), /^https:\/\/(?:www\.)?bilibili\.com\/video\//u);
@@ -45,14 +54,22 @@ for (const library of [
   });
 }
 
-test('六位歌姬共享歌曲按页面去重后为 251 首', async () => {
-  const [luo, yue, yan, moke, longya, moqingxian] = await Promise.all([
+test('十四位歌姬共享歌曲按页面去重后为 355 首', async () => {
+  const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yanhe.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'zhiyu-moke.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'longya.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'moqingxian.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'xinhua.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'xingchen.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'haiyi.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'cangqiong.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'chiyu.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'shian.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'muxin.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'minus.json'), 'utf8').then(JSON.parse),
   ]);
   const canonical = (url) => decodeURIComponent(new URL(url).pathname).replace(/\/+$/u, '').normalize('NFKC');
   const luoByPage = new Map(luo.map((song) => [canonical(song.vcpediaUrl), song]));
@@ -60,7 +77,9 @@ test('六位歌姬共享歌曲按页面去重后为 251 首', async () => {
   assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 31);
   assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 43);
   assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 3);
-  assert.equal(new Set([...luo, ...yue, ...yan, ...moke, ...longya, ...moqingxian].map((song) => canonical(song.vcpediaUrl))).size, 251);
+  const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 355);
+  assert.equal(libraries.flat().length, 478);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }
@@ -68,6 +87,11 @@ test('六位歌姬共享歌曲按页面去重后为 251 首', async () => {
   for (const song of yan.filter((item) => yueByPage.has(canonical(item.vcpediaUrl)))) {
     assert.deepEqual(song, yueByPage.get(canonical(song.vcpediaUrl)), song.title);
   }
+});
+
+test('赤羽《易安难安》歌词已人工补齐', async () => {
+  const songs = JSON.parse(await readFile(path.join(root, 'database', 'singers', 'chiyu.json'), 'utf8'));
+  assert.equal(songs.find(({ title }) => title === '易安难安')?.lyrics, '寻寻觅觅　冷冷清清　凄凄惨惨戚戚');
 });
 
 test('乐正绫人工修订字段已同步到正式数据', async () => {

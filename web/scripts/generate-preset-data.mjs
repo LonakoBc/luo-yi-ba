@@ -3,15 +3,18 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const PRESET_META = {
-  all: { description: '完整收录全部已发布歌姬的传说曲' },
+  all: { description: '完整收录全部已发布歌姬的经典曲目', badge: { text: '全', color: '#7C3AED' } },
   intro: { description: '精选 50 首热门与出圈的洛天依作品', badge: { text: '洛', color: '#66CCFF' } },
   luotianyi: { description: '完整洛天依传说曲资料库', badge: { text: '洛', color: '#66CCFF' } },
   yuezhengling: { description: '完整乐正绫传说曲资料库', badge: { text: '绫', color: '#EE0000' } },
   yanhe: { description: '完整言和传说曲资料库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' } },
-  'golden-age': { description: '全部歌姬 2015 至 2019 年投稿作品' },
+  henian: { description: '仅包含禾念系歌姬演唱的收录曲目', badge: { text: '禾', color: '#66CCFF', textColor: '#073148' } },
+  medium5: { description: '仅包含五维介质系歌姬演唱的收录曲目', badge: { text: '维', color: '#7777EE' } },
+  wangchuan: { description: '由忘川风华录发布的收录曲目', badge: { text: '忘', color: '#A6403C' } },
+  'golden-age': { description: '全部歌姬 2015 至 2019 年投稿作品', badge: { text: '金', color: '#D6A316', textColor: '#332400' } },
 };
 
-const PRESET_ORDER = ['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'golden-age'];
+const PRESET_ORDER = ['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'henian', 'medium5', 'wangchuan', 'golden-age'];
 
 export function parsePresetMarkdown(markdown, id, source = id) {
   const lines = String(markdown).replace(/^\uFEFF/u, '').split(/\r?\n/u);

@@ -99,7 +99,7 @@ describe('App 交互', () => {
     fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
     expect(screen.getByRole('heading', { name: '选择歌姬' })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /洛天依/u }));
-    expect(screen.getByRole('heading', { name: '洛天依传说曲资料' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: '洛天依曲库资料' })).toBeVisible();
     expect(screen.getByText('2 / 2 首')).toBeVisible();
     expect(document.querySelector('audio')).toBe(audio);
 

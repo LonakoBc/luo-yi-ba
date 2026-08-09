@@ -28,5 +28,45 @@
     "id": "moqingxian",
     "file": "singers/moqingxian.json",
     "expectedSongCount": 2
+  },
+  {
+    "id": "xinhua",
+    "file": "singers/xinhua.json",
+    "expectedSongCount": 9
+  },
+  {
+    "id": "xingchen",
+    "file": "singers/xingchen.json",
+    "expectedSongCount": 59
+  },
+  {
+    "id": "haiyi",
+    "file": "singers/haiyi.json",
+    "expectedSongCount": 10
+  },
+  {
+    "id": "cangqiong",
+    "file": "singers/cangqiong.json",
+    "expectedSongCount": 13
+  },
+  {
+    "id": "chiyu",
+    "file": "singers/chiyu.json",
+    "expectedSongCount": 24
+  },
+  {
+    "id": "shian",
+    "file": "singers/shian.json",
+    "expectedSongCount": 14
+  },
+  {
+    "id": "muxin",
+    "file": "singers/muxin.json",
+    "expectedSongCount": 3
+  },
+  {
+    "id": "minus",
+    "file": "singers/minus.json",
+    "expectedSongCount": 7
   }
 ]

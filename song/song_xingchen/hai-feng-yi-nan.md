@@ -1,0 +1,10 @@
+曲名：《海风以南》
+staff：UP主：星尘Official；作曲：小野道；作词：冥凰；编曲：小野道
+发布时间：2018-01
+演唱歌姬：星尘
+使用声库：VOCALOID
+演唱会\生日会次数：1
+特殊标注：单曲
+歌词：好想蒙住你眼睛偷偷给你一个吻
+哔哩哔哩地址：https://www.bilibili.com/video/av18749725/
+歌曲页面URL：https://vcpedia.cn/%E6%B5%B7%E9%A3%8E%E4%BB%A5%E5%8D%97

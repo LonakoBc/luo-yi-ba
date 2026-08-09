@@ -24,6 +24,11 @@ const KNOWN_VIRTUAL_SINGERS = new Set([
   '夏语遥', '祈Inory', '悦成', '章楚楚', '重音Teto', '重音テト',
 ]);
 
+function canonicalVirtualSinger(value) {
+  const name = String(value ?? '').trim();
+  return /^星尘\s*(?:Infinity|∞)$/iu.test(name) ? '星尘' : name;
+}
+
 function clean(value) {
   return String(value ?? '')
     .replace(/<!--[\s\S]*?-->/g, ' ')
@@ -389,7 +394,10 @@ function extractSingers(templates, intro, categories) {
   const values = [];
   const categoryNames = virtualSingerCategories(categories);
   const add = (items) => {
-    for (const item of items) if (!values.includes(item) && (KNOWN_VIRTUAL_SINGERS.has(item) || categoryNames.includes(item))) values.push(item);
+    for (const rawItem of items) {
+      const item = canonicalVirtualSinger(rawItem);
+      if (!values.includes(item) && (KNOWN_VIRTUAL_SINGERS.has(item) || categoryNames.includes(item))) values.push(item);
+    }
   };
   for (const songbox of findSongboxes(templates)) add(valuesFromParam(songbox.params.get('演唱')));
   for (const template of templates) {
@@ -543,6 +551,10 @@ export function parseRenderedFallback(html) {
   const roleMap = new Map(ROLE_ORDER.map((role) => [role, []]));
   for (const row of rows) for (const role of row.roles) addRole(roleMap, role, valuesFromParam(row.value));
   const staff = ROLE_ORDER.filter((role) => roleMap.get(role).length).map((role) => `${role}：${roleMap.get(role).join('、')}`).join('；');
-  const singers = rows.filter(({ label }) => /(?:演唱|歌手)$/u.test(label)).flatMap(({ value }) => valuesFromParam(value)).filter((name) => KNOWN_VIRTUAL_SINGERS.has(name));
+  const singers = rows
+    .filter(({ label }) => /(?:演唱|歌手)$/u.test(label))
+    .flatMap(({ value }) => valuesFromParam(value))
+    .map(canonicalVirtualSinger)
+    .filter((name) => KNOWN_VIRTUAL_SINGERS.has(name));
   return { staff: staff || UNKNOWN, singers: singers.length ? [...new Set(singers)].join('；') : UNKNOWN };
 }

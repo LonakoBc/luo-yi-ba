@@ -8,7 +8,7 @@ export default function DatabaseSingerPage({ catalog, onSelect, onBack, Brand })
       <main className="database-select-main">
         <p className="eyebrow">歌曲数据库</p>
         <h2>选择歌姬</h2>
-        <p className="database-intro">选择一位歌姬，浏览所有包含她的传说曲资料。</p>
+        <p className="database-intro">选择一位歌姬，浏览所有包含她的曲库资料。</p>
         <div className="singer-card-grid">
           {catalog.map((singer) => (
             <button key={singer.id} type="button" className="singer-card" onClick={() => onSelect(singer.id)}>

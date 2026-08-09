@@ -62,6 +62,16 @@ test('详情源码提取原版 STAFF、投稿月份、歌姬和声库并排除�
   assert.ok(!song.staff.includes('翻唱作者'));
 });
 
+test('星尘Infinity按星尘的 Synthesizer V 声库名称归一', () => {
+  const candidate = { title: '始见千秋', year: 2022, tier: '传说曲', url: 'https://vcpedia.cn/始见千秋', templateUrl: 'https://vcpedia.cn/Template:星尘/2022' };
+  const wikitext = `{{VOCALOID_Songbox|演唱=[[苍穹]]、[[星尘#Synthesizer V|星尘Infinity]]、[[赤羽]]、[[海伊]]|UP主=[[忘川风华录]]|投稿时间=2022年10月7日}}
+== 简介 ==
+《始见千秋》是忘川风华录投稿的Synthesizer V中文原创歌曲，由苍穹、星尘Infinity、赤羽、海伊演唱。`;
+  const song = parseVcpediaSong({ wikitext, categories: ['星尘歌曲', '使用Synthesizer V的歌曲'] }, candidate, { singer: { name: '星尘' } });
+  assert.equal(song.singers, '苍穹；星尘；赤羽；海伊');
+  assert.equal(song.voicebanks, 'Synthesizer V');
+});
+
 test('Seattle物语 II 提取双歌姬、原版 STAFF、Bilibili 与完整歌词行', () => {
   const wikitext = `{{VOCALOID_Songbox
 |演唱 = [[乐正绫]]、[[洛天依]]

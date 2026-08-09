@@ -1,0 +1,71 @@
+{
+  "singer": {
+    "id": "muxin",
+    "name": "牧心",
+    "profileUrl": "https://vcpedia.cn/%E7%89%A7%E5%BF%83"
+  },
+  "source": "https://vcpedia.cn/",
+  "license": "CC BY-NC-SA 3.0 CN",
+  "generatedAt": "2026-08-09T08:53:31.870Z",
+  "annualReferenceCount": 3,
+  "duplicateCount": 0,
+  "candidateCount": 3,
+  "songs": [
+    {
+      "title": "数风流",
+      "tier": "传说曲",
+      "staff": "UP主：忘川风华录；作曲：陈亦洺；作词：择荇；编曲：崔博源",
+      "releaseMonth": "2023-03",
+      "singers": "赤羽；苍穹；海伊；诗岸；星尘；Minus；牧心",
+      "voicebanks": "Synthesizer V",
+      "concertCount": 0,
+      "concertActivities": [],
+      "special": "系列/企划曲目",
+      "lyrics": "这个纪元是我铸造空前的传说",
+      "bilibiliUrl": "https://www.bilibili.com/video/BV1Wg4y1W7jK/",
+      "templateUrl": "https://vcpedia.cn/%E7%89%A7%E5%BF%83",
+      "pageUrl": "https://vcpedia.cn/%E6%95%B0%E9%A3%8E%E6%B5%81",
+      "vcpediaUrl": "https://vcpedia.cn/%E6%95%B0%E9%A3%8E%E6%B5%81",
+      "originalYear": 2023,
+      "issues": []
+    },
+    {
+      "title": "旷古回响",
+      "tier": "传说曲",
+      "staff": "UP主：忘川风华录；作曲：陈亦洺；作词：邪叫教主",
+      "releaseMonth": "2023-11",
+      "singers": "赤羽；苍穹；海伊；诗岸；星尘；Minus；牧心",
+      "voicebanks": "Synthesizer V",
+      "concertCount": 0,
+      "concertActivities": [],
+      "special": "系列/企划曲目",
+      "lyrics": "鼓钟将将 淮水汤汤 淑人君子 怀允不忘",
+      "bilibiliUrl": "https://www.bilibili.com/video/BV1wH4y1m7Pc/",
+      "templateUrl": "https://vcpedia.cn/%E7%89%A7%E5%BF%83",
+      "pageUrl": "https://vcpedia.cn/%E6%97%B7%E5%8F%A4%E5%9B%9E%E5%93%8D",
+      "vcpediaUrl": "https://vcpedia.cn/%E6%97%B7%E5%8F%A4%E5%9B%9E%E5%93%8D",
+      "originalYear": 2023,
+      "issues": []
+    },
+    {
+      "title": "日月山河",
+      "tier": "传说曲",
+      "staff": "UP主：忘川风华录；作曲：Mzf小慕；作词：邪叫教主；编曲：洛劫",
+      "releaseMonth": "2025-03",
+      "singers": "星尘；赤羽；苍穹；海伊；诗岸；牧心",
+      "voicebanks": "Synthesizer V",
+      "concertCount": 0,
+      "concertActivities": [],
+      "special": "系列/企划曲目",
+      "lyrics": "是沉埋的火种 在黑夜中破壤",
+      "bilibiliUrl": "https://www.bilibili.com/video/BV1GoX6YrE5p/",
+      "templateUrl": "https://vcpedia.cn/%E7%89%A7%E5%BF%83",
+      "pageUrl": "https://vcpedia.cn/%E6%97%A5%E6%9C%88%E5%B1%B1%E6%B2%B3",
+      "vcpediaUrl": "https://vcpedia.cn/%E6%97%A5%E6%9C%88%E5%B1%B1%E6%B2%B3",
+      "originalYear": 2025,
+      "issues": []
+    }
+  ],
+  "excluded": [],
+  "failures": []
+}

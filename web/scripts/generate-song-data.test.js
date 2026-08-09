@@ -41,6 +41,10 @@ describe('歌曲 Markdown 解析', () => {
     expect(parseSongMarkdown(validMarkdown().replace('VOCALOID', 'VOCALOID；ACE Studio'), 'multi').voicebankMembers).toEqual(['VOCALOID', 'ACE Studio']);
   });
 
+  it('将 Minus 规范化为永夜Minus参与匹配', () => {
+    expect(parseSongMarkdown(validMarkdown().replace('演唱歌姬：洛天依', '演唱歌姬：Minus'), 'minus').singerMembers).toEqual(['永夜Minus']);
+  });
+
   it.each([
     ['字段缺失', validMarkdown().replace(/^歌词：.*\n/mu, ''), '缺少字段：歌词'],
     ['非法声库', validMarkdown().replace('VOCALOID', 'UTAU'), '使用声库无效'],

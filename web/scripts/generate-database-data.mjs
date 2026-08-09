@@ -11,6 +11,10 @@ export function splitDatabaseMembers(value) {
   return String(value).split('；').map((item) => item.trim()).filter(Boolean);
 }
 
+export function normalizeDatabaseSingerName(value) {
+  return value === 'Minus' ? '永夜Minus' : value;
+}
+
 function validateUrl(value, hostname, label, source, pathPrefix = '') {
   let url;
   try {
@@ -23,15 +27,17 @@ function validateUrl(value, hostname, label, source, pathPrefix = '') {
   }
 }
 
-export function normalizeDatabaseSong(song, index, singerName, source = `第 ${index + 1} 条`) {
+export function normalizeDatabaseSong(song, index, singerConfig, source = `第 ${index + 1} 条`) {
+  const singerName = typeof singerConfig === 'string' ? singerConfig : singerConfig.name;
   const missing = REQUIRED_FIELDS.filter((field) => song[field] === undefined || song[field] === null || String(song[field]).trim() === '');
   if (missing.length) throw new Error(`${source}: 缺少字段：${missing.join('、')}`);
   if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth)) throw new Error(`${source}: 发布时间无效：${song.releaseMonth}`);
   if (!Number.isInteger(song.concertCount) || song.concertCount < 0) throw new Error(`${source}: 演唱会/生日会次数无效`);
 
-  const singerMembers = splitDatabaseMembers(song.singers);
+  const singerMembers = splitDatabaseMembers(song.singers).map(normalizeDatabaseSingerName);
   const voicebankMembers = splitDatabaseMembers(song.voicebanks);
-  if (!singerMembers.includes(singerName)) throw new Error(`${source}: 演唱歌姬中不包含${singerName}`);
+  const acceptedSingerNames = new Set([singerName, ...((typeof singerConfig === 'string' ? [] : singerConfig.aliases) ?? [])].map(normalizeDatabaseSingerName));
+  if (!singerMembers.some((name) => acceptedSingerNames.has(name))) throw new Error(`${source}: 演唱歌姬中不包含${singerName}`);
   if (!voicebankMembers.length) throw new Error(`${source}: 使用声库为空`);
   validateUrl(song.bilibiliUrl, 'www.bilibili.com', 'Bilibili', source, '/video/');
   validateUrl(song.vcpediaUrl, 'vcpedia.cn', 'VCPedia', source);
@@ -81,7 +87,7 @@ export async function generateDatabaseData({ catalogFile, singerCatalogFile, dat
 
     const titles = new Set();
     const songs = rawSongs.map((song, index) => {
-      const normalized = normalizeDatabaseSong(song, index, singer.name, `${entry.file} 第 ${index + 1} 条`);
+      const normalized = normalizeDatabaseSong(song, index, singer, `${entry.file} 第 ${index + 1} 条`);
       const titleKey = normalized.title.normalize('NFKC').toLocaleLowerCase('zh-CN');
       if (titles.has(titleKey)) throw new Error(`${singer.name}: 曲名重复：${normalized.title}`);
       titles.add(titleKey);

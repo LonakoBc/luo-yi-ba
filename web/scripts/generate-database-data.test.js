@@ -22,6 +22,12 @@ describe('数据库数据生成', () => {
     });
   });
 
+  it('将 Minus 规范化为永夜Minus但保留原展示文本', () => {
+    expect(normalizeDatabaseSong({ ...validSong, singers: 'Minus' }, 0, { name: '永夜Minus', aliases: ['Minus'] })).toMatchObject({
+      singers: 'Minus', singerMembers: ['永夜Minus'],
+    });
+  });
+
   it('拒绝不包含目录歌姬和非法字段', () => {
     expect(() => normalizeDatabaseSong({ ...validSong, singers: '言和' }, 0, '洛天依')).toThrow('不包含洛天依');
     expect(() => normalizeDatabaseSong({ ...validSong, releaseMonth: '2020-13' }, 0, '洛天依')).toThrow('发布时间无效');

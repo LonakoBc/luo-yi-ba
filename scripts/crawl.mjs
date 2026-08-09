@@ -144,20 +144,50 @@ export async function main() {
   const annualCandidates = [];
 
   console.log(`目标歌姬：${singer.name}（${years[0]}–${years.at(-1)}）`);
-  for (const [index, year] of years.entries()) {
-    console.log(`[年度 ${index + 1}/${years.length}] ${year}`);
-    const page = `${singer.templatePrefix}/${year}`;
-    const data = await fetcher.requestJson({
-      url: apiUrl({ action: 'parse', page, prop: 'text', format: 'json', formatversion: '2', maxlag: '5' }),
-      cacheKey: `year-${singer.id}-${year}`,
-    });
+  const templatePages = [
+    ...(singer.initialTemplatePage ? [{ label: '首年及以前', page: singer.initialTemplatePage, cacheKey: `year-${singer.id}-initial` }] : []),
+    ...years.filter((year) => year >= (singer.annualTemplateStartYear ?? singer.startYear))
+      .map((year) => ({ label: String(year), page: `${singer.templatePrefix}/${year}`, cacheKey: `year-${singer.id}-${year}` })),
+  ];
+  for (const [index, template] of templatePages.entries()) {
+    console.log(`[年度 ${index + 1}/${templatePages.length}] ${template.label}`);
+    const { page } = template;
+    let data;
+    try {
+      data = await fetcher.requestJson({
+        url: apiUrl({ action: 'parse', page, prop: 'text', format: 'json', formatversion: '2', maxlag: '5' }),
+        cacheKey: template.cacheKey,
+      });
+    } catch (error) {
+      if (String(error?.message ?? error).includes('missingtitle')) {
+        console.warn(`${template.label} 模板不存在，继续下一年度。`);
+        continue;
+      }
+      throw error;
+    }
     const templateUrl = `https://vcpedia.cn/${encodeURIComponent(page)}`;
     const parsed = parseYearCandidates(data.parse?.text ?? '', templateUrl, singer.name);
     if (!parsed.length) {
-      console.warn(`${year} 年模板没有原创传说曲/神话曲，继续下一年度。`);
+      console.warn(`${template.label} 模板没有原创传说曲/神话曲，继续下一年度。`);
       continue;
     }
     annualCandidates.push(...parsed.map((candidate) => ({ ...candidate, sourceOrder: annualCandidates.length + candidate.sourceOrder })));
+  }
+
+  for (const candidate of singer.supplementalCandidates ?? []) {
+    const pageTitle = candidate.pageTitle ?? candidate.title;
+    const songUrl = `https://vcpedia.cn/${encodeURIComponent(pageTitle.replaceAll(' ', '_'))}`;
+    annualCandidates.push({
+      title: candidate.title,
+      pageTitle,
+      url: songUrl,
+      sourceUrl: songUrl,
+      templateUrl: singer.profileUrl,
+      year: candidate.year,
+      originalYear: candidate.year,
+      tier: candidate.tier ?? '传说曲',
+      sourceOrder: annualCandidates.length,
+    });
   }
 
   const candidates = dedupeCandidates(annualCandidates);
@@ -208,7 +238,8 @@ export async function main() {
   }
 
   for (let index = songs.length - 1; index >= 0; index -= 1) {
-    if (songs[index].singers === UNKNOWN || singerMembers(songs[index].singers).includes(singer.name)) continue;
+    const targetSingerNames = new Set([singer.name, ...(singer.aliases ?? [])]);
+    if (songs[index].singers === UNKNOWN || singerMembers(songs[index].singers).some((member) => targetSingerNames.has(member))) continue;
     const [song] = songs.splice(index, 1);
     excluded.push({ ...song, exclusionReason: `原版演唱歌姬不包含${singer.name}：${song.singers}` });
   }

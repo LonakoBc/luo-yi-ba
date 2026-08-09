@@ -27,6 +27,10 @@ export function splitMembers(value) {
   return String(value).split('；').map((member) => member.trim()).filter(Boolean);
 }
 
+export function normalizeSingerName(value) {
+  return value === 'Minus' ? '永夜Minus' : value;
+}
+
 export function canonicalSongId(vcpediaUrl) {
   const url = new URL(vcpediaUrl);
   const page = decodeURIComponent(url.pathname).replace(/^\/+|\/+$/gu, '').replaceAll('_', ' ').normalize('NFKC').toLocaleLowerCase('zh-CN');
@@ -73,7 +77,7 @@ export function parseSongMarkdown(markdown, id, source = id) {
   if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(releaseMonth)) throw new Error(`${source}: 发布时间无效：${releaseMonth}`);
 
   const singersDisplay = fields.get('演唱歌姬');
-  const singerMembers = splitMembers(singersDisplay);
+  const singerMembers = splitMembers(singersDisplay).map(normalizeSingerName);
   if (!singerMembers.length) throw new Error(`${source}: 演唱歌姬为空`);
 
   const voicebanksDisplay = fields.get('使用声库');

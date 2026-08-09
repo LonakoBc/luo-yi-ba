@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { loadSingerCatalog, loadSingerConfig, singerIdFromArgs, singerPaths, singerYears } from '../scripts/singer-config.mjs';
 import { usesAllowedVoicebanks } from '../scripts/crawl.mjs';
 
-test('歌姬配置包含六位已发布歌姬', async () => {
+test('歌姬配置包含十四位已发布歌姬', async () => {
   const catalog = await loadSingerCatalog();
   assert.deepEqual(catalog.allowedVoicebanks, ['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V']);
   const luotianyi = await loadSingerConfig('luotianyi');
@@ -12,6 +12,14 @@ test('歌姬配置包含六位已发布歌姬', async () => {
   const zhiyuMoke = await loadSingerConfig('zhiyu-moke');
   const longya = await loadSingerConfig('longya');
   const moqingxian = await loadSingerConfig('moqingxian');
+  const xinhua = await loadSingerConfig('xinhua');
+  const xingchen = await loadSingerConfig('xingchen');
+  const haiyi = await loadSingerConfig('haiyi');
+  const cangqiong = await loadSingerConfig('cangqiong');
+  const chiyu = await loadSingerConfig('chiyu');
+  const shian = await loadSingerConfig('shian');
+  const muxin = await loadSingerConfig('muxin');
+  const minus = await loadSingerConfig('minus');
   assert.equal(luotianyi.published, true);
   assert.equal(yuezhengling.published, true);
   assert.equal(yuezhengling.templatePrefix, 'Template:乐正绫');
@@ -25,6 +33,16 @@ test('歌姬配置包含六位已发布歌姬', async () => {
   assert.equal(zhiyuMoke.published, true);
   assert.equal(longya.published, true);
   assert.equal(moqingxian.published, true);
+  assert.equal(xinhua.published, true);
+  assert.equal(xinhua.profileUrl, 'https://vcpedia.cn/%E5%BF%83%E5%8D%8E');
+  assert.deepEqual(singerYears(xinhua), [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);
+  assert.equal(xingchen.published, true);
+  assert.equal(xingchen.profileUrl, 'https://vcpedia.cn/%E6%98%9F%E5%B0%98');
+  assert.deepEqual(singerYears(xingchen), [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);
+  assert.deepEqual([haiyi, cangqiong, chiyu, shian, muxin, minus].map(({ published }) => published), [true, true, true, true, true, true]);
+  assert.equal(haiyi.initialTemplatePage, 'Template:海伊');
+  assert.equal(muxin.supplementalCandidates.length, 3);
+  assert.deepEqual(minus.aliases, ['Minus']);
   assert.equal(zhiyuMoke.profileUrl, 'https://vcpedia.cn/%E5%BE%B5%E7%BE%BD%E6%91%A9%E6%9F%AF');
   assert.equal(zhiyuMoke.shortName, '柯');
   assert.deepEqual(singerYears(zhiyuMoke), [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]);

@@ -2,6 +2,8 @@
 
 项目使用 `singers/catalog.json` 统一维护歌姬采集与发布配置。新歌姬在人工审核完成前应保持 `published: false`，这样可以运行采集和生成审核资料，但不会进入网站题库。
 
+当前十四位歌姬均已正式发布。海伊、苍穹、赤羽、诗岸、牧心与永夜Minus采用相同的审核、共享曲目同步和 Markdown 重建流程；其中 `Minus` 是永夜Minus在歌曲资料中的兼容别名。
+
 ## 1. 配置歌姬
 
 每位歌姬需要配置 ID、名称、简称、主题色、VCPedia 条目、年度模板、歌曲起止年份、生日、官方关键词、审核 JSON 和 Markdown 目录。
@@ -89,6 +91,12 @@ VCPedia 请求间隔保持至少 30 秒，缓存命中不会再次请求。使�
 
 ```powershell
 npm run rebuild:songs -- --singer yuezhengling
+```
+
+多个歌姬一起发布时，可先通过统一脚本应用人工覆盖并按已发布曲库同步共享作品：
+
+```powershell
+node scripts/publish-reviewed-singers.mjs --singers=haiyi,cangqiong,chiyu,shian,muxin,minus
 ```
 
 ## 4. 构建网站
