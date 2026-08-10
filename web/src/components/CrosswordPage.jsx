@@ -14,7 +14,7 @@ function createInitialValues(puzzle) {
   return Object.fromEntries(puzzle.cells.filter(({ isFixed }) => isFixed).map((cell) => [keyFor(cell.row, cell.column), cell.character]));
 }
 
-function ResultDialog({ attempts, wrongAttempts, elapsed, onReplay, onBack }) {
+function ResultDialog({ attempts, wrongAttempts, elapsed, onReplay, onBack, backLabel }) {
   return (
     <div className="modal-backdrop">
       <section className="result-dialog crossword-result" role="dialog" aria-modal="true" aria-labelledby="crossword-result-title">
@@ -28,7 +28,7 @@ function ResultDialog({ attempts, wrongAttempts, elapsed, onReplay, onBack }) {
         </div>
         <div className="result-actions">
           <button type="button" className="primary-action" onClick={onReplay}>再来一局</button>
-          <button type="button" className="secondary-action" onClick={onBack}>返回主页</button>
+          <button type="button" className="secondary-action" onClick={onBack}>{backLabel}</button>
         </div>
       </section>
     </div>
@@ -52,7 +52,7 @@ function SurrenderDialog({ onCancel, onConfirm }) {
   );
 }
 
-export default function CrosswordPage({ songs, random = Math.random, onBack, Brand }) {
+export default function CrosswordPage({ songs, random = Math.random, onBack, Brand, backLabel = '返回主页' }) {
   const [round, setRound] = useState(0);
   const generated = useMemo(() => {
     try {
@@ -127,7 +127,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   if (!puzzle) {
     return (
       <div className="page-shell crossword-page">
-        <header className="inner-header"><button type="button" className="back-button" onClick={onBack}>← 返回主页</button><Brand compact /></header>
+        <header className="inner-header"><button type="button" className="back-button" onClick={onBack}>← {backLabel}</button><Brand compact /></header>
         <main className="crossword-error" role="alert">
           <p className="eyebrow">曲名填字</p><h2>本局生成失败</h2><p>{error}</p>
           <button type="button" className="primary-action" onClick={resetRound}>重新生成</button>
@@ -237,7 +237,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
   return (
     <div className="page-shell crossword-page">
       <header className="inner-header crossword-header">
-        <button type="button" className="back-button" onClick={onBack}>← 返回主页</button>
+        <button type="button" className="back-button" onClick={onBack}>← {backLabel}</button>
         <Brand compact />
         <div className="crossword-summary" aria-label="游戏状态">
           <span><strong>{surrendered ? '答案' : `${solvedCount}/6`}</strong> {surrendered ? '已揭晓' : '已完成'}</span>
@@ -332,7 +332,7 @@ export default function CrosswordPage({ songs, random = Math.random, onBack, Bra
         <p className="crossword-notice" role="status">{notice}</p>
         {import.meta.env.DEV && <details className="crossword-developer"><summary>开发者谜底</summary>{puzzle.entries.map((entry) => <span key={entry.id}>{entry.number}. {entry.song.title}</span>)}</details>}
       </main>
-      {completed && <ResultDialog attempts={attempts} wrongAttempts={wrongAttempts} elapsed={elapsed} onReplay={resetRound} onBack={onBack} />}
+      {completed && <ResultDialog attempts={attempts} wrongAttempts={wrongAttempts} elapsed={elapsed} onReplay={resetRound} onBack={onBack} backLabel={backLabel} />}
       {surrenderDialogOpen && <SurrenderDialog onCancel={() => setSurrenderDialogOpen(false)} onConfirm={confirmSurrender} />}
     </div>
   );

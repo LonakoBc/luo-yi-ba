@@ -88,6 +88,10 @@ describe('App 交互', () => {
     render(<App random={() => 0.27} initialPage="home" />);
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /曲名填字/u }));
+    expect(screen.getByRole('heading', { name: '选择填字曲库' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /禾念系/u })).toBeVisible();
+    expect(screen.getByRole('button', { name: /五维介质系/u })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
     expect(screen.getByRole('heading', { name: '让熟悉的歌名在交叉处相遇' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
     expect(document.querySelector('audio')).toBe(audio);
@@ -102,6 +106,19 @@ describe('App 交互', () => {
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '谁是老资历？' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: /作为更早发布的歌曲/u })).toHaveLength(2);
+    expect(document.querySelector('audio')).toBe(audio);
+  });
+
+  it('从主页进入歌曲大排序模式页且全局 BGM 不会重新挂载', () => {
+    render(<App random={() => 0.17} initialPage="home" />);
+    const audio = document.querySelector('audio');
+    fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
+    expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /进入排序 · 355 首/u })).toBeEnabled();
+    fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
+    expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();
+    expect(screen.getByRole('button', { name: /年份归位/u })).toBeVisible();
     expect(document.querySelector('audio')).toBe(audio);
   });
 

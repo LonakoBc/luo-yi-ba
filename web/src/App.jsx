@@ -3,17 +3,25 @@ import songData from './data/songs.generated.json';
 import presetData from './data/presets.generated.json';
 import databaseData from './data/database.generated.json';
 import CrosswordPage from './components/CrosswordPage';
+import CrosswordLibraryPage from './components/CrosswordLibraryPage';
 import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
 import SeniorityPage from './components/SeniorityPage';
+import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
 function routeFromLocation(pathname, search = '') {
   if (pathname === '/modes') return { page: 'modes', mode: null };
-  if (pathname === '/crossword') return { page: 'crossword', routeKey: pathname };
+  if (pathname === '/crossword') return { page: 'crossword-select', routeKey: pathname };
+  const crosswordPresetMatch = pathname.match(/^\/crossword\/preset\/([a-z0-9-]+)$/u);
+  if (crosswordPresetMatch) return { page: 'crossword', presetId: crosswordPresetMatch[1], routeKey: pathname };
+  if (pathname === '/sorting') return { page: 'sorting-select', routeKey: pathname };
+  const sortingPresetMatch = pathname.match(/^\/sorting\/preset\/([a-z0-9-]+)$/u);
+  if (sortingPresetMatch) return { page: 'sorting', kind: 'preset', presetId: sortingPresetMatch[1], routeKey: pathname };
+  if (pathname === '/sorting/custom') return { page: 'sorting', kind: 'custom', search, routeKey: `${pathname}${search}` };
   if (pathname === '/seniority') return { page: 'seniority-select', routeKey: pathname };
   const seniorityPresetMatch = pathname.match(/^\/seniority\/preset\/([a-z0-9-]+)$/u);
   if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], routeKey: pathname };
@@ -38,7 +46,7 @@ function Brand({ compact = false }) {
   );
 }
 
-function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChooseDatabase }) {
+function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChooseSorting, onChooseDatabase }) {
   return (
     <div className="page-shell landing-page">
       <header className="landing-header"><Brand /><p>传说曲是对播放量（再生数）超过一百万的作品的称呼，是比殿堂曲（十万播放）的更高荣誉，比此更高的荣誉是神话曲（一千万播放）。</p></header>
@@ -61,8 +69,13 @@ function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChoose
             <span className="card-copy"><strong>谁是老资历？</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
+          <button type="button" className="content-card available sorting-card" onClick={onChooseSorting}>
+            <span className="card-index">04</span><span className="music-glyph" aria-hidden="true">序</span>
+            <span className="card-copy"><strong>歌曲大排序</strong><small>重建歌曲时间线，把熟悉的作品放回正确年代。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
           <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
-            <span className="card-index">04</span><span className="music-glyph" aria-hidden="true">库</span>
+            <span className="card-index">05</span><span className="music-glyph" aria-hidden="true">库</span>
             <span className="card-copy"><strong>歌曲数据库</strong><small>浏览歌姬收录曲目与完整歌曲资料。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
@@ -103,6 +116,9 @@ export default function App({ songs = songData, presets = presetData, database =
   const startCustom = (filters) => navigate(`/play/custom?${filtersToSearch(filters)}`);
   const startSeniorityPreset = (presetId) => navigate(`/seniority/preset/${presetId}`);
   const startSeniorityCustom = (filters) => navigate(`/seniority/custom?${filtersToSearch(filters)}`);
+  const startSortingPreset = (presetId) => navigate(`/sorting/preset/${presetId}`);
+  const startSortingCustom = (filters) => navigate(`/sorting/custom?${filtersToSearch(filters)}`);
+  const startCrosswordPreset = (presetId) => navigate(`/crossword/preset/${presetId}`);
 
   let pageContent;
   if (route.page === 'modes') {
@@ -117,8 +133,25 @@ export default function App({ songs = songData, presets = presetData, database =
     } else {
       pageContent = <GamePage key={route.routeKey} songs={gameSongs} poolName={preset?.name ?? '自定义曲库'} random={random} onBack={() => navigate('/modes')} />;
     }
+  } else if (route.page === 'crossword-select') {
+    const crosswordPresets = ['all', 'henian', 'medium5'].map((id) => presets.find((preset) => preset.id === id)).filter(Boolean);
+    pageContent = <CrosswordLibraryPage presets={crosswordPresets} onBack={() => navigate('/')} onStartPreset={startCrosswordPreset} Brand={Brand} />;
   } else if (route.page === 'crossword') {
-    pageContent = <CrosswordPage key={route.routeKey ?? 'crossword'} songs={songs} random={random} onBack={() => navigate('/')} Brand={Brand} />;
+    const preset = presets.find((item) => item.id === route.presetId);
+    const crosswordSongs = songsForPreset(songs, preset);
+    pageContent = crosswordSongs.length >= 6
+      ? <CrosswordPage key={route.routeKey ?? 'crossword'} songs={crosswordSongs} random={random} onBack={() => navigate('/crossword')} Brand={Brand} backLabel="选择曲库" />
+      : <CrosswordLibraryPage presets={['all', 'henian', 'medium5'].map((id) => presets.find((item) => item.id === id)).filter(Boolean)} onBack={() => navigate('/')} onStartPreset={startCrosswordPreset} Brand={Brand} />;
+  } else if (route.page === 'sorting-select') {
+    pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSortingPreset} onStartCustom={startSortingCustom} Brand={Brand} eyebrow="歌曲大排序" intro="先确定参与排序的歌曲范围，再选择时间线或年份归位模式。" startLabel="进入排序" minimumSongs={5} />;
+  } else if (route.page === 'sorting') {
+    const preset = route.kind === 'preset' ? presets.find((item) => item.id === route.presetId) : null;
+    const sortingSongs = route.kind === 'custom'
+      ? filterSongs(songs, filtersFromSearch(route.search, songs))
+      : songsForPreset(songs, preset);
+    pageContent = sortingSongs.length >= 5
+      ? <SortingPage key={route.routeKey ?? 'sorting'} songs={sortingSongs} random={random} onBack={() => navigate('/sorting')} Brand={Brand} />
+      : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSortingPreset} onStartCustom={startSortingCustom} Brand={Brand} eyebrow="歌曲大排序" intro="先确定参与排序的歌曲范围，再选择时间线或年份归位模式。" startLabel="进入排序" minimumSongs={5} />;
   } else if (route.page === 'seniority-select') {
     pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
   } else if (route.page === 'seniority') {
@@ -138,7 +171,7 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseDatabase={() => navigate('/database')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }
