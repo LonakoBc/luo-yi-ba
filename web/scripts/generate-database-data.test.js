@@ -43,7 +43,11 @@ describe('数据库数据生成', () => {
     const singerCatalogFile = path.join(root, 'singer-catalog.json');
     await fs.writeFile(singerCatalogFile, JSON.stringify({ singers: [{ id: 'luotianyi', name: '洛天依', shortName: '洛', themeColor: '#66CCFF', profileUrl: 'https://vcpedia.cn/洛天依', published: true }] }), 'utf8');
     const result = await generateDatabaseData({ catalogFile: path.join(root, 'catalog.json'), singerCatalogFile, databaseRoot: root, outputFile: path.join(root, 'out.json') });
-    expect(result.catalog).toEqual([{ id: 'luotianyi', name: '洛天依', shortName: '洛', themeColor: '#66CCFF', profileUrl: 'https://vcpedia.cn/洛天依', songCount: 1 }]);
+    expect(result.catalog).toEqual([
+      { id: 'all', name: '全曲库', shortName: '全', themeColor: '#805AD5', profileUrl: 'https://vcpedia.cn/', songCount: 1 },
+      { id: 'luotianyi', name: '洛天依', shortName: '洛', themeColor: '#66CCFF', profileUrl: 'https://vcpedia.cn/洛天依', songCount: 1 },
+    ]);
+    expect(result.libraries.all).toHaveLength(1);
     expect(result.libraries.luotianyi).toHaveLength(1);
   });
 });

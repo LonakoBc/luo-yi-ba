@@ -1,0 +1,10 @@
+曲名：《被嘲讽者的复仇》
+staff：UP主：Sya
+发布时间：2014-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：又被否定了吧被嘲笑了吧
+哔哩哔哩地址：https://www.bilibili.com/video/av1336076/
+歌曲页面URL：https://vcpedia.cn/%E8%A2%AB%E5%98%B2%E8%AE%BD%E8%80%85%E7%9A%84%E5%A4%8D%E4%BB%87

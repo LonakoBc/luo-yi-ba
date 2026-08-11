@@ -86,7 +86,7 @@ export default function GamePage({ songs, poolName, random, onBack }) {
       </header>
 
       <main>
-        <section className="control-panel" aria-label="猜歌操作">
+        <section className="control-panel" aria-label="曲目猜猜看操作">
           <GuessInput service={service} disabled={finished} guessedIds={guessedIds} onGuess={handleGuess} />
           <div className="control-actions">
             <button type="button" className="hint-button" onClick={handleHint} disabled={finished || game.hintLevel >= 3}><span aria-hidden="true">✦</span>{HINT_LABELS[game.hintLevel]}</button>

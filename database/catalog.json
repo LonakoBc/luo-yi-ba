@@ -2,42 +2,42 @@
   {
     "id": "luotianyi",
     "file": "singers/luotianyi.json",
-    "expectedSongCount": 219
+    "expectedSongCount": 301
   },
   {
     "id": "yuezhengling",
     "file": "singers/yuezhengling.json",
-    "expectedSongCount": 51
+    "expectedSongCount": 74
   },
   {
     "id": "yanhe",
     "file": "singers/yanhe.json",
-    "expectedSongCount": 51
+    "expectedSongCount": 70
   },
   {
     "id": "zhiyu-moke",
     "file": "singers/zhiyu-moke.json",
-    "expectedSongCount": 7
+    "expectedSongCount": 16
   },
   {
     "id": "longya",
     "file": "singers/longya.json",
-    "expectedSongCount": 9
+    "expectedSongCount": 24
   },
   {
     "id": "moqingxian",
     "file": "singers/moqingxian.json",
-    "expectedSongCount": 2
+    "expectedSongCount": 14
   },
   {
     "id": "xinhua",
     "file": "singers/xinhua.json",
-    "expectedSongCount": 9
+    "expectedSongCount": 10
   },
   {
     "id": "xingchen",
     "file": "singers/xingchen.json",
-    "expectedSongCount": 59
+    "expectedSongCount": 61
   },
   {
     "id": "haiyi",

@@ -21,9 +21,12 @@ describe('歌曲大排序服务', () => {
     expect(new Set(puzzle.years).size).toBe(10);
   });
 
-  it('分别按正确位置和正确年份计分', () => {
+  it('按歌曲对的相对先后关系和正确年份计分', () => {
     const puzzle = createSortingPuzzle(songs, { mode: 'timeline', count: 5, random: () => 0 });
-    expect(scoreTimeline(puzzle.answer, puzzle.answer)).toBe(5);
+    expect(scoreTimeline(puzzle.answer, puzzle.answer)).toEqual({ correctPairs: 10, totalPairs: 10, percentage: 100 });
+    const oneSwap = [...puzzle.answer];
+    [oneSwap[0], oneSwap[1]] = [oneSwap[1], oneSwap[0]];
+    expect(scoreTimeline(oneSwap, puzzle.answer)).toEqual({ correctPairs: 9, totalPairs: 10, percentage: 90 });
     const assignments = Object.fromEntries(puzzle.answer.map((song) => [song.id, song.releaseMonth.slice(0, 4)]));
     expect(scoreYears(assignments, puzzle.answer)).toBe(5);
     assignments[puzzle.answer[0].id] = '2099';

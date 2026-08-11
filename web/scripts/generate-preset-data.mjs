@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 const PRESET_META = {
   all: { description: '完整收录全部已发布歌姬的经典曲目', badge: { text: '全', color: '#7C3AED' } },
   intro: { description: '精选 50 首热门与出圈的洛天依作品', badge: { text: '洛', color: '#66CCFF' } },
-  luotianyi: { description: '完整洛天依传说曲资料库', badge: { text: '洛', color: '#66CCFF' } },
-  yuezhengling: { description: '完整乐正绫传说曲资料库', badge: { text: '绫', color: '#EE0000' } },
-  yanhe: { description: '完整言和传说曲资料库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' } },
+  luotianyi: { description: '当前收录的完整洛天依曲库', badge: { text: '洛', color: '#66CCFF' } },
+  yuezhengling: { description: '当前收录的完整乐正绫曲库', badge: { text: '绫', color: '#EE0000' } },
+  yanhe: { description: '当前收录的完整言和曲库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' } },
   henian: { description: '仅包含禾念系歌姬演唱的收录曲目', badge: { text: '禾', color: '#66CCFF', textColor: '#073148' } },
   medium5: { description: '仅包含五维介质系歌姬演唱的收录曲目', badge: { text: '维', color: '#7777EE' } },
   wangchuan: { description: '由忘川风华录发布的收录曲目', badge: { text: '忘', color: '#A6403C' } },

@@ -24,6 +24,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E6%98%9F%E4%B9%8B%E4%BC%8A%E5%A7%8B"
   },
   {
+    "title": "海棠仙",
+    "staff": "UP主：纯白；作曲：纯白；作词：薇采之依；编曲：纯白",
+    "releaseMonth": "2016-04",
+    "singers": "星尘",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "拼凑着残破的竹简",
+    "bilibiliUrl": "https://www.bilibili.com/video/av4497808/",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%B5%B7%E6%A3%A0%E4%BB%99"
+  },
+  {
     "title": "牧星者",
     "staff": "UP主：ilem",
     "releaseMonth": "2016-04",
@@ -46,18 +58,6 @@
     "lyrics": "天光乍现 云海岚山",
     "bilibiliUrl": "https://www.bilibili.com/video/av4240376/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%97%B6%E4%B8%80%E7%8E%B0%E8%80%B3%E4%B8%89%E5%8D%83%E5%B2%81"
-  },
-  {
-    "title": "海棠仙",
-    "staff": "UP主：纯白；作曲：纯白；作词：薇采之依；编曲：纯白",
-    "releaseMonth": "2016-04",
-    "singers": "星尘",
-    "voicebanks": "VOCALOID",
-    "concertCount": 0,
-    "special": "单曲",
-    "lyrics": "拼凑着残破的竹简",
-    "bilibiliUrl": "https://www.bilibili.com/video/av4497808/",
-    "vcpediaUrl": "https://vcpedia.cn/%E6%B5%B7%E6%A3%A0%E4%BB%99"
   },
   {
     "title": "Signal Scream",
@@ -96,18 +96,6 @@
     "vcpediaUrl": "https://vcpedia.cn/Solar_Storm"
   },
   {
-    "title": "生死一舞的爱语",
-    "staff": "UP主：星尘Official；作曲：Melo；作词：绿无；编曲：Melo",
-    "releaseMonth": "2017-05",
-    "singers": "星尘",
-    "voicebanks": "VOCALOID",
-    "concertCount": 1,
-    "special": "单曲",
-    "lyrics": "我在大漠中汲踽 朝向你在的海域",
-    "bilibiliUrl": "https://www.bilibili.com/video/av10475166/",
-    "vcpediaUrl": "https://vcpedia.cn/%E7%94%9F%E6%AD%BB%E4%B8%80%E8%88%9E%E7%9A%84%E7%88%B1%E8%AF%AD"
-  },
-  {
     "title": "蝴蝶旅客",
     "staff": "UP主：小野道；作曲：小野道；作词：赭莓奶；编曲：小野道",
     "releaseMonth": "2017-05",
@@ -118,6 +106,18 @@
     "lyrics": "漫步在午後兩點陽光的小路 與雜貨舖老爺爺打個招呼",
     "bilibiliUrl": "https://www.bilibili.com/video/av10324686/",
     "vcpediaUrl": "https://vcpedia.cn/%E8%9D%B4%E8%9D%B6%E6%97%85%E5%AE%A2"
+  },
+  {
+    "title": "生死一舞的爱语",
+    "staff": "UP主：星尘Official；作曲：Melo；作词：绿无；编曲：Melo",
+    "releaseMonth": "2017-05",
+    "singers": "星尘",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "我在大漠中汲踽 朝向你在的海域",
+    "bilibiliUrl": "https://www.bilibili.com/video/av10475166/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%94%9F%E6%AD%BB%E4%B8%80%E8%88%9E%E7%9A%84%E7%88%B1%E8%AF%AD"
   },
   {
     "title": "D!scolor",
@@ -262,6 +262,18 @@
     "lyrics": "阶前的寒雨打湿着无尽的萧索",
     "bilibiliUrl": "https://www.bilibili.com/video/av42348447/",
     "vcpediaUrl": "https://vcpedia.cn/%E7%A5%96%E9%BE%99%E5%90%9F"
+  },
+  {
+    "title": "To B Continued",
+    "staff": "UP主：米库喵；作曲：米库喵；作词：米库喵；编曲：米库喵",
+    "releaseMonth": "2019-06",
+    "singers": "洛天依；言和；心华；乐正绫；星尘；乐正龙牙；初音未来；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "第一次的相遇 像通往了奇迹",
+    "bilibiliUrl": "https://www.bilibili.com/video/av56911215/",
+    "vcpediaUrl": "https://vcpedia.cn/To_B_Continued"
   },
   {
     "title": "Chu~chu~chu~",
@@ -586,6 +598,18 @@
     "lyrics": "月碎在了眉尖 梦也醉去樽前",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1jZ421K79Y/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%80%9D%E5%8D%8E%E5%B9%B4"
+  },
+  {
+    "title": "沸雪煮相思",
+    "staff": "UP主：好梦一场；作曲：付尧；作词：徐重来；编曲：茉莉澜、好梦一场",
+    "releaseMonth": "2024-11",
+    "singers": "洛天依；星尘",
+    "voicebanks": "ACE Studio；Synthesizer V",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "眉头皱 才让沿途烟波也皱",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1uzBqYxEWv/",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%B2%B8%E9%9B%AA%E7%85%AE%E7%9B%B8%E6%80%9D"
   },
   {
     "title": "未完成秋天",

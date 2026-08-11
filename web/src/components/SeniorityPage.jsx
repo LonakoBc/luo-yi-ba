@@ -24,7 +24,7 @@ function songCardTheme(songId) {
   };
 }
 
-function SongCard({ song, round, revealed, releaseKnown, disabled, onChoose }) {
+function SongCard({ song, round, direction, revealed, releaseKnown, disabled, onChoose }) {
   const selected = round.selectedId === song.id;
   const correct = round.correctId === song.id;
   const resultClass = revealed ? correct ? 'is-correct' : selected ? 'is-wrong' : '' : '';
@@ -35,7 +35,7 @@ function SongCard({ song, round, revealed, releaseKnown, disabled, onChoose }) {
       style={songCardTheme(song.id)}
       onClick={() => onChoose(song.id)}
       disabled={disabled}
-      aria-label={`选择《${song.title}》作为更早发布的歌曲`}
+      aria-label={`选择《${song.title}》作为${direction === 'newer' ? '更新' : '更早'}发布的歌曲`}
     >
       <span className="seniority-cover"><SongImage song={song} /></span>
       <span className="seniority-card-copy">
@@ -49,7 +49,7 @@ function SongCard({ song, round, revealed, releaseKnown, disabled, onChoose }) {
         <span className={`seniority-date ${releaseKnown ? 'revealed' : ''}`}>
           发布时间：{releaseKnown ? song.releaseMonth : '????-??'}
         </span>
-        {revealed && correct && <span className="seniority-result-label">✓ 更早发布</span>}
+        {revealed && correct && <span className="seniority-result-label">✓ {direction === 'newer' ? '更新' : '更早'}发布</span>}
         {revealed && selected && !correct && <span className="seniority-result-label">× 选择错误</span>}
       </span>
     </button>
@@ -72,14 +72,14 @@ function SettleConfirm({ onCancel, onConfirm }) {
   );
 }
 
-function SeniorityResultDialog({ game, onRestart, onHome }) {
-  const evaluation = seniorityEvaluation(game.score);
+function SeniorityResultDialog({ game, direction, onRestart, onHome }) {
+  const evaluation = seniorityEvaluation(game.score, direction);
   const correctCount = game.history.filter(({ outcome }) => outcome === 'correct').length;
   const wrongCount = game.history.filter(({ outcome }) => outcome === 'wrong').length;
   return (
     <div className="modal-backdrop" role="presentation">
       <section className="result-dialog seniority-result-dialog" role="dialog" aria-modal="true" aria-labelledby="seniority-result-title">
-        <p className="eyebrow">{game.status === 'lost' ? '生命值耗尽' : '本局已结算'}</p>
+        <p className="eyebrow">{game.status === 'lost' ? '生命值耗尽' : '本局已结算'} · {direction === 'newer' ? '小资历' : '老资历'}</p>
         <h2 id="seniority-result-title">{evaluation.title}</h2>
         <p className="seniority-evaluation">{evaluation.description}</p>
         <div className="seniority-result-stats">
@@ -94,7 +94,7 @@ function SeniorityResultDialog({ game, onRestart, onHome }) {
               <strong>第 {round.number} 题</strong>
               <div><span>《{round.left.title}》</span><time>{round.left.releaseMonth}</time></div>
               <div><span>《{round.right.title}》</span><time>{round.right.releaseMonth}</time></div>
-              <small>{round.outcome === 'correct' ? '✓ 回答正确' : round.outcome === 'wrong' ? '× 回答错误' : '— 未作答'}</small>
+              <small>{round.outcome === 'correct' ? `✓ ${direction === 'newer' ? '更新' : '更早'}判断正确` : round.outcome === 'wrong' ? `× ${direction === 'newer' ? '更新' : '更早'}判断错误` : '— 未作答'}</small>
             </article>
           ))}
         </div>
@@ -107,8 +107,8 @@ function SeniorityResultDialog({ game, onRestart, onHome }) {
   );
 }
 
-export default function SeniorityPage({ songs, random, onBack, Brand }) {
-  const service = useMemo(() => createSeniorityService(songs, { random }), [songs, random]);
+export default function SeniorityPage({ songs, direction = 'older', random, onBack, Brand }) {
+  const service = useMemo(() => createSeniorityService(songs, { random, direction }), [songs, random, direction]);
   const [game, setGame] = useState(() => service.startGame());
   const [showSettleConfirm, setShowSettleConfirm] = useState(false);
   const finished = game.status === 'lost' || game.status === 'settled';
@@ -133,7 +133,7 @@ export default function SeniorityPage({ songs, random, onBack, Brand }) {
       </header>
       <main className="seniority-main">
         <div className="seniority-heading">
-          <div><p className="eyebrow">发布时间挑战</p><h2>谁是老资历？</h2><p>选出发布时间更早的歌曲。</p></div>
+          <div><p className="eyebrow">发布时间挑战 · {direction === 'newer' ? '小资历' : '老资历'}</p><h2>{direction === 'newer' ? '谁是小资历？' : '谁是老资历？'}</h2><p>选出发布时间{direction === 'newer' ? '更新' : '更早'}的歌曲。</p></div>
           <div className="seniority-stats" aria-label="游戏状态">
             <span><strong aria-label={`${game.lives} 点生命`}>{'♥'.repeat(game.lives)}{'♡'.repeat(3 - game.lives)}</strong>生命</span>
             <span><strong>{game.score}</strong>得分</span>
@@ -142,9 +142,9 @@ export default function SeniorityPage({ songs, random, onBack, Brand }) {
         </div>
 
         <section className="seniority-board" aria-label={`第 ${game.round.number} 题`}>
-          <SongCard key={game.round.left.id} song={game.round.left} round={game.round} revealed={revealed} releaseKnown={revealed || revealedSongIds.has(game.round.left.id)} disabled={game.status !== 'playing'} onChoose={(id) => setGame(service.choose(game, id))} />
+          <SongCard key={game.round.left.id} song={game.round.left} round={game.round} direction={direction} revealed={revealed} releaseKnown={revealed || revealedSongIds.has(game.round.left.id)} disabled={game.status !== 'playing'} onChoose={(id) => setGame(service.choose(game, id))} />
           <div className="seniority-versus" aria-hidden="true">VS</div>
-          <SongCard key={game.round.right.id} song={game.round.right} round={game.round} revealed={revealed} releaseKnown={revealed || revealedSongIds.has(game.round.right.id)} disabled={game.status !== 'playing'} onChoose={(id) => setGame(service.choose(game, id))} />
+          <SongCard key={game.round.right.id} song={game.round.right} round={game.round} direction={direction} revealed={revealed} releaseKnown={revealed || revealedSongIds.has(game.round.right.id)} disabled={game.status !== 'playing'} onChoose={(id) => setGame(service.choose(game, id))} />
         </section>
 
         <div className="seniority-actions">
@@ -153,7 +153,7 @@ export default function SeniorityPage({ songs, random, onBack, Brand }) {
         </div>
       </main>
       {showSettleConfirm && <SettleConfirm onCancel={() => setShowSettleConfirm(false)} onConfirm={settle} />}
-      {finished && <SeniorityResultDialog game={game} onRestart={restart} onHome={onBack} />}
+      {finished && <SeniorityResultDialog game={game} direction={direction} onRestart={restart} onHome={onBack} />}
     </div>
   );
 }

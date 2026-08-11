@@ -24,6 +24,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E5%8F%8C%E5%90%91%E7%9B%91%E7%A6%81"
   },
   {
+    "title": "刀剑春秋",
+    "staff": "UP主：litterzy；作曲：litterzy；作词：大嘴巴狼；编曲：litterzy",
+    "releaseMonth": "2014-02",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 4,
+    "special": "单曲",
+    "lyrics": "孤灯下一管烽烟写前朝 汗青里壮士肝胆不会老",
+    "bilibiliUrl": "https://www.bilibili.com/video/av946273/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%88%80%E5%89%91%E6%98%A5%E7%A7%8B"
+  },
+  {
     "title": "兄/妹控即是正☆义!",
     "staff": "UP主：YGY；作曲：YGY；编曲：YGY",
     "releaseMonth": "2014-02",
@@ -58,6 +70,18 @@
     "lyrics": "抬头一看表　尼玛要迟到",
     "bilibiliUrl": "https://www.bilibili.com/video/av1433985/",
     "vcpediaUrl": "https://vcpedia.cn/%E4%BB%8A%E5%A4%A9%E6%B2%A1%E5%90%83%E8%8D%AF"
+  },
+  {
+    "title": "言氏战鼓",
+    "staff": "UP主：ilem",
+    "releaseMonth": "2014-10",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 2,
+    "special": "单曲",
+    "lyrics": "拔刀定江山 言氏战鼓一槌天地颠",
+    "bilibiliUrl": "https://www.bilibili.com/video/av1596545/",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%A8%80%E6%B0%8F%E6%88%98%E9%BC%93"
   },
   {
     "title": "怪物大暴走",
@@ -240,6 +264,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E8%B5%B7%E6%9D%A5%EF%BC%81"
   },
   {
+    "title": "空白世界",
+    "staff": "UP主：黒白P",
+    "releaseMonth": "2016-07",
+    "singers": "洛天依；言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "什么都看不到 什么都听不到 意识停留在几万米高",
+    "bilibiliUrl": "https://www.bilibili.com/video/av5219121/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%A9%BA%E7%99%BD%E4%B8%96%E7%95%8C"
+  },
+  {
     "title": "六重不忠",
     "staff": "UP主：DELA；作曲：DELA、崩坏；作词：雨狸；编曲：崩坏",
     "releaseMonth": "2016-08",
@@ -384,6 +420,30 @@
     "vcpediaUrl": "https://vcpedia.cn/%E5%8F%8C%E5%90%91%E5%80%BE%E8%AF%89"
   },
   {
+    "title": "天生尤物",
+    "staff": "UP主：MIE；作曲：PoKeR；作词：杏花包子；编曲：PoKeR",
+    "releaseMonth": "2018-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "CHILI WOW WOW 色号唇上在游走",
+    "bilibiliUrl": "https://www.bilibili.com/video/av26532522/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%A4%A9%E7%94%9F%E5%B0%A4%E7%89%A9"
+  },
+  {
+    "title": "梦之雨",
+    "staff": "UP主：Vsinger Official",
+    "releaseMonth": "2018-08",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 6,
+    "special": "单曲",
+    "lyrics": "夜明前蓝色忧郁的天边 昔时缘故人又在脑海浮现",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%A2%A6%E4%B9%8B%E9%9B%A8"
+  },
+  {
     "title": "威诺希",
     "staff": "UP主：JUSF周存；作曲：JUSF周存；作词：JUSF周存；编曲：JUSF周存",
     "releaseMonth": "2018-09",
@@ -432,6 +492,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E5%BE%97%E8%BF%87%E4%B8%94%E8%BF%87%E7%9A%84%E5%8B%87%E8%80%85"
   },
   {
+    "title": "心电感应",
+    "staff": "UP主：乐正绫官方账号；作曲：moonpika；作词：古洛；编曲：moonpika",
+    "releaseMonth": "2019-06",
+    "singers": "言和；乐正绫",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "有两颗骄傲的小小流星 交汇在数万光年外的银河",
+    "bilibiliUrl": "https://www.bilibili.com/video/av56301418/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%BF%83%E7%94%B5%E6%84%9F%E5%BA%94"
+  },
+  {
     "title": "再一杯！",
     "staff": "UP主：花儿不哭；作曲：小宇Cosmos；作词：冥凰；编曲：小宇Cosmos",
     "releaseMonth": "2019-06",
@@ -456,6 +528,30 @@
     "vcpediaUrl": "https://vcpedia.cn/Attack!"
   },
   {
+    "title": "To B Continued",
+    "staff": "UP主：米库喵；作曲：米库喵；作词：米库喵；编曲：米库喵",
+    "releaseMonth": "2019-06",
+    "singers": "洛天依；言和；心华；乐正绫；星尘；乐正龙牙；初音未来；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "第一次的相遇 像通往了奇迹",
+    "bilibiliUrl": "https://www.bilibili.com/video/av56911215/",
+    "vcpediaUrl": "https://vcpedia.cn/To_B_Continued"
+  },
+  {
+    "title": "自我主张崇拜",
+    "staff": "UP主：言和官方帳號；作曲：米库喵；作词：米库喵；编曲：米库喵",
+    "releaseMonth": "2019-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 2,
+    "special": "生贺曲",
+    "lyrics": "将功率开到满档 感受这低频轰鸣的声浪",
+    "bilibiliUrl": "https://www.bilibili.com/video/av58753412/",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%87%AA%E6%88%91%E4%B8%BB%E5%BC%A0%E5%B4%87%E6%8B%9C"
+  },
+  {
     "title": "达拉崩吧·史诗版",
     "staff": "UP主：初繁言；作曲：墨白茜兔；作词：初繁言；编曲：Rabbiii",
     "releaseMonth": "2019-08",
@@ -478,6 +574,18 @@
     "lyrics": "万里连云揽于一国风光",
     "bilibiliUrl": "https://www.bilibili.com/video/av69519887/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%9C%B0%E5%8A%BF%E5%9D%A4"
+  },
+  {
+    "title": "甜度71.1%",
+    "staff": "UP主：言和官方账号；作曲：味素；作词：初繁言；编曲：味素",
+    "releaseMonth": "2020-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "别想了 心脏说不出地燥热",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1yD4y1S7vt/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%94%9C%E5%BA%A6%E7%99%BE%E5%88%86%E4%B9%8B%E4%B8%83%E5%8D%81%E4%B8%80%E7%82%B9%E4%B8%80"
   },
   {
     "title": "塔与少女的无题诗",
@@ -528,6 +636,54 @@
     "vcpediaUrl": "https://vcpedia.cn/%E5%8F%8C%E6%98%9F%E4%BC%B4%E7%94%9F"
   },
   {
+    "title": "折光",
+    "staff": "UP主：言和官方賬號；作曲：TSAR；作词：初繁言；编曲：TSAR",
+    "releaseMonth": "2021-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "并非被谁所偏宠 倒映着旁人的颜色",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1gw411d7R7/",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%8A%98%E5%85%89"
+  },
+  {
+    "title": "布虎记",
+    "staff": "UP主：西门振；作词：Vagary",
+    "releaseMonth": "2022-02",
+    "singers": "洛天依；言和；乐正绫；乐正龙牙；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "拜年/贺岁纪曲目",
+    "lyrics": "休说真的假的 谁个似我威风多",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1Yq4y1h77V/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%B8%83%E8%99%8E%E8%AE%B0"
+  },
+  {
+    "title": "主播有点忙",
+    "staff": "UP主：Litterzy；作曲：Litterzy；作词：蔫小坏；编曲：Litterzy",
+    "releaseMonth": "2022-03",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "环形灯照亮面庞 万众瞩目看我光鲜登场",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1DT4y1U78f/",
+    "vcpediaUrl": "https://vcpedia.cn/%E4%B8%BB%E6%92%AD%E6%9C%89%E7%82%B9%E5%BF%99"
+  },
+  {
+    "title": "心音盒",
+    "staff": "UP主：言和官方賬號；作曲：GhostFinal；作词：叶尖尖；编曲：GhostFinal",
+    "releaseMonth": "2022-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "生贺曲",
+    "lyrics": "每个音符都跳动着跳动着旋转",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1We4y1R7m7/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%BF%83%E9%9F%B3%E7%9B%92"
+  },
+  {
     "title": "永恒之上",
     "staff": "UP主：JUSF周存",
     "releaseMonth": "2022-07",
@@ -540,6 +696,30 @@
     "vcpediaUrl": "https://vcpedia.cn/%E6%B0%B8%E6%81%92%E4%B9%8B%E4%B8%8A"
   },
   {
+    "title": "在下，言和",
+    "staff": "UP主：iKz；作曲：iKz；作词：iKz；编曲：iKz",
+    "releaseMonth": "2022-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "在下 言和 在下 言和",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1xU4y1q79a/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%9C%A8%E4%B8%8B%EF%BC%8C%E8%A8%80%E5%92%8C"
+  },
+  {
+    "title": "兔儿嗨",
+    "staff": "UP主：litterzy",
+    "releaseMonth": "2023-01",
+    "singers": "洛天依；言和；乐正绫；乐正龙牙；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "拜年/贺岁纪曲目",
+    "lyrics": "东风吹吹吹 吹送日落迎月辉",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1zK411k7ns/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%85%94%E5%84%BF%E5%97%A8"
+  },
+  {
     "title": "毕业通知",
     "staff": "UP主：绛栖轩、WOVOP；作词：胧汐Louisa、WOVOP；编曲：随手",
     "releaseMonth": "2023-07",
@@ -550,6 +730,18 @@
     "lyrics": "如果明天　会是我们此生最后的遇见",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1hm411X77E/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%AF%95%E4%B8%9A%E9%80%9A%E7%9F%A5"
+  },
+  {
+    "title": "听我一言",
+    "staff": "UP主：言和官方賬號；作词：邪叫教主；编曲：清风疾行、iKz",
+    "releaseMonth": "2023-07",
+    "singers": "言和",
+    "voicebanks": "VOCALOID；ACE Studio",
+    "concertCount": 2,
+    "special": "生贺曲",
+    "lyrics": "途经千家檐 身携清风入世间",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV11h4y1Z76C/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%90%AC%E6%88%91%E4%B8%80%E8%A8%80"
   },
   {
     "title": "人间应又雪",
@@ -576,6 +768,18 @@
     "vcpediaUrl": "https://vcpedia.cn/I.I.IDIOT"
   },
   {
+    "title": "Side by Side",
+    "staff": "UP主：言和；作曲：PoKeR_扑克；作词：杏花包子；编曲：Mahan",
+    "releaseMonth": "2024-07",
+    "singers": "言和",
+    "voicebanks": "ACE Studio",
+    "concertCount": 1,
+    "special": "生贺曲",
+    "lyrics": "灰白的色彩 躲藏在躯壳中等待",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV13E421P7W2/",
+    "vcpediaUrl": "https://vcpedia.cn/Side_by_Side"
+  },
+  {
     "title": "为岳",
     "staff": "UP主：忘川风华录；作曲：酷丘；作词：冥凰",
     "releaseMonth": "2025-05",
@@ -586,6 +790,18 @@
     "lyrics": "云暗 日薄 紫禁重重遥望已寥落",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1nNj2zWEXf/",
     "vcpediaUrl": "https://vcpedia.cn/%E4%B8%BA%E5%B2%B3"
+  },
+  {
+    "title": "Override",
+    "staff": "UP主：言和；作曲：K.ila；作词：K.ila、3ASiC；编曲：3ASiC",
+    "releaseMonth": "2025-07",
+    "singers": "言和",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "心灵在漂泊 扫描思绪的我",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1NPGAzhEYd/",
+    "vcpediaUrl": "https://vcpedia.cn/Override"
   },
   {
     "title": "十重告别",
@@ -610,5 +826,17 @@
     "lyrics": "天下之势　生灵涂炭　朝堂纷纭　一隅偏安",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1o6KS6SE8U/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%BD%93%E9%A5%AE"
+  },
+  {
+    "title": "我们正驶向黎明",
+    "staff": "UP主：言和官方账号；作曲：瞳荧、周弦、烂兔子P；作词：瞳荧；编曲：杨子轩",
+    "releaseMonth": "2026-07",
+    "singers": "言和",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "海面上 薄雾如梦一般轻盈",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1XLM36gEtf/",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%88%91%E4%BB%AC%E6%AD%A3%E9%A9%B6%E5%90%91%E9%BB%8E%E6%98%8E"
   }
 ]

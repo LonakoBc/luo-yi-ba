@@ -1,0 +1,10 @@
+曲名：《心音盒》
+staff：UP主：言和官方賬號；作曲：GhostFinal；作词：叶尖尖；编曲：GhostFinal
+发布时间：2022-07
+演唱歌姬：言和
+使用声库：VOCALOID
+演唱会\生日会次数：1
+特殊标注：生贺曲
+歌词：每个音符都跳动着跳动着旋转
+哔哩哔哩地址：https://www.bilibili.com/video/BV1We4y1R7m7/
+歌曲页面URL：https://vcpedia.cn/%E5%BF%83%E9%9F%B3%E7%9B%92

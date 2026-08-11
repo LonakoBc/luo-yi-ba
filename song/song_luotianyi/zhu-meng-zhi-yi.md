@@ -1,0 +1,10 @@
+曲名：《逐梦之翼》
+staff：UP主：Ddickky；作曲：Ddickky；作词：Ddickky；编曲：Ddickky
+发布时间：2014-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：从你的眼中看到了迷惘
+哔哩哔哩地址：https://www.bilibili.com/video/BV1Yx411F7uf/
+歌曲页面URL：https://vcpedia.cn/%E9%80%90%E6%A2%A6%E4%B9%8B%E7%BF%BC

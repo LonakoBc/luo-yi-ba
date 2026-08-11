@@ -40,22 +40,31 @@ function pickCandidate(songs, anchor, score, usedIds, random) {
   return weightedChoice(pool.filter((song) => difficultyPenalty(anchor, song, stage) === minimumPenalty), random);
 }
 
-function correctSong(left, right) {
+function correctSong(left, right, direction) {
+  if (direction === 'newer') return left.releaseMonth > right.releaseMonth ? left : right;
   return left.releaseMonth < right.releaseMonth ? left : right;
 }
 
-function createRound(number, left, right) {
+function createRound(number, left, right, direction) {
   return {
     number,
     left,
     right,
     selectedId: null,
-    correctId: correctSong(left, right).id,
+    correctId: correctSong(left, right, direction).id,
+    direction,
     outcome: null,
   };
 }
 
-export function seniorityEvaluation(score) {
+export function seniorityEvaluation(score, direction = 'older') {
+  if (direction === 'newer') {
+    if (score >= 25) return { title: '追新雷达满格', description: '曲库的新鲜气息完全逃不过你的耳朵。' };
+    if (score >= 15) return { title: '新曲观察员', description: '同一年里的月份差也能被你准确捕捉。' };
+    if (score >= 10) return { title: '潮流听众', description: '相邻年份的新旧变化已经非常清晰。' };
+    if (score >= 5) return { title: '小有新意', description: '你已经能辨认不少曲目的发布时间了。' };
+    return { title: '正在追新', description: '再听几首，很快就能建立自己的曲库年表。' };
+  }
   if (score >= 25) return { title: '活化石级资历', description: 'V 家年表已经刻进你的 DNA。' };
   if (score >= 15) return { title: '曲库考古家', description: '同一年里的月份差也逃不过你的耳朵。' };
   if (score >= 10) return { title: '资深听众', description: '相邻年份的时代气息已经非常清晰。' };
@@ -63,7 +72,8 @@ export function seniorityEvaluation(score) {
   return { title: '初来乍到', description: '再听几首，很快就能建立自己的曲库年表。' };
 }
 
-export function createSeniorityService(rawSongs, { random = Math.random } = {}) {
+export function createSeniorityService(rawSongs, { random = Math.random, direction = 'older' } = {}) {
+  if (!['older', 'newer'].includes(direction)) throw new Error('未知的发布时间比较模式');
   const songs = rawSongs.filter((song) => /^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth));
   if (songs.length < 2) throw new Error('至少需要两首发布时间有效的歌曲');
 
@@ -76,7 +86,8 @@ export function createSeniorityService(rawSongs, { random = Math.random } = {}) 
       status: 'playing',
       lives: 3,
       score: 0,
-      round: createRound(1, first, second),
+      direction,
+      round: createRound(1, first, second, direction),
       history: [],
       usedIds: [...usedIds],
       revealedSongIds: [],
@@ -123,7 +134,7 @@ export function createSeniorityService(rawSongs, { random = Math.random } = {}) 
     return {
       ...game,
       status: 'playing',
-      round: createRound(game.round.number + 1, left, right),
+      round: createRound(game.round.number + 1, left, right, direction),
       usedIds: [...usedIds],
       carrySide: null,
       selectionStreakSongId: replaceRepeatedOldSong ? null : game.selectionStreakSongId,

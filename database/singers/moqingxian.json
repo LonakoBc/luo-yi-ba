@@ -1,5 +1,41 @@
 [
   {
+    "title": "ACE",
+    "staff": "UP主：Vsinger Official、墨清弦官方账号；作曲：Li Zong；作词：雨狸；编曲：Li Zong",
+    "releaseMonth": "2018-08",
+    "singers": "墨清弦",
+    "voicebanks": "ACE Studio",
+    "concertCount": 2,
+    "special": "单曲",
+    "lyrics": "还缺谁来压轴 舞台的正中 焦点轮空",
+    "bilibiliUrl": "https://www.bilibili.com/video/av53026711/",
+    "vcpediaUrl": "https://vcpedia.cn/ACE(%E5%A2%A8%E6%B8%85%E5%BC%A6)"
+  },
+  {
+    "title": "关于你",
+    "staff": "UP主：墨清弦官方账号；作曲：千坂、人形兎；作词：古洛；编曲：千坂",
+    "releaseMonth": "2019-05",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "生贺曲",
+    "lyrics": "就像棉花糖遇见一阵微风 汇成酸甜雨滴跌进心里",
+    "bilibiliUrl": "https://www.bilibili.com/video/av53022215/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%85%B3%E4%BA%8E%E4%BD%A0"
+  },
+  {
+    "title": "To B Continued",
+    "staff": "UP主：米库喵；作曲：米库喵；作词：米库喵；编曲：米库喵",
+    "releaseMonth": "2019-06",
+    "singers": "洛天依；言和；心华；乐正绫；星尘；乐正龙牙；初音未来；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "第一次的相遇 像通往了奇迹",
+    "bilibiliUrl": "https://www.bilibili.com/video/av56911215/",
+    "vcpediaUrl": "https://vcpedia.cn/To_B_Continued"
+  },
+  {
     "title": "万圣街",
     "staff": "UP主：非人哉工作室；作曲：大河内航太；作词：林铭、紫吉；编曲：大河内航太",
     "releaseMonth": "2020-03",
@@ -12,6 +48,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E4%B8%87%E5%9C%A3%E8%A1%97"
   },
   {
+    "title": "失眠少女",
+    "staff": "UP主：墨清弦官方账号；作曲：米库喵；作词：米库喵；编曲：米库喵",
+    "releaseMonth": "2020-05",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "打落夜空欲坠的繁星 再从幻境借些光影",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1EV411C7pQ/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%A4%B1%E7%9C%A0%E5%B0%91%E5%A5%B3(%E7%B1%B3%E5%BA%93%E5%96%B5)"
+  },
+  {
     "title": "塔与少女的无题诗",
     "staff": "UP主：雨狸；作曲：依溪禾；作词：雨狸；编曲：依溪禾、清风疾行",
     "releaseMonth": "2020-10",
@@ -22,5 +70,101 @@
     "lyrics": "来我画卷里面　把心灵召唤",
     "bilibiliUrl": "https://www.bilibili.com/video/av839782809/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%A1%94%E4%B8%8E%E5%B0%91%E5%A5%B3%E7%9A%84%E6%97%A0%E9%A2%98%E8%AF%97"
+  },
+  {
+    "title": "风羽",
+    "staff": "UP主：墨清弦官方賬號；作曲：星辉；作词：大九_LN；编曲：星辉",
+    "releaseMonth": "2021-05",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "未曾打湿翅膀 遗失飞翔",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1NU4y1L7ux/",
+    "vcpediaUrl": "https://vcpedia.cn/%E9%A3%8E%E7%BE%BD"
+  },
+  {
+    "title": "布虎记",
+    "staff": "UP主：西门振；作词：Vagary",
+    "releaseMonth": "2022-02",
+    "singers": "洛天依；言和；乐正绫；乐正龙牙；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "拜年/贺岁纪曲目",
+    "lyrics": "休说真的假的 谁个似我威风多",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1Yq4y1h77V/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%B8%83%E8%99%8E%E8%AE%B0"
+  },
+  {
+    "title": "白噪",
+    "staff": "UP主：墨清弦官方賬號；作曲：闹闹；作词：雨狸；编曲：ZHI16",
+    "releaseMonth": "2022-05",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "左耳拂过来自远方的风 窗外花开了 伸展开骨骼",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1ur4y147NX/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%99%BD%E5%99%AA"
+  },
+  {
+    "title": "兔儿嗨",
+    "staff": "UP主：litterzy",
+    "releaseMonth": "2023-01",
+    "singers": "洛天依；言和；乐正绫；乐正龙牙；徵羽摩柯；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "拜年/贺岁纪曲目",
+    "lyrics": "东风吹吹吹 吹送日落迎月辉",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1zK411k7ns/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%85%94%E5%84%BF%E5%97%A8"
+  },
+  {
+    "title": "舞不醉心",
+    "staff": "UP主：墨清弦官方賬號；作曲：伊野奏；作词：果汁凉菜；编曲：伊野奏",
+    "releaseMonth": "2023-05",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "Dance with me",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1vu411x7xL/",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%88%9E%E4%B8%8D%E9%86%89%E5%BF%83"
+  },
+  {
+    "title": "绝对占有",
+    "staff": "UP主：墨清弦官方账号",
+    "releaseMonth": "2024-05",
+    "singers": "墨清弦",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "我的行动即为绝对服从 哪怕沦为你的提线木偶",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1KD421A7uS/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%BB%9D%E5%AF%B9%E5%8D%A0%E6%9C%89"
+  },
+  {
+    "title": "独占春",
+    "staff": "UP主：墨清弦官方賬號；作曲：PoKeR_扑克；作词：杏花包子；编曲：Cocoa",
+    "releaseMonth": "2025-05",
+    "singers": "墨清弦",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "人们总停留在鲜花旁 喜欢目视它绽放",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1dCEXzBEZZ/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%8B%AC%E5%8D%A0%E6%98%A5"
+  },
+  {
+    "title": "月色清弦",
+    "staff": "UP主：墨清弦官方账号；作曲：盖盖Nyan；作词：纪远；编曲：盖盖Nyan、Yaseika",
+    "releaseMonth": "2026-05",
+    "singers": "墨清弦",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "回忆的尽头会有谁流连",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1ZzLr6QENc/",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%9C%88%E8%89%B2%E6%B8%85%E5%BC%A6"
   }
 ]

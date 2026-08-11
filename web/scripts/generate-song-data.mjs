@@ -61,7 +61,7 @@ function parseFields(markdown, source) {
     fields.set(key, value);
   }
 
-  const missing = REQUIRED_FIELDS.filter((field) => !fields.get(field));
+  const missing = REQUIRED_FIELDS.filter((field) => !fields.has(field) || (field !== '哔哩哔哩地址' && !fields.get(field)));
   if (missing.length) throw new Error(`${source}: 缺少字段：${missing.join('、')}`);
   const extras = [...fields.keys()].filter((field) => !REQUIRED_FIELDS.includes(field));
   if (extras.length) throw new Error(`${source}: 存在未知字段：${extras.join('、')}`);
@@ -93,14 +93,16 @@ export function parseSongMarkdown(markdown, id, source = id) {
   if (!SPECIALS.has(special)) throw new Error(`${source}: 特殊标注无效：${special}`);
 
   const bilibiliUrl = fields.get('哔哩哔哩地址');
-  let parsedUrl;
-  try {
-    parsedUrl = new URL(bilibiliUrl);
-  } catch {
-    throw new Error(`${source}: 哔哩哔哩地址不是合法 URL`);
-  }
-  if (parsedUrl.protocol !== 'https:' || !/(^|\.)bilibili\.com$/iu.test(parsedUrl.hostname) || !parsedUrl.pathname.startsWith('/video/')) {
-    throw new Error(`${source}: 哔哩哔哩地址必须是 HTTPS 视频页`);
+  if (bilibiliUrl) {
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(bilibiliUrl);
+    } catch {
+      throw new Error(`${source}: 哔哩哔哩地址不是合法 URL`);
+    }
+    if (parsedUrl.protocol !== 'https:' || !/(^|\.)bilibili\.com$/iu.test(parsedUrl.hostname) || !parsedUrl.pathname.startsWith('/video/')) {
+      throw new Error(`${source}: 哔哩哔哩地址必须是 HTTPS 视频页`);
+    }
   }
 
   const vcpediaUrl = fields.get('歌曲页面URL');

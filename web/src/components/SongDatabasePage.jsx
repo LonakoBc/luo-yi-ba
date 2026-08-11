@@ -36,7 +36,7 @@ function SongDetail({ song, onClose }) {
           <div className="detail-lyrics"><dt>歌词</dt><dd>{song.lyrics}</dd></div>
         </dl>
         <div className="database-links">
-          <a className="bilibili-link" href={song.bilibiliUrl} target="_blank" rel="noreferrer noopener">前往 Bilibili 原视频 ↗</a>
+          {song.bilibiliUrl && <a className="bilibili-link" href={song.bilibiliUrl} target="_blank" rel="noreferrer noopener">前往 Bilibili 原视频 ↗</a>}
           <a className="vcpedia-link" href={song.vcpediaUrl} target="_blank" rel="noreferrer noopener">前往 VCPedia.cn 页面 ↗</a>
         </div>
       </aside>
@@ -70,7 +70,7 @@ export default function SongDatabasePage({ singer, songs, onBack, onHome, Brand 
       </header>
       <main className="database-main">
         <div className="database-title">
-          <div><p className="eyebrow">歌曲数据库</p><h2>{singer.name}曲库资料</h2></div>
+          <div><p className="eyebrow">歌曲数据库</p><h2>{singer.id === 'all' ? '全曲库资料' : `${singer.name}曲库资料`}</h2></div>
           <strong>{visibleSongs.length} / {songs.length} 首</strong>
         </div>
 

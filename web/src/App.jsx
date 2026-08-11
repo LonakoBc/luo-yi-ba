@@ -9,6 +9,7 @@ import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
 import SeniorityPage from './components/SeniorityPage';
+import SeniorityModePage from './components/SeniorityModePage';
 import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
@@ -24,8 +25,8 @@ function routeFromLocation(pathname, search = '') {
   if (pathname === '/sorting/custom') return { page: 'sorting', kind: 'custom', search, routeKey: `${pathname}${search}` };
   if (pathname === '/seniority') return { page: 'seniority-select', routeKey: pathname };
   const seniorityPresetMatch = pathname.match(/^\/seniority\/preset\/([a-z0-9-]+)$/u);
-  if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], routeKey: pathname };
-  if (pathname === '/seniority/custom') return { page: 'seniority', kind: 'custom', search, routeKey: `${pathname}${search}` };
+  if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
+  if (pathname === '/seniority/custom') return { page: 'seniority', kind: 'custom', search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
   if (pathname === '/database') return { page: 'database-select', routeKey: pathname };
   const databaseMatch = pathname.match(/^\/database\/([a-z0-9-]+)$/u);
   if (databaseMatch) return { page: 'database', databaseId: databaseMatch[1], routeKey: pathname };
@@ -41,7 +42,7 @@ function Brand({ compact = false }) {
   return (
     <div className={`site-brand ${compact ? 'compact' : ''}`}>
       <div className="brand-mark" aria-hidden="true" />
-      <div><p className="eyebrow">传说曲猜猜看</p><h1>洛一把</h1></div>
+      <div><p className="eyebrow">曲目小游戏合集</p><h1>洛一把</h1></div>
     </div>
   );
 }
@@ -56,7 +57,7 @@ function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChoose
         <div className="content-grid">
           <button type="button" className="content-card available" onClick={onChooseGame}>
             <span className="card-index">01</span><span className="music-glyph" aria-hidden="true">♪</span>
-            <span className="card-copy"><strong>猜歌</strong><small>根据每次猜测获得线索，找出隐藏的传说曲。</small></span>
+            <span className="card-copy"><strong>曲目猜猜看</strong><small>根据每次猜测获得线索，找出隐藏的经典曲目。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" className="content-card available crossword-card" onClick={onChooseCrossword}>
@@ -159,8 +160,19 @@ export default function App({ songs = songData, presets = presetData, database =
     const senioritySongs = route.kind === 'custom'
       ? filterSongs(songs, filtersFromSearch(route.search, songs))
       : songsForPreset(songs, preset);
-    pageContent = senioritySongs.length >= 2
-      ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
+    const direction = ['older', 'newer'].includes(route.direction) ? route.direction : null;
+    const chooseDirection = (nextDirection) => {
+      if (route.kind === 'preset') navigate(`/seniority/preset/${route.presetId}?mode=${nextDirection}`);
+      else {
+        const params = new URLSearchParams(route.search);
+        params.set('mode', nextDirection);
+        navigate(`/seniority/custom?${params.toString()}`);
+      }
+    };
+    pageContent = senioritySongs.length >= 2 && !direction
+      ? <SeniorityModePage poolName={preset?.name ?? '自定义曲库'} songCount={senioritySongs.length} onChoose={chooseDirection} onBack={() => navigate('/seniority')} Brand={Brand} />
+      : senioritySongs.length >= 2
+        ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} direction={direction} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
       : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
   } else if (route.page === 'database-select') {
     pageContent = <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;

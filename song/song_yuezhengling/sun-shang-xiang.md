@@ -1,0 +1,10 @@
+曲名：《孙尚香》
+staff：UP主：空气凝Klean；作曲：空气凝Klean；作词：Ahava·小爱酱；编曲：空气凝Klean
+发布时间：2016-02
+演唱歌姬：洛天依；乐正绫
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：何妄断情薄指尖流
+哔哩哔哩地址：https://www.bilibili.com/video/BV1Ls41197bD/
+歌曲页面URL：https://vcpedia.cn/%E5%AD%99%E5%B0%9A%E9%A6%99

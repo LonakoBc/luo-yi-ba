@@ -1,0 +1,99 @@
+{
+  "generatedAt": "2026-08-11T16:04:10.419Z",
+  "requestedSongs": 140,
+  "newGlobalSongs": 139,
+  "updatedExistingSongs": 1,
+  "matchedBeforeMerge": 140,
+  "addedMemberships": 0,
+  "uniqueGlobalSongs": 494,
+  "totalSingerRecords": 641,
+  "unsupportedSingerNames": [
+    "初音未来"
+  ],
+  "singers": [
+    {
+      "id": "luotianyi",
+      "name": "洛天依",
+      "count": 301,
+      "touched": 166
+    },
+    {
+      "id": "yuezhengling",
+      "name": "乐正绫",
+      "count": 74,
+      "touched": 46
+    },
+    {
+      "id": "yanhe",
+      "name": "言和",
+      "count": 70,
+      "touched": 38
+    },
+    {
+      "id": "longya",
+      "name": "乐正龙牙",
+      "count": 24,
+      "touched": 30
+    },
+    {
+      "id": "zhiyu-moke",
+      "name": "徵羽摩柯",
+      "count": 16,
+      "touched": 18
+    },
+    {
+      "id": "moqingxian",
+      "name": "墨清弦",
+      "count": 14,
+      "touched": 24
+    },
+    {
+      "id": "xinhua",
+      "name": "心华",
+      "count": 10,
+      "touched": 2
+    },
+    {
+      "id": "xingchen",
+      "name": "星尘",
+      "count": 61,
+      "touched": 4
+    },
+    {
+      "id": "haiyi",
+      "name": "海伊",
+      "count": 10,
+      "touched": 0
+    },
+    {
+      "id": "cangqiong",
+      "name": "苍穹",
+      "count": 13,
+      "touched": 0
+    },
+    {
+      "id": "chiyu",
+      "name": "赤羽",
+      "count": 24,
+      "touched": 0
+    },
+    {
+      "id": "shian",
+      "name": "诗岸",
+      "count": 14,
+      "touched": 0
+    },
+    {
+      "id": "muxin",
+      "name": "牧心",
+      "count": 3,
+      "touched": 0
+    },
+    {
+      "id": "minus",
+      "name": "永夜Minus",
+      "count": 7,
+      "touched": 0
+    }
+  ]
+}

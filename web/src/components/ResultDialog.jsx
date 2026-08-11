@@ -10,7 +10,7 @@ export default function ResultDialog({ answer, guessCount, outcome, onClose, onR
         <p className="answer-name">《{answer.title}》</p>
         <p className="win-summary">本局一共猜了 <strong>{guessCount}</strong> 次。</p>
         <div className="dialog-actions">
-          <a className="bilibili-link" href={answer.bilibiliUrl} target="_blank" rel="noreferrer noopener">前往 Bilibili 原视频 ↗</a>
+          {answer.bilibiliUrl && <a className="bilibili-link" href={answer.bilibiliUrl} target="_blank" rel="noreferrer noopener">前往 Bilibili 原视频 ↗</a>}
           <a className="vcpedia-link" href={answer.vcpediaUrl} target="_blank" rel="noreferrer noopener">前往 VCPedia.cn 页面 ↗</a>
           <button type="button" className="primary-button" onClick={onRestart}>再来一局</button>
           <button type="button" className="ghost-button" onClick={onClose}>查看结果</button>

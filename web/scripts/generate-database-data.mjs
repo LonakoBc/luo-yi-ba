@@ -15,6 +15,14 @@ export function normalizeDatabaseSingerName(value) {
   return value === 'Minus' ? '永夜Minus' : value;
 }
 
+function normalizeVcpediaPageUrl(value) {
+  const url = new URL(value);
+  url.search = '';
+  url.hash = '';
+  url.pathname = url.pathname.replace(/\/$/u, '');
+  return url.toString();
+}
+
 function validateUrl(value, hostname, label, source, pathPrefix = '') {
   let url;
   try {
@@ -29,7 +37,7 @@ function validateUrl(value, hostname, label, source, pathPrefix = '') {
 
 export function normalizeDatabaseSong(song, index, singerConfig, source = `第 ${index + 1} 条`) {
   const singerName = typeof singerConfig === 'string' ? singerConfig : singerConfig.name;
-  const missing = REQUIRED_FIELDS.filter((field) => song[field] === undefined || song[field] === null || String(song[field]).trim() === '');
+  const missing = REQUIRED_FIELDS.filter((field) => field !== 'bilibiliUrl' && (song[field] === undefined || song[field] === null || String(song[field]).trim() === ''));
   if (missing.length) throw new Error(`${source}: 缺少字段：${missing.join('、')}`);
   if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth)) throw new Error(`${source}: 发布时间无效：${song.releaseMonth}`);
   if (!Number.isInteger(song.concertCount) || song.concertCount < 0) throw new Error(`${source}: 演唱会/生日会次数无效`);
@@ -39,7 +47,7 @@ export function normalizeDatabaseSong(song, index, singerConfig, source = `第 $
   const acceptedSingerNames = new Set([singerName, ...((typeof singerConfig === 'string' ? [] : singerConfig.aliases) ?? [])].map(normalizeDatabaseSingerName));
   if (!singerMembers.some((name) => acceptedSingerNames.has(name))) throw new Error(`${source}: 演唱歌姬中不包含${singerName}`);
   if (!voicebankMembers.length) throw new Error(`${source}: 使用声库为空`);
-  validateUrl(song.bilibiliUrl, 'www.bilibili.com', 'Bilibili', source, '/video/');
+  if (song.bilibiliUrl) validateUrl(song.bilibiliUrl, 'www.bilibili.com', 'Bilibili', source, '/video/');
   validateUrl(song.vcpediaUrl, 'vcpedia.cn', 'VCPedia', source);
 
   return {
@@ -68,6 +76,7 @@ export async function generateDatabaseData({ catalogFile, singerCatalogFile, dat
   const ids = new Set();
   const libraries = {};
   const generatedCatalog = [];
+  const allSongsByPage = new Map();
   for (const entry of catalog) {
     if (!/^[a-z0-9-]+$/u.test(entry.id ?? '') || !entry.file) throw new Error('歌姬目录项缺少合法的 id 或 file');
     if (ids.has(entry.id)) throw new Error(`歌姬 ID 重复：${entry.id}`);
@@ -94,6 +103,10 @@ export async function generateDatabaseData({ catalogFile, singerCatalogFile, dat
       return normalized;
     });
     libraries[entry.id] = songs;
+    for (const song of songs) {
+      const pageKey = normalizeVcpediaPageUrl(song.vcpediaUrl);
+      if (!allSongsByPage.has(pageKey)) allSongsByPage.set(pageKey, song);
+    }
     generatedCatalog.push({
       id: entry.id,
       name: singer.name,
@@ -103,6 +116,20 @@ export async function generateDatabaseData({ catalogFile, singerCatalogFile, dat
       songCount: songs.length,
     });
   }
+
+  const allSongs = [...allSongsByPage.values()]
+    .sort((left, right) => left.releaseMonth.localeCompare(right.releaseMonth)
+      || left.title.localeCompare(right.title, 'zh-CN'))
+    .map((song, index) => ({ ...song, index: index + 1 }));
+  libraries.all = allSongs;
+  generatedCatalog.unshift({
+    id: 'all',
+    name: '全曲库',
+    shortName: '全',
+    themeColor: '#805AD5',
+    profileUrl: 'https://vcpedia.cn/',
+    songCount: allSongs.length,
+  });
 
   const result = { catalog: generatedCatalog, libraries };
   await fs.mkdir(path.dirname(outputFile), { recursive: true });
@@ -125,5 +152,5 @@ if (isMain) {
     databaseRoot,
     outputFile: path.join(webRoot, 'src', 'data', 'database.generated.json'),
   });
-  console.log(`已生成 ${result.catalog.length} 个歌姬数据库，共 ${Object.values(result.libraries).reduce((sum, songs) => sum + songs.length, 0)} 首记录`);
+  console.log(`已生成 ${result.catalog.length} 个数据库入口（含全曲库），共 ${Object.values(result.libraries).reduce((sum, songs) => sum + songs.length, 0)} 首展示记录`);
 }

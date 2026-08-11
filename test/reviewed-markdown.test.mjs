@@ -13,14 +13,14 @@ function fieldsFromMarkdown(markdown) {
 }
 
 for (const library of [
-  { id: 'luotianyi', singer: '洛天依', count: 219 },
-  { id: 'yuezhengling', singer: '乐正绫', count: 51 },
-  { id: 'yanhe', singer: '言和', count: 51 },
-  { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 7 },
-  { id: 'longya', singer: '乐正龙牙', count: 9 },
-  { id: 'moqingxian', singer: '墨清弦', count: 2 },
-  { id: 'xinhua', singer: '心华', count: 9 },
-  { id: 'xingchen', singer: '星尘', count: 59 },
+  { id: 'luotianyi', singer: '洛天依', count: 301 },
+  { id: 'yuezhengling', singer: '乐正绫', count: 74 },
+  { id: 'yanhe', singer: '言和', count: 70 },
+  { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 16 },
+  { id: 'longya', singer: '乐正龙牙', count: 24 },
+  { id: 'moqingxian', singer: '墨清弦', count: 14 },
+  { id: 'xinhua', singer: '心华', count: 10 },
+  { id: 'xingchen', singer: '星尘', count: 61 },
   { id: 'haiyi', singer: '海伊', count: 10 },
   { id: 'cangqiong', singer: '苍穹', count: 13 },
   { id: 'chiyu', singer: '赤羽', count: 24 },
@@ -46,7 +46,7 @@ for (const library of [
       assert.ok(fields.get('演唱歌姬').split('；').some((singer) => acceptedSingers.has(singer)), `${file} 不包含${library.singer}`);
       assert.match(fields.get('发布时间'), /^20\d{2}-(?:0[1-9]|1[0-2])$/u);
       assert.ok(Number.isInteger(Number(fields.get('演唱会\\生日会次数'))) && Number(fields.get('演唱会\\生日会次数')) >= 0);
-      assert.match(fields.get('哔哩哔哩地址'), /^https:\/\/(?:www\.)?bilibili\.com\/video\//u);
+      if (fields.get('哔哩哔哩地址')) assert.match(fields.get('哔哩哔哩地址'), /^https:\/\/(?:www\.)?bilibili\.com\/video\//u);
       assert.match(fields.get('歌曲页面URL'), /^https:\/\/vcpedia\.cn\//u);
       assert.ok(!titles.has(fields.get('曲名')), `重复曲名：${fields.get('曲名')}`);
       titles.add(fields.get('曲名'));
@@ -54,7 +54,7 @@ for (const library of [
   });
 }
 
-test('十四位歌姬共享歌曲按页面去重后为 355 首', async () => {
+test('十四位歌姬共享歌曲按页面去重后为 494 首', async () => {
   const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
@@ -74,12 +74,12 @@ test('十四位歌姬共享歌曲按页面去重后为 355 首', async () => {
   const canonical = (url) => decodeURIComponent(new URL(url).pathname).replace(/\/+$/u, '').normalize('NFKC');
   const luoByPage = new Map(luo.map((song) => [canonical(song.vcpediaUrl), song]));
   const sharedWithLuo = [...yue, ...yan, ...moke].filter((song) => luoByPage.has(canonical(song.vcpediaUrl)));
-  assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 31);
-  assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 43);
-  assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 3);
+  assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 36);
+  assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 47);
+  assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 6);
   const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
-  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 355);
-  assert.equal(libraries.flat().length, 478);
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 494);
+  assert.equal(libraries.flat().length, 641);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }

@@ -49,8 +49,11 @@ export async function rebuildLibraryPresets() {
   const allSongs = [...allByPage.values()].sort((left, right) => left.releaseMonth.localeCompare(right.releaseMonth) || left.title.localeCompare(right.title, 'zh-CN'));
   if (new Set(allSongs.map(({ title }) => title)).size !== allSongs.length) throw new Error('全局曲库存在不同页面的同名歌曲，Markdown 预设无法唯一定位');
 
+  const luotianyi = libraries.find(({ singer }) => singer.id === 'luotianyi');
+  const yuezhengling = libraries.find(({ singer }) => singer.id === 'yuezhengling');
   const yanhe = libraries.find(({ singer }) => singer.id === 'yanhe');
-  if (!yanhe || yanhe.songs.length !== 51) throw new Error('言和正式曲库缺失或数量不是 51 首');
+  if (!luotianyi?.songs.length || !yuezhengling?.songs.length) throw new Error('洛天依或乐正绫正式曲库缺失');
+  if (!yanhe?.songs.length) throw new Error('言和正式曲库缺失');
   const goldenAge = allSongs.filter(({ releaseMonth }) => {
     const year = Number(releaseMonth.slice(0, 4));
     return year >= 2015 && year <= 2019;
@@ -58,7 +61,7 @@ export async function rebuildLibraryPresets() {
   const henian = allSongs.filter((song) => singersAreSubsetOf(song, HENIAN_SINGERS));
   const medium5 = allSongs.filter((song) => singersAreSubsetOf(song, MEDIUM5_SINGERS));
   const wangchuan = allSongs.filter((song) => uploaderMembers(song).includes('忘川风华录'));
-  const expected = { all: 355, henian: 243, medium5: 95, wangchuan: 47, goldenAge: 145 };
+  const expected = { all: 494, henian: 378, medium5: 95, wangchuan: 47, goldenAge: 192 };
   const actual = { all: allSongs.length, henian: henian.length, medium5: medium5.length, wangchuan: wangchuan.length, goldenAge: goldenAge.length };
   for (const [name, count] of Object.entries(expected)) {
     if (actual[name] !== count) throw new Error(`预设数量异常：${name} ${actual[name]} 首，预期 ${count} 首`);
@@ -66,7 +69,9 @@ export async function rebuildLibraryPresets() {
 
   await Promise.all([
     writeFile(path.join(root, 'presets', 'all.md'), presetMarkdown('挑战全曲库！', allSongs), 'utf8'),
-    writeFile(path.join(root, 'presets', 'yanhe.md'), presetMarkdown('言和传说曲', yanhe.songs), 'utf8'),
+    writeFile(path.join(root, 'presets', 'luotianyi.md'), presetMarkdown('洛天依经典曲目', luotianyi.songs), 'utf8'),
+    writeFile(path.join(root, 'presets', 'yuezhengling.md'), presetMarkdown('乐正绫经典曲目', yuezhengling.songs), 'utf8'),
+    writeFile(path.join(root, 'presets', 'yanhe.md'), presetMarkdown('言和经典曲目', yanhe.songs), 'utf8'),
     writeFile(path.join(root, 'presets', 'henian.md'), presetMarkdown('禾念系', henian), 'utf8'),
     writeFile(path.join(root, 'presets', 'medium5.md'), presetMarkdown('五维介质系', medium5), 'utf8'),
     writeFile(path.join(root, 'presets', 'wangchuan.md'), presetMarkdown('忘川风华录', wangchuan), 'utf8'),

@@ -29,14 +29,14 @@ async function readOverrides(outputDirectory) {
 }
 
 function validateSong(song, singer) {
-  const missing = FACT_FIELDS.filter((field) => song[field] === undefined || song[field] === null || String(song[field]).trim() === '');
+  const missing = FACT_FIELDS.filter((field) => field !== 'bilibiliUrl' && (song[field] === undefined || song[field] === null || String(song[field]).trim() === ''));
   if (missing.length) throw new Error(`《${song.title ?? '未知曲目'}》缺少字段：${missing.join('、')}`);
   if (FACT_FIELDS.some((field) => String(song[field]).includes('待核验'))) throw new Error(`《${song.title}》仍含待核验字段`);
   if (!/^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth)) throw new Error(`《${song.title}》发布时间无效`);
   if (!Number.isInteger(song.concertCount) || song.concertCount < 0) throw new Error(`《${song.title}》演唱会次数无效`);
   const acceptedNames = new Set([singer.name, ...(singer.aliases ?? [])]);
   if (!singerMembers(song.singers).some((name) => acceptedNames.has(name))) throw new Error(`《${song.title}》演唱歌姬不包含${singer.name}`);
-  new URL(song.bilibiliUrl);
+  if (song.bilibiliUrl) new URL(song.bilibiliUrl);
   new URL(song.vcpediaUrl);
 }
 

@@ -27,7 +27,7 @@ export default function LibraryPage({
   onStartPreset,
   onStartCustom,
   Brand,
-  eyebrow = '猜歌曲库',
+  eyebrow = '曲目猜猜看',
   title = '选择曲库范围',
   intro = '使用预设立即开始，或者组合条件建立自己的题库。',
   startLabel = '开始游戏',

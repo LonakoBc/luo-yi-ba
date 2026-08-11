@@ -177,6 +177,13 @@ function primarySource(wikitext) {
 
 function sourceForCandidate(wikitext, candidate = {}) {
   if (!candidate.sectionAnchor) return String(wikitext ?? '');
+  const tabs = extractTemplates(String(wikitext ?? '')).map(parseTemplate).filter(({ name }) => /^tabs\/core$/iu.test(name));
+  for (const tab of tabs) {
+    for (let index = 1; index <= 30; index += 1) {
+      const label = displayWikiText(tab.params.get(`label${index}`));
+      if (label.includes(candidate.sectionAnchor) && tab.params.get(`text${index}`)) return tab.params.get(`text${index}`);
+    }
+  }
   const anchorPattern = new RegExp(`^${escapeRegExp(candidate.sectionAnchor)}$`, 'u');
   const anchored = section(String(wikitext ?? ''), anchorPattern);
   if (!anchored) return String(wikitext ?? '');
@@ -247,6 +254,18 @@ export function extractLyrics(wikitext, candidate) {
   const source = primarySource(targeted);
   let lyricSection = section(source, /歌词|歌詞/u);
   if (!lyricSection) lyricSection = primarySource(section(targeted, /歌词|歌詞/u));
+  if (!lyricSection && candidate.sectionAnchor) {
+    const fullLyrics = section(String(wikitext ?? ''), /歌词|歌詞/u);
+    const anchor = displayWikiText(candidate.sectionAnchor).replace(/[製置]/gu, '制');
+    const lyricTabs = extractTemplates(fullLyrics).map(parseTemplate).filter(({ name }) => /^tabs(?:\/core)?$/iu.test(name));
+    for (const tab of lyricTabs) {
+      for (let index = 1; index <= 30; index += 1) {
+        const label = displayWikiText(tab.params.get(`label${index}`) ?? tab.params.get(`bt${index}`)).replace(/[製置]/gu, '制');
+        const text = tab.params.get(`text${index}`) ?? tab.params.get(`tab${index}`);
+        if (label.includes(anchor) && text) lyricSection = text;
+      }
+    }
+  }
   if (!lyricSection) {
     const marker = source.search(/<big[^>]*>[\s\S]{0,40}歌词[\s\S]{0,20}<\/big>/iu);
     if (marker >= 0) lyricSection = source.slice(marker);
@@ -291,7 +310,7 @@ function valuesFromParam(value) {
 
 function roleFor(label) {
   const value = displayWikiText(label).replace(/\s/g, '');
-  if (/UP主|投稿者/i.test(value)) return ['UP主'];
+  if (/UP主|P主|投稿者/i.test(value)) return ['UP主'];
   const roles = [];
   if (/作编曲|作編曲|作曲|曲作/u.test(value)) roles.push('作曲');
   if (/作词|作詞|填词|填詞/u.test(value)) roles.push('作词');
@@ -343,6 +362,7 @@ function extractStaff(source, templates, intro) {
   const roleMap = new Map(ROLE_ORDER.map((role) => [role, []]));
   const songbox = findSongboxes(templates)[0];
   if (songbox?.params.get('UP主')) addRole(roleMap, 'UP主', valuesFromParam(songbox.params.get('UP主')));
+  if (!roleMap.get('UP主').length && songbox?.params.get('P主')) addRole(roleMap, 'UP主', valuesFromParam(songbox.params.get('P主')));
   if (!roleMap.get('UP主').length) addRole(roleMap, 'UP主', extractUploaderFromIntro(intro));
   if (!roleMap.get('UP主').length) addRole(roleMap, 'UP主', extractUploaderFromSource(source));
 
@@ -356,7 +376,7 @@ function extractStaff(source, templates, intro) {
     }
   }
 
-  const assignment = /^\s*\|\s*(UP主|投稿者|作编曲|作編曲|作曲|作词|作詞|填词|填詞|编曲|編曲)\s*=\s*(.+)$/gmu;
+  const assignment = /^\s*\|\s*(UP主|P主|投稿者|作编曲|作編曲|作曲|作词|作詞|填词|填詞|编曲|編曲)\s*=\s*(.+)$/gmu;
   for (const match of source.matchAll(assignment)) {
     for (const role of roleFor(match[1])) addRole(roleMap, role, valuesFromParam(match[2]));
   }
@@ -366,13 +386,18 @@ function extractStaff(source, templates, intro) {
 }
 
 function extractReleaseMonth(source, templates, intro, year) {
-  const songboxValues = findSongboxes(templates).flatMap(({ params }) => [params.get('投稿时间'), params.get('投稿時間')]).filter(Boolean);
+  const songboxValues = findSongboxes(templates).flatMap(({ params }) => [
+    params.get('投稿时间'), params.get('投稿時間'), params.get('其他资料'), params.get('其他資料'),
+  ]).filter(Boolean);
   const candidates = [...songboxValues, source, intro];
   const patterns = [
     /投稿时间\s*(?:[：:=]\s*)?(20\d{2})[-/.年](\d{1,2})/u,
     /投稿時間\s*(?:[：:=]\s*)?(20\d{2})[-/.年](\d{1,2})/u,
     /于\s*(20\d{2})年(\d{1,2})月\d{1,2}日[^。\n]{0,40}投稿/u,
     /(20\d{2})年(\d{1,2})月\d{1,2}日[^。\n]{0,30}投稿/u,
+    /(20\d{2})年(\d{1,2})月\d{1,2}日[^。\n]{0,40}(?:初次公[开開]|发[布行]|發[布行]|公开|公開)/u,
+    /(?:于|於)?\s*(20\d{2})年(\d{1,2})月\d{1,2}日[^。\n]{0,40}(?:公[开開]|收录|收錄)/u,
+    /(?:收录|收錄)于\s*(20\d{2})年(\d{1,2})月\d{1,2}日发行/u,
   ];
   for (const text of candidates) {
     for (const pattern of patterns) {

@@ -1,0 +1,10 @@
+曲名：《巨蟹座》
+staff：UP主：PoKeR
+发布时间：2017-07
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：系列/企划曲目
+歌词：暗恋一个人永远是最痛苦的
+哔哩哔哩地址：https://www.bilibili.com/video/av12534113/
+歌曲页面URL：https://vcpedia.cn/%E5%B7%A8%E8%9F%B9%E5%BA%A7

@@ -57,6 +57,14 @@ describe('谁是老资历游戏服务', () => {
     expect(service.choose(next, wrongId).lives).toBe(2);
   });
 
+  it('小资历模式将发布时间更新的歌曲判为正确', () => {
+    const service = createSeniorityService(songs, { random: () => 0, direction: 'newer' });
+    const game = service.startGame();
+    const expected = game.round.left.releaseMonth > game.round.right.releaseMonth ? game.round.left.id : game.round.right.id;
+    expect(game.round.correctId).toBe(expected);
+    expect(service.choose(game, expected)).toMatchObject({ score: 1, lives: 3, status: 'revealed' });
+  });
+
   it('同一首较早歌曲连续正确选择三次后改为保留本轮较新歌曲', () => {
     const service = createSeniorityService(songs, { random: () => 0 });
     const oldSong = songs.find(({ id }) => id === 'a');
@@ -82,6 +90,21 @@ describe('谁是老资历游戏服务', () => {
     expect(next.round.right.id).toBe(newerSong.id);
     expect(next.selectionStreakCount).toBe(0);
     expect(next.selectionStreakSongId).toBeNull();
+  });
+
+  it('小资历连续三次选择同一首较新歌曲后改为保留较早歌曲', () => {
+    const service = createSeniorityService(songs, { random: () => 0, direction: 'newer' });
+    const oldSong = songs.find(({ id }) => id === 'a');
+    const newerSong = songs.find(({ id }) => id === 'b');
+    const game = {
+      ...service.startGame(), status: 'revealed', score: 3, carrySide: 'right',
+      selectionStreakSongId: newerSong.id, selectionStreakCount: 3,
+      usedIds: [oldSong.id, newerSong.id],
+      round: { number: 3, left: oldSong, right: newerSong, selectedId: newerSong.id, correctId: newerSong.id, outcome: 'correct', direction: 'newer' },
+    };
+    const next = service.nextRound(game);
+    expect(next.round.left.id).toBe(oldSong.id);
+    expect(next.selectionStreakCount).toBe(0);
   });
 
   it('三次错误后生命耗尽且不能继续答题', () => {
@@ -114,5 +137,9 @@ describe('谁是老资历游戏服务', () => {
     expect([0, 5, 10, 15, 25].map((score) => seniorityEvaluation(score).title)).toEqual([
       '初来乍到', '小有资历', '资深听众', '曲库考古家', '活化石级资历',
     ]);
+  });
+
+  it('小资历使用独立结算评价', () => {
+    expect(seniorityEvaluation(25, 'newer').title).toBe('追新雷达满格');
   });
 });

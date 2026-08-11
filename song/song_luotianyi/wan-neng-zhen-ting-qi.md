@@ -1,0 +1,10 @@
+曲名：《万能诊听器》
+staff：UP主：Z新豪
+发布时间：2020-09
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：0
+特殊标注：单曲
+歌词：那是你的快乐以及你过去心中的伤
+哔哩哔哩地址：https://www.bilibili.com/video/BV1HV411m76b/
+歌曲页面URL：https://vcpedia.cn/%E4%B8%87%E8%83%BD%E8%AF%8A%E5%90%AC%E5%99%A8

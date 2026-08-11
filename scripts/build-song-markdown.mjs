@@ -48,7 +48,7 @@ function markdownFor(song, allowedVoicebanks) {
     歌曲页面URL: cleanField(song.vcpediaUrl),
   };
   for (const [field, value] of Object.entries(fields)) {
-    if (!value) throw new Error(`《${song.title}》缺少字段：${field}`);
+    if (!value && field !== '哔哩哔哩地址') throw new Error(`《${song.title}》缺少字段：${field}`);
   }
   return `${Object.entries(fields).map(([field, value]) => `${field}：${value}`).join('\n')}\n`;
 }

@@ -1,0 +1,10 @@
+曲名：《歪歪？》
+staff：UP主：PoKeR；作曲：PoKeR；作词：KBShinya；编曲：PoKeR
+发布时间：2017-08
+演唱歌姬：洛天依
+使用声库：VOCALOID
+演唱会\生日会次数：2
+特殊标注：单曲
+歌词：「您好，您拨打的电话是空号，请查证后再拨……」
+哔哩哔哩地址：https://www.bilibili.com/video/av13160891/
+歌曲页面URL：https://vcpedia.cn/%E6%AD%AA%E6%AD%AA%EF%BC%9F

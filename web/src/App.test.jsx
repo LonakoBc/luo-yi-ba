@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import App from './App';
 
 const songs = [
@@ -22,15 +22,24 @@ const songs = [
 const presets = [
   { id: 'all', name: '挑战全曲库！', description: '全部曲库', titles: songs.map(({ title }) => title) },
   { id: 'intro', name: '洛天依入门曲库', description: '精选作品', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
-  { id: 'luotianyi', name: '洛天依传说曲', description: '完整曲库', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
-  { id: 'yuezhengling', name: '乐正绫传说曲', description: '完整曲库', badge: { text: '绫', color: '#EE0000' }, titles: songs.map(({ title }) => title) },
-  { id: 'yanhe', name: '言和传说曲', description: '完整曲库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' }, titles: songs.map(({ title }) => title) },
+  { id: 'luotianyi', name: '洛天依经典曲目', description: '完整曲库', badge: { text: '洛', color: '#66CCFF' }, titles: songs.map(({ title }) => title) },
+  { id: 'yuezhengling', name: '乐正绫经典曲目', description: '完整曲库', badge: { text: '绫', color: '#EE0000' }, titles: songs.map(({ title }) => title) },
+  { id: 'yanhe', name: '言和经典曲目', description: '完整曲库', badge: { text: '言', color: '#00FFCC', textColor: '#073148' }, titles: songs.map(({ title }) => title) },
   { id: 'golden-age', name: '黄金时代', description: '黄金时期', titles: songs.map(({ title }) => title) },
 ];
 
 const database = {
-  catalog: [{ id: 'luotianyi', name: '洛天依', shortName: '依', themeColor: '#66CCFF', songCount: 2 }],
+  catalog: [
+    { id: 'all', name: '全曲库', shortName: '全', themeColor: '#805AD5', songCount: 2 },
+    { id: 'luotianyi', name: '洛天依', shortName: '依', themeColor: '#66CCFF', songCount: 2 },
+  ],
   libraries: {
+    all: songs.map((song, index) => ({
+      index: index + 1, title: song.title, staff: song.staffDisplay, releaseMonth: song.releaseMonth,
+      singers: song.singersDisplay, singerMembers: song.singerMembers, voicebanks: song.voicebanksDisplay,
+      voicebankMembers: song.voicebankMembers, concertCount: song.concertCount, special: song.special,
+      lyrics: song.lyrics, bilibiliUrl: song.bilibiliUrl, vcpediaUrl: song.vcpediaUrl,
+    })),
     luotianyi: songs.map((song, index) => ({
       index: index + 1,
       title: song.title,
@@ -59,20 +68,22 @@ function renderGame(customSongs = songs) {
   return render(<App songs={customSongs} presets={presets.map((preset) => ({ ...preset, titles: customSongs.map(({ title }) => title) }))} random={() => 0} initialPage="game" initialMode="hard" />);
 }
 
+afterEach(() => window.history.replaceState({}, '', '/'));
+
 describe('App 交互', () => {
   it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     const audio = document.querySelector('audio');
     expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled();
     audio.currentTime = 42;
-    fireEvent.click(screen.getByRole('button', { name: /猜歌/u }));
+    fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(document.querySelector('audio')).toBe(audio);
     expect(document.querySelector('audio').currentTime).toBe(42);
   });
 
   it('从主页进入曲库页并通过预设开始', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
-    fireEvent.click(screen.getByRole('button', { name: /猜歌/u }));
+    fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(screen.getByText('选择曲库范围')).toBeVisible();
     expect(screen.getByRole('button', { name: /开始游戏 · 2 首/u })).toBeEnabled();
     expect(screen.getByRole('button', { name: /挑战全曲库/u })).toBeVisible();
@@ -104,9 +115,18 @@ describe('App 交互', () => {
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
     expect(screen.getByRole('button', { name: /开始比较 · 2 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
+    expect(screen.getByRole('heading', { name: '这次要找更早，还是更新？' })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: /谁是老资历/u }));
     expect(screen.getByRole('heading', { name: '谁是老资历？' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: /作为更早发布的歌曲/u })).toHaveLength(2);
     expect(document.querySelector('audio')).toBe(audio);
+  });
+
+  it('通过 URL 参数恢复小资历模式', () => {
+    window.history.replaceState({}, '', '/seniority/preset/all?mode=newer');
+    render(<App songs={songs} presets={presets} database={database} random={() => 0} />);
+    expect(screen.getByRole('heading', { name: '谁是小资历？' })).toBeVisible();
+    expect(screen.getAllByRole('button', { name: /作为更新发布的歌曲/u })).toHaveLength(2);
   });
 
   it('从主页进入歌曲大排序模式页且全局 BGM 不会重新挂载', () => {
@@ -114,7 +134,7 @@ describe('App 交互', () => {
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /进入排序 · 355 首/u })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /进入排序 · 494 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
     expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();
@@ -126,7 +146,8 @@ describe('App 交互', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
-    expect(screen.getByRole('heading', { name: '选择歌姬' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: '选择曲库' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /^全曲库/u })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /洛天依/u }));
     expect(screen.getByRole('heading', { name: '洛天依曲库资料' })).toBeVisible();
     expect(screen.getByText('2 / 2 首')).toBeVisible();
@@ -138,6 +159,14 @@ describe('App 交互', () => {
     const dialog = screen.getByRole('dialog', { name: '《猜测曲》' });
     expect(within(dialog).getByText('UP主：乙；作词：甲')).toBeVisible();
     expect(within(dialog).getByRole('link', { name: /Bilibili/u })).toHaveAttribute('href', songs[1].bilibiliUrl);
+  });
+
+  it('数据库首项可进入全曲库总览', () => {
+    render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
+    fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
+    expect(screen.getByRole('heading', { name: '全曲库资料' })).toBeVisible();
+    expect(screen.getByText('2 / 2 首')).toBeVisible();
   });
 
   it('第一次同时揭示歌姬与发布时间，随后揭示 STAFF 和歌词', () => {
