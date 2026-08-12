@@ -13,11 +13,11 @@ function fieldsFromMarkdown(markdown) {
 }
 
 for (const library of [
-  { id: 'luotianyi', singer: '洛天依', count: 301 },
+  { id: 'luotianyi', singer: '洛天依', count: 302 },
   { id: 'yuezhengling', singer: '乐正绫', count: 74 },
   { id: 'yanhe', singer: '言和', count: 70 },
   { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 16 },
-  { id: 'longya', singer: '乐正龙牙', count: 24 },
+  { id: 'longya', singer: '乐正龙牙', count: 25 },
   { id: 'moqingxian', singer: '墨清弦', count: 14 },
   { id: 'xinhua', singer: '心华', count: 10 },
   { id: 'xingchen', singer: '星尘', count: 61 },
@@ -54,7 +54,7 @@ for (const library of [
   });
 }
 
-test('十四位歌姬共享歌曲按页面去重后为 494 首', async () => {
+test('十四位歌姬共享歌曲按页面去重后为 495 首', async () => {
   const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
@@ -78,8 +78,8 @@ test('十四位歌姬共享歌曲按页面去重后为 494 首', async () => {
   assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 47);
   assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 6);
   const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
-  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 494);
-  assert.equal(libraries.flat().length, 641);
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 495);
+  assert.equal(libraries.flat().length, 643);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }
@@ -113,4 +113,19 @@ test('洛天依人工修订字段已同步到正式数据', async () => {
 
 test('多音字曲名使用人工确认的拼音', () => {
   assert.equal(slugifyTitle('乐鸣东方'), 'yue-ming-dong-fang');
+});
+
+test('《哑巴》在洛天依与乐正龙牙曲库中保持一致', async () => {
+  const [luotianyiSongs, longyaSongs] = await Promise.all([
+    readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'database', 'singers', 'longya.json'), 'utf8').then(JSON.parse),
+  ]);
+  const luotianyiSong = luotianyiSongs.find(({ title }) => title === '哑巴');
+  const longyaSong = longyaSongs.find(({ title }) => title === '哑巴');
+  assert.ok(luotianyiSong);
+  assert.deepEqual(longyaSong, luotianyiSong);
+  assert.equal(luotianyiSong.releaseMonth, '2026-08');
+  assert.equal(luotianyiSong.singers, '洛天依；乐正龙牙');
+  assert.equal(luotianyiSong.voicebanks, 'ACE Studio');
+  assert.equal(luotianyiSong.special, '系列/企划曲目');
 });

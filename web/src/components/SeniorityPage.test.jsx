@@ -55,4 +55,15 @@ describe('谁是老资历页面', () => {
     expect(screen.queryByText('曲目 A')).not.toBeInTheDocument();
     expect(screen.queryByText('曲目 B')).not.toBeInTheDocument();
   });
+
+  it('长曲名使用移动端自适应标题样式并保留完整悬浮文本', () => {
+    const longTitleSongs = songs.map((song, index) => ({
+      ...song,
+      title: `这是一个非常非常长而且需要自动缩放的歌曲标题${index + 1}`,
+    }));
+    render(<SeniorityPage songs={longTitleSongs} random={() => 0} onBack={() => {}} Brand={Brand} />);
+    const adaptiveTitles = document.querySelectorAll('.seniority-card-copy > strong.is-very-long-title');
+    expect(adaptiveTitles).toHaveLength(2);
+    expect(adaptiveTitles[0]).toHaveAttribute('title', expect.stringMatching(/这是一个非常非常长/u));
+  });
 });

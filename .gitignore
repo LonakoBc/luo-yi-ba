@@ -25,3 +25,11 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 ~$*.xlsx
+
+# Local deployment caches and spreadsheet inspection artifacts
+worker/.wrangler/
+*.inspect.ndjson
+outputs/producer-analysis/build-workbook.mjs
+outputs/producer-analysis/formula-errors.ndjson
+outputs/producer-analysis/preview-*.png
+outputs/producer-analysis/workbook-inspect.ndjson

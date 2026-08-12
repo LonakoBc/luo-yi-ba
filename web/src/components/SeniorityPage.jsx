@@ -28,6 +28,8 @@ function SongCard({ song, round, direction, revealed, releaseKnown, disabled, on
   const selected = round.selectedId === song.id;
   const correct = round.correctId === song.id;
   const resultClass = revealed ? correct ? 'is-correct' : selected ? 'is-wrong' : '' : '';
+  const titleLength = [...song.title].length;
+  const titleClass = titleLength >= 18 ? 'is-very-long-title' : titleLength >= 11 ? 'is-long-title' : '';
   return (
     <button
       type="button"
@@ -39,7 +41,7 @@ function SongCard({ song, round, direction, revealed, releaseKnown, disabled, on
     >
       <span className="seniority-cover"><SongImage song={song} /></span>
       <span className="seniority-card-copy">
-        <strong>《{song.title}》</strong>
+        <strong className={titleClass} title={`《${song.title}》`}><span>《{song.title}》</span></strong>
         <small>{song.staffDisplay}</small>
         <span className="seniority-card-meta">
           <span className="seniority-meta-singers" title="演唱歌姬">歌姬 · {song.singersDisplay}</span>

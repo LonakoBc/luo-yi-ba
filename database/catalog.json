@@ -2,7 +2,7 @@
   {
     "id": "luotianyi",
     "file": "singers/luotianyi.json",
-    "expectedSongCount": 301
+    "expectedSongCount": 302
   },
   {
     "id": "yuezhengling",
@@ -22,7 +22,7 @@
   {
     "id": "longya",
     "file": "singers/longya.json",
-    "expectedSongCount": 24
+    "expectedSongCount": 25
   },
   {
     "id": "moqingxian",

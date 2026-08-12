@@ -2471,6 +2471,11 @@
       "pageUrl": "https://vcpedia.cn/%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E",
       "thumbnailUrl": "https://media.vcpedia.cn/thumb/d/d0/%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E.jpg/800px-%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E.jpg",
       "originalUrl": "https://media.vcpedia.cn/d/d0/%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E.jpg"
+    },
+    "vcpedia:哑巴": {
+      "pageUrl": "https://vcpedia.cn/%E5%93%91%E5%B7%B4",
+      "thumbnailUrl": "https://media.vcpedia.cn/thumb/4/4c/%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg/640px-%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg",
+      "originalUrl": "https://media.vcpedia.cn/4/4c/%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg"
     }
   }
 }
