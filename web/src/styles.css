@@ -174,17 +174,19 @@ footer a:hover { color: var(--sky-deep); text-decoration: underline; }
 button.content-card { cursor: pointer; }
 .content-card.available { color: white; background: linear-gradient(135deg, #4ebcf2, #6fd2ff); box-shadow: 0 24px 60px rgba(40,159,216,.25); transition: transform .22s, box-shadow .22s; }
 .content-card.available:hover { transform: translateY(-5px); box-shadow: 0 30px 70px rgba(40,159,216,.32); }
-.content-card.multiplayer-card { background: linear-gradient(135deg, #7057dc, #9a8aff); box-shadow: 0 24px 60px rgba(91,71,190,.25); }
-.content-card.multiplayer-card:hover { box-shadow: 0 30px 70px rgba(91,71,190,.34); }
-.content-card.crossword-card { background: #EE0000; box-shadow: 0 24px 60px rgba(238,0,0,.22); }
-.content-card.crossword-card:hover { box-shadow: 0 30px 70px rgba(238,0,0,.32); }
+.content-card.multiplayer-card { background: #EE0000; box-shadow: 0 24px 60px rgba(238,0,0,.24); }
+.content-card.multiplayer-card:hover { box-shadow: 0 30px 70px rgba(238,0,0,.34); }
+.content-card.producer-card { color: #073148; background: #00FFCC; box-shadow: 0 24px 60px rgba(0,184,147,.24); }
+.content-card.producer-card .card-arrow { font-size: 28px; }
+.content-card.crossword-card { color: #4b3710; background: #F6C65B; box-shadow: 0 24px 60px rgba(205,153,33,.24); }
+.content-card.crossword-card:hover { box-shadow: 0 30px 70px rgba(205,153,33,.34); }
 .content-card.seniority-card { color: #20204f; background: #9999FF; box-shadow: 0 24px 60px rgba(91,91,214,.25); }
 .content-card.seniority-card:hover { box-shadow: 0 30px 70px rgba(91,91,214,.36); }
 .content-card.sorting-card { color: #4b174b; background: #EE82EE; box-shadow: 0 24px 60px rgba(211,79,211,.25); }
 .content-card.sorting-card:hover { box-shadow: 0 30px 70px rgba(211,79,211,.36); }
-.content-card.database-card { grid-column: 1 / -1; min-height: 185px; color: #073148; background: #00FFCC; box-shadow: 0 24px 60px rgba(0,184,147,.24); }
-.content-card.database-card:hover { box-shadow: 0 30px 70px rgba(0,184,147,.34); }
-.content-card.coming-soon { color: #77909f; background: rgba(255,255,255,.66); }
+.content-card.database-card { grid-column: 1 / -1; min-height: 185px; color: #4f1717; background: #EE6666; box-shadow: 0 24px 60px rgba(197,64,64,.24); }
+.content-card.database-card:hover { box-shadow: 0 30px 70px rgba(197,64,64,.34); }
+.content-card.coming-soon { cursor: not-allowed; }
 .card-index { position: absolute; right: 25px; top: 18px; opacity: .55; font-size: 12px; font-weight: 800; letter-spacing: .15em; }
 .music-glyph { display: grid; place-items: center; width: 72px; height: 72px; margin-right: 25px; border: 1px solid rgba(255,255,255,.45); border-radius: 22px 22px 22px 7px; background: rgba(255,255,255,.15); font-size: 32px; }
 .coming-soon .music-glyph { border-color: var(--line); background: #f2faff; }
@@ -239,8 +241,9 @@ button.content-card { cursor: pointer; }
 .seniority-cover { display: block; min-width: 0; overflow: hidden; background: linear-gradient(145deg,var(--song-card-accent),var(--song-card-accent-soft)); }
 .seniority-cover img, .seniority-image-placeholder { width: 100%; height: 100%; object-fit: cover; }
 .seniority-image-placeholder { display: grid; place-items: center; color: white; background: linear-gradient(145deg,var(--song-card-accent),var(--song-card-accent-soft)); font-size: 72px; font-weight: 900; }
-.seniority-card-copy { display: flex; flex-direction: column; gap: 9px; min-width: 0; min-height: 0; padding: 22px; }
-.seniority-card-copy > strong { display: grid; flex: 2 1 0; place-items: center; min-height: 54px; color: var(--song-card-ink); font-size: clamp(28px,3.4vw,42px); line-height: 1.04; overflow-wrap: anywhere; text-align: center; text-wrap: balance; }
+.seniority-card-copy { display: flex; flex-direction: column; gap: 9px; min-width: 0; min-height: 0; overflow: hidden; padding: 22px; }
+.seniority-card-copy > strong { display: grid; flex: 2 1 0; place-items: center; min-height: 54px; overflow: hidden; color: var(--song-card-ink); font-size: clamp(28px,3.4vw,42px); line-height: 1.04; overflow-wrap: anywhere; text-align: center; text-wrap: balance; }
+.seniority-card-copy > strong > span { display: -webkit-box; max-width: 100%; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .seniority-card-copy > small { display: grid; flex: 1 1 0; place-items: center; min-height: 42px; color: color-mix(in srgb,var(--song-card-ink) 72%,#6f8090); font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; text-align: center; }
 .seniority-card-meta { display: grid; flex: 0 0 auto; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) minmax(0,.8fr); gap: 5px; }
 .seniority-card-meta > span { min-width: 0; padding: 8px; overflow: hidden; border: 1px solid color-mix(in srgb,var(--song-card-accent) 20%,transparent); border-radius: 9px; color: color-mix(in srgb,var(--song-card-ink) 82%,#526271); background: color-mix(in srgb,var(--song-card-surface) 72%,white); font-size: 12px; font-weight: 800; line-height: 1.25; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
@@ -536,7 +539,7 @@ input.crossword-cell { caret-color: var(--sky-deep); }
   .seniority-page { display: flex; flex-direction: column; height: 100dvh; min-height: 620px; padding-top: 14px; padding-bottom: 76px; overflow: hidden; }.seniority-header { flex: 0 0 auto; }.seniority-header .site-brand { transform: scale(.82); transform-origin: left center; }.seniority-main { display: flex; flex: 1 1 auto; flex-direction: column; min-height: 0; padding-top: 8px; padding-bottom: 0; }.seniority-mode-main { overflow-y: auto; padding-top: 28px; }.seniority-mode-main > h2 { font-size: 36px; }.seniority-mode-grid { grid-template-columns: 1fr; margin-top: 24px; }.seniority-mode-card { min-height: 140px; padding: 20px; }.seniority-heading { flex: 0 0 auto; align-items: center; margin-bottom: 10px; }.seniority-heading h2 { font-size: 31px; }.seniority-heading > div > p:last-child { display: none; }
   .seniority-stats { gap: 5px; }.seniority-stats span { min-width: 58px; padding: 7px 5px; border-radius: 11px; font-size: 9px; }.seniority-stats strong { font-size: 16px; }
   .seniority-board { flex: 1 1 auto; grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) minmax(0,1fr); min-height: 0; gap: 8px; }.seniority-versus { position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; border-radius: 13px 13px 13px 5px; transform: translate(-50%,-50%); font-size: 11px; }
-  .seniority-song-card { grid-template-columns: clamp(112px,34vw,145px) 1fr; grid-template-rows: 1fr; min-height: 0; height: 100%; border-radius: 19px; }.seniority-card-copy { gap: 4px; padding: 9px 11px; }.seniority-card-copy > strong { flex-grow: 2.5; min-height: 0; font-size: clamp(22px,5.7vw,28px); line-height: 1.02; }.seniority-card-copy > small { flex-grow: 1; min-height: 0; max-height: 42px; overflow: hidden; font-size: 11px; line-height: 1.3; }.seniority-card-meta { grid-template-columns: 1fr 1fr; gap: 3px; }.seniority-card-meta > span { padding: 4px 5px; border-radius: 7px; font-size: 9px; }.seniority-card-meta .seniority-meta-singers { grid-column: 1 / -1; }.seniority-date { flex: 0 0 auto; padding: 7px 8px; font-size: 12px; }.seniority-result-label { flex: 0 0 auto; font-size: 10px; text-align: center; }
+  .seniority-song-card { grid-template-columns: clamp(112px,34vw,145px) 1fr; grid-template-rows: 1fr; min-height: 0; height: 100%; border-radius: 19px; }.seniority-card-copy { gap: 4px; padding: 9px 11px; }.seniority-card-copy > strong { flex-grow: 2.5; min-height: 0; font-size: clamp(22px,5.7vw,28px); line-height: 1.02; }.seniority-card-copy > strong.is-long-title { font-size: clamp(18px,4.8vw,23px); line-height: 1.06; }.seniority-card-copy > strong.is-very-long-title { font-size: clamp(15px,4vw,19px); line-height: 1.08; }.seniority-card-copy > small { flex-grow: 1; min-height: 0; max-height: 42px; overflow: hidden; font-size: 11px; line-height: 1.3; }.seniority-card-meta { grid-template-columns: 1fr 1fr; gap: 3px; }.seniority-card-meta > span { padding: 4px 5px; border-radius: 7px; font-size: 9px; }.seniority-card-meta .seniority-meta-singers { grid-column: 1 / -1; }.seniority-date { flex: 0 0 auto; padding: 7px 8px; font-size: 12px; }.seniority-result-label { flex: 0 0 auto; font-size: 10px; text-align: center; }
   .seniority-actions { flex: 0 0 auto; min-height: 44px; margin-top: 9px; }.seniority-actions button { min-width: 120px; padding-block: 10px; }
   .seniority-result-dialog { max-height: 92vh; }.seniority-result-stats { grid-template-columns: 1fr 1fr; }.seniority-history { max-height: 300px; }.seniority-history-row { grid-template-columns: 54px 1fr; }.seniority-history-row > div, .seniority-history-row > small { grid-column: 2; }
   .sorting-setup-main, .sorting-game-main { padding-top: 35px; }.sorting-setup-main > h2 { font-size: 38px; }.sorting-mode-grid { grid-template-columns: 1fr; margin-top: 25px; }.sorting-mode-card { min-height: 135px; padding: 20px; }.sorting-count-picker { flex-wrap: wrap; }.sorting-count-picker legend { width: 100%; line-height: 1.5; }

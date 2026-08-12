@@ -71,6 +71,28 @@ function renderGame(customSongs = songs) {
 afterEach(() => window.history.replaceState({}, '', '/'));
 
 describe('App 交互', () => {
+  it('主页按新顺序展示玩法并禁用开发中的 P 主入口', () => {
+    const { container } = render(<App songs={songs} presets={presets} initialPage="home" />);
+    const cardTitles = [...container.querySelectorAll('.content-card')]
+      .map((card) => card.querySelector('.card-copy strong')?.textContent);
+    expect(cardTitles).toEqual([
+      '曲目猜猜看',
+      '多人猜曲（测试中）',
+      'P主猜猜看（开发中）',
+      '歌曲大排序',
+      '曲名填字',
+      '谁是老资历？',
+      '歌曲数据库',
+    ]);
+    expect([...container.querySelectorAll('.content-card .card-index')].map((index) => index.textContent))
+      .toEqual(['01', '02', '03', '04', '05', '06']);
+    expect(screen.getByRole('button', { name: /歌曲数据库/u }).querySelector('.card-index')).toBeNull();
+    const producerCard = screen.getByText('P主猜猜看（开发中）').closest('.content-card');
+    expect(producerCard).toHaveAttribute('aria-disabled', 'true');
+    expect(producerCard).toHaveClass('producer-card', 'coming-soon');
+    expect(screen.queryByRole('button', { name: /P主猜猜看/u })).not.toBeInTheDocument();
+  });
+
   it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     const audio = document.querySelector('audio');
@@ -134,7 +156,7 @@ describe('App 交互', () => {
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /进入排序 · 494 首/u })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /进入排序 · 495 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
     expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();

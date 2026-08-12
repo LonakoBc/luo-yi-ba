@@ -67,27 +67,32 @@ function HomePage({ onChooseGame, onChooseMultiplayer, onChooseCrossword, onChoo
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" className="content-card available multiplayer-card" onClick={onChooseMultiplayer}>
-            <span className="card-index">联机</span><span className="music-glyph" aria-hidden="true">联</span>
-            <span className="card-copy"><strong>多人猜曲</strong><small>分享房间码，与 2–4 位好友同步挑战同一首歌曲。</small></span>
+            <span className="card-index">02</span><span className="music-glyph" aria-hidden="true">联</span>
+            <span className="card-copy"><strong>多人猜曲（测试中）</strong><small>分享房间码，与 2–4 位好友同步挑战同一首歌曲。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
-          <button type="button" className="content-card available crossword-card" onClick={onChooseCrossword}>
-            <span className="card-index">02</span><span className="music-glyph" aria-hidden="true">字</span>
-            <span className="card-copy"><strong>曲名填字</strong><small>让熟悉的歌名在交叉处相遇。</small></span>
-            <span className="card-arrow" aria-hidden="true">→</span>
-          </button>
-          <button type="button" className="content-card available seniority-card" onClick={onChooseSeniority}>
-            <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">年</span>
-            <span className="card-copy"><strong>谁是老资历？</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
-            <span className="card-arrow" aria-hidden="true">→</span>
-          </button>
+          <div className="content-card producer-card coming-soon" aria-disabled="true">
+            <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">P</span>
+            <span className="card-copy"><strong>P主猜猜看（开发中）</strong><small>从代表曲目与创作线索中认出熟悉的音乐创作者。</small></span>
+            <span className="card-arrow" aria-hidden="true">…</span>
+          </div>
           <button type="button" className="content-card available sorting-card" onClick={onChooseSorting}>
             <span className="card-index">04</span><span className="music-glyph" aria-hidden="true">序</span>
             <span className="card-copy"><strong>歌曲大排序</strong><small>重建歌曲时间线，把熟悉的作品放回正确年代。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
+          <button type="button" className="content-card available crossword-card" onClick={onChooseCrossword}>
+            <span className="card-index">05</span><span className="music-glyph" aria-hidden="true">字</span>
+            <span className="card-copy"><strong>曲名填字</strong><small>让熟悉的歌名在交叉处相遇。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
+          <button type="button" className="content-card available seniority-card" onClick={onChooseSeniority}>
+            <span className="card-index">06</span><span className="music-glyph" aria-hidden="true">年</span>
+            <span className="card-copy"><strong>谁是老资历？</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
           <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
-            <span className="card-index">05</span><span className="music-glyph" aria-hidden="true">库</span>
+            <span className="music-glyph" aria-hidden="true">库</span>
             <span className="card-copy"><strong>歌曲数据库</strong><small>浏览歌姬收录曲目与完整歌曲资料。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
