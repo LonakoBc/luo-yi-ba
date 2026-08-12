@@ -1,6 +1,6 @@
 import { evaluateGuess } from './gameService';
 
-export const MULTIPLAYER_PROTOCOL_VERSION = 1;
+export const MULTIPLAYER_PROTOCOL_VERSION = 2;
 export const MULTIPLAYER_MODE = 'guess-song';
 export const ROOM_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const ROUND_DURATION_MS = 180_000;
@@ -62,6 +62,33 @@ export function applyGuess({ player, song, answer, receivedAt, endsAt, correctCo
   return { feedback, points };
 }
 
+export function summarizeFeedback(feedback) {
+  const state = (entry) => entry?.state ?? 'miss';
+  return {
+    isCorrect: feedback.isCorrect,
+    title: { state: feedback.isCorrect ? 'exact' : 'neutral', direction: null },
+    staff: { state: state(feedback.staff), direction: null },
+    releaseMonth: {
+      year: { state: state(feedback.releaseMonth?.year) },
+      month: { state: state(feedback.releaseMonth?.month) },
+      direction: feedback.releaseMonth?.direction ?? null,
+    },
+    singers: { state: state(feedback.singers), direction: null },
+    voicebanks: { state: state(feedback.voicebanks), direction: null },
+    concertCount: { state: state(feedback.concertCount), direction: feedback.concertCount?.direction ?? null },
+    special: { state: state(feedback.special), direction: null },
+  };
+}
+
+export function isFinalRound(roundNumber, roundCount) {
+  return roundNumber >= roundCount;
+}
+
+export function roundCompletionState(roundNumber, roundCount, now) {
+  const finished = isFinalRound(roundNumber, roundCount);
+  return { phase: finished ? 'finished' : 'round-result', nextRoundAt: finished ? null : now + ROUND_BREAK_MS };
+}
+
 export function publicAnswer(answer, hintLevel, revealAll = false) {
   if (!answer) return null;
   const result = {};
@@ -106,7 +133,7 @@ export function projectRoom(room, viewerId) {
       solved: player.roundScore > 0,
       guesses: player.id === viewerId
         ? player.guesses.map(({ song, feedback, receivedAt }) => ({ song, feedback, receivedAt }))
-        : player.guesses.map(({ feedback, receivedAt }, index) => ({ index: index + 1, receivedAt, isCorrect: feedback.isCorrect })),
+        : player.guesses.map(({ feedback, receivedAt }, index) => ({ index: index + 1, receivedAt, isCorrect: feedback.isCorrect, feedback: summarizeFeedback(feedback) })),
     })),
     ranking: room.phase === 'finished' ? rankPlayers(room.players).map(({ id, nickname, score, rank }) => ({ id, nickname, score, rank })) : null,
     serverNow: Date.now(),

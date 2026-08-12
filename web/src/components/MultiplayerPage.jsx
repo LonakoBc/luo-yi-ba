@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import GuessInput from './GuessInput';
+import { GuessValue, SONG_FEEDBACK_COLUMNS } from './SongTable';
 import { createLocalGameService } from '../services/gameService';
 import { createDefaultFilters, filterSongs, getLibraryOptions, songsForPreset } from '../services/libraryService';
 import { allowedRoundCounts } from '../services/multiplayerRules';
@@ -73,13 +74,71 @@ function formatTime(ms) {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
-function PlayerCard({ player, self }) {
+function opponentFieldState(field, feedback) {
+  if (field === 'title') return feedback.isCorrect ? 'exact' : 'neutral';
+  if (field !== 'releaseMonth') return feedback[field]?.state ?? 'miss';
+  const year = feedback.releaseMonth?.year?.state;
+  const month = feedback.releaseMonth?.month?.state;
+  if (year === 'exact' && month === 'exact') return 'exact';
+  if (year === 'exact' || year === 'near' || month === 'exact') return 'near';
+  return 'miss';
+}
+
+function OwnGuessRow({ guess }) {
+  return <tr className={guess.feedback?.isCorrect ? 'correct' : ''}>{SONG_FEEDBACK_COLUMNS.map(([field, label]) => <td key={field} data-label={label} className={`multiplayer-feedback-cell ${field === 'title' && guess.feedback?.isCorrect ? 'exact' : ''}`}><GuessValue field={field} song={guess.song} feedback={guess.feedback} /></td>)}</tr>;
+}
+
+function OpponentGuessRow({ guess }) {
+  const feedback = guess.feedback ?? { isCorrect: Boolean(guess.isCorrect) };
+  return <tr className={feedback.isCorrect ? 'correct' : ''}>{SONG_FEEDBACK_COLUMNS.map(([field, label]) => {
+    const state = opponentFieldState(field, feedback);
+    return <td key={field} data-label={label} className={`opponent-feedback-cell ${state}`}><span className="opponent-cell-blur" aria-label={`${label}：${state === 'exact' ? '完全匹配' : ['near', 'partial'].includes(state) ? '部分匹配' : '未匹配'}`} /></td>;
+  })}</tr>;
+}
+
+export function GuessFeedbackTable({ player, self }) {
+  return <div className="player-feedback-scroll"><table className={`player-feedback-table ${self ? 'own' : 'opponent'}`}><thead><tr>{SONG_FEEDBACK_COLUMNS.map(([, label]) => <th key={label}>{label}</th>)}</tr></thead><tbody>{player.guesses.map((guess, index) => self ? <OwnGuessRow key={`${guess.song.id}-${index}`} guess={guess} /> : <OpponentGuessRow key={guess.index} guess={guess} />)}</tbody></table></div>;
+}
+
+const CONFETTI_EMITTERS = [18, 50, 82];
+const CONFETTI = Array.from({ length: 54 }, (_, index) => ({
+  id: index,
+  left: CONFETTI_EMITTERS[index % CONFETTI_EMITTERS.length] + ((index * 11) % 13) - 6,
+  delay: -((index * .17) % 2.8),
+  duration: 1.85 + ((index * 7) % 10) / 10,
+  drift: ((index * 37) % 261) - 130,
+  apexX: ((index * 23) % 121) - 60,
+  settleX: (((index * 23) % 121) - 60) * 1.08,
+  rise: 390 + (index % 9) * 34,
+  fall: 120 + (index % 5) * 24,
+  rotation: 360 + (index % 7) * 110,
+  width: 7 + (index % 4) * 2,
+  height: 11 + (index % 5) * 3,
+  color: ['#66ccff', '#62ce8f', '#ffe069', '#ff7da8', '#9b86f4', '#ff9f43'][index % 6],
+}));
+
+export function CelebrationConfetti() {
+  return <div className="celebration-confetti" aria-hidden="true">{CONFETTI.map((piece) => <i key={piece.id} style={{ '--confetti-left': `${piece.left}%`, '--confetti-delay': `${piece.delay}s`, '--confetti-duration': `${piece.duration}s`, '--confetti-drift': `${piece.drift}px`, '--confetti-apex-x': `${piece.apexX}px`, '--confetti-settle-x': `${piece.settleX}px`, '--confetti-rise': `${piece.rise}px`, '--confetti-fall': `${piece.fall}px`, '--confetti-apex-rotation': `${piece.rotation * .42}deg`, '--confetti-rotation': `${piece.rotation}deg`, '--confetti-width': `${piece.width}px`, '--confetti-height': `${piece.height}px`, '--confetti-color': piece.color }} />)}</div>;
+}
+
+export function MultiplayerRoundResultDialog({ answer, players, nextRoundAt, now, onClose }) {
+  const ranking = [...players].sort((a, b) => b.roundScore - a.roundScore || a.joinOrder - b.joinOrder);
+  return <div className="dialog-backdrop multiplayer-result-backdrop" role="presentation"><section className="win-dialog multiplayer-result-dialog" role="dialog" aria-modal="true" aria-labelledby="multiplayer-result-title">
+    <button type="button" className="result-dialog-close" aria-label="关闭本轮答案" onClick={onClose}>×</button>
+    <div className="celebration-mark" aria-hidden="true">♪</div><p className="eyebrow">本轮结束</p><h2 id="multiplayer-result-title">答案揭晓</h2>
+    <p className="answer-name">《{answer.title}》</p>
+    <dl className="multiplayer-answer-facts"><div><dt>发布时间</dt><dd>{answer.releaseMonth}</dd></div><div><dt>演唱歌姬</dt><dd>{answer.singersDisplay}</dd></div><div className="staff"><dt>STAFF</dt><dd>{answer.staffDisplay}</dd></div></dl>
+    <div className="multiplayer-result-places">{ranking.map((player, index) => <span key={player.id}>{index + 1}. {player.nickname} <b>+{player.roundScore}</b></span>)}</div>
+    <div className="dialog-actions multiplayer-result-links">{answer.bilibiliUrl && <a className="bilibili-link" href={answer.bilibiliUrl} target="_blank" rel="noreferrer noopener">前往 Bilibili 原视频 ↗</a>}{answer.vcpediaUrl && <a className="vcpedia-link" href={answer.vcpediaUrl} target="_blank" rel="noreferrer noopener">前往 VCPedia.cn 页面 ↗</a>}<button type="button" className="ghost-button" onClick={onClose}>关闭并查看战况</button></div>
+    <div className="next-round-countdown"><span>下一轮开始倒计时</span><strong>{formatTime(nextRoundAt - now)}</strong></div>
+  </section></div>;
+}
+
+export function PlayerCard({ player, self }) {
   return <article className={`player-card ${player.solved ? 'solved' : ''} ${self ? 'self' : ''}`}>
     <header><div><strong>{player.nickname}{self ? '（你）' : ''}</strong><small>{player.online ? '在线' : '重连中'}</small></div><span>{player.score} 分</span></header>
     <div className="player-round-meta"><span>{player.guesses.length} 次猜测</span><span>{player.roundScore ? `本轮 +${player.roundScore}` : player.solved ? '已猜出' : '作答中'}</span></div>
-    <div className="player-guesses">{player.guesses.length ? player.guesses.map((guess, index) => self
-      ? <div className={`self-guess ${guess.feedback?.isCorrect ? 'correct' : ''}`} key={`${guess.song.id}-${index}`}><strong>{guess.song.title}</strong><span>{guess.feedback?.isCorrect ? '正确' : '查看字段反馈'}</span><div className="feedback-dots">{['staff', 'releaseMonth', 'singers', 'voicebanks', 'concertCount', 'special'].map((key) => <i key={key} className={guess.feedback?.[key]?.state ?? 'miss'} title={key} />)}</div></div>
-      : <div className={`opponent-guess ${guess.isCorrect ? 'correct' : ''}`} key={guess.index}><span className="blur-bar" /><small>{guess.isCorrect ? '猜对了' : `第 ${guess.index} 次猜测`}</small></div>) : <p className="no-player-guesses">等待第一次猜测</p>}</div>
+    <div className="player-guesses">{player.guesses.length ? <GuessFeedbackTable player={player} self={self} /> : <p className="no-player-guesses">等待第一次猜测</p>}</div>
   </article>;
 }
 
@@ -91,6 +150,7 @@ function Room({ code, songs, presets, onExit }) {
   const [connection, setConnection] = useState('connecting');
   const [error, setError] = useState(identity ? '' : '这台设备没有该房间的加入凭据');
   const [now, setNow] = useState(Date.now());
+  const [dismissedResultRound, setDismissedResultRound] = useState(null);
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(timer); }, []);
   useEffect(() => {
     if (!identity) return undefined;
@@ -120,6 +180,7 @@ function Room({ code, songs, presets, onExit }) {
   if (!identity) return <Shell onBack={onExit} title="无法恢复房间" intro={error}><button className="primary-button" type="button" onClick={onExit}>返回联机首页</button></Shell>;
   if (!room) return <Shell onBack={onExit} title="连接房间中" intro={connection === 'reconnecting' ? '连接中断，正在自动重连…' : '正在同步房间状态…'}><p className="multiplayer-error">{error}</p></Shell>;
   const finished = room.phase === 'finished';
+  const showRoundResult = room.phase === 'round-result' && dismissedResultRound !== room.roundNumber;
   return <Shell onBack={onExit} title={finished ? '最终排名' : `房间 ${room.code}`} intro={`${room.poolName} · ${room.capacity} 人 · ${room.roundCount} 轮`}>
     <div className={`connection-pill ${connection}`}>{connection === 'online' ? '实时连接正常' : '正在重连…'}</div>
     {room.phase === 'waiting' ? <section className="multiplayer-panel waiting-room"><div className="room-code"><span>房间码</span><strong>{room.code}</strong></div><div className="room-share-actions"><button type="button" className="ghost-button" onClick={() => navigator.clipboard.writeText(room.code)}>复制房间码</button><button type="button" className="ghost-button" onClick={copyInvite}>复制邀请链接</button></div><div className="waiting-seats">{Array.from({ length: room.capacity }, (_, index) => room.players[index] ? <div key={room.players[index].id} className="seat"><span>{room.players[index].nickname}</span><small>{room.players[index].id === room.hostId ? '房主' : '已加入'}</small></div> : <div key={index} className="seat empty"><span>等待玩家</span><small>{index + 1} 号位</small></div>)}</div>{self?.id === room.hostId ? <button className="primary-button" type="button" disabled={room.players.length !== room.capacity} onClick={() => send({ type: 'start_match' })}>{room.players.length === room.capacity ? '开始游戏' : `等待坐满（${room.players.length}/${room.capacity}）`}</button> : <p className="waiting-copy">等待房主开始游戏</p>}</section> : null}
@@ -129,8 +190,9 @@ function Room({ code, songs, presets, onExit }) {
       {room.phase === 'round-result' && <section className="round-result-strip"><strong>本轮排名</strong>{[...room.players].sort((a, b) => b.roundScore - a.roundScore || a.joinOrder - b.joinOrder).map((player, index) => <span key={player.id}>{index + 1}. {player.nickname} <b>+{player.roundScore}</b></span>)}</section>}
       <div className={`player-grid players-${room.capacity}`}>{room.players.map((player) => <PlayerCard key={player.id} player={player} self={player.id === self?.id} />)}</div>
     </> : null}
-    {finished && <section className="multiplayer-panel final-ranking"><ol>{room.ranking.map((entry) => <li key={entry.id} className={entry.id === self?.id ? 'self' : ''}><strong>第 {entry.rank} 名</strong><span>{entry.nickname}</span><b>{entry.score} 分</b></li>)}</ol><button type="button" className="primary-button" onClick={onExit}>返回联机首页</button></section>}
+    {finished && <section className="multiplayer-panel final-ranking"><CelebrationConfetti /><div className="final-ranking-content"><p className="eyebrow">MATCH COMPLETE</p><h3>恭喜{room.ranking.filter((entry) => entry.rank === 1).map((entry) => entry.nickname).join('、')}！您就是中术老资历！</h3><ol>{room.ranking.map((entry) => <li key={entry.id} className={`${entry.id === self?.id ? 'self' : ''} ${entry.rank === 1 ? 'winner' : ''}`}><strong>第 {entry.rank} 名</strong><span>{entry.nickname}</span><b>{entry.score} 分</b></li>)}</ol><button type="button" className="primary-button" onClick={onExit}>返回联机首页</button></div></section>}
     <p className="multiplayer-error" role="alert">{error}</p>
+    {showRoundResult && <MultiplayerRoundResultDialog answer={room.answer} players={room.players} nextRoundAt={room.nextRoundAt} now={now} onClose={() => setDismissedResultRound(room.roundNumber)} />}
   </Shell>;
 }
 

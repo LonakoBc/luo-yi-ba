@@ -1,4 +1,4 @@
-const COLUMNS = [
+export const SONG_FEEDBACK_COLUMNS = [
   ['title', '曲名'],
   ['staff', 'STAFF'],
   ['releaseMonth', '发布时间'],
@@ -87,7 +87,7 @@ function AnswerRow({ answer, hintLevel, finished }) {
   };
   return (
     <tr className={`song-row answer-row ${finished ? 'won' : ''}`}>
-      {COLUMNS.map(([key, label]) => {
+      {SONG_FEEDBACK_COLUMNS.map(([key, label]) => {
         const revealed = finished
           || (hintLevel >= 1 && (key === 'singers' || key === 'releaseMonth'))
           || (hintLevel >= 2 && key === 'staff');
@@ -97,7 +97,7 @@ function AnswerRow({ answer, hintLevel, finished }) {
   );
 }
 
-function GuessValue({ field, song, feedback }) {
+export function GuessValue({ field, song, feedback }) {
   if (field === 'title') return <span className="title-value">{song.title}</span>;
   if (field === 'staff') return <StaffTokens display={song.staffDisplay} feedback={feedback.staff} />;
   if (field === 'releaseMonth') return <ReleaseFeedback value={song.releaseMonth} feedback={feedback.releaseMonth} />;
@@ -111,7 +111,7 @@ function GuessRow({ entry }) {
   const { song, feedback } = entry;
   return (
     <tr className={`song-row guess-row ${feedback.isCorrect ? 'correct-answer' : ''}`}>
-      {COLUMNS.map(([key, label]) => <td key={key} data-label={label}><GuessValue field={key} song={song} feedback={feedback} /></td>)}
+      {SONG_FEEDBACK_COLUMNS.map(([key, label]) => <td key={key} data-label={label}><GuessValue field={key} song={song} feedback={feedback} /></td>)}
     </tr>
   );
 }
@@ -128,7 +128,7 @@ export default function SongTable({ answer, guesses, hintLevel, finished }) {
       </div>
       <div className="table-scroll">
         <table className="song-table">
-          <thead><tr>{COLUMNS.map(([, label]) => <th key={label}>{label}</th>)}</tr></thead>
+          <thead><tr>{SONG_FEEDBACK_COLUMNS.map(([, label]) => <th key={label}>{label}</th>)}</tr></thead>
           <tbody>
             <AnswerRow answer={answer} hintLevel={hintLevel} finished={finished} />
             {guesses.map((entry) => <GuessRow key={entry.song.id} entry={entry} />)}

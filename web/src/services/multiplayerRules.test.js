@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allowedRoundCounts, applyGuess, hintLevelAt, projectRoom, rankPlayers, validateMatchConfig } from './multiplayerRules';
+import { allowedRoundCounts, applyGuess, hintLevelAt, isFinalRound, projectRoom, rankPlayers, roundCompletionState, validateMatchConfig } from './multiplayerRules';
 
 const song = (id) => ({ id, title: id, staffPeople: [id], staffDisplay: id, releaseMonth: '2020-01', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], voicebanksDisplay: 'VOCALOID', concertCount: 0, special: '单曲', lyrics: '歌词' });
 
@@ -29,6 +29,13 @@ it('总分相同时并列且对手猜测不泄露歌曲信息', () => {
     { id: 'b', nickname: '乙', joinOrder: 1, online: true, score: 0, roundScore: 0, guesses: [{ song: song('secret'), feedback: { isCorrect: false }, receivedAt: 1 }] },
   ] };
   const opponentGuess = projectRoom(room, 'a').players[1].guesses[0];
-  expect(opponentGuess).toEqual({ index: 1, receivedAt: 1, isCorrect: false });
+  expect(opponentGuess).toMatchObject({ index: 1, receivedAt: 1, isCorrect: false, feedback: { isCorrect: false, staff: { state: 'miss' }, special: { state: 'miss' } } });
   expect(JSON.stringify(opponentGuess)).not.toContain('secret');
+});
+
+it('当前轮数达到总轮数时视为最后一轮', () => {
+  expect(isFinalRound(2, 3)).toBe(false);
+  expect(isFinalRound(3, 3)).toBe(true);
+  expect(roundCompletionState(2, 3, 1000)).toEqual({ phase: 'round-result', nextRoundAt: 11_000 });
+  expect(roundCompletionState(3, 3, 1000)).toEqual({ phase: 'finished', nextRoundAt: null });
 });

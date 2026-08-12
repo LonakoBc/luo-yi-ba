@@ -3,8 +3,8 @@ import presets from '../../web/src/data/presets.generated.json';
 import { filterSongs, songsForPreset } from '../../web/src/services/libraryService.js';
 import {
   HOST_RECONNECT_GRACE_MS, HINT_STEPS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
-  ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, ROUND_BREAK_MS, ROUND_DURATION_MS,
-  applyGuess, catalogVersionFor, hintLevelAt, projectRoom, validateMatchConfig,
+  ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, ROUND_DURATION_MS,
+  applyGuess, catalogVersionFor, hintLevelAt, isFinalRound, projectRoom, roundCompletionState, validateMatchConfig,
 } from '../../web/src/services/multiplayerRules.js';
 
 const catalogVersion = catalogVersionFor(songs);
@@ -239,8 +239,9 @@ export class GuessRoom {
 
   async finishRound() {
     if (this.room.phase !== 'playing') return;
-    this.room.phase = 'round-result';
-    this.room.nextRoundAt = Date.now() + ROUND_BREAK_MS;
+    const completion = roundCompletionState(this.room.roundNumber, this.room.roundCount, Date.now());
+    this.room.phase = completion.phase;
+    this.room.nextRoundAt = completion.nextRoundAt;
     await this.save();
     this.broadcast();
   }
@@ -265,7 +266,7 @@ export class GuessRoom {
       if (now >= this.room.endsAt) await this.finishRound();
       else this.room.hintLevel = hintLevelAt(this.room.startedAt, now);
     } else if (this.room.phase === 'round-result' && now >= this.room.nextRoundAt) {
-      if (this.room.roundNumber >= this.room.roundCount) {
+      if (isFinalRound(this.room.roundNumber, this.room.roundCount)) {
         this.room.phase = 'finished'; this.room.nextRoundAt = null; await this.save(); this.broadcast();
       } else await this.startRound();
     }
