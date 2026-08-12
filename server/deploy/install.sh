@@ -5,6 +5,7 @@ APP_ROOT=/opt/luo-yi-ba-multiplayer
 RELEASE_ARCHIVE=/tmp/aliyun-multiplayer-release.tar.gz
 
 install -d -o luoyiba -g luoyiba "$APP_ROOT/server/data/rooms"
+install -d -o www-data -g www-data /var/www/certbot/.well-known/acme-challenge
 tar -xzf "$RELEASE_ARCHIVE" -C "$APP_ROOT"
 chown -R luoyiba:luoyiba "$APP_ROOT/server" "$APP_ROOT/web"
 
@@ -19,7 +20,12 @@ NVM_NODE=${NPM_CLI%/lib/node_modules/npm/bin/npm-cli.js}/bin/node
 chown -R luoyiba:luoyiba "$APP_ROOT/server/node_modules"
 
 install -m 0644 "$APP_ROOT/server/deploy/luo-yi-ba-multiplayer.service" /etc/systemd/system/luo-yi-ba-multiplayer.service
-install -m 0644 "$APP_ROOT/server/deploy/nginx.conf" /etc/nginx/sites-available/luo-yi-ba-multiplayer
+NGINX_CONFIG="$APP_ROOT/server/deploy/nginx.conf"
+if [[ -f /etc/letsencrypt/live/8.217.219.36/fullchain.pem ]]; then
+  NGINX_CONFIG="$APP_ROOT/server/deploy/nginx-https.conf"
+fi
+install -m 0644 "$NGINX_CONFIG" /etc/nginx/sites-available/luo-yi-ba-multiplayer
+install -m 0755 "$APP_ROOT/server/deploy/reload-nginx.sh" /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
 ln -sfn /etc/nginx/sites-available/luo-yi-ba-multiplayer /etc/nginx/sites-enabled/luo-yi-ba-multiplayer
 rm -f /etc/nginx/sites-enabled/default
 
