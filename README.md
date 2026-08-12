@@ -53,7 +53,7 @@ npm install
 npx wrangler deploy --var FRONTEND_ORIGIN:https://luo-yi-ba.pages.dev
 ```
 
-复制 `web/.env.example` 为本地环境文件，将 `VITE_MULTIPLAYER_API_URL` 指向部署后的 Worker 地址。开发时分别运行 `worker` 的 `npm run dev` 与 `web` 的 `npm run dev`。
+复制 `web/.env.example` 为本地环境文件，将 `VITE_MULTIPLAYER_API_URL` 指向要测试的多人服务。生产环境由 `web/.env.production` 指向阿里云；Cloudflare Worker 暂时保留为回退服务。
 
 ## 项目结构
 

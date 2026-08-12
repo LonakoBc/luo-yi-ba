@@ -16,6 +16,7 @@ web/src/data/database.generated.json
 .env
 .env.*
 !.env.example
+!web/.env.production
 
 # Logs and operating-system files
 *.log

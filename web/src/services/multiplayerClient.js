@@ -1,6 +1,8 @@
 import { catalogVersionFor } from './multiplayerRules';
 
-export const MULTIPLAYER_API_URL = String(import.meta.env.VITE_MULTIPLAYER_API_URL ?? '').replace(/\/$/u, '');
+const productionApiUrl = 'https://8.217.219.36';
+const configuredApiUrl = import.meta.env.DEV ? import.meta.env.VITE_MULTIPLAYER_API_URL : productionApiUrl;
+export const MULTIPLAYER_API_URL = String(configuredApiUrl ?? '').replace(/\/$/u, '');
 
 async function request(path, options = {}) {
   const response = await fetch(`${MULTIPLAYER_API_URL}${path}`, {
