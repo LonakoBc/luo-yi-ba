@@ -43,6 +43,18 @@ npm run build
 
 线上版本通过 Cloudflare Pages 部署；构建目录为 `web/dist`，SPA 子路由由 `web/public/_redirects` 处理。
 
+## 多人联机部署
+
+多人曲目猜猜看使用 `worker/` 中的 Cloudflare Worker + Durable Object。首次部署前安装 Worker 依赖，并设置允许访问的 Pages 域名：
+
+```powershell
+cd worker
+npm install
+npx wrangler deploy --var FRONTEND_ORIGIN:https://luo-yi-ba.pages.dev
+```
+
+复制 `web/.env.example` 为本地环境文件，将 `VITE_MULTIPLAYER_API_URL` 指向部署后的 Worker 地址。开发时分别运行 `worker` 的 `npm run dev` 与 `web` 的 `npm run dev`。
+
 ## 项目结构
 
 ```text

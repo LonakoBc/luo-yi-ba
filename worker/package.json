@@ -1,0 +1,15 @@
+{
+  "name": "luo-yi-ba-multiplayer-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "npm --prefix ../web run generate:data",
+    "dev": "wrangler dev",
+    "predeploy": "npm --prefix ../web run generate:data",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.28.1"
+  }
+}

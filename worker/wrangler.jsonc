@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "luo-yi-ba-multiplayer",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-12",
+  "durable_objects": {
+    "bindings": [{ "name": "GUESS_ROOMS", "class_name": "GuessRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GuessRoom"] }]
+}

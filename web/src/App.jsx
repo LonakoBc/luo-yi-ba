@@ -8,6 +8,7 @@ import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
+import MultiplayerPage from './components/MultiplayerPage';
 import SeniorityPage from './components/SeniorityPage';
 import SeniorityModePage from './components/SeniorityModePage';
 import SortingPage from './components/SortingPage';
@@ -15,6 +16,11 @@ import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
 function routeFromLocation(pathname, search = '') {
+  if (pathname === '/multiplayer') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
+  if (pathname === '/multiplayer/create') return { page: 'multiplayer', view: 'create' };
+  if (pathname === '/multiplayer/join') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
+  const multiplayerRoomMatch = pathname.match(/^\/multiplayer\/room\/([A-HJ-NP-Z2-9]{6})$/u);
+  if (multiplayerRoomMatch) return { page: 'multiplayer', view: 'room', code: multiplayerRoomMatch[1], routeKey: pathname };
   if (pathname === '/modes') return { page: 'modes', mode: null };
   if (pathname === '/crossword') return { page: 'crossword-select', routeKey: pathname };
   const crosswordPresetMatch = pathname.match(/^\/crossword\/preset\/([a-z0-9-]+)$/u);
@@ -47,7 +53,7 @@ function Brand({ compact = false }) {
   );
 }
 
-function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChooseSorting, onChooseDatabase }) {
+function HomePage({ onChooseGame, onChooseMultiplayer, onChooseCrossword, onChooseSeniority, onChooseSorting, onChooseDatabase }) {
   return (
     <div className="page-shell landing-page">
       <header className="landing-header"><Brand /><p>传说曲是对播放量（再生数）超过一百万的作品的称呼，是比殿堂曲（十万播放）的更高荣誉，比此更高的荣誉是神话曲（一千万播放）。</p></header>
@@ -58,6 +64,11 @@ function HomePage({ onChooseGame, onChooseCrossword, onChooseSeniority, onChoose
           <button type="button" className="content-card available" onClick={onChooseGame}>
             <span className="card-index">01</span><span className="music-glyph" aria-hidden="true">♪</span>
             <span className="card-copy"><strong>曲目猜猜看</strong><small>根据每次猜测获得线索，找出隐藏的经典曲目。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
+          <button type="button" className="content-card available multiplayer-card" onClick={onChooseMultiplayer}>
+            <span className="card-index">联机</span><span className="music-glyph" aria-hidden="true">联</span>
+            <span className="card-copy"><strong>多人猜曲</strong><small>分享房间码，与 2–4 位好友同步挑战同一首歌曲。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" className="content-card available crossword-card" onClick={onChooseCrossword}>
@@ -122,7 +133,9 @@ export default function App({ songs = songData, presets = presetData, database =
   const startCrosswordPreset = (presetId) => navigate(`/crossword/preset/${presetId}`);
 
   let pageContent;
-  if (route.page === 'modes') {
+  if (route.page === 'multiplayer') {
+    pageContent = <MultiplayerPage view={route.view} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
+  } else if (route.page === 'modes') {
     pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startPreset} onStartCustom={startCustom} Brand={Brand} />;
   } else if (route.page === 'game') {
     const preset = route.kind === 'preset' ? presets.find((item) => item.id === route.presetId) : null;
@@ -183,7 +196,7 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseMultiplayer={() => navigate('/multiplayer')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }
