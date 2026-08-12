@@ -28,6 +28,7 @@ Thumbs.db
 
 # Local deployment caches and spreadsheet inspection artifacts
 worker/.wrangler/
+server/data/
 *.inspect.ndjson
 outputs/producer-analysis/build-workbook.mjs
 outputs/producer-analysis/formula-errors.ndjson

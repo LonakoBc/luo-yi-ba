@@ -1,4 +1,4 @@
-import { evaluateGuess } from './gameService';
+import { evaluateGuess } from './gameService.js';
 
 export const MULTIPLAYER_PROTOCOL_VERSION = 2;
 export const MULTIPLAYER_MODE = 'guess-song';
