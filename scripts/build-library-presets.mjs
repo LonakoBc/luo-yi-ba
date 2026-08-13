@@ -61,7 +61,7 @@ export async function rebuildLibraryPresets() {
   const henian = allSongs.filter((song) => singersAreSubsetOf(song, HENIAN_SINGERS));
   const medium5 = allSongs.filter((song) => singersAreSubsetOf(song, MEDIUM5_SINGERS));
   const wangchuan = allSongs.filter((song) => uploaderMembers(song).includes('忘川风华录'));
-  const expected = { all: 495, henian: 379, medium5: 95, wangchuan: 47, goldenAge: 192 };
+  const expected = { all: 495, henian: 379, medium5: 93, wangchuan: 47, goldenAge: 192 };
   const actual = { all: allSongs.length, henian: henian.length, medium5: medium5.length, wangchuan: wangchuan.length, goldenAge: goldenAge.length };
   for (const [name, count] of Object.entries(expected)) {
     if (actual[name] !== count) throw new Error(`预设数量异常：${name} ${actual[name]} 首，预期 ${count} 首`);

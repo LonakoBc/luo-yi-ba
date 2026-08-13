@@ -129,3 +129,10 @@ test('《哑巴》在洛天依与乐正龙牙曲库中保持一致', async () =>
   assert.equal(luotianyiSong.voicebanks, 'ACE Studio');
   assert.equal(luotianyiSong.special, '系列/企划曲目');
 });
+
+test('诗岸《惊蛰正中央》与《無》包含歌爱雪', async () => {
+  const songs = JSON.parse(await readFile(path.join(root, 'database', 'singers', 'shian.json'), 'utf8'));
+  const byTitle = new Map(songs.map((song) => [song.title, song]));
+  assert.equal(byTitle.get('惊蛰正中央')?.singers, '诗岸；歌爱雪');
+  assert.equal(byTitle.get('無')?.singers, '诗岸；歌爱雪');
+});

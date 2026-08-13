@@ -8,7 +8,7 @@ describe('Markdown 曲库预设', () => {
   it('预设顺序、数量与曲名唯一性正确', () => {
     const counts = Object.fromEntries(presets.map((preset) => [preset.id, preset.titles.length]));
     expect(presets.map(({ id }) => id)).toEqual(['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'henian', 'medium5', 'wangchuan', 'golden-age']);
-    expect(counts).toEqual({ all: 495, intro: 50, luotianyi: 302, yuezhengling: 74, yanhe: 70, henian: 379, medium5: 95, wangchuan: 47, 'golden-age': 192 });
+    expect(counts).toEqual({ all: 495, intro: 50, luotianyi: 302, yuezhengling: 74, yanhe: 70, henian: 379, medium5: 93, wangchuan: 47, 'golden-age': 192 });
     expect(presets.every(({ badge }) => badge)).toBe(true);
     for (const preset of presets) expect(new Set(preset.titles).size).toBe(preset.titles.length);
   });
