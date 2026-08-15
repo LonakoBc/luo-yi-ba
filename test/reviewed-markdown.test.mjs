@@ -13,7 +13,7 @@ function fieldsFromMarkdown(markdown) {
 }
 
 for (const library of [
-  { id: 'luotianyi', singer: '洛天依', count: 302 },
+  { id: 'luotianyi', singer: '洛天依', count: 303 },
   { id: 'yuezhengling', singer: '乐正绫', count: 74 },
   { id: 'yanhe', singer: '言和', count: 70 },
   { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 16 },
@@ -54,7 +54,7 @@ for (const library of [
   });
 }
 
-test('十四位歌姬共享歌曲按页面去重后为 495 首', async () => {
+test('十四位歌姬共享歌曲按页面去重后为 496 首', async () => {
   const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
@@ -78,8 +78,8 @@ test('十四位歌姬共享歌曲按页面去重后为 495 首', async () => {
   assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 47);
   assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 6);
   const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
-  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 495);
-  assert.equal(libraries.flat().length, 643);
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 496);
+  assert.equal(libraries.flat().length, 644);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }
@@ -109,6 +109,8 @@ test('洛天依人工修订字段已同步到正式数据', async () => {
   const byTitle = new Map(songs.map((song) => [song.title, song]));
   assert.equal(byTitle.get('唱山').special, '系列/企划曲目');
   assert.equal(byTitle.get('神经病之歌').special, '单曲');
+  assert.equal(byTitle.get('Seattle物语').special, '系列/企划曲目');
+  assert.equal(byTitle.get('异样的风暴中心').concertCount, 3);
 });
 
 test('多音字曲名使用人工确认的拼音', () => {

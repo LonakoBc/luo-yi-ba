@@ -186,7 +186,7 @@
     "singers": "洛天依",
     "voicebanks": "VOCALOID",
     "concertCount": 0,
-    "special": "单曲",
+    "special": "系列/企划曲目",
     "lyrics": "黄昏的五号公路 目标Seattle只剩两mile",
     "bilibiliUrl": "https://www.bilibili.com/video/av877734/",
     "vcpediaUrl": "https://vcpedia.cn/Seattle%E7%89%A9%E8%AF%AD"
@@ -3610,6 +3610,18 @@
     "lyrics": "当明天被模具更改",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1KMMW6eEnV/",
     "vcpediaUrl": "https://vcpedia.cn/%E8%B6%8A%E5%86%B0%E8%88%B9"
+  },
+  {
+    "title": "异样的风暴中心",
+    "staff": "UP主：杉田朗；作曲：杉田朗；作词：和田野；编曲：杉田朗",
+    "releaseMonth": "2016-03",
+    "singers": "洛天依",
+    "voicebanks": "VOCALOID",
+    "concertCount": 3,
+    "special": "系列/企划曲目",
+    "lyrics": "对不起　我想尝试一次恶作剧",
+    "bilibiliUrl": "https://www.bilibili.com/video/av4018008/",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%BC%82%E6%A0%B7%E7%9A%84%E9%A3%8E%E6%9A%B4%E4%B8%AD%E5%BF%83"
   },
   {
     "title": "哑巴",

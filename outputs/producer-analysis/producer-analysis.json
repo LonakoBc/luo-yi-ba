@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-13T16:31:08.131Z",
-  "songCount": 495,
+  "generatedAt": "2026-08-15T04:41:34.110Z",
+  "songCount": 496,
   "producerCount": 241,
   "tierDistribution": {
-    "未确认": 10,
+    "未确认": 11,
     "传说曲": 324,
     "殿堂曲": 147,
     "神话曲": 14
@@ -2040,6 +2040,29 @@
       "notes": "首次投稿时间采用“资料页最早日期记录”"
     },
     {
+      "name": "杉田朗",
+      "aliases": "",
+      "resolvedTitle": "杉田朗",
+      "type": "个人/待核验",
+      "roles": "UP主；作曲",
+      "songCount": 2,
+      "firstPost": "2012-01",
+      "firstPostBasis": "资料页最早日期记录",
+      "representatives": [
+        "66CCFF",
+        "异样的风暴中心"
+      ],
+      "hallOnly": 0,
+      "legend": 1,
+      "myth": 0,
+      "hallTotal": 1,
+      "unknownTier": 1,
+      "mainSingers": "洛天依（2）",
+      "vcpediaUrl": "https://vcpedia.cn/%E6%9D%89%E7%94%B0%E6%9C%97",
+      "status": "待核验",
+      "notes": "首次投稿时间采用“资料页最早日期记录”；1 首作品等级未确认"
+    },
+    {
       "name": "天钦",
       "aliases": "",
       "resolvedTitle": "天钦",
@@ -3538,28 +3561,6 @@
       "vcpediaUrl": "https://vcpedia.cn/%E5%82%98%E6%9D%91%E3%83%88%E3%83%BC%E3%82%BF",
       "status": "待核验",
       "notes": "VCPedia 无独立资料页；首次投稿时间采用“当前曲库最早收录作品”"
-    },
-    {
-      "name": "杉田朗",
-      "aliases": "",
-      "resolvedTitle": "杉田朗",
-      "type": "个人/待核验",
-      "roles": "UP主；作曲",
-      "songCount": 1,
-      "firstPost": "2012-01",
-      "firstPostBasis": "资料页最早日期记录",
-      "representatives": [
-        "66CCFF"
-      ],
-      "hallOnly": 0,
-      "legend": 1,
-      "myth": 0,
-      "hallTotal": 1,
-      "unknownTier": 0,
-      "mainSingers": "洛天依（1）",
-      "vcpediaUrl": "https://vcpedia.cn/%E6%9D%89%E7%94%B0%E6%9C%97",
-      "status": "待核验",
-      "notes": "首次投稿时间采用“资料页最早日期记录”"
     },
     {
       "name": "上升的香蕉",
@@ -8551,6 +8552,18 @@
       "concertCount": 9,
       "vcpediaUrl": "https://vcpedia.cn/66CCFF",
       "bilibiliUrl": "https://www.bilibili.com/video/av360940/"
+    },
+    {
+      "producer": "杉田朗",
+      "sourceName": "杉田朗",
+      "roles": "UP主；作曲",
+      "title": "异样的风暴中心",
+      "releaseMonth": "2016-03",
+      "singers": "洛天依",
+      "tier": "未确认",
+      "concertCount": 3,
+      "vcpediaUrl": "https://vcpedia.cn/%E5%BC%82%E6%A0%B7%E7%9A%84%E9%A3%8E%E6%9A%B4%E4%B8%AD%E5%BF%83",
+      "bilibiliUrl": "https://www.bilibili.com/video/av4018008/"
     },
     {
       "producer": "殇小谨",
