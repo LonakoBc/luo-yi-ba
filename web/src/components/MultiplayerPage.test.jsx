@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
-import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker } from './MultiplayerPage';
+import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset } from './MultiplayerPage';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
 import MultiplayerSortingGame from './MultiplayerSortingGame';
 
@@ -163,4 +163,29 @@ it('联机排序只公开对手进度，提交后在揭晓阶段显示正确时�
   expect(screen.getByText('10/10 · 100% · +5')).toBeVisible();
   expect(screen.getByText('8/10 · 80% · +3')).toBeVisible();
   expect(screen.getByText('2020-01')).toBeVisible();
+});
+
+it('使用服务端时间校准倒计时，避免客户端时钟偏差导致提前跳转', () => {
+  expect(serverClockOffset(10_000, 7_000)).toBe(3_000);
+  expect(serverClockOffset(10_000, 12_000)).toBe(-2_000);
+  expect(serverClockOffset(undefined, 7_000)).toBe(0);
+});
+
+it('歌曲排序切换到题目完全不同的下一轮时立即使用新一轮顺序', () => {
+  const send = vi.fn();
+  const firstSongs = [0, 1, 2, 3, 4].map((index) => ({ ...songs[0], id: `first-${index}`, title: `首轮${index}` }));
+  const secondSongs = [0, 1, 2, 3, 4].map((index) => ({ ...songs[0], id: `second-${index}`, title: `次轮${index}` }));
+  const firstIds = firstSongs.map(({ id }) => id);
+  const secondIds = secondSongs.map(({ id }) => id);
+  const player = { id: 'p1', nickname: '玩家甲', color: { color: '#66CCFF' }, moveCount: 0, submitted: false, score: 0, roundScore: 0 };
+  const room = (roundNumber, roundSongs, orderIds) => ({
+    phase: 'playing', roundNumber, roundCount: 3, endsAt: 61_000, nextRoundAt: null,
+    players: [{ ...player, orderIds }], sortingRound: { songs: roundSongs, answerIds: null },
+  });
+  const { rerender } = render(<MultiplayerSortingGame room={room(1, firstSongs, firstIds)} self={{ ...player, orderIds: firstIds }} now={1_000} connection="online" send={send} />);
+  expect(screen.getByText('《首轮0》')).toBeVisible();
+
+  expect(() => rerender(<MultiplayerSortingGame room={room(2, secondSongs, secondIds)} self={{ ...player, orderIds: secondIds }} now={1_000} connection="online" send={send} />)).not.toThrow();
+  expect(screen.getByText('《次轮0》')).toBeVisible();
+  expect(screen.queryByText('《首轮0》')).not.toBeInTheDocument();
 });

@@ -83,6 +83,10 @@ function formatTime(ms) {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
+export function serverClockOffset(serverNow, receivedAt = Date.now()) {
+  return Number.isFinite(serverNow) ? serverNow - receivedAt : 0;
+}
+
 function playerColorMeta(player) {
   return player?.color ?? resolvedPlayerColor(player);
 }
@@ -193,12 +197,16 @@ function Room({ code, songs, presets, onExit }) {
   const identity = useMemo(() => loadRoomIdentity(code), [code]);
   const socketRef = useRef(null);
   const retryRef = useRef(null);
+  const clockOffsetRef = useRef(0);
   const [room, setRoom] = useState(null);
   const [connection, setConnection] = useState('connecting');
   const [error, setError] = useState(identity ? '' : '这台设备没有该房间的加入凭据');
   const [now, setNow] = useState(Date.now());
   const [dismissedResultRound, setDismissedResultRound] = useState(null);
-  useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(timer); }, []);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now() + clockOffsetRef.current), 250);
+    return () => clearInterval(timer);
+  }, []);
   useEffect(() => {
     if (!identity) return undefined;
     let disposed = false;
@@ -207,7 +215,15 @@ function Room({ code, songs, presets, onExit }) {
       setConnection('connecting');
       const socket = new WebSocket(roomSocketUrl(code, identity.resumeToken)); socketRef.current = socket;
       socket.onopen = () => { setConnection('online'); socket.send(JSON.stringify({ type: 'sync' })); };
-      socket.onmessage = (event) => { const message = JSON.parse(event.data); if (message.type === 'state') setRoom(message.room); else if (message.type === 'error') setError(message.error); };
+      socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === 'state') {
+          const receivedAt = Date.now();
+          clockOffsetRef.current = serverClockOffset(message.room?.serverNow, receivedAt);
+          setNow(receivedAt + clockOffsetRef.current);
+          setRoom(message.room);
+        } else if (message.type === 'error') setError(message.error);
+      };
       socket.onclose = () => { if (!disposed) { setConnection('reconnecting'); retryRef.current = setTimeout(connect, 1500); } };
       socket.onerror = () => socket.close();
     };

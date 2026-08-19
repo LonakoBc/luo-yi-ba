@@ -20,10 +20,13 @@ function PlayerDot({ player }) {
 export default function MultiplayerSortingGame({ room, self, now, connection, send }) {
   const round = room.sortingRound;
   const songsById = useMemo(() => new Map(round?.songs.map((song) => [song.id, song]) ?? []), [round]);
-  const [orderIds, setOrderIds] = useState(() => self?.orderIds ?? round?.songs.map(({ id }) => id) ?? []);
+  const roundKey = round?.songs.map(({ id }) => id).sort().join('|') ?? '';
+  const serverOrderIds = self?.orderIds ?? round?.songs.map(({ id }) => id) ?? [];
+  const [orderState, setOrderState] = useState(() => ({ roundKey, orderIds: serverOrderIds }));
+  const orderIds = orderState.roundKey === roundKey ? orderState.orderIds : serverOrderIds;
   useEffect(() => {
-    setOrderIds(self?.orderIds ?? round?.songs.map(({ id }) => id) ?? []);
-  }, [room.roundNumber]); // eslint-disable-line react-hooks/exhaustive-deps
+    setOrderState({ roundKey, orderIds: serverOrderIds });
+  }, [roundKey]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!round) return null;
   const playing = room.phase === 'playing';
   const countdown = playing ? room.endsAt - now : room.nextRoundAt - now;
@@ -33,7 +36,7 @@ export default function MultiplayerSortingGame({ room, self, now, connection, se
     if (locked) return;
     const next = moveItem(orderIds, from, to);
     if (next === orderIds) return;
-    setOrderIds(next);
+    setOrderState({ roundKey, orderIds: next });
     send({ type: 'update_sorting_order', orderIds: next });
   };
   return <div className="multiplayer-sorting-game">
@@ -53,6 +56,7 @@ export default function MultiplayerSortingGame({ room, self, now, connection, se
       <ol>
         {displayOrder.map((id, index) => {
           const song = songsById.get(id);
+          if (!song) return null;
           return <li
             key={id}
             draggable={!locked}
