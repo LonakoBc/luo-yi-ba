@@ -64,13 +64,13 @@ export default function SongDatabasePage({ singer, songs, onBack, onHome, Brand 
       <header className="inner-header database-header">
         <Brand compact />
         <div className="database-nav">
-          <button type="button" className="back-button" onClick={onBack}>← 选择歌姬</button>
+          <button type="button" className="back-button" onClick={onBack}>← 选择数据库</button>
           <button type="button" className="back-button" onClick={onHome}>返回主页</button>
         </div>
       </header>
       <main className="database-main">
         <div className="database-title">
-          <div><p className="eyebrow">歌曲数据库</p><h2>{singer.id === 'all' ? '全曲库资料' : `${singer.name}曲库资料`}</h2></div>
+          <div><p className="eyebrow">数据库</p><h2>{singer.id === 'all' ? '全曲库资料' : `${singer.name}曲库资料`}</h2></div>
           <strong>{visibleSongs.length} / {songs.length} 首</strong>
         </div>
 

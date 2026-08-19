@@ -71,26 +71,32 @@ function renderGame(customSongs = songs) {
 afterEach(() => window.history.replaceState({}, '', '/'));
 
 describe('App 交互', () => {
-  it('主页按新顺序展示玩法并禁用开发中的 P 主入口', () => {
+  it('主页按新顺序展示玩法并开放 P 主入口', () => {
     const { container } = render(<App songs={songs} presets={presets} initialPage="home" />);
     const cardTitles = [...container.querySelectorAll('.content-card')]
       .map((card) => card.querySelector('.card-copy strong')?.textContent);
     expect(cardTitles).toEqual([
       '曲目猜猜看',
       '多人猜曲（测试中）',
-      'P主猜猜看（开发中）',
+      '闪耀的 Producer',
       '歌曲大排序',
       '曲名填字',
       '谁是老资历？',
-      '歌曲数据库',
+      '数据库',
     ]);
     expect([...container.querySelectorAll('.content-card .card-index')].map((index) => index.textContent))
       .toEqual(['01', '02', '03', '04', '05', '06']);
-    expect(screen.getByRole('button', { name: /歌曲数据库/u }).querySelector('.card-index')).toBeNull();
-    const producerCard = screen.getByText('P主猜猜看（开发中）').closest('.content-card');
-    expect(producerCard).toHaveAttribute('aria-disabled', 'true');
-    expect(producerCard).toHaveClass('producer-card', 'coming-soon');
-    expect(screen.queryByRole('button', { name: /P主猜猜看/u })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^数据库/u }).querySelector('.card-index')).toBeNull();
+    const producerCard = screen.getByRole('button', { name: /闪耀的 Producer/u });
+    expect(producerCard).toHaveClass('producer-card', 'available');
+    fireEvent.click(producerCard);
+    expect(screen.getByRole('heading', { name: '选择挑战范围' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /名 P 模式/u })).toHaveTextContent('44 位候选');
+    expect(screen.getByRole('button', { name: /全 P 主模式/u })).toHaveTextContent('104 位候选');
+    fireEvent.click(screen.getByRole('button', { name: /名 P 模式/u }));
+    expect(screen.getByRole('heading', { name: '闪耀的 Producer' })).toBeVisible();
+    expect(screen.getByRole('columnheader', { name: '殿堂及以上' })).toBeVisible();
+    expect(screen.getByRole('columnheader', { name: '代表曲' })).toBeVisible();
   });
 
   it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
@@ -167,8 +173,8 @@ describe('App 交互', () => {
   it('从主页选择歌姬并浏览、搜索数据库和打开详情', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     const audio = document.querySelector('audio');
-    fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
-    expect(screen.getByRole('heading', { name: '选择曲库' })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
+    expect(screen.getByRole('heading', { name: '选择数据库' })).toBeVisible();
     expect(screen.getByRole('button', { name: /^全曲库/u })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /洛天依/u }));
     expect(screen.getByRole('heading', { name: '洛天依曲库资料' })).toBeVisible();
@@ -185,10 +191,22 @@ describe('App 交互', () => {
 
   it('数据库首项可进入全曲库总览', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
-    fireEvent.click(screen.getByRole('button', { name: /歌曲数据库/u }));
+    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
     fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
     expect(screen.getByRole('heading', { name: '全曲库资料' })).toBeVisible();
     expect(screen.getByText('2 / 2 首')).toBeVisible();
+  });
+
+  it('P 主数据库与全曲库并列并可搜索资料', () => {
+    render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
+    const featured = document.querySelector('.database-featured-grid');
+    expect(within(featured).getByRole('button', { name: /^全曲库/u })).toBeVisible();
+    fireEvent.click(within(featured).getByRole('button', { name: /P 主数据库/u }));
+    expect(screen.getByRole('heading', { name: 'P 主数据库' })).toBeVisible();
+    expect(screen.getByText('104 / 104 位')).toBeVisible();
+    fireEvent.change(screen.getByLabelText('搜索名称、别名、出道曲或代表曲'), { target: { value: '我唱人间' } });
+    expect(screen.getByText('Suya')).toBeVisible();
   });
 
   it('第一次同时揭示歌姬与发布时间，随后揭示 STAFF 和歌词', () => {

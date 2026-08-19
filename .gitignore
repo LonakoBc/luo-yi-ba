@@ -3,6 +3,7 @@ node_modules/
 web/node_modules/
 web/dist/
 web/coverage/
+web/.test-output/
 .codex-spreadsheet/
 
 # Reference-only repositories and generated data
@@ -10,6 +11,7 @@ reference/
 web/src/data/songs.generated.json
 web/src/data/presets.generated.json
 web/src/data/database.generated.json
+web/src/data/producers.generated.json
 
 # Local deployment and environment files
 .netlify/

@@ -1,20 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import gouzhiUrl from '../../../bgm/01-勾指起誓.mp3?url';
-import discoUrl from '../../../bgm/02-普通DISCO.mp3?url';
-import sadnessUrl from '../../../bgm/03-我的悲伤是水做的.mp3?url';
-import ichikaUrl from '../../../bgm/04-一花依世界.mp3?url';
-import seimatsuUrl from '../../../bgm/05-世末歌者.mp3?url';
-
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
 
-export const BGM_TRACKS = [
-  { id: 'gouzhi', name: '01-勾指起誓', url: gouzhiUrl },
-  { id: 'disco', name: '02-普通DISCO', url: discoUrl },
-  { id: 'sadness', name: '03-我的悲伤是水做的', url: sadnessUrl },
-  { id: 'ichika', name: '04-一花依世界', url: ichikaUrl },
-  { id: 'seimatsu', name: '05-世末歌者', url: seimatsuUrl },
-];
+const bgmModules = import.meta.glob('../../../bgm/*.mp3', { eager: true, query: '?url', import: 'default' });
+export const BGM_TRACKS = Object.entries(bgmModules).map(([filePath, url]) => {
+  const fileName = filePath.split('/').pop().replace(/\.mp3$/iu, '');
+  return { id: fileName, name: fileName, url };
+}).sort((a, b) => a.name.localeCompare(b.name, 'zh-CN', { numeric: true }));
 
 function readInitialVolume() {
   const stored = Number.parseFloat(window.localStorage.getItem(VOLUME_STORAGE_KEY));
@@ -28,6 +20,7 @@ export default function GlobalBgm({ random = Math.random }) {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(readInitialVolume);
   const [error, setError] = useState('');
+  const [pickerOpen, setPickerOpen] = useState(false);
   const track = BGM_TRACKS[trackIndex];
 
   const playCurrent = useCallback(async (fallbackMessage = '浏览器暂时无法播放音频') => {
@@ -95,6 +88,13 @@ export default function GlobalBgm({ random = Math.random }) {
     await playCurrent();
   };
 
+  const selectTrack = (index) => {
+    setError('');
+    setPickerOpen(false);
+    if (index === trackIndex) void playCurrent();
+    else setTrackIndex(index);
+  };
+
   return (
     <aside className={`bgm-player ${playing ? 'playing' : ''}`} aria-label="背景音乐播放器">
       <audio
@@ -111,6 +111,10 @@ export default function GlobalBgm({ random = Math.random }) {
         <span className="bgm-icon" aria-hidden="true">{playing ? 'Ⅱ' : '♪'}</span>
         <span className="bgm-copy"><strong>{track.name}</strong><small>{error || (playing ? '正在播放' : '点击播放背景音乐')}</small></span>
       </button>
+      <div className="bgm-picker-wrap">
+        <button type="button" className="bgm-pick" onClick={() => setPickerOpen((open) => !open)} aria-expanded={pickerOpen} aria-controls="bgm-track-list" aria-label="选择背景音乐">♫</button>
+        {pickerOpen && <div id="bgm-track-list" className="bgm-track-list" role="menu">{BGM_TRACKS.map((item, index) => <button type="button" role="menuitemradio" aria-checked={index === trackIndex} className={index === trackIndex ? 'active' : ''} key={item.id} onClick={() => selectTrack(index)}><span>{item.name}</span>{index === trackIndex && <small>{playing ? '播放中' : '当前曲目'}</small>}</button>)}</div>}
+      </div>
       <button type="button" className="bgm-next" onClick={nextTrack} aria-label="播放下一首背景音乐" title="下一首">››</button>
       <label className="volume-control">
         <span className="sr-only">背景音乐音量</span>

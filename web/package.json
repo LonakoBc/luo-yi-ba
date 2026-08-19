@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs && node scripts/generate-database-data.mjs",
+    "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs && node scripts/generate-database-data.mjs && node scripts/generate-producer-data.mjs",
     "predev": "npm run generate:data",
     "dev": "vite --configLoader runner",
     "prebuild": "npm run generate:data",
@@ -14,14 +14,15 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
-    "vite": "^7.1.9",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "vite": "^7.1.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "jsdom": "^27.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "xlsx": "^0.18.5"
   }
 }

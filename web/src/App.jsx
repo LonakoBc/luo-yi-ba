@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import songData from './data/songs.generated.json';
 import presetData from './data/presets.generated.json';
 import databaseData from './data/database.generated.json';
+import producerData from './data/producers.generated.json';
 import CrosswordPage from './components/CrosswordPage';
 import CrosswordLibraryPage from './components/CrosswordLibraryPage';
 import DatabaseSingerPage from './components/DatabaseSingerPage';
@@ -9,6 +10,9 @@ import GamePage from './components/GamePage';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
 import MultiplayerPage from './components/MultiplayerPage';
+import ProducerGamePage from './components/ProducerGamePage';
+import ProducerDatabasePage from './components/ProducerDatabasePage';
+import ProducerModePage from './components/ProducerModePage';
 import SeniorityPage from './components/SeniorityPage';
 import SeniorityModePage from './components/SeniorityModePage';
 import SortingPage from './components/SortingPage';
@@ -16,6 +20,9 @@ import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 
 function routeFromLocation(pathname, search = '') {
+  if (pathname === '/producer') return { page: 'producer-select', routeKey: pathname };
+  const producerMatch = pathname.match(/^\/producer\/play\/(famous|all)$/u);
+  if (producerMatch) return { page: 'producer-game', producerMode: producerMatch[1], routeKey: pathname };
   if (pathname === '/multiplayer') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
   if (pathname === '/multiplayer/create') return { page: 'multiplayer', view: 'create' };
   if (pathname === '/multiplayer/join') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
@@ -53,7 +60,7 @@ function Brand({ compact = false }) {
   );
 }
 
-function HomePage({ onChooseGame, onChooseMultiplayer, onChooseCrossword, onChooseSeniority, onChooseSorting, onChooseDatabase }) {
+function HomePage({ onChooseGame, onChooseMultiplayer, onChooseProducer, onChooseCrossword, onChooseSeniority, onChooseSorting, onChooseDatabase }) {
   return (
     <div className="page-shell landing-page">
       <header className="landing-header"><Brand /><p>传说曲是对播放量（再生数）超过一百万的作品的称呼，是比殿堂曲（十万播放）的更高荣誉，比此更高的荣誉是神话曲（一千万播放）。</p></header>
@@ -71,11 +78,11 @@ function HomePage({ onChooseGame, onChooseMultiplayer, onChooseCrossword, onChoo
             <span className="card-copy"><strong>多人猜曲（测试中）</strong><small>分享房间码，与 2–4 位好友同步挑战同一首歌曲。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
-          <div className="content-card producer-card coming-soon" aria-disabled="true">
+          <button type="button" className="content-card producer-card available" onClick={onChooseProducer}>
             <span className="card-index">03</span><span className="music-glyph" aria-hidden="true">P</span>
-            <span className="card-copy"><strong>P主猜猜看（开发中）</strong><small>从代表曲目与创作线索中认出熟悉的音乐创作者。</small></span>
-            <span className="card-arrow" aria-hidden="true">…</span>
-          </div>
+            <span className="card-copy"><strong>闪耀的 Producer</strong><small>从代表曲目与创作线索中认出熟悉的音乐创作者。</small></span>
+            <span className="card-arrow" aria-hidden="true">→</span>
+          </button>
           <button type="button" className="content-card available sorting-card" onClick={onChooseSorting}>
             <span className="card-index">04</span><span className="music-glyph" aria-hidden="true">序</span>
             <span className="card-copy"><strong>歌曲大排序</strong><small>重建歌曲时间线，把熟悉的作品放回正确年代。</small></span>
@@ -93,20 +100,20 @@ function HomePage({ onChooseGame, onChooseMultiplayer, onChooseCrossword, onChoo
           </button>
           <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
             <span className="music-glyph" aria-hidden="true">库</span>
-            <span className="card-copy"><strong>歌曲数据库</strong><small>浏览歌姬收录曲目与完整歌曲资料。</small></span>
+            <span className="card-copy"><strong>数据库</strong><small>浏览歌曲与 P 主的完整资料。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
         </div>
       </main>
       <footer>
         参考于<a href="https://anime-character-guessr.netlify.app/" target="_blank" rel="noreferrer noopener">二刺猿笑传之猜猜呗</a>，
-        数据来自于<a href="https://vcpedia.cn/" target="_blank" rel="noreferrer noopener">VCPedia</a>，如有错误欢迎指出
+        数据来自于<a href="https://vcpedia.cn/" target="_blank" rel="noreferrer noopener">VCPedia</a>，如有错误欢迎联系作者<a href="https://space.bilibili.com/37880274" target="_blank" rel="noreferrer noopener">洛奈lonako</a>，只要有空马上修改！
       </footer>
     </div>
   );
 }
 
-export default function App({ songs = songData, presets = presetData, database = databaseData, random = Math.random, initialPage = null, initialMode = null }) {
+export default function App({ songs = songData, presets = presetData, database = databaseData, producers = producerData, random = Math.random, initialPage = null, initialMode = null }) {
   const testRoute = initialPage
     ? initialPage === 'game'
       ? { page: 'game', kind: 'preset', presetId: initialMode === 'easy' ? 'intro' : 'luotianyi', routeKey: `test-${initialMode}` }
@@ -140,6 +147,11 @@ export default function App({ songs = songData, presets = presetData, database =
   let pageContent;
   if (route.page === 'multiplayer') {
     pageContent = <MultiplayerPage view={route.view} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
+  } else if (route.page === 'producer-select') {
+    pageContent = <ProducerModePage totalCount={producers.length} famousCount={producers.filter((producer) => producer.famous).length} onChoose={(mode) => navigate(`/producer/play/${mode}`)} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'producer-game') {
+    const producerPool = route.producerMode === 'famous' ? producers.filter((producer) => producer.famous) : producers;
+    pageContent = <ProducerGamePage key={route.routeKey} producers={producerPool} mode={route.producerMode} random={random} onBack={() => navigate('/producer')} onChangeMode={() => navigate('/producer')} />;
   } else if (route.page === 'modes') {
     pageContent = <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startPreset} onStartCustom={startCustom} Brand={Brand} />;
   } else if (route.page === 'game') {
@@ -193,15 +205,17 @@ export default function App({ songs = songData, presets = presetData, database =
         ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} direction={direction} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
       : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
   } else if (route.page === 'database-select') {
-    pageContent = <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
+    pageContent = <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database') {
     const singer = database.catalog.find((item) => item.id === route.databaseId);
     const databaseSongs = database.libraries[route.databaseId];
-    pageContent = singer && databaseSongs
+    pageContent = route.databaseId === 'producers'
+      ? <ProducerDatabasePage key={route.routeKey} producers={producers} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
+      : singer && databaseSongs
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
-      : <DatabaseSingerPage catalog={database.catalog} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
+      : <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseMultiplayer={() => navigate('/multiplayer')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
+    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseMultiplayer={() => navigate('/multiplayer')} onChooseProducer={() => navigate('/producer')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
   }
   return <><GlobalBgm />{pageContent}</>;
 }
