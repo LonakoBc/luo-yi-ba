@@ -98,7 +98,7 @@ export default function GamePage({ songs, poolName, random, onBack }) {
         <SongTable answer={game.answer} guesses={game.guesses} hintLevel={game.hintLevel} finished={finished} />
         {finished && !showResultDialog && <div className="after-win-actions"><button type="button" className="primary-button" onClick={() => setShowResultDialog(true)}>查看本局结果</button><button type="button" className="ghost-button" onClick={() => restart()}>再来一局</button></div>}
       </main>
-      <footer>数据来自 VCPedia · 当前为本地试玩版</footer>
+      <footer>歌曲资料来自 VCPedia</footer>
       {showResultDialog && <ResultDialog answer={game.answer} guessCount={game.guesses.length} outcome={game.status} onClose={() => setShowResultDialog(false)} onRestart={() => restart()} />}
     </div>
   );

@@ -77,7 +77,7 @@ describe('App 交互', () => {
       .map((card) => card.querySelector('.card-copy strong')?.textContent);
     expect(cardTitles).toEqual([
       '曲目猜猜看',
-      '多人猜曲（测试中）',
+      '多人联机',
       '闪耀的 Producer',
       '歌曲大排序',
       '曲名填字',

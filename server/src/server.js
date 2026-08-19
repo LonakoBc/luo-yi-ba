@@ -2,7 +2,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { WebSocketServer } from 'ws';
 import { RoomManager, catalogVersion } from './roomManager.js';
-import { MULTIPLAYER_PROTOCOL_VERSION } from '../../web/src/services/multiplayerRules.js';
+import { MULTIPLAYER_MODES, MULTIPLAYER_PROTOCOL_VERSION } from '../../web/src/services/multiplayerRules.js';
 
 const host = process.env.HOST ?? '127.0.0.1';
 const port = Number(process.env.PORT ?? 3000);
@@ -51,10 +51,10 @@ const server = http.createServer(async (request, response) => {
       return response.end();
     }
     if (request.method === 'GET' && url.pathname === '/health') {
-      return json(response, 200, { status: 'ok', service: 'luo-yi-ba-multiplayer', region: 'aliyun-hongkong', startedAt, uptimeSeconds: Math.floor(process.uptime()), rooms: rooms.rooms.size });
+      return json(response, 200, { status: 'ok', service: 'luo-yi-ba-multiplayer', region: 'aliyun-hongkong', protocolVersion: MULTIPLAYER_PROTOCOL_VERSION, catalogVersion, modes: MULTIPLAYER_MODES, startedAt, uptimeSeconds: Math.floor(process.uptime()), rooms: rooms.rooms.size });
     }
     if (request.method === 'GET' && url.pathname === '/api/catalog') {
-      return json(response, 200, { catalogVersion, protocolVersion: MULTIPLAYER_PROTOCOL_VERSION }, cors);
+      return json(response, 200, { catalogVersion, protocolVersion: MULTIPLAYER_PROTOCOL_VERSION, modes: MULTIPLAYER_MODES }, cors);
     }
     if (request.method === 'POST' && url.pathname === '/api/rooms') {
       const input = rooms.validateCreate(await readJson(request));

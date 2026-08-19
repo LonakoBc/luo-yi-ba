@@ -18,13 +18,17 @@ import SeniorityModePage from './components/SeniorityModePage';
 import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
+import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
 
 function routeFromLocation(pathname, search = '') {
   if (pathname === '/producer') return { page: 'producer-select', routeKey: pathname };
   const producerMatch = pathname.match(/^\/producer\/play\/(famous|all)$/u);
   if (producerMatch) return { page: 'producer-game', producerMode: producerMatch[1], routeKey: pathname };
   if (pathname === '/multiplayer') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
-  if (pathname === '/multiplayer/create') return { page: 'multiplayer', view: 'create' };
+  if (pathname === '/multiplayer/create') {
+    const requestedMode = new URLSearchParams(search).get('mode');
+    return { page: 'multiplayer', view: 'create', mode: MULTIPLAYER_MODES.includes(requestedMode) ? requestedMode : GUESS_SONG_MODE };
+  }
   if (pathname === '/multiplayer/join') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
   const multiplayerRoomMatch = pathname.match(/^\/multiplayer\/room\/([A-HJ-NP-Z2-9]{6})$/u);
   if (multiplayerRoomMatch) return { page: 'multiplayer', view: 'room', code: multiplayerRoomMatch[1], routeKey: pathname };
@@ -75,7 +79,7 @@ function HomePage({ onChooseGame, onChooseMultiplayer, onChooseProducer, onChoos
           </button>
           <button type="button" className="content-card available multiplayer-card" onClick={onChooseMultiplayer}>
             <span className="card-index">02</span><span className="music-glyph" aria-hidden="true">联</span>
-            <span className="card-copy"><strong>多人猜曲（测试中）</strong><small>分享房间码，与 2–4 位好友同步挑战同一首歌曲。</small></span>
+            <span className="card-copy"><strong>多人联机</strong><small>创建房间，与 2–4 位好友一起挑战猜曲、排序和发布时间玩法。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" className="content-card producer-card available" onClick={onChooseProducer}>
@@ -146,7 +150,7 @@ export default function App({ songs = songData, presets = presetData, database =
 
   let pageContent;
   if (route.page === 'multiplayer') {
-    pageContent = <MultiplayerPage view={route.view} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
+    pageContent = <MultiplayerPage view={route.view} mode={route.mode} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
   } else if (route.page === 'producer-select') {
     pageContent = <ProducerModePage totalCount={producers.length} famousCount={producers.filter((producer) => producer.famous).length} onChoose={(mode) => navigate(`/producer/play/${mode}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'producer-game') {

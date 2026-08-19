@@ -63,7 +63,7 @@ export default function ProducerGamePage({ producers, mode, random, onBack, onCh
       <div className="legend producer-legend"><span><i className="legend-exact" />完全匹配</span><span><i className="legend-near" />接近</span><span><i className="legend-token" />代表曲重合</span><span>↑↓ 答案更大/更晚或更小/更早</span></div>
       <ProducerTable answer={game.answer} guesses={game.guesses} hintLevel={game.hintLevel} yearDebutRevealed={game.yearDebutRevealed} finished={finished} />
       {finished && !showResult && <div className="after-win-actions"><button type="button" className="primary-button" onClick={() => setShowResult(true)}>查看本局结果</button><button type="button" className="ghost-button" onClick={() => restart()}>再来一局</button></div>}
-    </main><footer>数据来自本地 P 主资料表 · 当前为单人试玩版</footer>
+    </main><footer>数据来自 P 主资料表</footer>
     {showResult && <ProducerResult game={game} modeName={modeName} onClose={() => setShowResult(false)} onRestart={() => restart()} onChangeMode={onChangeMode} />}
   </div>;
 }

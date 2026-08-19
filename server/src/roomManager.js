@@ -1,17 +1,15 @@
 import crypto from 'node:crypto';
 import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import songs from '../../web/src/data/songs.generated.json' with { type: 'json' };
-import presets from '../../web/src/data/presets.generated.json' with { type: 'json' };
-import { filterSongs, songsForPreset } from '../../web/src/services/libraryService.js';
 import {
-  HOST_RECONNECT_GRACE_MS, HINT_STEPS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
-  ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, ROUND_DURATION_MS,
-  applyGuess, catalogVersionFor, hintLevelAt, projectRoom, roundCompletionState, validateMatchConfig,
+  DEFAULT_PLAYER_COLOR_IDS, GUESS_SONG_MODE, HOST_RECONNECT_GRACE_MS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
+  SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE,
+  PLAYER_COLORS, ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, playerColorFor, resolvedPlayerColor, validateMatchConfig,
 } from '../../web/src/services/multiplayerRules.js';
+import { catalogVersion, selectPool } from './catalog.js';
+import { createModeHandler, initialModeState, supportsMode } from './modes/index.js';
 
-export const catalogVersion = catalogVersionFor(songs);
-const songsById = new Map(songs.map((song) => [song.id, song]));
+export { catalogVersion } from './catalog.js';
 
 function randomString(length, alphabet = ROOM_CODE_ALPHABET) {
   const bytes = crypto.randomBytes(length);
@@ -23,23 +21,21 @@ export function validNickname(value) {
   return nickname.length >= 1 && [...nickname].length <= 12 ? nickname : null;
 }
 
-export function selectPool(selection) {
-  if (selection?.kind === 'preset') {
-    const preset = presets.find((item) => item.id === selection.presetId);
-    return preset ? { songs: songsForPreset(songs, preset), name: preset.name } : null;
-  }
-  if (selection?.kind === 'custom' && selection.filters) {
-    return { songs: filterSongs(songs, selection.filters), name: '自定义曲库' };
-  }
-  return null;
+function availableColorId(players, preferredColorId) {
+  const usedColors = new Set(players.map((player) => resolvedPlayerColor(player)?.color.toUpperCase()).filter(Boolean));
+  const preferred = playerColorFor(preferredColorId);
+  return [preferred, ...PLAYER_COLORS].find((entry, index, choices) => entry
+    && choices.indexOf(entry) === index && !usedColors.has(entry.color.toUpperCase()))?.id ?? null;
 }
 
-function newPlayer(nickname, joinOrder) {
+function newPlayer(nickname, joinOrder, seatIndex, colorId) {
   return {
     id: crypto.randomUUID(),
     resumeToken: randomString(32, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),
     nickname,
     joinOrder,
+    seatIndex,
+    colorId,
     online: false,
     disconnectedAt: Date.now(),
     score: 0,
@@ -55,6 +51,7 @@ class RoomSession {
     this.sockets = new Map();
     this.timer = null;
     this.queue = Promise.resolve();
+    this.modeHandler = createModeHandler(room.mode, this);
   }
 
   run(task) {
@@ -77,7 +74,10 @@ class RoomSession {
     if (this.room.players.some((player) => player.nickname.toLocaleLowerCase('zh-CN') === nickname.toLocaleLowerCase('zh-CN'))) {
       throw Object.assign(new Error('房间内已有相同昵称'), { status: 409 });
     }
-    const player = newPlayer(nickname, Math.max(-1, ...this.room.players.map(({ joinOrder }) => joinOrder)) + 1);
+    const seatIndex = Array.from({ length: this.room.capacity }, (_, index) => index)
+      .find((index) => !this.room.players.some((item) => item.seatIndex === index));
+    const colorId = availableColorId(this.room.players, DEFAULT_PLAYER_COLOR_IDS[seatIndex]);
+    const player = newPlayer(nickname, Math.max(-1, ...this.room.players.map(({ joinOrder }) => joinOrder)) + 1, seatIndex, colorId);
     this.room.players.push(player);
     await this.save();
     this.broadcast();
@@ -118,9 +118,9 @@ class RoomSession {
     const player = this.room.players.find((item) => item.id === playerId);
     if (!player) return;
     if (message.type === 'sync') return this.sendState(socket, playerId);
-    if (message.type === 'start_match') return this.startMatch(player, socket);
-    if (message.type === 'submit_guess') return this.submitGuess(player, message.songId, socket);
     if (message.type === 'leave_room') return this.leave(player);
+    if (message.type === 'select_color') return this.selectColor(player, message.colorId, socket);
+    if (await this.modeHandler.handleCommand(player, message, socket)) return;
     this.sendError(socket, '未知命令');
   }
 
@@ -136,50 +136,14 @@ class RoomSession {
     this.broadcast();
   }
 
-  async startMatch(player, socket) {
-    if (player.id !== this.room.hostId) return this.sendError(socket, '只有房主可以开始游戏');
-    if (this.room.phase !== 'waiting') return this.sendError(socket, '游戏已经开始');
-    if (this.room.players.length !== this.room.capacity) return this.sendError(socket, '等待玩家坐满后才能开始');
-    await this.startRound();
-  }
-
-  async startRound() {
-    const candidates = this.room.poolSongIds.filter((id) => !this.room.usedSongIds.includes(id));
-    const answerId = candidates[crypto.randomInt(candidates.length)];
-    const now = Date.now();
-    Object.assign(this.room, {
-      roundNumber: this.room.roundNumber + 1,
-      phase: 'playing',
-      answerId,
-      answer: songsById.get(answerId),
-      usedSongIds: [...this.room.usedSongIds, answerId],
-      startedAt: now,
-      endsAt: now + ROUND_DURATION_MS,
-      nextRoundAt: null,
-      hintLevel: 0,
-    });
-    this.room.players.forEach((item) => { item.roundScore = 0; item.guesses = []; });
-    await this.save();
-    this.broadcast();
-  }
-
-  async submitGuess(player, songId, socket) {
-    if (this.room.phase !== 'playing') return this.sendError(socket, '当前不能提交猜测');
-    const song = songsById.get(songId);
-    if (!song || !this.room.poolSongIds.includes(songId)) return this.sendError(socket, '歌曲不在当前曲库中');
-    const receivedAt = Date.now();
-    const correctCount = this.room.players.filter((item) => item.roundScore > 0).length;
-    const result = applyGuess({ player, song, answer: this.room.answer, receivedAt, endsAt: this.room.endsAt, correctCount });
-    if (result.error) return this.sendError(socket, result.error);
-    player.guesses.push({ song, feedback: result.feedback, receivedAt });
-    if (result.points) { player.roundScore = result.points; player.score += result.points; }
-    if (this.room.players.every((item) => item.roundScore > 0)) await this.finishRound();
-    else { await this.save(); this.broadcast(); }
-  }
-
-  async finishRound() {
-    if (this.room.phase !== 'playing') return;
-    Object.assign(this.room, roundCompletionState(this.room.roundNumber, this.room.roundCount, Date.now()));
+  async selectColor(player, colorId, socket) {
+    if (this.room.phase !== 'waiting') return this.sendError(socket, '游戏开始后不能更换颜色');
+    const color = playerColorFor(colorId);
+    if (!color) return this.sendError(socket, '玩家颜色无效');
+    const occupied = this.room.players.some((item) => item.id !== player.id
+      && resolvedPlayerColor(item)?.color.toUpperCase() === color.color.toUpperCase());
+    if (occupied) return this.sendError(socket, '这个颜色已经被其他玩家选择');
+    player.colorId = color.id;
     await this.save();
     this.broadcast();
   }
@@ -199,12 +163,7 @@ class RoomSession {
       }
     }
     if (this.room.players.length === 0) this.room.allOfflineAt ??= now;
-    if (this.room.phase === 'playing') {
-      if (now >= this.room.endsAt) await this.finishRound();
-      else this.room.hintLevel = hintLevelAt(this.room.startedAt, now);
-    } else if (this.room.phase === 'round-result' && now >= this.room.nextRoundAt) {
-      await this.startRound();
-    }
+    await this.modeHandler.tick(now);
     if (this.room.allOfflineAt && now - this.room.allOfflineAt >= ROOM_RETENTION_MS) {
       await this.manager.delete(this.room.code);
       return;
@@ -217,11 +176,7 @@ class RoomSession {
     clearTimeout(this.timer);
     const now = Date.now();
     const times = [];
-    if (this.room.phase === 'playing') {
-      for (const step of HINT_STEPS) times.push(this.room.startedAt + step.afterMs);
-      times.push(this.room.endsAt);
-    }
-    if (this.room.phase === 'round-result') times.push(this.room.nextRoundAt);
+    this.modeHandler.addScheduleTimes(times);
     for (const player of this.room.players) if (!player.online && player.disconnectedAt) times.push(player.disconnectedAt + HOST_RECONNECT_GRACE_MS);
     if (this.room.allOfflineAt) times.push(this.room.allOfflineAt + ROOM_RETENTION_MS);
     const next = times.filter((time) => time > now).sort((a, b) => a - b)[0];
@@ -231,7 +186,7 @@ class RoomSession {
   }
 
   sendState(socket, playerId) {
-    if (socket.readyState === 1) socket.send(JSON.stringify({ type: 'state', room: projectRoom(this.room, playerId) }));
+    if (socket.readyState === 1) socket.send(JSON.stringify({ type: 'state', room: this.modeHandler.project(playerId) }));
   }
 
   sendError(socket, error) {
@@ -259,7 +214,24 @@ export class RoomManager {
       try {
         const room = JSON.parse(await readFile(path.join(this.dataDirectory, filename), 'utf8'));
         const now = Date.now();
-        room.players.forEach((player) => { player.online = false; player.disconnectedAt ??= now; });
+        room.mode ??= MULTIPLAYER_MODE;
+        const usedSeats = new Set();
+        const usedColors = new Set();
+        [...room.players].sort((a, b) => a.joinOrder - b.joinOrder).forEach((player) => {
+          const currentSeat = Number.isInteger(player.seatIndex) && player.seatIndex >= 0 && player.seatIndex < room.capacity && !usedSeats.has(player.seatIndex)
+            ? player.seatIndex
+            : Array.from({ length: room.capacity }, (_, index) => index).find((index) => !usedSeats.has(index));
+          player.seatIndex = currentSeat;
+          usedSeats.add(currentSeat);
+          const selectedColor = playerColorFor(player.colorId);
+          const fallbackColor = [playerColorFor(DEFAULT_PLAYER_COLOR_IDS[currentSeat]), ...PLAYER_COLORS]
+            .find((entry) => entry && !usedColors.has(entry.color.toUpperCase()));
+          player.colorId = selectedColor && !usedColors.has(selectedColor.color.toUpperCase()) ? selectedColor.id : fallbackColor?.id ?? null;
+          const resolvedColor = resolvedPlayerColor(player);
+          if (resolvedColor) usedColors.add(resolvedColor.color.toUpperCase());
+          player.online = false;
+          player.disconnectedAt ??= now;
+        });
         room.allOfflineAt ??= now;
         const session = new RoomSession(this, room);
         this.rooms.set(room.code, session);
@@ -271,13 +243,13 @@ export class RoomManager {
   get(code) { return this.rooms.get(code); }
 
   async create(input) {
-    const player = newPlayer(input.nickname, 0);
+    const player = newPlayer(input.nickname, 0, 0, DEFAULT_PLAYER_COLOR_IDS[0]);
     let code;
     do code = randomString(6); while (this.rooms.has(code));
     const now = Date.now();
     const room = {
       protocolVersion: MULTIPLAYER_PROTOCOL_VERSION,
-      mode: MULTIPLAYER_MODE,
+      mode: input.mode,
       code,
       phase: 'waiting',
       capacity: input.capacity,
@@ -287,14 +259,8 @@ export class RoomManager {
       selection: input.selection,
       poolName: input.poolName,
       poolSongIds: input.poolSongIds,
-      usedSongIds: [],
       players: [player],
-      answerId: null,
-      answer: null,
-      startedAt: null,
-      endsAt: null,
-      nextRoundAt: null,
-      hintLevel: 0,
+      ...initialModeState(input.mode),
       createdAt: now,
       updatedAt: now,
       allOfflineAt: null,
@@ -321,12 +287,25 @@ export class RoomManager {
 
   validateCreate(body) {
     const nickname = validNickname(body?.nickname);
+    const mode = body?.mode ?? GUESS_SONG_MODE;
     const pool = selectPool(body?.selection);
+    const modeSongs = [SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE].includes(mode)
+      ? pool?.songs.filter((song) => /^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth))
+      : pool?.songs;
+    const hasComparableDates = mode !== SENIORITY_MODE || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 2;
+    const sortingDateCounts = mode === SORTING_MODE ? [...(modeSongs ?? []).reduce((counts, song) => counts.set(song.releaseMonth, (counts.get(song.releaseMonth) ?? 0) + 1), new Map()).values()] : [];
+    const sortableSongCapacity = sortingDateCounts.reduce((total, count) => total + Math.min(count, body?.roundCount ?? 0), 0);
+    const hasSortableDates = mode !== SORTING_MODE || sortableSongCapacity >= body.roundCount * 5;
+    const hasTriathlonDates = mode !== TRIATHLON_MODE || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 5;
     const error = !nickname ? '昵称须为 1–12 个字符'
       : body?.catalogVersion !== catalogVersion ? '题库版本已更新，请刷新页面'
-        : !pool ? '曲库配置无效'
-          : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: pool.songs.length });
+        : !supportsMode(mode) ? '联机玩法无效'
+          : !pool ? '曲库配置无效'
+            : !hasComparableDates ? '老资历曲库至少需要两个不同发布时间的歌曲'
+              : !hasSortableDates ? '排序曲库不足以生成每轮五首且整场不重复的题目'
+                : !hasTriathlonDates ? '铁人三项曲库至少需要五个不同发布时间的歌曲'
+              : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: modeSongs.length, mode });
     if (error) throw Object.assign(new Error(error), { status: 400 });
-    return { nickname, capacity: body.capacity, roundCount: body.roundCount, selection: body.selection, poolName: pool.name, poolSongIds: pool.songs.map(({ id }) => id) };
+    return { mode, nickname, capacity: body.capacity, roundCount: body.roundCount, selection: body.selection, poolName: pool.name, poolSongIds: modeSongs.map(({ id }) => id) };
   }
 }

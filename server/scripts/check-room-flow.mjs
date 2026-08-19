@@ -52,6 +52,10 @@ function waitFor(socket, predicate, timeoutMs = 5_000) {
 
 const catalogResponse = await fetch(`${apiBase}/api/catalog`);
 const catalog = await catalogResponse.json();
+const expectedModes = ['guess-song', 'seniority', 'sorting', 'triathlon'];
+if (catalog.protocolVersion !== 3) throw new Error(`Expected protocol v3, received v${catalog.protocolVersion}`);
+if (!expectedModes.every((mode) => catalog.modes?.includes(mode))) throw new Error(`Missing multiplayer modes: ${JSON.stringify(catalog.modes)}`);
+const checks = [];
 const creator = await post('/api/rooms', {
   nickname: '公网测试甲', capacity: 2, roundCount: 1,
   selection: { kind: 'custom', filters }, catalogVersion: catalog.catalogVersion,
@@ -67,11 +71,49 @@ try {
   await waitFor(first, (room) => room.players.find(({ id }) => id === creator.playerId)?.score === 5);
   second.send(JSON.stringify({ type: 'submit_guess', songId: pool[0].id }));
   const finished = await waitFor(second, (room) => room.phase === 'finished');
-  console.log(JSON.stringify({
-    ok: true, apiBase, code: creator.code, protocolVersion: finished.protocolVersion,
-    scores: finished.ranking.map(({ nickname, score }) => ({ nickname, score })),
-  }, null, 2));
+  checks.push({ mode: 'guess-song', code: creator.code, phase: finished.phase, scores: finished.ranking.map(({ nickname, score }) => ({ nickname, score })) });
 } finally {
   first.close();
   second.close();
 }
+
+async function checkAdditionalMode(mode, roundCount) {
+  const host = await post('/api/rooms', {
+    mode, nickname: `${mode}甲`, capacity: 2, roundCount,
+    selection: { kind: 'preset', presetId: 'all' }, catalogVersion: catalog.catalogVersion,
+  });
+  const guest = await post(`/api/rooms/${host.code}/join`, { nickname: `${mode}乙` });
+  const hostSocket = await connect(host.code, host.resumeToken);
+  const guestSocket = await connect(host.code, guest.resumeToken);
+  try {
+    await waitFor(hostSocket, (room) => room.players.length === 2 && room.players.every(({ online }) => online));
+    hostSocket.send(JSON.stringify({ type: 'start_match' }));
+    const playing = await waitFor(hostSocket, (room) => room.phase === 'playing');
+    if (playing.mode !== mode) throw new Error(`${mode} projected as ${playing.mode}`);
+    if (mode === 'seniority') {
+      const songId = playing.seniorityRound.left.id;
+      hostSocket.send(JSON.stringify({ type: 'submit_seniority_choice', songId }));
+      guestSocket.send(JSON.stringify({ type: 'submit_seniority_choice', songId }));
+      await waitFor(hostSocket, (room) => room.phase === 'round-result');
+    } else if (mode === 'sorting') {
+      const hostOrder = playing.players.find(({ id }) => id === host.playerId).orderIds;
+      const guestState = await waitFor(guestSocket, (room) => room.phase === 'playing');
+      const guestOrder = guestState.players.find(({ id }) => id === guest.playerId).orderIds;
+      hostSocket.send(JSON.stringify({ type: 'submit_sorting_order', orderIds: hostOrder }));
+      guestSocket.send(JSON.stringify({ type: 'submit_sorting_order', orderIds: guestOrder }));
+      await waitFor(hostSocket, (room) => room.phase === 'round-result');
+    } else if (mode === 'triathlon' && playing.activeMode !== 'guess-song') {
+      throw new Error(`Triathlon started with ${playing.activeMode}`);
+    }
+    checks.push({ mode, code: host.code, phase: mode === 'triathlon' ? 'playing' : 'round-result' });
+  } finally {
+    hostSocket.close();
+    guestSocket.close();
+  }
+}
+
+await checkAdditionalMode('seniority', 5);
+await checkAdditionalMode('sorting', 3);
+await checkAdditionalMode('triathlon', 9);
+
+console.log(JSON.stringify({ ok: true, apiBase, protocolVersion: catalog.protocolVersion, modes: catalog.modes, checks }, null, 2));

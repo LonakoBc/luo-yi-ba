@@ -2,9 +2,10 @@ import songs from '../../web/src/data/songs.generated.json';
 import presets from '../../web/src/data/presets.generated.json';
 import { filterSongs, songsForPreset } from '../../web/src/services/libraryService.js';
 import {
-  HOST_RECONNECT_GRACE_MS, HINT_STEPS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
-  ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, ROUND_DURATION_MS,
-  applyGuess, catalogVersionFor, hintLevelAt, isFinalRound, projectRoom, roundCompletionState, validateMatchConfig,
+  DEFAULT_PLAYER_COLOR_IDS, GUESS_SONG_MODE, HOST_RECONNECT_GRACE_MS, HINT_STEPS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
+  PLAYER_COLORS, ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, ROUND_DURATION_MS,
+  applyGuess, catalogVersionFor, hintLevelAt, isFinalRound, playerColorFor, projectRoom, resolvedPlayerColor,
+  roundCompletionState, validateMatchConfig,
 } from '../../web/src/services/multiplayerRules.js';
 
 const catalogVersion = catalogVersionFor(songs);
@@ -22,6 +23,13 @@ function randomString(length, alphabet = ROOM_CODE_ALPHABET) {
 function validNickname(value) {
   const nickname = String(value ?? '').trim();
   return nickname.length >= 1 && [...nickname].length <= 12 ? nickname : null;
+}
+
+function availableColorId(players, preferredColorId) {
+  const usedColors = new Set(players.map((player) => resolvedPlayerColor(player)?.color.toUpperCase()).filter(Boolean));
+  const preferred = playerColorFor(preferredColorId);
+  return [preferred, ...PLAYER_COLORS].find((entry, index, choices) => entry
+    && choices.indexOf(entry) === index && !usedColors.has(entry.color.toUpperCase()))?.id ?? null;
 }
 
 function selectPool(selection) {
@@ -66,8 +74,9 @@ export default {
       const pool = selectPool(body?.selection);
       const error = !nickname ? '昵称须为 1–12 个字符'
         : body?.catalogVersion !== catalogVersion ? '题库版本已更新，请刷新页面'
+          : body?.mode && body.mode !== GUESS_SONG_MODE ? '当前 Cloudflare 兼容后端暂不支持此玩法'
           : !pool ? '曲库配置无效'
-            : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: pool.songs.length });
+            : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: pool.songs.length, mode: GUESS_SONG_MODE });
       if (error) return json({ error }, 400, cors);
       for (let attempt = 0; attempt < 8; attempt += 1) {
         const code = randomString(6);
@@ -118,7 +127,7 @@ export class GuessRoom {
     if (url.pathname === '/init' && request.method === 'POST') {
       if (room) return json({ error: '房间码冲突' }, 409);
       const input = await request.json();
-      const player = this.newPlayer(input.nickname, 0);
+      const player = this.newPlayer(input.nickname, 0, 0, DEFAULT_PLAYER_COLOR_IDS[0]);
       this.room = { protocolVersion: MULTIPLAYER_PROTOCOL_VERSION, mode: MULTIPLAYER_MODE, code: input.code, phase: 'waiting', capacity: input.capacity, roundCount: input.roundCount, roundNumber: 0, hostId: player.id, selection: input.selection, poolName: input.poolName, poolSongIds: input.poolSongIds, usedSongIds: [], players: [player], answerId: null, answer: null, startedAt: null, endsAt: null, nextRoundAt: null, hintLevel: 0, createdAt: Date.now(), updatedAt: Date.now(), allOfflineAt: null };
       await this.save();
       return json({ code: input.code, playerId: player.id, resumeToken: player.resumeToken });
@@ -129,8 +138,8 @@ export class GuessRoom {
     return json({ error: '请求无效' }, 400);
   }
 
-  newPlayer(nickname, joinOrder) {
-    return { id: crypto.randomUUID(), resumeToken: randomString(32, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), nickname, joinOrder, online: false, disconnectedAt: Date.now(), score: 0, roundScore: 0, guesses: [] };
+  newPlayer(nickname, joinOrder, seatIndex, colorId) {
+    return { id: crypto.randomUUID(), resumeToken: randomString(32, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), nickname, joinOrder, seatIndex, colorId, online: false, disconnectedAt: Date.now(), score: 0, roundScore: 0, guesses: [] };
   }
 
   async join(input) {
@@ -139,7 +148,10 @@ export class GuessRoom {
     const nickname = validNickname(input?.nickname);
     if (!nickname) return json({ error: '昵称须为 1–12 个字符' }, 400);
     if (this.room.players.some((player) => player.nickname.toLocaleLowerCase('zh-CN') === nickname.toLocaleLowerCase('zh-CN'))) return json({ error: '房间内已有相同昵称' }, 409);
-    const player = this.newPlayer(nickname, Math.max(-1, ...this.room.players.map(({ joinOrder }) => joinOrder)) + 1);
+    const seatIndex = Array.from({ length: this.room.capacity }, (_, index) => index)
+      .find((index) => !this.room.players.some((item) => (item.seatIndex ?? item.joinOrder) === index));
+    const colorId = availableColorId(this.room.players, DEFAULT_PLAYER_COLOR_IDS[seatIndex]);
+    const player = this.newPlayer(nickname, Math.max(-1, ...this.room.players.map(({ joinOrder }) => joinOrder)) + 1, seatIndex, colorId);
     this.room.players.push(player);
     await this.save();
     this.broadcast();
@@ -172,6 +184,7 @@ export class GuessRoom {
     if (message.type === 'start_match') return this.startMatch(player, ws);
     if (message.type === 'submit_guess') return this.submitGuess(player, message.songId, ws);
     if (message.type === 'leave_room') return this.leave(player);
+    if (message.type === 'select_color') return this.selectColor(player, message.colorId, ws);
     return this.sendError(ws, '未知命令');
   }
 
@@ -195,6 +208,18 @@ export class GuessRoom {
       player.online = false;
       player.disconnectedAt = Date.now();
     }
+    await this.save();
+    this.broadcast();
+  }
+
+  async selectColor(player, colorId, ws) {
+    if (this.room.phase !== 'waiting') return this.sendError(ws, '游戏开始后不能更换颜色');
+    const color = playerColorFor(colorId);
+    if (!color) return this.sendError(ws, '玩家颜色无效');
+    const occupied = this.room.players.some((item) => item.id !== player.id
+      && resolvedPlayerColor(item)?.color.toUpperCase() === color.color.toUpperCase());
+    if (occupied) return this.sendError(ws, '这个颜色已经被其他玩家选择');
+    player.colorId = color.id;
     await this.save();
     this.broadcast();
   }
