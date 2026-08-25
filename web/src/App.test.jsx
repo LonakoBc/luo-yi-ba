@@ -91,7 +91,7 @@ describe('App 交互', () => {
     expect(producerCard).toHaveClass('producer-card', 'available');
     fireEvent.click(producerCard);
     expect(screen.getByRole('heading', { name: '选择挑战范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /名 P 模式/u })).toHaveTextContent('44 位候选');
+    expect(screen.getByRole('button', { name: /名 P 模式/u })).toHaveTextContent('45 位候选');
     expect(screen.getByRole('button', { name: /全 P 主模式/u })).toHaveTextContent('104 位候选');
     fireEvent.click(screen.getByRole('button', { name: /名 P 模式/u }));
     expect(screen.getByRole('heading', { name: '闪耀的 Producer' })).toBeVisible();
@@ -162,7 +162,7 @@ describe('App 交互', () => {
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /进入排序 · 496 首/u })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /进入排序 · 504 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
     expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();

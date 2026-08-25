@@ -17,7 +17,7 @@ const REQUIRED_FIELDS = [
 ];
 const VOICEBANKS = new Set(['VOCALOID', 'ACE Studio', 'X Studio', 'Synthesizer V']);
 const SPECIALS = new Set(['单曲', '生贺曲', '拜年/贺岁纪曲目', '系列/企划曲目']);
-const ROLE_PREFIX = /^(?:UP主|作曲|作词|编曲)\s*[：:]/u;
+const ROLE_PREFIX = /^(?:UP主|作曲|作词|编曲|调教)\s*[：:]/u;
 
 export function normalizeStaffName(value) {
   return value.normalize('NFKC').toLocaleLowerCase('zh-CN').replace(/[\p{P}\p{S}\s]/gu, '');

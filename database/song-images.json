@@ -2481,6 +2481,46 @@
       "pageUrl": "https://vcpedia.cn/%E5%93%91%E5%B7%B4",
       "thumbnailUrl": "https://media.vcpedia.cn/thumb/4/4c/%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg/640px-%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg",
       "originalUrl": "https://media.vcpedia.cn/4/4c/%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg"
+    },
+    "vcpedia:follow me": {
+      "pageUrl": "https://vcpedia.cn/Follow_me",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:find me": {
+      "pageUrl": "https://vcpedia.cn/Find_me",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:hear me!": {
+      "pageUrl": "https://vcpedia.cn/Hear_me%21",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:速食主义": {
+      "pageUrl": "https://vcpedia.cn/%E9%80%9F%E9%A3%9F%E4%B8%BB%E4%B9%89",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:闲花白": {
+      "pageUrl": "https://vcpedia.cn/%E9%97%B2%E8%8A%B1%E7%99%BD",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:舞池玩家easy player": {
+      "pageUrl": "https://vcpedia.cn/%E8%88%9E%E6%B1%A0%E7%8E%A9%E5%AE%B6Easy_Player",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:不正常恋爱物语": {
+      "pageUrl": "https://vcpedia.cn/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E6%81%8B%E7%88%B1%E7%89%A9%E8%AF%AD",
+      "thumbnailUrl": null,
+      "originalUrl": null
+    },
+    "vcpedia:狂徒": {
+      "pageUrl": "https://vcpedia.cn/%E7%8B%82%E5%BE%92",
+      "thumbnailUrl": null,
+      "originalUrl": null
     }
   }
 }

@@ -7,6 +7,8 @@ import CrosswordPage from './components/CrosswordPage';
 import CrosswordLibraryPage from './components/CrosswordLibraryPage';
 import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
+import FeedbackAdminPage from './components/FeedbackAdminPage';
+import FeedbackWidget from './components/FeedbackWidget';
 import GlobalBgm from './components/GlobalBgm';
 import LibraryPage from './components/LibraryPage';
 import MultiplayerPage from './components/MultiplayerPage';
@@ -19,8 +21,10 @@ import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
+import { USES_HASH_ROUTING, browserPath, readRouteLocation } from './services/appRouting';
 
 function routeFromLocation(pathname, search = '') {
+  if (pathname === '/feedback-admin') return { page: 'feedback-admin', routeKey: pathname };
   if (pathname === '/producer') return { page: 'producer-select', routeKey: pathname };
   const producerMatch = pathname.match(/^\/producer\/play\/(famous|all)$/u);
   if (producerMatch) return { page: 'producer-game', producerMode: producerMatch[1], routeKey: pathname };
@@ -123,18 +127,26 @@ export default function App({ songs = songData, presets = presetData, database =
       ? { page: 'game', kind: 'preset', presetId: initialMode === 'easy' ? 'intro' : 'luotianyi', routeKey: `test-${initialMode}` }
       : { page: initialPage }
     : null;
-  const initialRoute = testRoute ?? routeFromLocation(window.location.pathname, window.location.search);
+  const initialLocation = readRouteLocation();
+  const initialRoute = testRoute ?? routeFromLocation(initialLocation.pathname, initialLocation.search);
   const [route, setRoute] = useState(initialRoute);
 
   useEffect(() => {
     if (initialPage) return undefined;
-    const handlePopState = () => setRoute(routeFromLocation(window.location.pathname, window.location.search));
+    const handlePopState = () => {
+      const nextLocation = readRouteLocation();
+      setRoute(routeFromLocation(nextLocation.pathname, nextLocation.search));
+    };
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    if (USES_HASH_ROUTING) window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      if (USES_HASH_ROUTING) window.removeEventListener('hashchange', handlePopState);
+    };
   }, [initialPage]);
 
   const navigate = (path) => {
-    if (!initialPage) window.history.pushState({}, '', path);
+    if (!initialPage) window.history.pushState({}, '', browserPath(path));
     const parsed = routeFromLocation(new URL(path, window.location.origin).pathname, new URL(path, window.location.origin).search);
     setRoute(parsed);
     if (!initialPage) window.scrollTo?.({ top: 0, behavior: 'smooth' });
@@ -149,7 +161,9 @@ export default function App({ songs = songData, presets = presetData, database =
   const startCrosswordPreset = (presetId) => navigate(`/crossword/preset/${presetId}`);
 
   let pageContent;
-  if (route.page === 'multiplayer') {
+  if (route.page === 'feedback-admin') {
+    pageContent = <FeedbackAdminPage onBack={() => navigate('/')} />;
+  } else if (route.page === 'multiplayer') {
     pageContent = <MultiplayerPage view={route.view} mode={route.mode} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
   } else if (route.page === 'producer-select') {
     pageContent = <ProducerModePage totalCount={producers.length} famousCount={producers.filter((producer) => producer.famous).length} onChoose={(mode) => navigate(`/producer/play/${mode}`)} onBack={() => navigate('/')} Brand={Brand} />;
@@ -221,5 +235,5 @@ export default function App({ songs = songData, presets = presetData, database =
   } else {
     pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseMultiplayer={() => navigate('/multiplayer')} onChooseProducer={() => navigate('/producer')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
   }
-  return <><GlobalBgm />{pageContent}</>;
+  return <><GlobalBgm />{pageContent}<FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} /></>;
 }

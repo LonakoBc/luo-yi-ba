@@ -5,7 +5,7 @@
     "releaseMonth": "2018-08",
     "singers": "徵羽摩柯",
     "voicebanks": "VOCALOID",
-    "concertCount": 0,
+    "concertCount": 1,
     "special": "单曲",
     "lyrics": "昏暗房间角落　指尖键盘上连击",
     "bilibiliUrl": "https://www.bilibili.com/video/av28384607/",
@@ -14,7 +14,7 @@
   {
     "title": "虚拟少年",
     "staff": "UP主：Vsinger Official、徵羽摩柯官方账号；作曲：himmel；作词：大♂古；编曲：himmel",
-    "releaseMonth": "2018-08",
+    "releaseMonth": "2017-06",
     "singers": "徵羽摩柯",
     "voicebanks": "VOCALOID",
     "concertCount": 2,
@@ -94,6 +94,18 @@
     "lyrics": "万里连云揽于一国风光",
     "bilibiliUrl": "https://www.bilibili.com/video/av69519887/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%9C%B0%E5%8A%BF%E5%9D%A4"
+  },
+  {
+    "title": "Follow me",
+    "staff": "UP主：人形兎；作曲：人形兎；作词：人形兎、古洛；编曲：人形兎、Bitman",
+    "releaseMonth": "2019-12",
+    "singers": "徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "生贺曲",
+    "lyrics": "灯光刚好 气氛很微妙 选项多少 答案你知道",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1BJ411y7EM/",
+    "vcpediaUrl": "https://vcpedia.cn/Follow_me"
   },
   {
     "title": "沙城",
@@ -190,5 +202,29 @@
     "lyrics": "布谷钟敲三遍 阁楼上的窗台边",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1tF2QBMEuB/",
     "vcpediaUrl": "https://vcpedia.cn/%E9%93%9C%E7%BE%BD%E4%B9%98%E9%A3%8E"
+  },
+  {
+    "title": "Find me",
+    "staff": "UP主：徵羽摩柯官方账号；作曲：希望索任合资；作词：冥凰；编曲：希望索任合资",
+    "releaseMonth": "2020-12",
+    "singers": "徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "生贺曲",
+    "lyrics": "不过这脑内电光火石的刹那",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1qa4y1W7rC/",
+    "vcpediaUrl": "https://vcpedia.cn/Find_me"
+  },
+  {
+    "title": "Hear me！",
+    "staff": "UP主：人形兔；作曲：人形兔；作词：和田野；编曲：人形兔",
+    "releaseMonth": "2018-07",
+    "singers": "洛天依；乐正绫；乐正龙牙；墨清弦；徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 3,
+    "special": "单曲",
+    "lyrics": "放学后空无一人的操场",
+    "bilibiliUrl": "https://www.bilibili.com/video/av42164442/",
+    "vcpediaUrl": "https://vcpedia.cn/Hear_me%21"
   }
 ]

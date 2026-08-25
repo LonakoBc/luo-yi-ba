@@ -701,7 +701,7 @@
     "releaseMonth": "2024-06",
     "singers": "乐正绫",
     "voicebanks": "ACE Studio",
-    "concertCount": 0,
+    "concertCount": 1,
     "special": "系列/企划曲目",
     "lyrics": "风禾尽起在无名的陇野　躬耕少年奔赴长安拜别",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1Kr421w7H5/",
@@ -886,5 +886,17 @@
     "lyrics": "天下之势　生灵涂炭　朝堂纷纭　一隅偏安",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1o6KS6SE8U/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%BD%93%E9%A5%AE"
+  },
+  {
+    "title": "Hear me！",
+    "staff": "UP主：人形兔；作曲：人形兔；作词：和田野；编曲：人形兔",
+    "releaseMonth": "2018-07",
+    "singers": "洛天依；乐正绫；乐正龙牙；墨清弦；徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 3,
+    "special": "单曲",
+    "lyrics": "放学后空无一人的操场",
+    "bilibiliUrl": "https://www.bilibili.com/video/av42164442/",
+    "vcpediaUrl": "https://vcpedia.cn/Hear_me%21"
   }
 ]

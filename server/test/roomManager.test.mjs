@@ -248,6 +248,50 @@ test('runs all nine fixed triathlon rounds with cumulative scoring and progressi
   }
 });
 
+test('settles a four-player triathlon guess round when only two players solve before timeout', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
+  const errors = [];
+  const manager = new RoomManager({ dataDirectory: directory, onError: (error) => errors.push(error) });
+  await manager.initialize();
+  let code;
+  try {
+    const creator = await manager.create(manager.validateCreate({
+      mode: 'triathlon', nickname: '玩家一', capacity: 4, roundCount: 9,
+      selection: { kind: 'preset', presetId: 'all' }, catalogVersion,
+    }));
+    code = creator.code;
+    const session = manager.get(code);
+    const identities = [creator];
+    for (const nickname of ['玩家二', '玩家三', '玩家四']) identities.push(await session.run(() => session.join({ nickname })));
+    const sockets = identities.map(() => new MockSocket());
+    for (let index = 0; index < identities.length; index += 1) {
+      await session.run(() => session.connect(identities[index].resumeToken, sockets[index]));
+    }
+    await session.run(() => session.command(sockets[0], { type: 'start_match' }));
+    const answerId = session.room.answerId;
+    await session.run(() => session.command(sockets[0], { type: 'submit_guess', songId: answerId }));
+    await session.run(() => session.command(sockets[1], { type: 'submit_guess', songId: answerId }));
+    assert.equal(session.room.phase, 'playing');
+
+    session.room.endsAt = Date.now() - 1;
+    await session.run(() => session.command(sockets[2], { type: 'sync' }));
+
+    assert.equal(session.room.phase, 'round-result');
+    assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), [5, 3, 0, 0]);
+    assert.equal(errors.length, 0);
+    for (const socket of sockets) {
+      const state = socket.messages.at(-1).room;
+      assert.equal(state.phase, 'round-result');
+      assert.equal(state.answer.id, answerId);
+      assert.equal(state.players.filter(({ solved }) => solved).length, 2);
+      assert.equal(state.players.filter(({ solved }) => !solved).length, 2);
+    }
+  } finally {
+    if (code) await manager.delete(code);
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
 test('rejects duplicate nicknames and invalid catalog versions', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
   const manager = new RoomManager({ dataDirectory: directory });

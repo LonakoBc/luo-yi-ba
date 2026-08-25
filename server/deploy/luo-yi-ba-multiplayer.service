@@ -8,10 +8,11 @@ Type=simple
 User=luoyiba
 Group=luoyiba
 WorkingDirectory=/opt/luo-yi-ba-multiplayer/server
+EnvironmentFile=-/etc/luo-yi-ba-multiplayer.env
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
 Environment=PORT=3000
-Environment=FRONTEND_ORIGIN=https://luo-yi-ba.pages.dev
+Environment=FRONTEND_ORIGIN=https://luo-yi-ba.pages.dev,https://www.bilibili.com,https://www.bilibilitoy.com
 ExecStart=/usr/local/bin/node /opt/luo-yi-ba-multiplayer/server/src/server.js
 Restart=on-failure
 RestartSec=3

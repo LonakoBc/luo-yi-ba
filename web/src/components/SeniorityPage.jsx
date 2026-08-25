@@ -81,7 +81,7 @@ function SeniorityResultDialog({ game, direction, onRestart, onHome }) {
   return (
     <div className="modal-backdrop" role="presentation">
       <section className="result-dialog seniority-result-dialog" role="dialog" aria-modal="true" aria-labelledby="seniority-result-title">
-        <p className="eyebrow">{game.status === 'lost' ? '生命值耗尽' : '本局已结算'} · {direction === 'newer' ? '小资历' : '老资历'}</p>
+        <p className="eyebrow">{game.status === 'lost' ? '生命值耗尽' : game.status === 'completed' ? '曲库挑战完成' : '本局已结算'} · {direction === 'newer' ? '小资历' : '老资历'}</p>
         <h2 id="seniority-result-title">{evaluation.title}</h2>
         <p className="seniority-evaluation">{evaluation.description}</p>
         <div className="seniority-result-stats">
@@ -113,8 +113,8 @@ export default function SeniorityPage({ songs, direction = 'older', random, onBa
   const service = useMemo(() => createSeniorityService(songs, { random, direction }), [songs, random, direction]);
   const [game, setGame] = useState(() => service.startGame());
   const [showSettleConfirm, setShowSettleConfirm] = useState(false);
-  const finished = game.status === 'lost' || game.status === 'settled';
-  const revealed = game.status === 'revealed' || game.status === 'lost';
+  const finished = game.status === 'lost' || game.status === 'settled' || game.status === 'completed';
+  const revealed = game.status === 'revealed' || game.status === 'lost' || game.status === 'completed';
   const revealedSongIds = new Set(game.revealedSongIds ?? []);
 
   const restart = () => {

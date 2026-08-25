@@ -7,6 +7,7 @@ import { createLocalGameService } from '../services/gameService';
 import { createDefaultFilters, filterSongs, getLibraryOptions, songsForPreset } from '../services/libraryService';
 import { GUESS_SONG_MODE, PLAYER_COLORS, SENIORITY_MODE, SORTING_MODE, SORTING_SONGS_PER_ROUND, TRIATHLON_MODE, TRIATHLON_TOTAL_ROUNDS, allowedRoundCounts, playerSeatFor, resolvedPlayerColor } from '../services/multiplayerRules';
 import { createRoom, joinRoom, loadRoomIdentity, roomSocketUrl, saveRoomIdentity } from '../services/multiplayerClient';
+import { appUrl } from '../services/appRouting';
 
 function normalizeCode(value) { return String(value ?? '').toUpperCase().replace(/[^A-HJ-NP-Z2-9]/gu, '').slice(0, 6); }
 function validNickname(value) { return [...String(value).trim()].length >= 1 && [...String(value).trim()].length <= 12; }
@@ -198,6 +199,7 @@ function Room({ code, songs, presets, onExit }) {
   const socketRef = useRef(null);
   const retryRef = useRef(null);
   const clockOffsetRef = useRef(0);
+  const deadlineSyncRef = useRef(null);
   const [room, setRoom] = useState(null);
   const [connection, setConnection] = useState('connecting');
   const [error, setError] = useState(identity ? '' : '这台设备没有该房间的加入凭据');
@@ -239,7 +241,14 @@ function Room({ code, songs, presets, onExit }) {
   const service = useMemo(() => createLocalGameService(roomSongs.length ? roomSongs : songs), [roomSongs, songs]);
   const guessedIds = useMemo(() => new Set(self?.guesses?.map((guess) => guess.song.id) ?? []), [self]);
   const countdown = room?.phase === 'playing' ? room.endsAt - now : room?.phase === 'round-result' ? room.nextRoundAt - now : 0;
-  const copyInvite = async () => { await navigator.clipboard.writeText(`${window.location.origin}/multiplayer/join?code=${code}`); };
+  useEffect(() => {
+    if (room?.phase !== 'playing' || !room.endsAt || now < room.endsAt + 500) return;
+    const deadlineKey = `${room.overallRoundNumber ?? room.roundNumber}:${room.endsAt}`;
+    if (deadlineSyncRef.current === deadlineKey) return;
+    deadlineSyncRef.current = deadlineKey;
+    if (socketRef.current?.readyState === WebSocket.OPEN) socketRef.current.send(JSON.stringify({ type: 'sync' }));
+  }, [room?.phase, room?.endsAt, room?.roundNumber, room?.overallRoundNumber, now]);
+  const copyInvite = async () => { await navigator.clipboard.writeText(appUrl(`/multiplayer/join?code=${code}`)); };
   if (!identity) return <Shell onBack={onExit} title="无法恢复房间" intro={error}><button className="primary-button" type="button" onClick={onExit}>返回联机首页</button></Shell>;
   if (!room) return <Shell onBack={onExit} title="连接房间中" intro={connection === 'reconnecting' ? '连接中断，正在自动重连…' : '正在同步房间状态…'}><p className="multiplayer-error">{error}</p></Shell>;
   const finished = room.phase === 'finished';

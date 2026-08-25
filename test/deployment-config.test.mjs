@@ -28,5 +28,29 @@ test('阿里云发布配置包含协议 v3、多玩法探针和完整打包脚�
   for (const mode of ['guess-song', 'seniority', 'sorting', 'triathlon']) assert.match(probe, new RegExp(mode, 'u'));
   assert.match(packager, /server\/src/u);
   assert.match(packager, /multiplayerRules\.js/u);
+  assert.match(service, /EnvironmentFile=-\/etc\/luo-yi-ba-multiplayer\.env/u);
+  assert.match(await fs.readFile('server/deploy/feedback.env.example', 'utf8'), /FEEDBACK_ADMIN_PASSWORD=/u);
   assert.match(service, /FRONTEND_ORIGIN=https:\/\/luo-yi-ba\.pages\.dev/u);
+  assert.match(service, /https:\/\/www\.bilibili\.com/u);
+  assert.match(service, /https:\/\/www\.bilibilitoy\.com/u);
+});
+
+test('Bilibili Toy 构建使用 Hash 路由、相对资源和三首专属 BGM', async () => {
+  const packageJson = JSON.parse(await fs.readFile('web/package.json', 'utf8'));
+  const config = await fs.readFile('web/vite.toy.config.js', 'utf8');
+  const routing = await fs.readFile('web/src/services/appRouting.js', 'utf8');
+  const catalog = await fs.readFile('web/src/services/bgmCatalog.toy.js', 'utf8');
+  const validator = await fs.readFile('web/scripts/validate-toy-build.mjs', 'utf8');
+  assert.match(packageJson.scripts['build:toy'], /vite\.toy\.config\.js/u);
+  assert.match(config, /base:\s*'\.\/'/u);
+  assert.match(config, /toy-sdk\.js/u);
+  assert.match(config, /VITE_TOY_MULTIPLAYER_API_URL/u);
+  assert.match(config, /https:\/\/8\.217\.219\.36/u);
+  assert.match(config, /assetsDir:\s*''/u);
+  assert.match(config, /assetFileNames:\s*'asset-\[hash\]\[extname\]'/u);
+  assert.match(routing, /VITE_BUILD_TARGET === 'toy'/u);
+  assert.match(routing, /`#\$\{normalized\}`/u);
+  assert.deepEqual([...catalog.matchAll(/bgm\/(\d{2})-/gu)].map((match) => match[1]), ['01', '04', '05', '01', '04', '05']);
+  assert.match(validator, /20 \* 1024 \* 1024/u);
+  assert.match(validator, /retired Cloudflare multiplayer API/u);
 });

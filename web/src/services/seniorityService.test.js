@@ -119,6 +119,19 @@ describe('谁是老资历游戏服务', () => {
     expect(game.history).toHaveLength(3);
   });
 
+  it('曲库全部出现后立即完成，不能反复点击最后两首歌刷分', () => {
+    const tinySongs = [song('old', '2013-01'), song('middle', '2015-01'), song('new', '2017-01')];
+    const service = createSeniorityService(tinySongs, { random: () => 0 });
+    const first = service.startGame();
+    const firstResult = service.choose(first, first.round.correctId);
+    const second = service.nextRound(firstResult);
+    const completed = service.choose(second, second.round.correctId);
+    expect(completed.status).toBe('completed');
+    expect(completed.usedIds).toHaveLength(3);
+    expect(completed.history).toHaveLength(2);
+    expect(service.choose(completed, completed.round.correctId)).toBe(completed);
+  });
+
   it('手动结算会记录尚未回答的当前轮', () => {
     const service = createSeniorityService(songs, { random: () => 0 });
     const settled = service.settle(service.startGame());

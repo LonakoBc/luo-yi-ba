@@ -6,6 +6,11 @@ const workspaceRoot = fileURLToPath(new URL('..', import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '#bgm-catalog': fileURLToPath(new URL('src/services/bgmCatalog.js', import.meta.url)),
+    },
+  },
   server: {
     fs: {
       allow: [workspaceRoot],

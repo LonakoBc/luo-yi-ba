@@ -32,9 +32,10 @@ function difficultyPenalty(anchor, candidate, stage) {
 
 function pickCandidate(songs, anchor, score, usedIds, random) {
   const legal = songs.filter((song) => song.id !== anchor.id && song.releaseMonth !== anchor.releaseMonth);
-  if (!legal.length) throw new Error('题库中没有发布时间不同的可比较歌曲');
+  if (!legal.length) return null;
   const unused = legal.filter((song) => !usedIds.has(song.id));
-  const pool = unused.length ? unused : legal;
+  if (!unused.length) return null;
+  const pool = unused;
   const stage = difficultyForScore(score);
   const minimumPenalty = Math.min(...pool.map((song) => difficultyPenalty(anchor, song, stage)));
   return weightedChoice(pool.filter((song) => difficultyPenalty(anchor, song, stage) === minimumPenalty), random);
@@ -81,6 +82,7 @@ export function createSeniorityService(rawSongs, { random = Math.random, directi
     const first = weightedChoice(songs, random);
     const usedIds = new Set([first.id]);
     const second = pickCandidate(songs, first, 0, usedIds, random);
+    if (!second) throw new Error('题库中没有发布时间不同的可比较歌曲');
     usedIds.add(second.id);
     return {
       status: 'playing',
@@ -109,7 +111,7 @@ export function createSeniorityService(rawSongs, { random = Math.random, directi
     const selectionStreakCount = isCorrect ? continuesStreak ? game.selectionStreakCount + 1 : 1 : 0;
     return {
       ...game,
-      status: lives === 0 ? 'lost' : 'revealed',
+      status: lives === 0 ? 'lost' : game.usedIds.length >= songs.length ? 'completed' : 'revealed',
       lives,
       score: game.score + (isCorrect ? 1 : 0),
       round,
@@ -125,12 +127,19 @@ export function createSeniorityService(rawSongs, { random = Math.random, directi
     if (game.status !== 'revealed') return game;
     const replaceRepeatedOldSong = game.selectionStreakCount >= 3;
     const carrySide = replaceRepeatedOldSong ? game.carrySide === 'left' ? 'right' : 'left' : game.carrySide;
-    const anchor = game.round[carrySide];
     const usedIds = new Set(game.usedIds);
-    const next = pickCandidate(songs, anchor, game.score, usedIds, random);
+    let resolvedCarrySide = carrySide;
+    let anchor = game.round[resolvedCarrySide];
+    let next = pickCandidate(songs, anchor, game.score, usedIds, random);
+    if (!next) {
+      resolvedCarrySide = resolvedCarrySide === 'left' ? 'right' : 'left';
+      anchor = game.round[resolvedCarrySide];
+      next = pickCandidate(songs, anchor, game.score, usedIds, random);
+    }
+    if (!next) return { ...game, status: 'completed' };
     usedIds.add(next.id);
-    const left = carrySide === 'left' ? anchor : next;
-    const right = carrySide === 'right' ? anchor : next;
+    const left = resolvedCarrySide === 'left' ? anchor : next;
+    const right = resolvedCarrySide === 'right' ? anchor : next;
     return {
       ...game,
       status: 'playing',
@@ -143,7 +152,7 @@ export function createSeniorityService(rawSongs, { random = Math.random, directi
   }
 
   function settle(game) {
-    if (game.status === 'lost' || game.status === 'settled') return game;
+    if (game.status === 'lost' || game.status === 'settled' || game.status === 'completed') return game;
     const history = game.status === 'playing'
       ? [...game.history, { ...game.round, outcome: 'unanswered' }]
       : game.history;

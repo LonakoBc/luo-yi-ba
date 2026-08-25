@@ -1,6 +1,6 @@
 曲名：《ACE》
 staff：UP主：Vsinger Official、墨清弦官方账号；作曲：Li Zong；作词：雨狸；编曲：Li Zong
-发布时间：2018-08
+发布时间：2017-06
 演唱歌姬：墨清弦
 使用声库：ACE Studio
 演唱会\生日会次数：2

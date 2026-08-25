@@ -88,7 +88,7 @@ export async function generateProducerData({ input = defaultInput, output = defa
     });
   }
   const famousCount = producers.filter((producer) => producer.famous).length;
-  if (assertCounts && (producers.length !== 104 || famousCount !== 44)) throw new Error(`P 主规模校验失败：共 ${producers.length} 位，名 P ${famousCount} 位（预期 104/44）`);
+  if (assertCounts && (producers.length !== 104 || famousCount !== 45)) throw new Error(`P 主规模校验失败：共 ${producers.length} 位，名 P ${famousCount} 位（预期 104/45）`);
   await mkdir(path.dirname(output), { recursive: true });
   await writeFile(output, `${JSON.stringify(producers, null, 2)}\n`, 'utf8');
   console.log(`Generated ${producers.length} producers (${famousCount} famous) -> ${path.relative(webRoot, output)}`);

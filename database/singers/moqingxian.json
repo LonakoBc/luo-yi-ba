@@ -2,7 +2,7 @@
   {
     "title": "ACE",
     "staff": "UP主：Vsinger Official、墨清弦官方账号；作曲：Li Zong；作词：雨狸；编曲：Li Zong",
-    "releaseMonth": "2018-08",
+    "releaseMonth": "2017-06",
     "singers": "墨清弦",
     "voicebanks": "ACE Studio",
     "concertCount": 2,
@@ -166,5 +166,41 @@
     "lyrics": "回忆的尽头会有谁流连",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1ZzLr6QENc/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%9C%88%E8%89%B2%E6%B8%85%E5%BC%A6"
+  },
+  {
+    "title": "Hear me！",
+    "staff": "UP主：人形兔；作曲：人形兔；作词：和田野；编曲：人形兔",
+    "releaseMonth": "2018-07",
+    "singers": "洛天依；乐正绫；乐正龙牙；墨清弦；徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 3,
+    "special": "单曲",
+    "lyrics": "放学后空无一人的操场",
+    "bilibiliUrl": "https://www.bilibili.com/video/av42164442/",
+    "vcpediaUrl": "https://vcpedia.cn/Hear_me%21"
+  },
+  {
+    "title": "闲花白",
+    "staff": "UP主：闹闹；作曲：闹闹；作词：林檎desu；编曲：恒曌",
+    "releaseMonth": "2019-06",
+    "singers": "墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "日午毋宁凭望窗外　掩卷不堪卒读爱",
+    "bilibiliUrl": "https://www.bilibili.com/video/av56058640/",
+    "vcpediaUrl": "https://vcpedia.cn/%E9%97%B2%E8%8A%B1%E7%99%BD"
+  },
+  {
+    "title": "不正常恋爱物语",
+    "staff": "UP主：动点P；作曲：天钦；作词：琉璃菌；编曲：天钦",
+    "releaseMonth": "2018-08",
+    "singers": "乐正龙牙；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 2,
+    "special": "单曲",
+    "lyrics": "每天拨打你的号码　你不会知道我是谁的",
+    "bilibiliUrl": "https://www.bilibili.com/video/av28388609/",
+    "vcpediaUrl": "https://vcpedia.cn/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E6%81%8B%E7%88%B1%E7%89%A9%E8%AF%AD"
   }
 ]

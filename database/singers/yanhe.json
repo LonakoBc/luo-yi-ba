@@ -434,7 +434,7 @@
   {
     "title": "梦之雨",
     "staff": "UP主：Vsinger Official",
-    "releaseMonth": "2018-08",
+    "releaseMonth": "2013-07",
     "singers": "言和",
     "voicebanks": "VOCALOID",
     "concertCount": 6,
@@ -838,5 +838,29 @@
     "lyrics": "海面上 薄雾如梦一般轻盈",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1XLM36gEtf/",
     "vcpediaUrl": "https://vcpedia.cn/%E6%88%91%E4%BB%AC%E6%AD%A3%E9%A9%B6%E5%90%91%E9%BB%8E%E6%98%8E"
+  },
+  {
+    "title": "速食主义",
+    "staff": "UP主：希望索任合资；作曲：希望索任合资；作词：蔫小坏；编曲：希望索任合资",
+    "releaseMonth": "2016-08",
+    "singers": "言和",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "街边的霓虹闪烁在黑暗中",
+    "bilibiliUrl": "https://www.bilibili.com/video/av5846141/",
+    "vcpediaUrl": "https://vcpedia.cn/%E9%80%9F%E9%A3%9F%E4%B8%BB%E4%B9%89"
+  },
+  {
+    "title": "狂徒",
+    "staff": "UP主：金大王；作曲：金大王；作词：墨大筝；编曲：金大王",
+    "releaseMonth": "2018-03",
+    "singers": "言和；乐正龙牙",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "江湖功名怎么会如同云烟虚伪又荒唐",
+    "bilibiliUrl": "https://www.bilibili.com/video/av21077664/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%8B%82%E5%BE%92"
   }
 ]

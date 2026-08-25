@@ -9,6 +9,7 @@
     "dev": "vite --configLoader runner",
     "prebuild": "npm run generate:data",
     "build": "vite build --configLoader runner",
+    "build:toy": "npm run generate:data && vite build --config vite.toy.config.js --configLoader runner && node scripts/validate-toy-build.mjs",
     "pretest": "npm run generate:data",
     "test": "vitest run --configLoader runner"
   },

@@ -13,12 +13,12 @@ function fieldsFromMarkdown(markdown) {
 }
 
 for (const library of [
-  { id: 'luotianyi', singer: '洛天依', count: 303 },
-  { id: 'yuezhengling', singer: '乐正绫', count: 74 },
-  { id: 'yanhe', singer: '言和', count: 70 },
-  { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 16 },
-  { id: 'longya', singer: '乐正龙牙', count: 25 },
-  { id: 'moqingxian', singer: '墨清弦', count: 14 },
+  { id: 'luotianyi', singer: '洛天依', count: 304 },
+  { id: 'yuezhengling', singer: '乐正绫', count: 75 },
+  { id: 'yanhe', singer: '言和', count: 72 },
+  { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 19 },
+  { id: 'longya', singer: '乐正龙牙', count: 29 },
+  { id: 'moqingxian', singer: '墨清弦', count: 17 },
   { id: 'xinhua', singer: '心华', count: 10 },
   { id: 'xingchen', singer: '星尘', count: 61 },
   { id: 'haiyi', singer: '海伊', count: 10 },
@@ -54,7 +54,7 @@ for (const library of [
   });
 }
 
-test('十四位歌姬共享歌曲按页面去重后为 496 首', async () => {
+test('十四位歌姬共享歌曲按页面去重后为 504 首', async () => {
   const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
@@ -74,12 +74,12 @@ test('十四位歌姬共享歌曲按页面去重后为 496 首', async () => {
   const canonical = (url) => decodeURIComponent(new URL(url).pathname).replace(/\/+$/u, '').normalize('NFKC');
   const luoByPage = new Map(luo.map((song) => [canonical(song.vcpediaUrl), song]));
   const sharedWithLuo = [...yue, ...yan, ...moke].filter((song) => luoByPage.has(canonical(song.vcpediaUrl)));
-  assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 36);
+  assert.equal(yue.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 37);
   assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 47);
-  assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 6);
+  assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 7);
   const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
-  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 496);
-  assert.equal(libraries.flat().length, 644);
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 504);
+  assert.equal(libraries.flat().length, 658);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }

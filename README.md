@@ -46,6 +46,15 @@ npm run build
 
 线上版本通过 Cloudflare Pages 部署；构建目录为 `web/dist`，SPA 子路由由 `web/public/_redirects` 处理。
 
+Bilibili Toy 使用独立构建，不影响 Pages 版本：
+
+```bash
+cd web
+npm run build:toy
+```
+
+可上传目录为仓库根目录的 `toy-dist`。Toy 版本使用 Hash 路由与相对资源路径，并将 BGM 精简为 01、04、05 三首以控制包体。
+
 ## 多人联机部署
 
 正式多人服务运行在阿里云 Node.js 服务端，支持猜曲、老资历、歌曲排序和铁人三项。`worker/` 中的 Cloudflare Worker + Durable Object 仅保留为猜曲回退服务：

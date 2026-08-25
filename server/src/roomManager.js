@@ -117,7 +117,13 @@ class RoomSession {
     const playerId = this.sockets.get(socket);
     const player = this.room.players.find((item) => item.id === playerId);
     if (!player) return;
-    if (message.type === 'sync') return this.sendState(socket, playerId);
+    // A reconnect/sync is also a watchdog for an overdue room timer. This keeps
+    // a match recoverable if the process was suspended or a platform timer was
+    // delayed while a round crossed its deadline.
+    if (message.type === 'sync') {
+      await this.tick();
+      return;
+    }
     if (message.type === 'leave_room') return this.leave(player);
     if (message.type === 'select_color') return this.selectColor(player, message.colorId, socket);
     if (await this.modeHandler.handleCommand(player, message, socket)) return;

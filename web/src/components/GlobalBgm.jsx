@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { bgmModules } from '#bgm-catalog';
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
 
-const bgmModules = import.meta.glob('../../../bgm/*.mp3', { eager: true, query: '?url', import: 'default' });
 export const BGM_TRACKS = Object.entries(bgmModules).map(([filePath, url]) => {
   const fileName = filePath.split('/').pop().replace(/\.mp3$/iu, '');
   return { id: fileName, name: fileName, url };

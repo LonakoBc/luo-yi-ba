@@ -34,8 +34,29 @@ foreach ($relativePath in $releasePaths) {
 
 Push-Location $repositoryRoot
 try {
-  & tar.exe -czf $OutputPath @releasePaths
-  if ($LASTEXITCODE -ne 0) { throw "tar failed with exit code $LASTEXITCODE" }
+  $stagingRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("luoyiba-release-" + [Guid]::NewGuid().ToString('N'))
+  New-Item -ItemType Directory -Force -Path $stagingRoot | Out-Null
+  try {
+    foreach ($relativePath in $releasePaths) {
+      $source = Join-Path $repositoryRoot $relativePath
+      $target = Join-Path $stagingRoot $relativePath
+      New-Item -ItemType Directory -Force -Path (Split-Path -Parent $target) | Out-Null
+      Copy-Item -LiteralPath $source -Destination $target -Recurse -Force
+    }
+    Get-ChildItem -LiteralPath $stagingRoot -Recurse -Filter '*.sh' | ForEach-Object {
+      $content = [System.IO.File]::ReadAllText($_.FullName).Replace("`r`n", "`n").Replace("`r", "`n")
+      [System.IO.File]::WriteAllText($_.FullName, $content, [System.Text.UTF8Encoding]::new($false))
+    }
+    Push-Location $stagingRoot
+    try {
+      & tar.exe -czf $OutputPath @releasePaths
+      if ($LASTEXITCODE -ne 0) { throw "tar failed with exit code $LASTEXITCODE" }
+    } finally {
+      Pop-Location
+    }
+  } finally {
+    Remove-Item -LiteralPath $stagingRoot -Recurse -Force -ErrorAction SilentlyContinue
+  }
 } finally {
   Pop-Location
 }

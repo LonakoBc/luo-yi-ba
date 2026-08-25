@@ -298,5 +298,53 @@
     "lyrics": "才几点钟　烦请你有话好好说",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1cout63Epq/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%93%91%E5%B7%B4"
+  },
+  {
+    "title": "Hear me！",
+    "staff": "UP主：人形兔；作曲：人形兔；作词：和田野；编曲：人形兔",
+    "releaseMonth": "2018-07",
+    "singers": "洛天依；乐正绫；乐正龙牙；墨清弦；徵羽摩柯",
+    "voicebanks": "VOCALOID",
+    "concertCount": 3,
+    "special": "单曲",
+    "lyrics": "放学后空无一人的操场",
+    "bilibiliUrl": "https://www.bilibili.com/video/av42164442/",
+    "vcpediaUrl": "https://vcpedia.cn/Hear_me%21"
+  },
+  {
+    "title": "舞池玩家Easy Player",
+    "staff": "UP主：乌龟Sui；作曲：Lizzz；编曲：乌龟Sui；作词：纪远；调教：纳兰寻风",
+    "releaseMonth": "2018-12",
+    "singers": "乐正龙牙",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "暂无歌词",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1kt411q7VY",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%88%9E%E6%B1%A0%E7%8E%A9%E5%AE%B6Easy_Player"
+  },
+  {
+    "title": "不正常恋爱物语",
+    "staff": "UP主：动点P；作曲：天钦；作词：琉璃菌；编曲：天钦",
+    "releaseMonth": "2018-08",
+    "singers": "乐正龙牙；墨清弦",
+    "voicebanks": "VOCALOID",
+    "concertCount": 2,
+    "special": "单曲",
+    "lyrics": "每天拨打你的号码　你不会知道我是谁的",
+    "bilibiliUrl": "https://www.bilibili.com/video/av28388609/",
+    "vcpediaUrl": "https://vcpedia.cn/%E4%B8%8D%E6%AD%A3%E5%B8%B8%E6%81%8B%E7%88%B1%E7%89%A9%E8%AF%AD"
+  },
+  {
+    "title": "狂徒",
+    "staff": "UP主：金大王；作曲：金大王；作词：墨大筝；编曲：金大王",
+    "releaseMonth": "2018-03",
+    "singers": "言和；乐正龙牙",
+    "voicebanks": "VOCALOID",
+    "concertCount": 1,
+    "special": "单曲",
+    "lyrics": "江湖功名怎么会如同云烟虚伪又荒唐",
+    "bilibiliUrl": "https://www.bilibili.com/video/av21077664/",
+    "vcpediaUrl": "https://vcpedia.cn/%E7%8B%82%E5%BE%92"
   }
 ]
