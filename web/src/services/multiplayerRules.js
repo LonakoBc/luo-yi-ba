@@ -8,7 +8,7 @@ export const TRIATHLON_MODE = 'triathlon';
 export const MULTIPLAYER_MODE = GUESS_SONG_MODE;
 export const MULTIPLAYER_MODES = Object.freeze([GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE]);
 export const ROOM_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-export const ROUND_DURATION_MS = 180_000;
+export const ROUND_DURATION_MS = 90_000;
 export const ROUND_BREAK_MS = 10_000;
 export const HOST_RECONNECT_GRACE_MS = 10_000;
 export const ROOM_RETENTION_MS = 30 * 60_000;
@@ -72,9 +72,9 @@ export function catalogVersionFor(songs) {
 }
 
 export const HINT_STEPS = [
-  { level: 1, afterMs: 60_000 },
-  { level: 2, afterMs: 120_000 },
-  { level: 3, afterMs: 150_000 },
+  { level: 1, afterMs: 30_000 },
+  { level: 2, afterMs: 60_000 },
+  { level: 3, afterMs: 75_000 },
 ];
 
 export function allowedRoundCounts(capacity, mode = GUESS_SONG_MODE) {
@@ -137,10 +137,7 @@ export function sortingRoundScores(results) {
 
 export function hintLevelAt(startedAt, now) {
   const elapsed = now - startedAt;
-  if (elapsed >= 150_000) return 3;
-  if (elapsed >= 120_000) return 2;
-  if (elapsed >= 60_000) return 1;
-  return 0;
+  return HINT_STEPS.reduce((level, step) => elapsed >= step.afterMs ? step.level : level, 0);
 }
 
 export function rankPlayers(players) {

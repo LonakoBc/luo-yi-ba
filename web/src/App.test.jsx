@@ -68,11 +68,16 @@ function renderGame(customSongs = songs) {
   return render(<App songs={customSongs} presets={presets.map((preset) => ({ ...preset, titles: customSongs.map(({ title }) => title) }))} random={() => 0} initialPage="game" initialMode="hard" />);
 }
 
+function openHomeQuickEntry() {
+  fireEvent.click(screen.getByRole('button', { name: /快速入口/u }));
+}
+
 afterEach(() => window.history.replaceState({}, '', '/'));
 
 describe('App 交互', () => {
   it('主页按新顺序展示玩法并开放 P 主入口', () => {
     const { container } = render(<App songs={songs} presets={presets} initialPage="home" />);
+    openHomeQuickEntry();
     const cardTitles = [...container.querySelectorAll('.content-card')]
       .map((card) => card.querySelector('.card-copy strong')?.textContent);
     expect(cardTitles).toEqual([
@@ -101,6 +106,7 @@ describe('App 交互', () => {
 
   it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
+    openHomeQuickEntry();
     const audio = document.querySelector('audio');
     expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled();
     audio.currentTime = 42;
@@ -111,6 +117,7 @@ describe('App 交互', () => {
 
   it('从主页进入曲库页并通过预设开始', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
+    openHomeQuickEntry();
     fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(screen.getByText('选择曲库范围')).toBeVisible();
     expect(screen.getByRole('button', { name: /开始游戏 · 2 首/u })).toBeEnabled();
@@ -125,6 +132,7 @@ describe('App 交互', () => {
 
   it('从主页进入曲名填字且全局 BGM 不会重新挂载', () => {
     render(<App random={() => 0.27} initialPage="home" />);
+    openHomeQuickEntry();
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /曲名填字/u }));
     expect(screen.getByRole('heading', { name: '选择填字曲库' })).toBeVisible();
@@ -138,6 +146,7 @@ describe('App 交互', () => {
 
   it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
+    openHomeQuickEntry();
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /谁是老资历/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
@@ -159,6 +168,7 @@ describe('App 交互', () => {
 
   it('从主页进入歌曲大排序模式页且全局 BGM 不会重新挂载', () => {
     render(<App random={() => 0.17} initialPage="home" />);
+    openHomeQuickEntry();
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
@@ -172,6 +182,7 @@ describe('App 交互', () => {
 
   it('从主页选择歌姬并浏览、搜索数据库和打开详情', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    openHomeQuickEntry();
     const audio = document.querySelector('audio');
     fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
     expect(screen.getByRole('heading', { name: '选择数据库' })).toBeVisible();
@@ -191,6 +202,7 @@ describe('App 交互', () => {
 
   it('数据库首项可进入全曲库总览', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    openHomeQuickEntry();
     fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
     fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
     expect(screen.getByRole('heading', { name: '全曲库资料' })).toBeVisible();
@@ -199,6 +211,7 @@ describe('App 交互', () => {
 
   it('P 主数据库与全曲库并列并可搜索资料', () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
+    openHomeQuickEntry();
     fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
     const featured = document.querySelector('.database-featured-grid');
     expect(within(featured).getByRole('button', { name: /^全曲库/u })).toBeVisible();

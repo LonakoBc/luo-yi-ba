@@ -10,6 +10,7 @@ import GamePage from './components/GamePage';
 import FeedbackAdminPage from './components/FeedbackAdminPage';
 import FeedbackWidget from './components/FeedbackWidget';
 import GlobalBgm from './components/GlobalBgm';
+import HomeStage from './components/HomeStage';
 import LibraryPage from './components/LibraryPage';
 import MultiplayerPage from './components/MultiplayerPage';
 import ProducerGamePage from './components/ProducerGamePage';
@@ -233,7 +234,7 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomePage onChooseGame={() => navigate('/modes')} onChooseMultiplayer={() => navigate('/multiplayer')} onChooseProducer={() => navigate('/producer')} onChooseCrossword={() => navigate('/crossword')} onChooseSeniority={() => navigate('/seniority')} onChooseSorting={() => navigate('/sorting')} onChooseDatabase={() => navigate('/database')} />;
+    pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), database: () => navigate('/database') }} />;
   }
   return <><GlobalBgm />{pageContent}<FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} /></>;
 }

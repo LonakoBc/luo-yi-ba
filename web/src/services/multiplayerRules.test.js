@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PLAYER_COLORS, PLAYER_SEATS, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE, allowedRoundCounts, applyGuess, hintLevelAt, isFinalRound, playerColorFor, playerSeatFor, projectRoom, rankPlayers, roundCompletionState, scoreSortingTimeline, seniorityChoiceScore, seniorityDifficultyForRound, sortingRoundScores, validateMatchConfig } from './multiplayerRules';
+import { PLAYER_COLORS, PLAYER_SEATS, ROUND_DURATION_MS, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE, allowedRoundCounts, applyGuess, hintLevelAt, isFinalRound, playerColorFor, playerSeatFor, projectRoom, rankPlayers, roundCompletionState, scoreSortingTimeline, seniorityChoiceScore, seniorityDifficultyForRound, sortingRoundScores, validateMatchConfig } from './multiplayerRules';
 
 const song = (id) => ({ id, title: id, staffPeople: [id], staffDisplay: id, releaseMonth: '2020-01', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], voicebanksDisplay: 'VOCALOID', concertCount: 0, special: '单曲', lyrics: '歌词' });
 
@@ -49,8 +49,9 @@ it('提供四个默认颜色和完整歌姬代表色候选', () => {
   expect(playerColorFor('missing')).toBeNull();
 });
 
-it('提示在 60、120、150 秒依次解锁', () => {
-  expect([0, 59_999, 60_000, 120_000, 150_000].map((ms) => hintLevelAt(1000, 1000 + ms))).toEqual([0, 0, 1, 2, 3]);
+it('提示在 30、60、75 秒依次解锁', () => {
+  expect(ROUND_DURATION_MS).toBe(90_000);
+  expect([0, 29_999, 30_000, 60_000, 75_000].map((ms) => hintLevelAt(1000, 1000 + ms))).toEqual([0, 0, 1, 2, 3]);
 });
 
 it('按到达顺序计分并拒绝截止时刻与重复答案', () => {
