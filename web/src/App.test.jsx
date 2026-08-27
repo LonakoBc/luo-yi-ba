@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import App from './App';
 
@@ -104,11 +104,13 @@ describe('App 交互', () => {
     expect(screen.getByRole('columnheader', { name: '代表曲' })).toBeVisible();
   });
 
-  it('全局 BGM 播放器在页面切换时保持同一个音频实例', () => {
+  it('全局 BGM 等待主页转场后播放，并在页面切换时保持同一个音频实例', async () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
+    fireEvent.pointerDown(screen.getByRole('button', { name: '快速入口' }));
     openHomeQuickEntry();
     const audio = document.querySelector('audio');
-    expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled();
+    expect(window.HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
+    await waitFor(() => expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled(), { timeout: 1500 });
     audio.currentTime = 42;
     fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(document.querySelector('audio')).toBe(audio);

@@ -1,23 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import silhouetteUrl from '../assets/home-stage/luotianyi-silhouette.png';
-import yuezhengLingSilhouette from '../assets/home-stage/yuezhengling-silhouette.png';
-import yanheSilhouette from '../assets/home-stage/yanhe-silhouette.png';
-import yuezhengLongyaSilhouette from '../assets/home-stage/yuezhenglongya-silhouette.png';
-import mokeSilhouette from '../assets/home-stage/moke-silhouette.png';
-import moqingxianSilhouette from '../assets/home-stage/moqingxian-silhouette.png';
+import guessIllustration from '../assets/home-stage/guess-illustration.webp';
+import producerIllustration from '../assets/home-stage/producer-illustration.webp';
+import multiplayerIllustration from '../assets/home-stage/multiplayer-illustration.webp';
+import sortingIllustration from '../assets/home-stage/sorting-illustration.webp';
+import crosswordIllustration from '../assets/home-stage/crossword-illustration.webp';
+import seniorityIllustration from '../assets/home-stage/seniority-illustration.webp';
+import databaseIllustration from '../assets/home-stage/database-illustration.webp';
 import './HomeStage.css';
 
 const MODES = [
-  { id: 'guess', index: '01', glyph: '♪', title: '曲目猜猜看', kicker: '听见线索，锁定答案', description: '根据曲名、歌姬、STAFF 与年代反馈，找出藏在曲库里的那首歌。', colors: ['#4bc4ff', '#1547b8', '#82efff'] },
-  { id: 'multiplayer', index: '02', glyph: '联', title: '多人联机', kicker: '实时合唱 · 默契对决', description: '邀请 2–4 位好友，在同一个房间挑战猜曲、排序与老资历。', colors: ['#f04a5d', '#7f1827', '#ffb1b8'], silhouette: yuezhengLingSilhouette },
-  { id: 'producer', index: '03', glyph: 'P', title: '闪耀的 Producer', kicker: '沿着代表作认出创作者', description: '从投稿年份、代表歌曲和创作线索中，找出熟悉的中 V 音乐人。', colors: ['#49e6d1', '#0a6f72', '#d2fff8'], silhouette: yanheSilhouette },
-  { id: 'sorting', index: '04', glyph: '序', title: '歌曲大排序', kicker: '重建属于歌曲的时间线', description: '拖动熟悉的作品，让它们回到正确的先后顺序与年代。', colors: ['#238a7d', '#006666', '#b6fff0'], silhouette: yuezhengLongyaSilhouette },
-  { id: 'crossword', index: '05', glyph: '字', title: '曲名填字', kicker: '让歌名在交叉处相遇', description: '沿着相交的文字线索，补全一张由中 V 曲名组成的棋盘。', colors: ['#36b9f0', '#174a9a', '#b8efff'], silhouette: mokeSilhouette },
-  { id: 'seniority', index: '06', glyph: '年', title: '谁是老资历？', kicker: '挑战你的中 V 年代感', description: '比较两首歌曲的发布时间，判断谁更早来到这里。', colors: ['#fff04a', '#6a3b75', '#fff7ad'], silhouette: moqingxianSilhouette },
-  { id: 'database', index: '07', glyph: '库', title: '数据库', kicker: '504 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'] },
+  { id: 'guess', index: '01', glyph: '♪', title: '曲目猜猜看', kicker: '听见线索，锁定答案', description: '根据曲名、歌姬、STAFF 与年代反馈，找出藏在曲库里的那首歌。', colors: ['#4bc4ff', '#1547b8', '#82efff'], illustration: guessIllustration, mobileArtPosition: '88% 0%' },
+  { id: 'multiplayer', index: '02', glyph: '联', title: '多人联机', kicker: '实时合唱 · 默契对决', description: '邀请 2–4 位好友，在同一个房间挑战猜曲、排序与老资历。', colors: ['#4f8fff', '#7f1827', '#ffb1b8'], illustration: multiplayerIllustration, mobileArtPosition: '84% 0%' },
+  { id: 'producer', index: '03', glyph: 'P', title: '闪耀的 Producer', kicker: '沿着代表作认出创作者', description: '从投稿年份、代表歌曲和创作线索中，找出熟悉的中 V 音乐人。', colors: ['#f04a5d', '#52163a', '#ffb19f'], illustration: producerIllustration, artScale: 1.06, artShiftX: '-3%', mobileArtPosition: '91% 0%' },
+  { id: 'sorting', index: '04', glyph: '序', title: '歌曲大排序', kicker: '重建属于歌曲的时间线', description: '拖动熟悉的作品，让它们回到正确的先后顺序与年代。', colors: ['#238a7d', '#006666', '#b6fff0'], illustration: sortingIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '86%' },
+  { id: 'crossword', index: '05', glyph: '字', title: '曲名填字', kicker: '让歌名在交叉处相遇', description: '沿着相交的文字线索，补全一张由中 V 曲名组成的棋盘。', colors: ['#d85bca', '#65308f', '#ffd0f8'], illustration: crosswordIllustration, mobileArtPosition: '72% 0%', mobileArtSize: '90%' },
+  { id: 'seniority', index: '06', glyph: '年', title: '谁是老资历？', kicker: '挑战你的中 V 年代感', description: '比较两首歌曲的发布时间，判断谁更早来到这里。', colors: ['#9a79ff', '#332471', '#f0ddff'], illustration: seniorityIllustration, mobileArtPosition: '79% 0%', mobileArtSize: '84%' },
+  { id: 'database', index: '07', glyph: '库', title: '数据库', kicker: '504 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'], illustration: databaseIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '90%' },
 ];
 
 const STEP_DEGREES = 360 / MODES.length;
+const artworkPreloads = new Map();
+
+function preloadArtwork(url) {
+  if (!url || artworkPreloads.has(url)) return;
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = url;
+  const ready = typeof image.decode === 'function'
+    ? image.decode().catch(() => undefined)
+    : Promise.resolve();
+  artworkPreloads.set(url, { image, ready });
+}
 
 export default function HomeStage({ actions }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -30,6 +43,23 @@ export default function HomeStage({ actions }) {
   const touchStart = useRef(null);
   const transitionTimer = useRef(null);
   const activeMode = MODES[activeIndex];
+
+  useEffect(() => {
+    const adjacentModes = [
+      MODES[(activeIndex - 1 + MODES.length) % MODES.length],
+      MODES[(activeIndex + 1) % MODES.length],
+    ];
+    const preloadAdjacent = () => adjacentModes.forEach((mode) => {
+      preloadArtwork(mode.illustration);
+    });
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preloadAdjacent, { timeout: 800 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+    const timer = window.setTimeout(preloadAdjacent, 120);
+    return () => window.clearTimeout(timer);
+  }, [activeIndex]);
 
   const selectMode = useCallback((nextIndex, requestedDirection = null) => {
     const normalized = (nextIndex + MODES.length) % MODES.length;
@@ -96,19 +126,23 @@ export default function HomeStage({ actions }) {
     '--stage-primary': mode.colors[0],
     '--stage-deep': mode.colors[1],
     '--stage-glow': mode.colors[2],
-    '--stage-silhouette': `url(${mode.silhouette ?? silhouetteUrl})`,
+    '--stage-illustration': mode.illustration ? `url(${mode.illustration})` : undefined,
+    '--stage-art-scale': mode.artScale ?? 1,
+    '--stage-art-shift-x': mode.artShiftX ?? '0%',
+    '--stage-art-mobile-position': mode.mobileArtPosition ?? 'center top',
+    '--stage-art-mobile-size': mode.mobileArtSize ?? '90%',
   });
   const wheelRotation = -wheelPosition * STEP_DEGREES;
 
   return (
     <main className="home-stage" tabIndex="0" onWheel={handleWheel} onKeyDown={handleKeyDown} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label="首页玩法轮盘">
       {previousIndex !== null && (
-        <div className={`home-stage-scene previous direction-${direction > 0 ? 'next' : 'previous'}`} style={stageStyle(MODES[previousIndex])} aria-hidden="true">
-          <div className="home-stage-aurora" /><div className="home-stage-figure" />
+        <div className={`home-stage-scene previous direction-${direction > 0 ? 'next' : 'previous'} ${MODES[previousIndex].illustration ? 'has-illustration' : ''}`} style={stageStyle(MODES[previousIndex])} aria-hidden="true">
+          <div className="home-stage-art" />
         </div>
       )}
-      <div key={activeMode.id} className={`home-stage-scene current direction-${direction > 0 ? 'next' : 'previous'}`} style={stageStyle(activeMode)} aria-hidden="true">
-        <div className="home-stage-aurora" /><div className="home-stage-figure" />
+      <div key={activeMode.id} className={`home-stage-scene current direction-${direction > 0 ? 'next' : 'previous'} ${activeMode.illustration ? 'has-illustration' : ''}`} style={stageStyle(activeMode)} aria-hidden="true">
+        <div className="home-stage-art" />
       </div>
       <div className="home-stage-noise" aria-hidden="true" />
       <div className="home-stage-blur" aria-hidden="true" />
@@ -125,7 +159,6 @@ export default function HomeStage({ actions }) {
         <small>{activeMode.description}</small>
         <div className="home-stage-actions">
           <button type="button" className="home-stage-enter" onClick={() => actions[activeMode.id]?.()}>进入当前玩法 <span aria-hidden="true">→</span></button>
-          <button type="button" className="home-stage-next" onClick={() => stepMode(1)}>下一个玩法 <span aria-hidden="true">↓</span></button>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { bgmModules } from '#bgm-catalog';
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
+const DEFERRED_AUTOPLAY_DELAY_MS = 850;
 
 export const BGM_TRACKS = Object.entries(bgmModules).map(([filePath, url]) => {
   const fileName = filePath.split('/').pop().replace(/\.mp3$/iu, '');
@@ -15,6 +16,7 @@ function readInitialVolume() {
 
 export default function GlobalBgm({ random = Math.random }) {
   const audioRef = useRef(null);
+  const deferredPlayTimer = useRef(null);
   const [trackIndex, setTrackIndex] = useState(() => Math.min(BGM_TRACKS.length - 1, Math.floor(random() * BGM_TRACKS.length)));
   const previousTrackIndex = useRef(trackIndex);
   const [playing, setPlaying] = useState(false);
@@ -53,21 +55,20 @@ export default function GlobalBgm({ random = Math.random }) {
       document.removeEventListener('pointerdown', resumeAfterInteraction, true);
       document.removeEventListener('keydown', resumeAfterInteraction, true);
     };
-    const tryPlay = async () => {
-      const succeeded = await playCurrent('等待首次操作后自动播放');
-      if (succeeded) {
-        removeFallback();
-      }
-    };
-    function resumeAfterInteraction() {
-      void tryPlay();
+    function resumeAfterInteraction(event) {
+      removeFallback();
+      if (event.target instanceof Element && event.target.closest('.bgm-player')) return;
+      window.clearTimeout(deferredPlayTimer.current);
+      deferredPlayTimer.current = window.setTimeout(() => {
+        void playCurrent('点击音乐按钮即可继续播放');
+      }, DEFERRED_AUTOPLAY_DELAY_MS);
     }
 
-    void tryPlay();
     document.addEventListener('pointerdown', resumeAfterInteraction, true);
     document.addEventListener('keydown', resumeAfterInteraction, true);
     return () => {
       removeFallback();
+      window.clearTimeout(deferredPlayTimer.current);
     };
   }, [playCurrent]);
 
@@ -100,8 +101,7 @@ export default function GlobalBgm({ random = Math.random }) {
       <audio
         ref={audioRef}
         src={track.url}
-        autoPlay
-        preload="metadata"
+        preload="none"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onEnded={nextTrack}
