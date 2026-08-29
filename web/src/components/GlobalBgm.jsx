@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { bgmModules } from '#bgm-catalog';
-import { BGM_CONFIG, fetchBgmPlaylist } from '../services/bgmService';
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
 const DEFERRED_AUTOPLAY_DELAY_MS = 850;
@@ -15,20 +14,18 @@ function readInitialVolume() {
   return Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : DEFAULT_VOLUME;
 }
 
-export default function GlobalBgm({ random = Math.random, playlistLoader = fetchBgmPlaylist, suspended = false }) {
+export default function GlobalBgm({ random = Math.random, suspended = false }) {
   const audioRef = useRef(null);
   const deferredPlayTimer = useRef(null);
   const initialRandom = useRef();
   if (initialRandom.current === undefined) initialRandom.current = random();
-  const [tracks, setTracks] = useState(BGM_TRACKS);
   const [trackIndex, setTrackIndex] = useState(() => Math.min(BGM_TRACKS.length - 1, Math.floor(initialRandom.current * BGM_TRACKS.length)));
   const previousTrackId = useRef(BGM_TRACKS[trackIndex]?.id);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(readInitialVolume);
   const [error, setError] = useState('');
-  const [playlistStatus, setPlaylistStatus] = useState('loading');
   const [pickerOpen, setPickerOpen] = useState(false);
-  const track = tracks[trackIndex] || tracks[0];
+  const track = BGM_TRACKS[trackIndex] || BGM_TRACKS[0];
 
   const playCurrent = useCallback(async (fallbackMessage = '浏览器暂时无法播放音频') => {
     const audio = audioRef.current;
@@ -45,25 +42,8 @@ export default function GlobalBgm({ random = Math.random, playlistLoader = fetch
 
   const nextTrack = useCallback(() => {
     setError('');
-    setTrackIndex((current) => (current + 1) % tracks.length);
-  }, [tracks.length]);
-
-  useEffect(() => {
-    let cancelled = false;
-    void playlistLoader({ config: BGM_CONFIG }).then((remoteTracks) => {
-      if (cancelled || !remoteTracks.length) return;
-      const remoteIndex = Math.min(remoteTracks.length - 1, Math.floor(initialRandom.current * remoteTracks.length));
-      // Loading the remote catalog should not trigger an unsolicited autoplay.
-      previousTrackId.current = remoteTracks[remoteIndex]?.id;
-      setTracks(remoteTracks);
-      setTrackIndex(remoteIndex);
-      setError('');
-      setPlaylistStatus('remote');
-    }).catch(() => {
-      if (!cancelled) setPlaylistStatus('fallback');
-    });
-    return () => { cancelled = true; };
-  }, [playlistLoader]);
+    setTrackIndex((current) => (current + 1) % BGM_TRACKS.length);
+  }, []);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -124,11 +104,7 @@ export default function GlobalBgm({ random = Math.random, playlistLoader = fetch
     else setTrackIndex(index);
   };
 
-  const playlistHint = error || (playlistStatus === 'loading'
-    ? '正在连接网易云歌单'
-    : playlistStatus === 'remote'
-      ? `${track.artist || '网易云音乐'} · 联网歌单`
-      : '联网失败，使用本地音频');
+  const playlistHint = error || '本地音频';
 
   return (
     <aside className={`bgm-player ${playing ? 'playing' : ''}`} aria-label="背景音乐播放器">
@@ -147,7 +123,7 @@ export default function GlobalBgm({ random = Math.random, playlistLoader = fetch
       </button>
       <div className="bgm-picker-wrap">
         <button type="button" className="bgm-pick" onClick={() => setPickerOpen((open) => !open)} aria-expanded={pickerOpen} aria-controls="bgm-track-list" aria-label="选择背景音乐">♫</button>
-        {pickerOpen && <div id="bgm-track-list" className="bgm-track-list" role="menu">{tracks.map((item, index) => <button type="button" role="menuitemradio" aria-checked={index === trackIndex} className={index === trackIndex ? 'active' : ''} key={`${item.id}-${index}`} onClick={() => selectTrack(index)}><span><strong>{item.name}</strong><small>{item.artist}</small></span>{index === trackIndex && <small>{playing ? '播放中' : '当前曲目'}</small>}</button>)}</div>}
+        {pickerOpen && <div id="bgm-track-list" className="bgm-track-list" role="menu">{BGM_TRACKS.map((item, index) => <button type="button" role="menuitemradio" aria-checked={index === trackIndex} className={index === trackIndex ? 'active' : ''} key={item.id} onClick={() => selectTrack(index)}><span><strong>{item.name}</strong><small>{item.artist}</small></span>{index === trackIndex && <small>{playing ? '播放中' : '当前曲目'}</small>}</button>)}</div>}
       </div>
       <button type="button" className="bgm-next" onClick={nextTrack} aria-label="播放下一首背景音乐" title="下一首">››</button>
       <label className="volume-control">

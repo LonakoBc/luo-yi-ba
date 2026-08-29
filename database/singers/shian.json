@@ -156,6 +156,18 @@
     "vcpediaUrl": "https://vcpedia.cn/%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%B8%A6%E6%88%91%E8%B5%B0%E3%80%82"
   },
   {
+    "title": "迷",
+    "staff": "UP主：立入禁止",
+    "releaseMonth": "2026-05",
+    "singers": "诗岸",
+    "voicebanks": "Synthesizer V",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "就算是会迷路也想走下去",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1k3Lg6zE4v/",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%BF%B7"
+  },
+  {
     "title": "夏日尽头的我们",
     "staff": "UP主：命运结构_p",
     "releaseMonth": "2026-06",
@@ -166,5 +178,41 @@
     "lyrics": "又一遍又一遍那天相见",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1Q6jR6HEXp/",
     "vcpediaUrl": "https://vcpedia.cn/%E5%A4%8F%E6%97%A5%E5%B0%BD%E5%A4%B4%E7%9A%84%E6%88%91%E4%BB%AC"
+  },
+  {
+    "title": "萤火虫会记得",
+    "staff": "UP主：昨夜的尘",
+    "releaseMonth": "2025-01",
+    "singers": "诗岸",
+    "voicebanks": "Synthesizer V",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "https://www.bilibili.com/video/av113849818683494",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%90%A4%E7%81%AB%E8%99%AB%E4%BC%9A%E8%AE%B0%E5%BE%97"
+  },
+  {
+    "title": "虚构义",
+    "staff": "UP主：MOCKER44",
+    "releaseMonth": "2025-03",
+    "singers": "诗岸",
+    "voicebanks": "Synthesizer V",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%99%9A%E6%9E%84%E4%B9%89"
+  },
+  {
+    "title": "春死诀",
+    "staff": "UP主：MOCKER44",
+    "releaseMonth": "2026-04",
+    "singers": "诗岸",
+    "voicebanks": "Synthesizer V",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%98%A5%E6%AD%BB%E8%AF%80"
   }
 ]

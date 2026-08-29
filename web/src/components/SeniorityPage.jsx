@@ -135,7 +135,7 @@ export default function SeniorityPage({ songs, direction = 'older', random, onBa
       </header>
       <main className="seniority-main">
         <div className="seniority-heading">
-          <div><p className="eyebrow">发布时间挑战 · {direction === 'newer' ? '小资历' : '老资历'}</p><h2>{direction === 'newer' ? '谁是小资历？' : '谁是老资历？'}</h2><p>选出发布时间{direction === 'newer' ? '更新' : '更早'}的歌曲。</p></div>
+          <div><p className="eyebrow">发布时间挑战 · {direction === 'newer' ? '小资历' : '老资历'}</p><h2>{direction === 'newer' ? '谁是小资历' : '谁是老资历'}</h2><p>选出发布时间{direction === 'newer' ? '更新' : '更早'}的歌曲。</p></div>
           <div className="seniority-stats" aria-label="游戏状态">
             <span><strong aria-label={`${game.lives} 点生命`}>{'♥'.repeat(game.lives)}{'♡'.repeat(3 - game.lives)}</strong>生命</span>
             <span><strong>{game.score}</strong>得分</span>

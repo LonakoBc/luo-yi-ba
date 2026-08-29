@@ -22,6 +22,7 @@ import SeniorityPage from './components/SeniorityPage';
 import SeniorityModePage from './components/SeniorityModePage';
 import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
+import UpdateNoticeDialog, { UPDATE_NOTICE_STORAGE_KEY, canShowUpdateNotice } from './components/UpdateNoticeDialog';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
 import { getMusicGuessPlaylist, MUSIC_GUESS_PLAYLISTS } from './services/musicGuessService';
@@ -110,7 +111,7 @@ function HomePage({ onChooseGame, onChooseMultiplayer, onChooseProducer, onChoos
           </button>
           <button type="button" className="content-card available seniority-card" onClick={onChooseSeniority}>
             <span className="card-index">06</span><span className="music-glyph" aria-hidden="true">年</span>
-            <span className="card-copy"><strong>谁是老资历？</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
+            <span className="card-copy"><strong>谁是老资历</strong><small>比较两首歌曲的发布时间，看看谁更早来到这里。</small></span>
             <span className="card-arrow" aria-hidden="true">→</span>
           </button>
           <button type="button" className="content-card available database-card" onClick={onChooseDatabase}>
@@ -137,6 +138,7 @@ export default function App({ songs = songData, presets = presetData, database =
   const initialLocation = readRouteLocation();
   const initialRoute = testRoute ?? routeFromLocation(initialLocation.pathname, initialLocation.search);
   const [route, setRoute] = useState(initialRoute);
+  const [showUpdateNotice, setShowUpdateNotice] = useState(() => canShowUpdateNotice({ initialPage, initialRoute }));
 
   useEffect(() => {
     if (initialPage) return undefined;
@@ -251,5 +253,14 @@ export default function App({ songs = songData, presets = presetData, database =
     pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), 'music-guess': startMusicGuess, database: () => navigate('/database') }} />;
   }
   const musicGuessActive = route.page === 'music-guess-select' || route.page === 'music-guess';
-  return <><GlobalBgm suspended={musicGuessActive} />{pageContent}<FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} /></>;
+  const routeViewKey = route.page === 'home' ? 'home' : (route.routeKey ?? route.page);
+  const closeUpdateNotice = () => {
+    try {
+      window.localStorage.setItem(UPDATE_NOTICE_STORAGE_KEY, 'dismissed');
+    } catch {
+      // Private browsing or disabled storage should not prevent closing the notice.
+    }
+    setShowUpdateNotice(false);
+  };
+  return <><GlobalBgm suspended={musicGuessActive} /><div key={routeViewKey} className={'route-view ' + (route.page === 'home' ? 'route-view-home' : 'route-view-enter')}>{pageContent}</div><FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} />{showUpdateNotice && <UpdateNoticeDialog onClose={closeUpdateNotice} />}</>;
 }

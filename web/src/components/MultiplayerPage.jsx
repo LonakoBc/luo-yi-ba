@@ -19,11 +19,60 @@ function Toggle({ children, pressed, onClick }) {
 function Entrance({ code: initialCode, onCreate, onJoin, onBack }) {
   const [nickname, setNickname] = useState(() => localStorage.getItem('luo-yi-ba-nickname') ?? '');
   const [code, setCode] = useState(initialCode ?? '');
+  const [copyFeedback, setCopyFeedback] = useState('');
+  const copyFeedbackTimer = useRef(null);
   const remember = () => localStorage.setItem('luo-yi-ba-nickname', nickname.trim());
+  useEffect(() => () => window.clearTimeout(copyFeedbackTimer.current), []);
+  const copyQqGroup = async () => {
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText('1087737854');
+        copied = true;
+      }
+    } catch {
+      // Fall through to the legacy clipboard path.
+    }
+    if (!copied) {
+      const textarea = document.createElement('textarea');
+      textarea.value = '1087737854';
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        copied = document.execCommand?.('copy') ?? false;
+      } catch {
+        copied = false;
+      }
+      textarea.remove();
+    }
+    setCopyFeedback(copied ? '已复制群号！' : '复制失败，请手动复制');
+    window.clearTimeout(copyFeedbackTimer.current);
+    copyFeedbackTimer.current = window.setTimeout(() => setCopyFeedback(''), 1600);
+  };
   return <Shell onBack={onBack} title="多人联机" intro="选择玩法创建 2–4 人房间，或使用好友分享的房间码直接加入。">
-    <section className="multiplayer-entry-grid">
-      <article className="multiplayer-panel"><p className="eyebrow">创建房间</p><label className="multiplayer-label">你的昵称<input value={nickname} maxLength={12} autoFocus onChange={(event) => setNickname(event.target.value)} placeholder="1–12 个字符" /></label><div className="multiplayer-mode-options"><button type="button" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), GUESS_SONG_MODE); }}><b>曲目猜猜看</b><small>根据逐字段反馈抢先猜出同一首歌</small></button><button type="button" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), SENIORITY_MODE); }}><b>谁是老资历</b><small>同步比较两首歌曲，选出更早发布者</small></button><button type="button" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), SORTING_MODE); }}><b>歌曲大排序</b><small>同步整理五首歌曲的发布时间线</small></button><button type="button" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), TRIATHLON_MODE); }}><b>铁人三项</b><small>连续挑战猜曲、排序与老资历，各三轮</small></button></div></article>
-      <article className="multiplayer-panel"><p className="eyebrow">加入好友</p><label className="multiplayer-label">6 位房间码<input className="room-code-input" value={code} onChange={(event) => setCode(normalizeCode(event.target.value))} placeholder="ABC234" /></label><button className="primary-button" type="button" disabled={!validNickname(nickname) || code.length !== 6} onClick={() => { remember(); onJoin(nickname.trim(), code); }}>加入房间</button></article>
+    <section className="multiplayer-entry-card">
+      <label className="multiplayer-label multiplayer-nickname-label">请输入你的昵称：<input aria-label="你的昵称" value={nickname} maxLength={12} autoFocus onChange={(event) => setNickname(event.target.value)} placeholder="1–12 个字符" /></label>
+      <div className="multiplayer-entry-columns">
+        <div className="multiplayer-entry-column multiplayer-join-column">
+          <p className="eyebrow">加入房间：</p>
+          <label className="multiplayer-label">6 位房间码<input className="room-code-input" value={code} onChange={(event) => setCode(normalizeCode(event.target.value))} placeholder="ABC234" /></label>
+          <button className="primary-button" type="button" disabled={!validNickname(nickname) || code.length !== 6} onClick={() => { remember(); onJoin(nickname.trim(), code); }}>加入房间</button>
+          <button type="button" className="multiplayer-qq-card" onClick={copyQqGroup} aria-label="复制联机水友 QQ 群号"><span>想要找到同好？</span><span>欢迎复制加入联机水友Q群！</span></button>
+          {copyFeedback && <div className={'multiplayer-copy-feedback ' + (copyFeedback === '已复制群号！' ? 'success' : 'error')} role="status" aria-live="polite">{copyFeedback}</div>}
+        </div>
+        <div className="multiplayer-entry-column multiplayer-create-column">
+          <p className="eyebrow">创建房间：</p>
+          <div className="multiplayer-mode-options">
+            <button type="button" className="mode-triathlon" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), TRIATHLON_MODE); }}><b>铁人三项</b><small>连续挑战猜曲、排序与老资历，各三轮</small></button>
+            <button type="button" className="mode-guess" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), GUESS_SONG_MODE); }}><b>曲目猜猜看</b><small>根据逐字段反馈抢先猜出同一首歌</small></button>
+            <button type="button" className="mode-seniority" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), SENIORITY_MODE); }}><b>谁是老资历</b><small>同步比较两首歌曲，选出更早发布者</small></button>
+            <button type="button" className="mode-sorting" disabled={!validNickname(nickname)} onClick={() => { remember(); onCreate(nickname.trim(), SORTING_MODE); }}><b>歌曲大排序</b><small>同步整理五首歌曲的发布时间线</small></button>
+          </div>
+        </div>
+      </div>
     </section>
   </Shell>;
 }

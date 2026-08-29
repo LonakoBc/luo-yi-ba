@@ -117,23 +117,39 @@ export async function fetchMusicGuessTracks(playlist, {
 } = {}) {
   if (!playlist) throw new Error('猜曲歌单不存在');
   if (playlist.source !== 'netease-playlist') throw new Error('当前猜曲歌单未配置网易云数据源');
-  if (typeof fetchImpl !== 'function') throw new Error('当前环境不支持联网歌单');
+  const localFallback = () => {
+    const tracks = mapMusicGuessPlaylistTracks([], { manifest, config, localFirst: true });
+    if (tracks.length < 4) throw new Error(`本地清单中只有 ${tracks.length} 首服务器片段`);
+    return tracks;
+  };
+  if (typeof fetchImpl !== 'function') {
+    if (playlist.localFirst) return localFallback();
+    throw new Error('当前环境不支持联网歌单');
+  }
 
   let response;
   try {
     response = await fetchImpl(buildMusicGuessPlaylistUrl(playlist, config));
   } catch {
+    if (playlist.localFirst) return localFallback();
     throw new Error('网易云歌单连接失败');
   }
-  if (!response.ok) throw new Error(`网易云歌单加载失败（${response.status}）`);
+  if (!response.ok) {
+    if (playlist.localFirst) return localFallback();
+    throw new Error(`网易云歌单加载失败（${response.status}）`);
+  }
 
   let songs;
   try {
     songs = await response.json();
   } catch {
+    if (playlist.localFirst) return localFallback();
     throw new Error('网易云歌单返回数据无效');
   }
-  if (!Array.isArray(songs)) throw new Error('网易云歌单返回数据无效');
+  if (!Array.isArray(songs)) {
+    if (playlist.localFirst) return localFallback();
+    throw new Error('网易云歌单返回数据无效');
+  }
 
   const tracks = mapMusicGuessPlaylistTracks(songs, { manifest, config, localFirst: playlist.localFirst });
   if (tracks.length < 4) throw new Error(`歌单中只有 ${tracks.length} 首歌曲匹配到服务器片段`);

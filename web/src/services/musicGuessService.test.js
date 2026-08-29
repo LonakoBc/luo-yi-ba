@@ -59,8 +59,18 @@ describe('网易云元数据 + 服务器片段猜曲服务', () => {
     expect(resolveMusicGuessClipUrl('clip 01.mp3', { clipBaseUrl: 'https://media.example/clips/' })).toContain('clip%2001.mp3');
   });
 
-  it('接口失败或可匹配片段不足时返回可展示的错误', async () => {
-    await expect(fetchMusicGuessTracks(playlist, { fetchImpl: vi.fn().mockRejectedValue(new Error('offline')), manifest }))
+  it('网易云接口失败时使用本地清单继续游戏', async () => {
+    const tracks = await fetchMusicGuessTracks(playlist, {
+      fetchImpl: vi.fn().mockRejectedValue(new Error('offline')),
+      manifest,
+      config: { clipBaseUrl: 'https://media.example/clips' },
+    });
+    expect(tracks).toHaveLength(4);
+    expect(tracks[0]).toMatchObject({ name: '甲曲', artist: '洛天依', localOnly: true });
+  });
+
+  it('非本地优先歌单在接口失败或可匹配片段不足时返回可展示的错误', async () => {
+    await expect(fetchMusicGuessTracks({ ...playlist, localFirst: false }, { fetchImpl: vi.fn().mockRejectedValue(new Error('offline')), manifest }))
       .rejects.toThrow('网易云歌单连接失败');
     await expect(fetchMusicGuessTracks({ ...playlist, localFirst: false }, {
       fetchImpl: vi.fn().mockResolvedValue({ ok: true, json: async () => [{ title: '不存在的歌曲' }] }),

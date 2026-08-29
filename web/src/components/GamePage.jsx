@@ -28,6 +28,32 @@ function DeveloperTools({ service, onForceAnswer }) {
   );
 }
 
+function MobileHintCard({ answer, hintLevel }) {
+  const hints = [
+    { label: '提示 1/3', title: '歌姬与发布时间', value: [answer.singersDisplay, answer.releaseMonth].filter(Boolean).join(' · ') },
+    { label: '提示 2/3', title: 'STAFF', value: answer.staffDisplay },
+    { label: '提示 3/3', title: '歌词提示', value: answer.lyrics },
+  ];
+
+  if (hintLevel === 0) return null;
+  return (
+    <aside className={'game-hints-card' + (hintLevel >= 3 ? ' hint-level-3' : '')} aria-label="已解锁提示">
+      <div className="mobile-hints-heading">
+        <p className="eyebrow">已解锁提示</p>
+        <strong>{hintLevel}/3</strong>
+      </div>
+      <div className="mobile-hints-list">
+        {hints.slice(0, hintLevel).map((hint) => (
+          <div className="mobile-hint-item" key={hint.label}>
+            <span>{hint.label}</span>
+            <div><strong>{hint.title}</strong><p>{hint.value}</p></div>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
 export default function GamePage({ songs, poolName, random, onBack }) {
   const service = useMemo(() => createLocalGameService(songs, { random }), [songs, random]);
   const [game, setGame] = useState(() => service.startGame());
@@ -94,7 +120,7 @@ export default function GamePage({ songs, poolName, random, onBack }) {
           </div>
         </section>
         <div className={`notice ${notice ? 'visible' : ''}`} role="status">{notice || '\u00a0'}</div>
-        {game.hintLevel >= 3 && <aside className="lyrics-card" aria-label="歌词提示"><span className="quote-mark" aria-hidden="true">“</span><div><p className="eyebrow">歌词提示</p><p>{game.answer.lyrics}</p></div></aside>}
+        <MobileHintCard answer={game.answer} hintLevel={game.hintLevel} />
         <SongTable answer={game.answer} guesses={game.guesses} hintLevel={game.hintLevel} finished={finished} />
         {finished && !showResultDialog && <div className="after-win-actions"><button type="button" className="primary-button" onClick={() => setShowResultDialog(true)}>查看本局结果</button><button type="button" className="ghost-button" onClick={() => restart()}>再来一局</button></div>}
       </main>

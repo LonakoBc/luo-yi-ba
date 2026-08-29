@@ -2814,7 +2814,7 @@
     "singers": "洛天依",
     "voicebanks": "ACE Studio",
     "concertCount": 1,
-    "special": "单曲",
+    "special": "系列/企划曲目",
     "lyrics": "谁允许你目光移开啊",
     "bilibiliUrl": "https://www.bilibili.com/video/BV1hx42127QB/",
     "vcpediaUrl": "https://vcpedia.cn/%E7%97%85%E6%80%81%E4%B8%BB%E8%A7%92%E8%A7%82"
@@ -3492,7 +3492,7 @@
     "vcpediaUrl": "https://vcpedia.cn/%E5%BE%AE%E5%85%89"
   },
   {
-    "title": "MONTAGEM PITTY",
+    "title": "MONTAGEM PITTY（拼接遗憾）",
     "staff": "UP主：见过夏天P",
     "releaseMonth": "2026-03",
     "singers": "洛天依",
@@ -3646,5 +3646,65 @@
     "lyrics": "放学后空无一人的操场",
     "bilibiliUrl": "https://www.bilibili.com/video/av42164442/",
     "vcpediaUrl": "https://vcpedia.cn/Hear_me%21"
+  },
+  {
+    "title": "我生于死去之日。",
+    "staff": "UP主：奥莉安多",
+    "releaseMonth": "2025-07",
+    "singers": "洛天依",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "当狭小四方木匣合上",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%88%91%E7%94%9F%E4%BA%8E%E6%AD%BB%E5%8E%BB%E4%B9%8B%E6%97%A5%E3%80%82"
+  },
+  {
+    "title": "我想知道你对于幸福的定义。",
+    "staff": "UP主：奥莉安多",
+    "releaseMonth": "2026-05",
+    "singers": "洛天依；乐正绫",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "当我再次找回 一本旧的日记",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E6%88%91%E6%83%B3%E7%9F%A5%E9%81%93%E4%BD%A0%E5%AF%B9%E4%BA%8E%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%AE%9A%E4%B9%89%E3%80%82"
+  },
+  {
+    "title": "完？美？友！人！",
+    "staff": "UP主：奥莉安多",
+    "releaseMonth": "2026-02",
+    "singers": "洛天依；乐正绫；言和；徵羽摩柯；墨清弦；乐正龙牙",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "拜年/贺岁纪曲目",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E5%AE%8C%EF%BC%9F%E7%BE%8E%EF%BC%9F%E5%8F%8B%EF%BC%81%E4%BA%BA%EF%BC%81"
+  },
+  {
+    "title": "被窝吃人事件",
+    "staff": "UP主：冬瓜Key_P",
+    "releaseMonth": "2026-01",
+    "singers": "洛天依",
+    "voicebanks": "VOCALOID",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%A2%AB%E7%AA%9D%E5%90%83%E4%BA%BA%E4%BA%8B%E4%BB%B6"
+  },
+  {
+    "title": "花草野",
+    "staff": "UP主：MOCKER44",
+    "releaseMonth": "2025-07",
+    "singers": "洛天依",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "暂无歌词资料",
+    "bilibiliUrl": "",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%8A%B1%E8%8D%89%E9%87%8E"
   }
 ]

@@ -8,7 +8,7 @@ describe('Markdown 曲库预设', () => {
   it('预设顺序、数量与曲名唯一性正确', () => {
     const counts = Object.fromEntries(presets.map((preset) => [preset.id, preset.titles.length]));
     expect(presets.map(({ id }) => id)).toEqual(['all', 'intro', 'luotianyi', 'yuezhengling', 'yanhe', 'henian', 'medium5', 'wangchuan', 'golden-age']);
-    expect(counts).toEqual({ all: 504, intro: 50, luotianyi: 304, yuezhengling: 75, yanhe: 72, henian: 388, medium5: 93, wangchuan: 47, 'golden-age': 199 });
+    expect(counts).toEqual({ all: 519, intro: 50, luotianyi: 309, yuezhengling: 78, yanhe: 74, henian: 395, medium5: 101, wangchuan: 47, 'golden-age': 199 });
     expect(presets.every(({ badge }) => badge)).toBe(true);
     for (const preset of presets) expect(new Set(preset.titles).size).toBe(preset.titles.length);
   });
@@ -29,14 +29,14 @@ describe('Markdown 曲库预设', () => {
   });
 
   it('发布曲库按 VCPedia 页面全局去重，数据库包含数据库专用歌姬', () => {
-    expect(songs).toHaveLength(504);
+    expect(songs).toHaveLength(519);
     expect(database.catalog.map(({ id, songCount }) => [id, songCount])).toEqual([
-      ['all', 504],
-      ['luotianyi', 304], ['yuezhengling', 75], ['yanhe', 72], ['zhiyu-moke', 19], ['longya', 29], ['moqingxian', 17], ['xinhua', 10], ['xingchen', 61],
-      ['haiyi', 10], ['cangqiong', 13], ['chiyu', 24], ['shian', 14], ['muxin', 3], ['minus', 7],
+      ['all', 519],
+      ['luotianyi', 309], ['yuezhengling', 78], ['yanhe', 74], ['zhiyu-moke', 20], ['longya', 30], ['moqingxian', 18], ['xinhua', 10], ['xingchen', 65],
+      ['haiyi', 11], ['cangqiong', 13], ['chiyu', 24], ['shian', 18], ['muxin', 3], ['minus', 8],
     ]);
-    expect(database.catalog.slice(1).reduce((sum, singer) => sum + singer.songCount, 0)).toBe(658);
-    expect(database.libraries.all).toHaveLength(504);
-    expect(new Set(database.libraries.all.map(({ vcpediaUrl }) => vcpediaUrl)).size).toBe(504);
+    expect(database.catalog.slice(1).reduce((sum, singer) => sum + singer.songCount, 0)).toBe(681);
+    expect(database.libraries.all).toHaveLength(519);
+    expect(new Set(database.libraries.all.map(({ vcpediaUrl }) => vcpediaUrl)).size).toBe(519);
   });
 });

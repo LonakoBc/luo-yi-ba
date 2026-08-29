@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset } from './MultiplayerPage';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
@@ -35,6 +35,18 @@ it('联机入口校验昵称和六位房间码并按玩法进入创建配置', (
   expect(screen.getByText('猜曲 × 3')).toBeVisible();
   expect(screen.getByText('排序 × 3')).toBeVisible();
   expect(screen.getByText('老资历 × 3')).toBeVisible();
+});
+
+it('加入房间列的水友群提示只复制群号并显示成功提示', async () => {
+  const writeText = vi.fn().mockResolvedValue(undefined);
+  Object.defineProperty(window.navigator, 'clipboard', { configurable: true, value: { writeText } });
+  render(<MultiplayerPage view="entry" songs={songs} presets={presets} onNavigate={vi.fn()} onBack={vi.fn()} />);
+  expect(screen.getByText('请输入你的昵称：')).toBeVisible();
+  expect(screen.getByText('加入房间：')).toBeVisible();
+  expect(screen.getByText('创建房间：')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: '复制联机水友 QQ 群号' }));
+  await waitFor(() => expect(writeText).toHaveBeenCalledWith('1087737854'));
+  expect(screen.getByRole('status')).toHaveTextContent('已复制群号！');
 });
 
 it('本人和对手都显示七列字段反馈，但对手不显示具体歌曲文字', () => {

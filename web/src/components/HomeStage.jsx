@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import guessIllustration from '../assets/home-stage/guess-illustration.webp';
-import musicGuessIllustration from '../assets/home-stage/music-guess-illustration.png';
+import musicGuessIllustration from '../assets/home-stage/music-guess-illustration.webp';
 import producerIllustration from '../assets/home-stage/producer-illustration.webp';
 import multiplayerIllustration from '../assets/home-stage/multiplayer-illustration.webp';
 import sortingIllustration from '../assets/home-stage/sorting-illustration.webp';
@@ -15,12 +15,14 @@ const MODES = [
   { id: 'producer', index: '03', glyph: 'P', title: '闪耀的 Producer', kicker: '沿着代表作认出创作者', description: '从投稿年份、代表歌曲和创作线索中，找出熟悉的中 V 音乐人。', colors: ['#f04a5d', '#52163a', '#ffb19f'], illustration: producerIllustration, artScale: 1.06, artShiftX: '-3%', mobileArtPosition: '91% 0%' },
   { id: 'sorting', index: '04', glyph: '序', title: '歌曲大排序', kicker: '重建属于歌曲的时间线', description: '拖动熟悉的作品，让它们回到正确的先后顺序与年代。', colors: ['#238a7d', '#006666', '#b6fff0'], illustration: sortingIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '86%' },
   { id: 'crossword', index: '05', glyph: '字', title: '曲名填字', kicker: '让歌名在交叉处相遇', description: '沿着相交的文字线索，补全一张由中 V 曲名组成的棋盘。', colors: ['#d85bca', '#65308f', '#ffd0f8'], illustration: crosswordIllustration, mobileArtPosition: '72% 0%', mobileArtSize: '90%' },
-  { id: 'seniority', index: '06', glyph: '年', title: '谁是老资历？', kicker: '挑战你的中 V 年代感', description: '比较两首歌曲的发布时间，判断谁更早来到这里。', colors: ['#9a79ff', '#332471', '#f0ddff'], illustration: seniorityIllustration, mobileArtPosition: '79% 0%', mobileArtSize: '84%' },
+  { id: 'seniority', index: '06', glyph: '年', title: '谁是老资历', kicker: '挑战你的中 V 年代感', description: '比较两首歌曲的发布时间，判断谁更早来到这里。', colors: ['#9a79ff', '#332471', '#f0ddff'], illustration: seniorityIllustration, mobileArtPosition: '79% 0%', mobileArtSize: '84%' },
 { id: 'music-guess', index: '07', glyph: '♫', title: '听歌识曲', kicker: '十五秒旋律 · 三条命挑战', description: '从熟悉的旋律中想起记忆中的曲子。', colors: ['#f18ab7', '#8b3d99', '#ffd2e8'], illustration: musicGuessIllustration, mobileArtPosition: '88% 0%' },
-  { id: 'database', index: '08', glyph: '库', title: '数据库', kicker: '504 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'], illustration: databaseIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '90%' },
+  { id: 'database', index: '08', glyph: '库', title: '数据库', kicker: '519 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'], illustration: databaseIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '90%' },
 ];
 
 const STEP_DEGREES = 360 / MODES.length;
+const MODE_EXIT_DURATION = 720;
+const QQ_GROUP_COPY_TEXT = '1087737854';
 const artworkPreloads = new Map();
 
 function preloadArtwork(url) {
@@ -40,10 +42,16 @@ export default function HomeStage({ actions }) {
   const [direction, setDirection] = useState(1);
   const [wheelPosition, setWheelPosition] = useState(0);
   const [quickOpen, setQuickOpen] = useState(false);
+  const [cgHidden, setCgHidden] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState('');
   const wheelAccumulator = useRef(0);
   const wheelLockedUntil = useRef(0);
   const touchStart = useRef(null);
   const transitionTimer = useRef(null);
+  const exitTimer = useRef(null);
+  const isExitingRef = useRef(false);
+  const copyFeedbackTimer = useRef(null);
   const activeMode = MODES[activeIndex];
 
   useEffect(() => {
@@ -82,7 +90,51 @@ export default function HomeStage({ actions }) {
 
   const stepMode = useCallback((step) => selectMode(activeIndex + step, step), [activeIndex, selectMode]);
 
-  useEffect(() => () => window.clearTimeout(transitionTimer.current), []);
+  useEffect(() => () => {
+    window.clearTimeout(transitionTimer.current);
+    window.clearTimeout(exitTimer.current);
+    window.clearTimeout(copyFeedbackTimer.current);
+  }, []);
+
+  const enterMode = useCallback((modeId) => {
+    const action = actions[modeId];
+    if (!action || isExitingRef.current) return;
+    isExitingRef.current = true;
+    setQuickOpen(false);
+    setIsExiting(true);
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    exitTimer.current = window.setTimeout(action, reducedMotion ? 0 : MODE_EXIT_DURATION);
+  }, [actions]);
+
+  const copyQqGroup = async () => {
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(QQ_GROUP_COPY_TEXT);
+        copied = true;
+      }
+    } catch {
+      // Fall through to the legacy clipboard path.
+    }
+    if (!copied) {
+      const textarea = document.createElement('textarea');
+      textarea.value = QQ_GROUP_COPY_TEXT;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        copied = document.execCommand?.('copy') ?? false;
+      } catch {
+        copied = false;
+      }
+      textarea.remove();
+    }
+    setCopyFeedback(copied ? '已复制群号！' : '复制失败，请手动复制');
+    window.clearTimeout(copyFeedbackTimer.current);
+    copyFeedbackTimer.current = window.setTimeout(() => setCopyFeedback(''), 1600);
+  };
 
   const handleWheel = (event) => {
     if (Math.abs(event.deltaY) < Math.abs(event.deltaX)) return;
@@ -105,7 +157,7 @@ export default function HomeStage({ actions }) {
       event.preventDefault();
       stepMode(-1);
     } else if (event.key === 'Enter') {
-      actions[activeMode.id]?.();
+      enterMode(activeMode.id);
     }
   };
 
@@ -137,7 +189,8 @@ export default function HomeStage({ actions }) {
   const wheelRotation = -wheelPosition * STEP_DEGREES;
 
   return (
-    <main className="home-stage" tabIndex="0" onWheel={handleWheel} onKeyDown={handleKeyDown} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label="首页玩法轮盘">
+    <main className={'home-stage' + (isExiting ? ' is-exiting' : '')} tabIndex="0" onWheel={handleWheel} onKeyDown={handleKeyDown} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label="首页玩法轮盘">
+      {cgHidden && <div className="home-cg-hidden-layer" aria-hidden="true" />}
       {previousIndex !== null && (
         <div className={`home-stage-scene previous direction-${direction > 0 ? 'next' : 'previous'} ${MODES[previousIndex].illustration ? 'has-illustration' : ''}`} style={stageStyle(MODES[previousIndex])} aria-hidden="true">
           <div className="home-stage-art" />
@@ -151,7 +204,14 @@ export default function HomeStage({ actions }) {
 
       <header className="home-stage-header">
         <div className="home-stage-brand"><span className="brand-mark" aria-hidden="true" /><div><small>自由小游聚合页</small><strong>洛一把</strong></div></div>
-        <button type="button" className="home-quick-toggle" aria-expanded={quickOpen} onClick={() => setQuickOpen((open) => !open)}><span aria-hidden="true">▦</span> 快速入口</button>
+        <div className="home-header-tools">
+          <button type="button" className="home-quick-toggle" aria-expanded={quickOpen} onClick={() => setQuickOpen((open) => !open)}><span aria-hidden="true">▦</span> 快速入口</button>
+          <div className="home-header-cards">
+            <button type="button" className="home-header-card qq-card" onClick={copyQqGroup} aria-label="复制联机水友 QQ 群号"><span>欢迎加入</span><span>联机水友Q群</span></button>
+            <button type="button" className="home-header-card cg-card" onClick={() => setCgHidden((hidden) => !hidden)} aria-label={cgHidden ? '显示主页 AI CG' : '隐藏主页 AI CG'}><span>CG为AI生成</span><span>{cgHidden ? '点击显示' : '点击隐藏'}</span></button>
+          </div>
+          {copyFeedback && <div className={'home-header-copy-feedback ' + (copyFeedback === '已复制群号！' ? 'success' : 'error')} role="status" aria-live="polite">{copyFeedback}</div>}
+        </div>
       </header>
 
       <section className="home-stage-copy" aria-live="polite">
@@ -160,7 +220,7 @@ export default function HomeStage({ actions }) {
         <strong>{activeMode.kicker}</strong>
         <small>{activeMode.description}</small>
         <div className="home-stage-actions">
-          <button type="button" className="home-stage-enter" onClick={() => actions[activeMode.id]?.()}>进入当前玩法 <span aria-hidden="true">→</span></button>
+          <button type="button" className="home-stage-enter" onClick={() => enterMode(activeMode.id)}>进入当前玩法 <span aria-hidden="true">→</span></button>
         </div>
       </section>
 
@@ -190,7 +250,7 @@ export default function HomeStage({ actions }) {
       <aside className={`home-quick-panel ${quickOpen ? 'open' : ''}`} aria-label="旧版快速切换入口" aria-hidden={!quickOpen}>
         <div className="content-grid">
           {MODES.map((mode) => (
-            <button key={mode.id} type="button" className={`content-card available ${mode.id}-card`} onClick={() => actions[mode.id]?.()}>
+            <button key={mode.id} type="button" className={`content-card available ${mode.id}-card`} onClick={() => enterMode(mode.id)}>
               {mode.id !== 'database' && <span className="card-index">{mode.index}</span>}
               <span className="music-glyph" aria-hidden="true">{mode.glyph}</span>
               <span className="card-copy"><strong>{mode.title}</strong><small>{mode.description}</small></span>

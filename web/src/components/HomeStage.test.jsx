@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import HomeStage from './HomeStage';
 
@@ -7,7 +7,7 @@ function actions() {
 }
 
 describe('唱片轮盘首页', () => {
-  it('点击和方向键会旋转选择，但只有进入按钮才打开玩法', () => {
+  it('点击和方向键会旋转选择，但只有进入按钮才打开玩法', async () => {
     const callbacks = actions();
     const { container } = render(<HomeStage actions={callbacks} />);
     expect(screen.getByRole('heading', { name: '曲目猜猜看' })).toBeVisible();
@@ -18,17 +18,31 @@ describe('唱片轮盘首页', () => {
     fireEvent.keyDown(screen.getByLabelText('首页玩法轮盘'), { key: 'ArrowRight' });
     expect(screen.getByRole('heading', { name: '闪耀的 Producer' })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: '进入当前玩法' }));
-    expect(callbacks.producer).toHaveBeenCalledOnce();
+    expect(screen.getByLabelText('首页玩法轮盘')).toHaveClass('is-exiting');
+    await waitFor(() => expect(callbacks.producer).toHaveBeenCalledOnce(), { timeout: 1500 });
   });
 
-  it('旧版快速入口默认收起，展开后仍可直接进入任意模式', () => {
+  it('旧版快速入口默认收起，展开后仍可直接进入任意模式', async () => {
     const callbacks = actions();
     render(<HomeStage actions={callbacks} />);
     expect(screen.getByLabelText('旧版快速切换入口')).toHaveAttribute('aria-hidden', 'true');
     fireEvent.click(screen.getByRole('button', { name: /快速入口/u }));
     expect(screen.getByLabelText('旧版快速切换入口')).toHaveAttribute('aria-hidden', 'false');
     fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
-    expect(callbacks.sorting).toHaveBeenCalledOnce();
+    await waitFor(() => expect(callbacks.sorting).toHaveBeenCalledOnce(), { timeout: 1500 });
+  });
+
+  it('右上角卡片可以复制群号并隐藏或恢复主页 CG', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(window.navigator, 'clipboard', { configurable: true, value: { writeText } });
+    const { container } = render(<HomeStage actions={actions()} />);
+    fireEvent.click(screen.getByRole('button', { name: '复制联机水友 QQ 群号' }));
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('1087737854'));
+    expect(screen.getByRole('status')).toHaveTextContent('已复制群号！');
+    fireEvent.click(screen.getByRole('button', { name: '隐藏主页 AI CG' }));
+    expect(container.querySelector('.home-cg-hidden-layer')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: '显示主页 AI CG' }));
+    expect(container.querySelector('.home-cg-hidden-layer')).toBeNull();
   });
 
   it('滚轮达到阈值后切换一档并显示前后两层 CG', () => {

@@ -2,7 +2,7 @@ const MODES = [
   {
     id: 'older',
     icon: '早',
-    title: '谁是老资历？',
+    title: '谁是老资历',
     description: '选择发布时间更早的歌曲，看看你对曲库历史有多熟悉。',
   },
   {

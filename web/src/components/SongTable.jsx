@@ -9,7 +9,8 @@ export const SONG_FEEDBACK_COLUMNS = [
 ];
 
 function normalizeMember(value) {
-  return String(value ?? '').normalize('NFKC').toLocaleLowerCase('zh-CN').trim();
+  const normalized = String(value ?? '').normalize('NFKC').toLocaleLowerCase('zh-CN').trim();
+  return normalized === 'minus' ? '永夜minus' : normalized;
 }
 
 function Direction({ direction }) {
@@ -118,7 +119,7 @@ function GuessRow({ entry }) {
 
 export default function SongTable({ answer, guesses, hintLevel, finished }) {
   return (
-    <section className="table-section" aria-labelledby="table-title">
+    <section className="table-section game-feedback-table" aria-labelledby="table-title">
       <div className="table-heading">
         <div><p className="eyebrow">猜测记录</p><h2 id="table-title">答案就在这里</h2></div>
         <div className="legend" aria-label="反馈图例">

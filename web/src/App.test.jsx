@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
+import { UPDATE_NOTICE_STORAGE_KEY } from './components/UpdateNoticeDialog';
 
 const songs = [
   {
@@ -72,10 +73,48 @@ function openHomeQuickEntry() {
   fireEvent.click(screen.getByRole('button', { name: /快速入口/u }));
 }
 
-afterEach(() => window.history.replaceState({}, '', '/'));
+async function enterHomeMode(button) {
+  fireEvent.click(button);
+  await waitFor(() => expect(document.querySelector('.route-view-enter')).toBeInTheDocument(), { timeout: 1500 });
+}
+
+afterEach(() => {
+  window.history.replaceState({}, '', '/');
+  window.localStorage.removeItem(UPDATE_NOTICE_STORAGE_KEY);
+});
 
 describe('App 交互', () => {
-  it('主页按新顺序展示玩法并开放 P 主入口', () => {
+  it('首次从主页进入时显示更新公告，确认后记住已读状态', () => {
+    window.history.replaceState({}, '', '/');
+    render(<App songs={songs} presets={presets} />);
+    expect(screen.getByRole('dialog', { name: '2026-08-29更新' })).toBeVisible();
+    expect(screen.getByText('1. 模式上新')).toBeVisible();
+    expect(screen.getByText('2. 曲库优化')).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: '知道了，开始探索' }));
+    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+    expect(window.localStorage.getItem(UPDATE_NOTICE_STORAGE_KEY)).toBe('dismissed');
+  });
+
+  it('点击主页 QQ 群卡片可以复制群号并显示成功提示', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(window.navigator, 'clipboard', { configurable: true, value: { writeText } });
+    window.history.replaceState({}, '', '/');
+    render(<App songs={songs} presets={presets} />);
+    fireEvent.click(document.querySelector('.home-header-card.qq-card'));
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('1087737854'));
+    expect(screen.getByRole('status')).toHaveTextContent('已复制群号！');
+  });
+
+  it('从其它模式返回主页时不会触发首次公告', () => {
+    window.history.replaceState({}, '', '/play/easy');
+    render(<App songs={songs} presets={presets} random={() => 0} />);
+    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+    window.history.pushState({}, '', '/');
+    fireEvent(window, new PopStateEvent('popstate'));
+    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+  });
+
+  it('主页按新顺序展示玩法并开放 P 主入口', async () => {
     const { container } = render(<App songs={songs} presets={presets} initialPage="home" />);
     openHomeQuickEntry();
     const cardTitles = [...container.querySelectorAll('.content-card')]
@@ -86,7 +125,7 @@ describe('App 交互', () => {
       '闪耀的 Producer',
       '歌曲大排序',
       '曲名填字',
-      '谁是老资历？',
+      '谁是老资历',
       '听歌识曲',
       '数据库',
     ]);
@@ -95,7 +134,7 @@ describe('App 交互', () => {
     expect(screen.getByRole('button', { name: /^数据库/u }).querySelector('.card-index')).toBeNull();
     const producerCard = screen.getByRole('button', { name: /闪耀的 Producer/u });
     expect(producerCard).toHaveClass('producer-card', 'available');
-    fireEvent.click(producerCard);
+    await enterHomeMode(producerCard);
     expect(screen.getByRole('heading', { name: '选择挑战范围' })).toBeVisible();
     expect(screen.getByRole('button', { name: /名 P 模式/u })).toHaveTextContent('45 位候选');
     expect(screen.getByRole('button', { name: /全 P 主模式/u })).toHaveTextContent('104 位候选');
@@ -113,15 +152,15 @@ describe('App 交互', () => {
     expect(window.HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
     await waitFor(() => expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled(), { timeout: 1500 });
     audio.currentTime = 42;
-    fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(document.querySelector('audio')).toBe(audio);
     expect(document.querySelector('audio').currentTime).toBe(42);
   });
 
-  it('从主页进入曲库页并通过预设开始', () => {
+  it('从主页进入曲库页并通过预设开始', async () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     openHomeQuickEntry();
-    fireEvent.click(screen.getByRole('button', { name: /曲目猜猜看/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /曲目猜猜看/u }));
     expect(screen.getByText('选择曲库范围')).toBeVisible();
     expect(screen.getByRole('button', { name: /开始游戏 · 2 首/u })).toBeEnabled();
     expect(screen.getByRole('button', { name: /挑战全曲库/u })).toBeVisible();
@@ -133,11 +172,11 @@ describe('App 交互', () => {
     expect(screen.getByRole('columnheader', { name: '特殊标注' })).toBeVisible();
   });
 
-  it('从主页进入曲名填字且全局 BGM 不会重新挂载', () => {
+  it('从主页进入曲名填字且全局 BGM 不会重新挂载', async () => {
     render(<App random={() => 0.27} initialPage="home" />);
     openHomeQuickEntry();
     const audio = document.querySelector('audio');
-    fireEvent.click(screen.getByRole('button', { name: /曲名填字/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /曲名填字/u }));
     expect(screen.getByRole('heading', { name: '选择填字曲库' })).toBeVisible();
     expect(screen.getByRole('button', { name: /禾念系/u })).toBeVisible();
     expect(screen.getByRole('button', { name: /五维介质系/u })).toBeVisible();
@@ -147,26 +186,26 @@ describe('App 交互', () => {
     expect(document.querySelector('audio')).toBe(audio);
   });
 
-  it('从主页进入联网听歌识曲并选择测试歌单', () => {
+  it('从主页进入联网听歌识曲并选择测试歌单', async () => {
     render(<App initialPage="home" />);
     openHomeQuickEntry();
-    fireEvent.click(screen.getByRole('button', { name: /听歌识曲/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /听歌识曲/u }));
     expect(screen.getByRole('heading', { name: '选择猜测歌单' })).toBeVisible();
     expect(screen.getByRole('button', { name: '选择歌单' })).toBeEnabled();
     expect(screen.getByRole('link', { name: /网易云歌单（部分）/u })).toHaveAttribute('href', 'https://music.163.com/#/playlist?id=18330761615');
   });
 
-  it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', () => {
+  it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', async () => {
     render(<App songs={songs} presets={presets} random={() => 0} initialPage="home" />);
     openHomeQuickEntry();
     const audio = document.querySelector('audio');
-    fireEvent.click(screen.getByRole('button', { name: /谁是老资历/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /谁是老资历/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
     expect(screen.getByRole('button', { name: /开始比较 · 2 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '这次要找更早，还是更新？' })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /谁是老资历/u }));
-    expect(screen.getByRole('heading', { name: '谁是老资历？' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: '谁是老资历' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: /作为更早发布的歌曲/u })).toHaveLength(2);
     expect(document.querySelector('audio')).toBe(audio);
   });
@@ -174,17 +213,17 @@ describe('App 交互', () => {
   it('通过 URL 参数恢复小资历模式', () => {
     window.history.replaceState({}, '', '/seniority/preset/all?mode=newer');
     render(<App songs={songs} presets={presets} database={database} random={() => 0} />);
-    expect(screen.getByRole('heading', { name: '谁是小资历？' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: '谁是小资历' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: /作为更新发布的歌曲/u })).toHaveLength(2);
   });
 
-  it('从主页进入歌曲大排序模式页且全局 BGM 不会重新挂载', () => {
+  it('从主页进入歌曲大排序模式页且全局 BGM 不会重新挂载', async () => {
     render(<App random={() => 0.17} initialPage="home" />);
     openHomeQuickEntry();
     const audio = document.querySelector('audio');
-    fireEvent.click(screen.getByRole('button', { name: /歌曲大排序/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /进入排序 · 504 首/u })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /进入排序 · 519 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
     expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();
@@ -192,11 +231,11 @@ describe('App 交互', () => {
     expect(document.querySelector('audio')).toBe(audio);
   });
 
-  it('从主页选择歌姬并浏览、搜索数据库和打开详情', () => {
+  it('从主页选择歌姬并浏览、搜索数据库和打开详情', async () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     openHomeQuickEntry();
     const audio = document.querySelector('audio');
-    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /^数据库/u }));
     expect(screen.getByRole('heading', { name: '选择数据库' })).toBeVisible();
     expect(screen.getByRole('button', { name: /^全曲库/u })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /洛天依/u }));
@@ -212,19 +251,19 @@ describe('App 交互', () => {
     expect(within(dialog).getByRole('link', { name: /Bilibili/u })).toHaveAttribute('href', songs[1].bilibiliUrl);
   });
 
-  it('数据库首项可进入全曲库总览', () => {
+  it('数据库首项可进入全曲库总览', async () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     openHomeQuickEntry();
-    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /^数据库/u }));
     fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
     expect(screen.getByRole('heading', { name: '全曲库资料' })).toBeVisible();
     expect(screen.getByText('2 / 2 首')).toBeVisible();
   });
 
-  it('P 主数据库与全曲库并列并可搜索资料', () => {
+  it('P 主数据库与全曲库并列并可搜索资料', async () => {
     render(<App songs={songs} presets={presets} database={database} initialPage="home" />);
     openHomeQuickEntry();
-    fireEvent.click(screen.getByRole('button', { name: /^数据库/u }));
+    await enterHomeMode(screen.getByRole('button', { name: /^数据库/u }));
     const featured = document.querySelector('.database-featured-grid');
     expect(within(featured).getByRole('button', { name: /^全曲库/u })).toBeVisible();
     fireEvent.click(within(featured).getByRole('button', { name: /P 主数据库/u }));
