@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import GlobalBgm from './GlobalBgm';
 
 describe('全局 BGM 播放列表', () => {
@@ -25,5 +25,17 @@ describe('全局 BGM 播放列表', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: /10-霜雪千年/u }));
     expect(screen.getByText('10-霜雪千年')).toBeVisible();
     expect(window.HTMLMediaElement.prototype.play).toHaveBeenCalled();
+  });
+
+  it('联网歌单加载成功后替换本地曲目并显示歌手与封面', async () => {
+    const playlistLoader = vi.fn().mockResolvedValue([
+      { id: 'cloud-1', name: '云端歌曲', artist: '云端歌手', url: 'https://cdn.example/cloud.mp3', cover: 'https://cdn.example/cloud.jpg' },
+    ]);
+    render(<GlobalBgm random={() => 0} playlistLoader={playlistLoader} />);
+
+    await waitFor(() => expect(screen.getByText('云端歌曲')).toBeVisible());
+    fireEvent.click(screen.getByRole('button', { name: '选择背景音乐' }));
+    expect(screen.getByRole('menuitemradio', { name: /云端歌曲/u })).toHaveTextContent('云端歌手');
+    expect(document.querySelector('.bgm-cover')).toHaveAttribute('src', 'https://cdn.example/cloud.jpg');
   });
 });

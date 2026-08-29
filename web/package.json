@@ -7,6 +7,7 @@
     "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs && node scripts/generate-database-data.mjs && node scripts/generate-producer-data.mjs",
     "predev": "npm run generate:data",
     "dev": "vite --configLoader runner",
+    "preview": "vite preview",
     "prebuild": "npm run generate:data",
     "build": "vite build --configLoader runner",
     "build:toy": "npm run generate:data && vite build --config vite.toy.config.js --configLoader runner && node scripts/validate-toy-build.mjs",

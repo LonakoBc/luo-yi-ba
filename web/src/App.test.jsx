@@ -87,10 +87,11 @@ describe('App 交互', () => {
       '歌曲大排序',
       '曲名填字',
       '谁是老资历？',
+      '听歌识曲',
       '数据库',
     ]);
     expect([...container.querySelectorAll('.content-card .card-index')].map((index) => index.textContent))
-      .toEqual(['01', '02', '03', '04', '05', '06']);
+      .toEqual(['01', '02', '03', '04', '05', '06', '07']);
     expect(screen.getByRole('button', { name: /^数据库/u }).querySelector('.card-index')).toBeNull();
     const producerCard = screen.getByRole('button', { name: /闪耀的 Producer/u });
     expect(producerCard).toHaveClass('producer-card', 'available');
@@ -144,6 +145,15 @@ describe('App 交互', () => {
     expect(screen.getByRole('heading', { name: '让熟悉的歌名在交叉处相遇' })).toBeVisible();
     expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
     expect(document.querySelector('audio')).toBe(audio);
+  });
+
+  it('从主页进入联网听歌识曲并选择测试歌单', () => {
+    render(<App initialPage="home" />);
+    openHomeQuickEntry();
+    fireEvent.click(screen.getByRole('button', { name: /听歌识曲/u }));
+    expect(screen.getByRole('heading', { name: '选择猜测歌单' })).toBeVisible();
+    expect(screen.getByRole('button', { name: '选择歌单' })).toBeEnabled();
+    expect(screen.getByRole('link', { name: /网易云歌单（部分）/u })).toHaveAttribute('href', 'https://music.163.com/#/playlist?id=18330761615');
   });
 
   it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', () => {

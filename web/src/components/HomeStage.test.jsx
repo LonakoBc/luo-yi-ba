@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import HomeStage from './HomeStage';
 
 function actions() {
-  return Object.fromEntries(['guess', 'multiplayer', 'producer', 'sorting', 'crossword', 'seniority', 'database'].map((id) => [id, vi.fn()]));
+  return Object.fromEntries(['guess', 'multiplayer', 'producer', 'sorting', 'crossword', 'seniority', 'music-guess', 'database'].map((id) => [id, vi.fn()]));
 }
 
 describe('唱片轮盘首页', () => {
@@ -14,7 +14,7 @@ describe('唱片轮盘首页', () => {
     fireEvent.click(screen.getByRole('button', { name: '下一个玩法' }));
     expect(screen.getByRole('heading', { name: '多人联机' })).toBeVisible();
     expect(callbacks.multiplayer).not.toHaveBeenCalled();
-    expect(container.querySelector('.home-disc')).toHaveAttribute('style', expect.stringContaining('-51.428'));
+    expect(container.querySelector('.home-disc')).toHaveAttribute('style', expect.stringContaining('-45deg'));
     fireEvent.keyDown(screen.getByLabelText('首页玩法轮盘'), { key: 'ArrowRight' });
     expect(screen.getByRole('heading', { name: '闪耀的 Producer' })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: '进入当前玩法' }));
@@ -41,8 +41,8 @@ describe('唱片轮盘首页', () => {
   it('\u6700\u540e\u4e00\u4e2a\u73a9\u6cd5\u7ee7\u7eed\u5411\u4e0b\u65f6\u53ea\u65cb\u8f6c\u4e00\u6863\u5e76\u5faa\u73af\u56de\u5230\u7b2c\u4e00\u4e2a\u73a9\u6cd5', () => {
     const { container } = render(<HomeStage actions={actions()} />);
     const nextButton = screen.getByRole('button', { name: '下一个玩法' });
-    for (let step = 0; step < 6; step += 1) fireEvent.click(nextButton);
-    expect(container.querySelector('.home-disc')).toHaveAttribute('style', expect.stringContaining('-308.571'));
+    for (let step = 0; step < 7; step += 1) fireEvent.click(nextButton);
+    expect(container.querySelector('.home-disc')).toHaveAttribute('style', expect.stringContaining('-315deg'));
     fireEvent.click(nextButton);
     expect(container.querySelector('.home-disc')).toHaveAttribute('style', expect.stringContaining('-360deg'));
   });

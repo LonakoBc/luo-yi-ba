@@ -1,0 +1,134 @@
+.music-guess-page { min-height: 100vh; background: radial-gradient(circle at 90% 0%,rgba(255,199,221,.55),transparent 35%),linear-gradient(145deg,#fff1f7,#fbfdff 48%,#eef7ff); }
+.music-guess-header { gap: 20px; max-width: 920px; padding-top: 8px; }.music-guess-header-actions { display: flex; align-items: center; gap: 20px; }.music-guess-playlist-link { color: #bd4b7f; font-size: 12px; font-weight: 800; text-decoration: none; }.music-guess-playlist-link:hover { text-decoration: underline; }
+.music-guess-library-main,.music-guess-main { width: min(920px,100%); margin: 0 auto; padding: clamp(58px,10vh,110px) 0 80px; }.music-guess-library-main h2,.music-guess-heading h2 { margin: 0; color: #632449; font-size: clamp(40px,6vw,68px); letter-spacing: -.06em; }.music-guess-intro { max-width: 620px; margin: 15px 0 0; color: #795b70; font-size: 15px; line-height: 1.8; }.music-guess-playlist-grid { display: grid; gap: 18px; margin-top: 35px; }.music-guess-playlist-card { display: grid; grid-template-columns: 110px minmax(0,1fr) auto; align-items: center; gap: 22px; padding: 24px; border: 1px solid #f0cddd; border-radius: 26px; background: rgba(255,255,255,.84); box-shadow: 0 20px 55px rgba(155,58,111,.1); }.music-guess-playlist-art { display: grid; place-items: center; width: 110px; height: 110px; border-radius: 28px 28px 28px 8px; color: white; background: linear-gradient(145deg,#ff8ebc,#ad5ce4); font-size: 52px; box-shadow: 0 15px 30px rgba(190,82,144,.24); }.music-guess-playlist-copy { min-width: 0; }.music-guess-playlist-copy .eyebrow { color: #c35286; }.music-guess-playlist-copy h3 { margin: 0 0 8px; color: #632449; font-size: 25px; }.music-guess-playlist-copy p:not(.eyebrow) { margin: 0 0 8px; color: #7c6876; font-size: 13px; }.music-guess-playlist-copy small { color: #bd789c; font-size: 11px; }.music-guess-playlist-actions { display: grid; justify-items: end; gap: 12px; }.music-guess-playlist-actions .primary-button { color: white; background: linear-gradient(135deg,#ed74aa,#a961df); }.music-guess-state { display: grid; place-items: center; width: min(680px,100%); margin: 0 auto; padding: 15vh 0; text-align: center; }.music-guess-state-icon { display: grid; place-items: center; width: 76px; height: 76px; margin-bottom: 18px; border-radius: 25px 25px 25px 7px; color: white; background: linear-gradient(145deg,#ff8dbd,#a95de0); font-size: 36px; box-shadow: 0 15px 35px rgba(190,82,144,.23); }.music-guess-state-icon.error { background: linear-gradient(145deg,#ff9b9b,#df6679); }.music-guess-state h2 { margin: 0; color: #632449; font-size: 28px; }.music-guess-state p { color: #795b70; }.music-guess-state .result-actions { width: min(380px,100%); margin-top: 15px; }
+.music-guess-heading { display: flex; align-items: end; justify-content: space-between; gap: 22px; margin-bottom: 25px; }.music-guess-heading > div > p:last-child { margin: 11px 0 0; color: #795b70; }.music-guess-stats { display: flex; padding: 9px; border: 1px solid #f0cddd; border-radius: 17px; background: rgba(255,255,255,.7); }.music-guess-stats span { display: grid; min-width: 72px; padding: 4px 12px; color: #a17d91; font-size: 10px; text-align: center; }.music-guess-stats span + span { border-left: 1px solid #f0dce6; }.music-guess-stats strong { color: #9d3f70; font-size: 20px; line-height: 1.2; }
+.music-guess-board { display: grid; gap: 10px; }.music-guess-player-row { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 19px; min-height: 135px; padding: 22px 25px; border: 2px solid #e9acd0; border-radius: 25px; background: linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,233,246,.92)); box-shadow: 0 18px 45px rgba(165,69,126,.12); }.music-guess-play-button { display: flex; align-items: center; gap: 13px; padding: 0; border: 0; color: #fff; background: transparent; cursor: pointer; }.music-guess-play-icon { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 20px 20px 20px 6px; background: linear-gradient(145deg,#f184b4,#a55fe0); font-size: 21px; box-shadow: 0 10px 24px rgba(178,79,145,.24); }.music-guess-bars { display: flex; align-items: center; gap: 3px; height: 50px; padding: 0 4px; }.music-guess-bars i { display: block; width: 4px; height: 12px; border-radius: 99px; background: #d889b3; }.music-guess-bars.playing i { animation: musicGuessWave .72s ease-in-out infinite alternate; }.music-guess-bars.playing i:nth-child(2) { animation-delay: -.5s; }.music-guess-bars.playing i:nth-child(3) { animation-delay: -.3s; }.music-guess-bars.playing i:nth-child(4) { animation-delay: -.65s; }.music-guess-bars.playing i:nth-child(5) { animation-delay: -.2s; }.music-guess-bars.playing i:nth-child(6) { animation-delay: -.55s; }.music-guess-bars.playing i:nth-child(7) { animation-delay: -.4s; }.music-guess-player-copy { display: grid; min-width: 0; gap: 6px; }.music-guess-player-copy strong { overflow: hidden; color: #632449; font-size: 16px; text-overflow: ellipsis; white-space: nowrap; }.music-guess-player-copy small { color: #a27891; font-size: 11px; }.music-guess-replay { min-height: 40px; padding: 0 14px; border: 1px solid #e2a4c6; border-radius: 12px; color: #a13e72; background: #fff; cursor: pointer; font-weight: 800; }.music-guess-replay:hover:not(:disabled) { background: #fff1f8; transform: translateY(-1px); }.music-guess-replay:disabled { cursor: not-allowed; opacity: .45; }
+.music-guess-option { display: flex; align-items: center; justify-content: space-between; gap: 15px; width: 100%; min-height: 70px; padding: 0 24px; border: 1px solid #ead9e2; border-radius: 17px; color: #603d53; background: rgba(255,255,255,.86); box-shadow: 0 8px 25px rgba(109,62,94,.06); cursor: pointer; font-size: 16px; font-weight: 800; text-align: left; transition: transform .18s,border-color .18s,background .18s,box-shadow .18s; }.music-guess-option:hover:not(:disabled) { transform: translateY(-2px); border-color: #df8cba; background: #fff6fb; box-shadow: 0 14px 30px rgba(155,58,111,.12); }.music-guess-option:disabled { cursor: default; }.music-guess-option.selected { border-color: #bb77dd; background: #f5edff; }.music-guess-option.correct { border-color: #52bd95; color: #217352; background: #edfff6; }.music-guess-option.wrong { border-color: #e87f8b; color: #a83f53; background: #fff0f2; }.music-guess-option small { flex: 0 0 auto; font-size: 10px; }.music-guess-actions { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }.music-guess-note { margin: 18px 0 0; color: #ad8d9f; font-size: 10px; text-align: center; }.music-guess-game-page > audio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }.music-guess-confirm { width: min(500px,100%); }.music-guess-confirm p:not(.eyebrow) { color: #795b70; line-height: 1.7; }.music-guess-result { width: min(660px,100%); max-height: min(90vh,840px); overflow-y: auto; }.music-guess-evaluation { margin: 10px 0 18px; color: #795b70; }.music-guess-result-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; margin: 15px 0 20px; }.music-guess-result-stats span { display: grid; gap: 2px; padding: 10px 4px; border-radius: 12px; color: #a17d91; background: #fff1f8; font-size: 10px; }.music-guess-result-stats strong { color: #9d3f70; font-size: 20px; }.music-guess-history { display: grid; gap: 5px; max-height: 230px; margin-bottom: 20px; overflow-y: auto; text-align: left; }.music-guess-history-row { display: grid; grid-template-columns: 58px minmax(0,1fr) auto; align-items: center; gap: 9px; padding: 9px 11px; border-radius: 10px; color: #72586b; background: #fff7fb; font-size: 11px; }.music-guess-history-row.correct { color: #287958; background: #effff7; }.music-guess-history-row.wrong { color: #a84b5a; background: #fff1f2; }.music-guess-history-row small { font-size: 10px; font-weight: 800; }
+@keyframes musicGuessWave { from { height: 9px; opacity: .6; } to { height: 43px; opacity: 1; } }
+@media (max-width: 700px) { .music-guess-header { align-items: flex-start; }.music-guess-header-actions { align-items: flex-end; flex-direction: column-reverse; gap: 4px; }.music-guess-library-main,.music-guess-main { padding-top: 45px; }.music-guess-library-main h2,.music-guess-heading h2 { font-size: 42px; }.music-guess-playlist-card { grid-template-columns: 72px minmax(0,1fr); gap: 14px; padding: 16px; }.music-guess-playlist-art { width: 72px; height: 72px; border-radius: 20px 20px 20px 5px; font-size: 32px; }.music-guess-playlist-copy h3 { font-size: 19px; }.music-guess-playlist-copy p:not(.eyebrow) { font-size: 11px; }.music-guess-playlist-actions { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }.music-guess-heading { align-items: flex-start; flex-direction: column; gap: 14px; }.music-guess-stats { align-self: stretch; }.music-guess-stats span { flex: 1; }.music-guess-player-row { grid-template-columns: auto minmax(0,1fr); gap: 12px; min-height: 124px; padding: 17px; }.music-guess-replay { grid-column: 1 / -1; width: 100%; }.music-guess-player-copy strong { font-size: 13px; }.music-guess-player-copy small { line-height: 1.5; }.music-guess-option { min-height: 64px; padding-inline: 16px; font-size: 14px; }.music-guess-actions { flex-direction: column; }.music-guess-actions button { width: 100%; }.music-guess-result-stats { grid-template-columns: repeat(2,1fr); }.music-guess-history-row { grid-template-columns: 52px minmax(0,1fr); }.music-guess-history-row small { grid-column: 2; } }
+
+.music-guess-player-row { grid-template-columns: 170px auto minmax(0,1fr) auto; }
+.music-guess-video-preview { display: grid; place-items: center; width: 170px; height: 96px; overflow: hidden; border-radius: 14px; color: #fff; background: linear-gradient(145deg,#f184b4,#a55fe0); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3),0 8px 20px rgba(178,79,145,.16); }
+.music-guess-video-preview iframe { display: block; width: 100%; height: 100%; border: 0; }
+.music-guess-video-preview > span { font-size: 34px; opacity: .88; }
+@media (max-width: 700px) {
+  .music-guess-player-row { grid-template-columns: 112px auto minmax(0,1fr); }
+  .music-guess-video-preview { width: 112px; height: 72px; }
+  .music-guess-player-copy { grid-column: 1 / -1; }
+}
+/* Bilibili iframe only provides audio; keep it mounted but visually hidden. */
+.music-guess-player-row { grid-template-columns: 0 auto minmax(0,1fr) auto; }
+.music-guess-video-preview { position: absolute; left: -10000px; top: -10000px; width: 320px; height: 180px; opacity: 0; pointer-events: none; }
+@media (max-width: 700px) {
+  .music-guess-player-row { grid-template-columns: 0 auto minmax(0,1fr); }
+}
+/* Clear the hidden iframe column and make playback the primary action. */
+.music-guess-player-row { grid-template-columns: auto minmax(0,1fr) auto; gap: 22px; }
+.music-guess-player-row .music-guess-play-button { box-sizing: border-box; min-width: 154px; min-height: 76px; justify-content: center; padding: 9px 14px 9px 9px; border: 1px solid rgba(255,255,255,.75); border-radius: 22px 22px 22px 7px; background: linear-gradient(145deg,#f184b4,#a55fe0); box-shadow: 0 12px 28px rgba(178,79,145,.26); }
+.music-guess-player-row .music-guess-play-button:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(178,79,145,.34); }
+.music-guess-player-row .music-guess-play-button:focus-visible { outline: 3px solid #6e47b5; outline-offset: 3px; }
+.music-guess-play-icon { width: 64px; height: 64px; background: rgba(255,255,255,.2); box-shadow: inset 0 0 0 1px rgba(255,255,255,.36); }
+.music-guess-play-text { color: #fff; font-size: 13px; font-weight: 900; white-space: nowrap; }
+.music-guess-player-row .music-guess-bars { flex: 0 0 auto; }
+.music-guess-player-row .music-guess-bars i { background: #fff; }
+.music-guess-player-copy strong { font-size: 18px; }
+.music-guess-player-copy small { line-height: 1.55; }
+.music-guess-replay { min-width: 108px; }
+@media (max-width: 700px) {
+  .music-guess-player-row { grid-template-columns: auto minmax(0,1fr); gap: 12px; }
+  .music-guess-player-row .music-guess-play-button { min-width: 0; width: 100%; min-height: 68px; padding-right: 10px; }
+  .music-guess-play-icon { width: 52px; height: 52px; }
+  .music-guess-play-text { font-size: 11px; }
+  .music-guess-player-copy { grid-column: auto; }
+  .music-guess-replay { grid-column: 1 / -1; width: 100%; }
+}
+
+/* Local server audio replaces the former hidden cross-origin video player. */
+.music-guess-video-preview {
+  position: relative;
+  left: auto;
+  top: auto;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 22px 22px 22px 7px;
+  color: #fff;
+  background: linear-gradient(145deg, #f184b4, #a55fe0);
+  box-shadow: 0 12px 28px rgba(178, 79, 145, .2);
+  font-size: 30px;
+}
+.music-guess-video-preview small {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+.music-guess-game-page > audio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .music-guess-video-preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px 18px 18px 6px;
+    font-size: 24px;
+  }
+}
+
+.music-guess-developer-status {
+  margin: 0;
+  color: #557486;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.music-guess-developer-secondary {
+  color: #557486 !important;
+  background: #eef7fb !important;
+}
+/* Keep the playback controls and status together on desktop. */
+.music-guess-player-row {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+}
+.music-guess-video-preview {
+  display: none;
+}
+.music-guess-player-copy {
+  align-self: center;
+}
+
+@media (max-width: 700px) {
+  .music-guess-player-row {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .music-guess-player-row .music-guess-play-button,
+  .music-guess-player-copy,
+  .music-guess-replay {
+    grid-column: 1;
+  }
+  .music-guess-player-row .music-guess-play-button {
+    width: min(100%, 300px);
+  }
+  .music-guess-player-copy {
+    justify-items: center;
+  }
+  .music-guess-player-copy strong,
+  .music-guess-player-copy small {
+    white-space: normal;
+  }
+  .music-guess-replay {
+    width: auto;
+    min-width: 120px;
+  }
+}

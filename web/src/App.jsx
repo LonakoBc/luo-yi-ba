@@ -12,6 +12,8 @@ import FeedbackWidget from './components/FeedbackWidget';
 import GlobalBgm from './components/GlobalBgm';
 import HomeStage from './components/HomeStage';
 import LibraryPage from './components/LibraryPage';
+import MusicGuessLibraryPage from './components/MusicGuessLibraryPage';
+import MusicGuessPage from './components/MusicGuessPage';
 import MultiplayerPage from './components/MultiplayerPage';
 import ProducerGamePage from './components/ProducerGamePage';
 import ProducerDatabasePage from './components/ProducerDatabasePage';
@@ -22,6 +24,7 @@ import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
+import { getMusicGuessPlaylist, MUSIC_GUESS_PLAYLISTS } from './services/musicGuessService';
 import { USES_HASH_ROUTING, browserPath, readRouteLocation } from './services/appRouting';
 
 function routeFromLocation(pathname, search = '') {
@@ -49,6 +52,9 @@ function routeFromLocation(pathname, search = '') {
   const seniorityPresetMatch = pathname.match(/^\/seniority\/preset\/([a-z0-9-]+)$/u);
   if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
   if (pathname === '/seniority/custom') return { page: 'seniority', kind: 'custom', search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
+  if (pathname === '/music-guess') return { page: 'music-guess-select', routeKey: pathname };
+  const musicGuessMatch = pathname.match(/^\/music-guess\/playlist\/([a-z0-9-]+)$/u);
+  if (musicGuessMatch) return { page: 'music-guess', playlistId: musicGuessMatch[1], routeKey: pathname };
   if (pathname === '/database') return { page: 'database-select', routeKey: pathname };
   const databaseMatch = pathname.match(/^\/database\/([a-z0-9-]+)$/u);
   if (databaseMatch) return { page: 'database', databaseId: databaseMatch[1], routeKey: pathname };
@@ -160,6 +166,7 @@ export default function App({ songs = songData, presets = presetData, database =
   const startSortingPreset = (presetId) => navigate(`/sorting/preset/${presetId}`);
   const startSortingCustom = (filters) => navigate(`/sorting/custom?${filtersToSearch(filters)}`);
   const startCrosswordPreset = (presetId) => navigate(`/crossword/preset/${presetId}`);
+  const startMusicGuess = () => navigate('/music-guess');
 
   let pageContent;
   if (route.page === 'feedback-admin') {
@@ -223,6 +230,13 @@ export default function App({ songs = songData, presets = presetData, database =
       : senioritySongs.length >= 2
         ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} direction={direction} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
       : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
+  } else if (route.page === 'music-guess-select') {
+    pageContent = <MusicGuessLibraryPage playlists={MUSIC_GUESS_PLAYLISTS} onSelect={(playlistId) => navigate(`/music-guess/playlist/${playlistId}`)} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'music-guess') {
+    const playlist = getMusicGuessPlaylist(route.playlistId);
+    pageContent = playlist
+      ? <MusicGuessPage key={route.routeKey} playlist={playlist} songs={songs} random={random} onBack={() => navigate('/music-guess')} Brand={Brand} />
+      : <MusicGuessLibraryPage playlists={MUSIC_GUESS_PLAYLISTS} onSelect={(playlistId) => navigate(`/music-guess/playlist/${playlistId}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database-select') {
     pageContent = <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database') {
@@ -234,7 +248,8 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), database: () => navigate('/database') }} />;
+    pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), 'music-guess': startMusicGuess, database: () => navigate('/database') }} />;
   }
-  return <><GlobalBgm />{pageContent}<FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} /></>;
+  const musicGuessActive = route.page === 'music-guess-select' || route.page === 'music-guess';
+  return <><GlobalBgm suspended={musicGuessActive} />{pageContent}<FeedbackWidget onOpenAdmin={() => navigate('/feedback-admin')} /></>;
 }

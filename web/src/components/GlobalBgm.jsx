@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { bgmModules } from '#bgm-catalog';
+import { BGM_CONFIG, fetchBgmPlaylist } from '../services/bgmService';
 const VOLUME_STORAGE_KEY = 'luo-yi-ba-bgm-volume';
 const DEFAULT_VOLUME = 0.35;
 const DEFERRED_AUTOPLAY_DELAY_MS = 850;
 
 export const BGM_TRACKS = Object.entries(bgmModules).map(([filePath, url]) => {
   const fileName = filePath.split('/').pop().replace(/\.mp3$/iu, '');
-  return { id: fileName, name: fileName, url };
+  return { id: fileName, name: fileName, artist: '本地音频', url, cover: '', lyric: '' };
 }).sort((a, b) => a.name.localeCompare(b.name, 'zh-CN', { numeric: true }));
 
 function readInitialVolume() {
@@ -14,20 +15,24 @@ function readInitialVolume() {
   return Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : DEFAULT_VOLUME;
 }
 
-export default function GlobalBgm({ random = Math.random }) {
+export default function GlobalBgm({ random = Math.random, playlistLoader = fetchBgmPlaylist, suspended = false }) {
   const audioRef = useRef(null);
   const deferredPlayTimer = useRef(null);
-  const [trackIndex, setTrackIndex] = useState(() => Math.min(BGM_TRACKS.length - 1, Math.floor(random() * BGM_TRACKS.length)));
-  const previousTrackIndex = useRef(trackIndex);
+  const initialRandom = useRef();
+  if (initialRandom.current === undefined) initialRandom.current = random();
+  const [tracks, setTracks] = useState(BGM_TRACKS);
+  const [trackIndex, setTrackIndex] = useState(() => Math.min(BGM_TRACKS.length - 1, Math.floor(initialRandom.current * BGM_TRACKS.length)));
+  const previousTrackId = useRef(BGM_TRACKS[trackIndex]?.id);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(readInitialVolume);
   const [error, setError] = useState('');
+  const [playlistStatus, setPlaylistStatus] = useState('loading');
   const [pickerOpen, setPickerOpen] = useState(false);
-  const track = BGM_TRACKS[trackIndex];
+  const track = tracks[trackIndex] || tracks[0];
 
   const playCurrent = useCallback(async (fallbackMessage = '浏览器暂时无法播放音频') => {
     const audio = audioRef.current;
-    if (!audio) return false;
+    if (!audio || suspended) return false;
     try {
       await audio.play();
       setError('');
@@ -36,12 +41,29 @@ export default function GlobalBgm({ random = Math.random }) {
       setError(fallbackMessage);
       return false;
     }
-  }, []);
+  }, [suspended]);
 
   const nextTrack = useCallback(() => {
     setError('');
-    setTrackIndex((current) => (current + 1) % BGM_TRACKS.length);
-  }, []);
+    setTrackIndex((current) => (current + 1) % tracks.length);
+  }, [tracks.length]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void playlistLoader({ config: BGM_CONFIG }).then((remoteTracks) => {
+      if (cancelled || !remoteTracks.length) return;
+      const remoteIndex = Math.min(remoteTracks.length - 1, Math.floor(initialRandom.current * remoteTracks.length));
+      // Loading the remote catalog should not trigger an unsolicited autoplay.
+      previousTrackId.current = remoteTracks[remoteIndex]?.id;
+      setTracks(remoteTracks);
+      setTrackIndex(remoteIndex);
+      setError('');
+      setPlaylistStatus('remote');
+    }).catch(() => {
+      if (!cancelled) setPlaylistStatus('fallback');
+    });
+    return () => { cancelled = true; };
+  }, [playlistLoader]);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -57,7 +79,7 @@ export default function GlobalBgm({ random = Math.random }) {
     };
     function resumeAfterInteraction(event) {
       removeFallback();
-      if (event.target instanceof Element && event.target.closest('.bgm-player')) return;
+      if (suspended || (event.target instanceof Element && event.target.closest('.bgm-player'))) return;
       window.clearTimeout(deferredPlayTimer.current);
       deferredPlayTimer.current = window.setTimeout(() => {
         void playCurrent('点击音乐按钮即可继续播放');
@@ -70,17 +92,23 @@ export default function GlobalBgm({ random = Math.random }) {
       removeFallback();
       window.clearTimeout(deferredPlayTimer.current);
     };
-  }, [playCurrent]);
+  }, [playCurrent, suspended]);
 
   useEffect(() => {
-    if (previousTrackIndex.current === trackIndex) return;
-    previousTrackIndex.current = trackIndex;
+    if (!suspended) return;
+    audioRef.current?.pause();
+    setPlaying(false);
+  }, [suspended]);
+
+  useEffect(() => {
+    if (!track || previousTrackId.current === track.id) return;
+    previousTrackId.current = track.id;
     void playCurrent();
-  }, [playCurrent, trackIndex]);
+  }, [playCurrent, track]);
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || suspended) return;
     setError('');
     if (!audio.paused) {
       audio.pause();
@@ -96,11 +124,17 @@ export default function GlobalBgm({ random = Math.random }) {
     else setTrackIndex(index);
   };
 
+  const playlistHint = error || (playlistStatus === 'loading'
+    ? '正在连接网易云歌单'
+    : playlistStatus === 'remote'
+      ? `${track.artist || '网易云音乐'} · 联网歌单`
+      : '联网失败，使用本地音频');
+
   return (
     <aside className={`bgm-player ${playing ? 'playing' : ''}`} aria-label="背景音乐播放器">
       <audio
         ref={audioRef}
-        src={track.url}
+        src={track?.url}
         preload="none"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
@@ -108,12 +142,12 @@ export default function GlobalBgm({ random = Math.random }) {
         onError={() => setError('背景音乐加载失败')}
       />
       <button type="button" className="bgm-toggle" onClick={togglePlayback} aria-label={playing ? '暂停背景音乐' : '播放背景音乐'}>
-        <span className="bgm-icon" aria-hidden="true">{playing ? 'Ⅱ' : '♪'}</span>
-        <span className="bgm-copy"><strong>{track.name}</strong><small>{error || (playing ? '正在播放' : '点击播放背景音乐')}</small></span>
+        {track?.cover ? <img className="bgm-cover" src={track.cover} alt="" /> : <span className="bgm-icon" aria-hidden="true">{playing ? 'Ⅱ' : '♪'}</span>}
+        <span className="bgm-copy"><strong>{track?.name || '背景音乐'}</strong><small>{playing ? '正在播放' : playlistHint}</small></span>
       </button>
       <div className="bgm-picker-wrap">
         <button type="button" className="bgm-pick" onClick={() => setPickerOpen((open) => !open)} aria-expanded={pickerOpen} aria-controls="bgm-track-list" aria-label="选择背景音乐">♫</button>
-        {pickerOpen && <div id="bgm-track-list" className="bgm-track-list" role="menu">{BGM_TRACKS.map((item, index) => <button type="button" role="menuitemradio" aria-checked={index === trackIndex} className={index === trackIndex ? 'active' : ''} key={item.id} onClick={() => selectTrack(index)}><span>{item.name}</span>{index === trackIndex && <small>{playing ? '播放中' : '当前曲目'}</small>}</button>)}</div>}
+        {pickerOpen && <div id="bgm-track-list" className="bgm-track-list" role="menu">{tracks.map((item, index) => <button type="button" role="menuitemradio" aria-checked={index === trackIndex} className={index === trackIndex ? 'active' : ''} key={`${item.id}-${index}`} onClick={() => selectTrack(index)}><span><strong>{item.name}</strong><small>{item.artist}</small></span>{index === trackIndex && <small>{playing ? '播放中' : '当前曲目'}</small>}</button>)}</div>}
       </div>
       <button type="button" className="bgm-next" onClick={nextTrack} aria-label="播放下一首背景音乐" title="下一首">››</button>
       <label className="volume-control">

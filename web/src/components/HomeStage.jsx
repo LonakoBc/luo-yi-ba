@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import guessIllustration from '../assets/home-stage/guess-illustration.webp';
+import musicGuessIllustration from '../assets/home-stage/music-guess-illustration.png';
 import producerIllustration from '../assets/home-stage/producer-illustration.webp';
 import multiplayerIllustration from '../assets/home-stage/multiplayer-illustration.webp';
 import sortingIllustration from '../assets/home-stage/sorting-illustration.webp';
@@ -15,7 +16,8 @@ const MODES = [
   { id: 'sorting', index: '04', glyph: '序', title: '歌曲大排序', kicker: '重建属于歌曲的时间线', description: '拖动熟悉的作品，让它们回到正确的先后顺序与年代。', colors: ['#238a7d', '#006666', '#b6fff0'], illustration: sortingIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '86%' },
   { id: 'crossword', index: '05', glyph: '字', title: '曲名填字', kicker: '让歌名在交叉处相遇', description: '沿着相交的文字线索，补全一张由中 V 曲名组成的棋盘。', colors: ['#d85bca', '#65308f', '#ffd0f8'], illustration: crosswordIllustration, mobileArtPosition: '72% 0%', mobileArtSize: '90%' },
   { id: 'seniority', index: '06', glyph: '年', title: '谁是老资历？', kicker: '挑战你的中 V 年代感', description: '比较两首歌曲的发布时间，判断谁更早来到这里。', colors: ['#9a79ff', '#332471', '#f0ddff'], illustration: seniorityIllustration, mobileArtPosition: '79% 0%', mobileArtSize: '84%' },
-  { id: 'database', index: '07', glyph: '库', title: '数据库', kicker: '504 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'], illustration: databaseIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '90%' },
+{ id: 'music-guess', index: '07', glyph: '♫', title: '听歌识曲', kicker: '十五秒旋律 · 三条命挑战', description: '从熟悉的旋律中想起记忆中的曲子。', colors: ['#f18ab7', '#8b3d99', '#ffd2e8'], illustration: musicGuessIllustration, mobileArtPosition: '88% 0%' },
+  { id: 'database', index: '08', glyph: '库', title: '数据库', kicker: '504 首歌曲与 104 位 P 主', description: '浏览完整资料、筛选曲库，并找到每首作品背后的创作者。', colors: ['#66ccff', '#1547b8', '#bfefff'], illustration: databaseIllustration, mobileArtPosition: '82% 0%', mobileArtSize: '90%' },
 ];
 
 const STEP_DEGREES = 360 / MODES.length;
