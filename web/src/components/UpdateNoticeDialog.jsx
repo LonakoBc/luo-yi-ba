@@ -72,7 +72,11 @@ export default function UpdateNoticeDialog({ onClose }) {
           </article>
           <article>
             <strong>2. 曲库优化</strong>
-            <span>新增加歌曲《迷》，优化部分已有曲库。</span>
+            <span>新增加歌曲《迷》等，优化部分已有曲库。</span>
+          </article>
+          <article>
+            <strong>3. BUG修复</strong>
+            <span>修复了部分反馈bug。</span>
           </article>
         </div>
         <button type="button" className="update-notice-qq" onClick={copyQqGroup} aria-label="复制联机水友 QQ 群号">
