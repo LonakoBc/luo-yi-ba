@@ -16,6 +16,151 @@
   .music-guess-video-preview { width: 112px; height: 72px; }
   .music-guess-player-copy { grid-column: 1 / -1; }
 }
+
+.music-guess-pool-section {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid rgba(113, 190, 224, .35);
+  border-radius: 24px;
+  background: rgba(248, 253, 255, .78);
+}
+.music-guess-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.music-guess-section-heading h3 {
+  margin: 0;
+  color: #27536e;
+  font-size: 18px;
+}
+.music-guess-section-heading span {
+  color: #7a9aad;
+  font-size: 12px;
+}
+.music-guess-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.music-guess-pool-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 82px;
+  padding: 12px;
+  border: 1px solid #b9e4f3;
+  border-radius: 16px;
+  color: #27536e;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.music-guess-pool-card:hover,
+.music-guess-pool-card:focus-visible {
+  border-color: #c36ed6;
+  box-shadow: 0 8px 18px rgba(114, 176, 211, .16);
+}
+.music-guess-pool-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+}
+.music-guess-pool-card strong,
+.music-guess-pool-card small {
+  display: block;
+}
+.music-guess-pool-card strong {
+  font-size: 13px;
+}
+.music-guess-pool-card small {
+  margin-top: 5px;
+  color: #7a9aad;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.music-guess-singer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.music-guess-singer-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #d4eaf3;
+  border-radius: 12px;
+  color: #456d82;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+.music-guess-singer-option.selected {
+  border-color: #d278c7;
+  color: #9d4e9f;
+  background: #fff4fb;
+}
+.music-guess-singer-option input {
+  accent-color: #bc65cd;
+}
+.music-guess-custom-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px solid #e0eff5;
+}
+.music-guess-custom-action strong,
+.music-guess-custom-action small {
+  display: block;
+}
+.music-guess-custom-action strong {
+  color: #365e75;
+  font-size: 14px;
+}
+.music-guess-custom-action small,
+.music-guess-local-note {
+  color: #7a9aad;
+  font-size: 11px;
+}
+.music-guess-custom-action small {
+  margin-top: 4px;
+}
+.music-guess-local-note {
+  margin: 18px 0;
+  text-align: center;
+}
+.music-guess-local-label {
+  color: #9d4e9f;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .music-guess-pool-grid,
+  .music-guess-singer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .music-guess-pool-grid,
+  .music-guess-singer-grid {
+    grid-template-columns: 1fr;
+  }
+  .music-guess-pool-section {
+    padding: 15px;
+  }
+  .music-guess-custom-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
 /* Bilibili iframe only provides audio; keep it mounted but visually hidden. */
 .music-guess-player-row { grid-template-columns: 0 auto minmax(0,1fr) auto; }
 .music-guess-video-preview { position: absolute; left: -10000px; top: -10000px; width: 320px; height: 180px; opacity: 0; pointer-events: none; }

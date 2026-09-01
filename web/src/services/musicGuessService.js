@@ -1,160 +1,126 @@
 import { MUSIC_GUESS_CLIP_MANIFEST } from '../data/musicGuessManifest';
 
-const DEFAULT_API = 'https://api.i-meto.com/meting/api';
-const DEFAULT_SERVER = 'netease';
-const DEFAULT_PLAYLIST_ID = '18330761615';
 const DEFAULT_CLIP_BASE_URL = 'https://8.217.219.36/media/music-guess/assets';
 
 export const MUSIC_GUESS_CONFIG = Object.freeze({
-  api: import.meta.env.VITE_MUSIC_GUESS_API || import.meta.env.VITE_BGM_API || DEFAULT_API,
-  server: import.meta.env.VITE_MUSIC_GUESS_SERVER || DEFAULT_SERVER,
-  type: 'playlist',
-  id: import.meta.env.VITE_MUSIC_GUESS_PLAYLIST_ID || DEFAULT_PLAYLIST_ID,
   clipBaseUrl: import.meta.env.VITE_MUSIC_GUESS_CLIP_BASE_URL || DEFAULT_CLIP_BASE_URL,
 });
 
-export const MUSIC_GUESS_PLAYLISTS = Object.freeze([
-  Object.freeze({
-    id: 'luotianyi-netease-18330761615',
-    title: '洛天依 · 287 首本地整理歌单',
-    description: '本地整理 287 首曲目 · 网易云元数据 + 服务器 15 秒片段播放',
-    source: 'netease-playlist',
-    localFirst: true,
-    neteasePlaylistId: DEFAULT_PLAYLIST_ID,
-    url: `https://music.163.com/#/playlist?id=${DEFAULT_PLAYLIST_ID}`,
-  }),
+const singer = (id, title, description) => Object.freeze({
+  id,
+  title,
+  description: description || (title + '本地曲库'),
+  source: 'local-catalog',
+  playlistIds: Object.freeze([id]),
+});
+
+export const MUSIC_GUESS_SINGER_PLAYLISTS = Object.freeze([
+  singer('luotianyi', '洛天依'),
+  singer('yuezhengling', '乐正绫'),
+  singer('yanhe', '言和'),
+  singer('longya', '乐正龙牙'),
+  singer('moqingxian', '墨清弦'),
+  singer('zhiyu-moke', '徵羽摩柯'),
+  singer('xinhua', '心华'),
+  singer('xingchen', '星尘'),
+  singer('haiyi', '海伊'),
+  singer('cangqiong', '苍穹'),
+  singer('chiyu', '赤羽'),
+  singer('shian', '诗岸'),
+  singer('yongye', '永夜Minus'),
+  singer('muxing', '牧心'),
 ]);
 
-export function getMusicGuessPlaylist(id) {
-  return MUSIC_GUESS_PLAYLISTS.find((playlist) => playlist.id === id) ?? null;
-}
+const VSINGER_IDS = Object.freeze(['luotianyi', 'yuezhengling', 'yanhe', 'longya', 'moqingxian', 'zhiyu-moke']);
+const FIVE_DIMENSION_IDS = Object.freeze(['xingchen', 'haiyi', 'chiyu', 'cangqiong', 'shian', 'yongye', 'muxing']);
+const ALL_SINGER_IDS = Object.freeze(VSINGER_IDS.concat(['xinhua'], FIVE_DIMENSION_IDS));
 
-export function buildMusicGuessPlaylistUrl(playlist, config = MUSIC_GUESS_CONFIG) {
-  const params = new URLSearchParams({
-    server: config.server,
-    type: config.type,
-    id: String(playlist?.neteasePlaylistId || config.id),
+const group = (id, title, description, playlistIds) => Object.freeze({
+  id,
+  title,
+  description,
+  source: 'local-catalog',
+  playlistIds: Object.freeze(playlistIds.slice()),
+});
+
+export const MUSIC_GUESS_GROUP_PLAYLISTS = Object.freeze([
+  group('vsinger', 'Vsinger 曲库', '洛天依、乐正绫、言和、乐正龙牙、墨清弦、徵羽摩柯曲库', VSINGER_IDS),
+  group('five-dimension', '五维介质曲库', '星尘、海伊、赤羽、苍穹、诗岸、永夜Minus、牧心曲库', FIVE_DIMENSION_IDS),
+  group('wangchuan', '忘川风华录曲库', '忘川风华录企划相关曲库', ['wangchuan']),
+  group('all', '全曲库', '所有已整理歌姬与企划曲库', ALL_SINGER_IDS.concat(['wangchuan'])),
+]);
+
+export const MUSIC_GUESS_PLAYLISTS = Object.freeze([
+  ...MUSIC_GUESS_GROUP_PLAYLISTS,
+  ...MUSIC_GUESS_SINGER_PLAYLISTS,
+]);
+
+const PLAYLIST_BY_ID = new Map(MUSIC_GUESS_PLAYLISTS.map((playlist) => [playlist.id, playlist]));
+
+export function createMusicGuessPlaylist(selectedIds = []) {
+  const ids = [...new Set(selectedIds)].filter((id) => PLAYLIST_BY_ID.has(id));
+  const playlistIds = [...new Set(ids.flatMap((id) => PLAYLIST_BY_ID.get(id).playlistIds))];
+  if (!playlistIds.length) return null;
+  return Object.freeze({
+    id: ids.length === 1 ? ids[0] : 'custom',
+    title: ids.length === 1 ? PLAYLIST_BY_ID.get(ids[0]).title : '自定义曲库组合',
+    description: ids.length === 1 ? PLAYLIST_BY_ID.get(ids[0]).description : ('已选择 ' + ids.length + ' 个曲库，重复音频自动合并'),
+    source: 'local-catalog',
+    playlistIds: Object.freeze(playlistIds),
+    selectedPlaylistIds: Object.freeze(ids),
   });
-  return `${config.api}?${params.toString()}`;
 }
 
-function normalizeTitle(value) {
-  return String(value || '')
-    .normalize('NFKC')
-    .replace(/\.mp3$/iu, '')
-    .toLocaleLowerCase()
-    .replace(/[\s\p{P}\p{S}]+/gu, '');
-}
-
-function normalizePlaylistSong(song, index) {
-  if (!song || typeof song !== 'object') return null;
-  const name = String(song.title || song.name || '').trim();
-  if (!name) return null;
-  return {
-    id: String(song.id || `${name}-${index}`),
-    name,
-    artist: String(song.author || song.artist || '网易云音乐').trim(),
-    cover: typeof song.pic === 'string' ? song.pic : '',
-  };
-}
-
-function clipIndex(manifest) {
-  return new Map(manifest.map((clip) => [normalizeTitle(clip.sourceName), clip]));
+export function getMusicGuessPlaylist(id, includeIds = []) {
+  if (id === 'custom') return createMusicGuessPlaylist(includeIds);
+  return PLAYLIST_BY_ID.get(id) ?? null;
 }
 
 export function resolveMusicGuessClipUrl(fileName, config = MUSIC_GUESS_CONFIG) {
   if (!fileName) return '';
-  return `${String(config.clipBaseUrl).replace(/\/+$/u, '')}/${encodeURIComponent(fileName)}`;
+  return String(config.clipBaseUrl).replace(/\/+$/u, '') + '/' + encodeURIComponent(fileName);
 }
 
-export function mapMusicGuessPlaylistTracks(songs, { manifest = MUSIC_GUESS_CLIP_MANIFEST, config = MUSIC_GUESS_CONFIG, localFirst = false } = {}) {
-  const onlineSongs = songs.map(normalizePlaylistSong).filter(Boolean);
-  if (!localFirst) {
-    const clips = clipIndex(manifest);
-    return onlineSongs
-      .map((song) => {
-        const clip = clips.get(normalizeTitle(song.name));
-        if (!clip) return null;
-        return {
-          ...song,
-          clipFileName: clip.fileName,
-          clipUrl: resolveMusicGuessClipUrl(clip.fileName, config),
-          clipDurationSeconds: clip.durationSeconds,
-          source: 'aliyun-server',
-        };
-      })
-      .filter(Boolean);
-  }
+function localTitle(clip) {
+  return String(clip.sourceName || clip.fileName || '').replace(/\.mp3$/iu, '').trim();
+}
 
-  const onlineByTitle = new Map(onlineSongs.map((song) => [normalizeTitle(song.name), song]));
-  return manifest
+export function getMusicGuessTracks(playlist, {
+  manifest = MUSIC_GUESS_CLIP_MANIFEST,
+  config = MUSIC_GUESS_CONFIG,
+} = {}) {
+  if (!playlist) throw new Error('猜曲歌单不存在');
+  const selectedIds = new Set(playlist.playlistIds || []);
+  const seenFiles = new Set();
+  const tracks = manifest
+    .filter((clip) => selectedIds.size > 0 && (clip.playlistIds || []).some((id) => selectedIds.has(id)))
+    .filter((clip) => {
+      const fileName = clip.fileName || clip.clipFile;
+      if (!fileName || seenFiles.has(fileName)) return false;
+      seenFiles.add(fileName);
+      return true;
+    })
     .map((clip, index) => {
-      const localTitle = String(clip.sourceName || '').replace(/\.mp3$/iu, '').trim();
-      if (!localTitle || !clip.fileName) return null;
-      const onlineSong = onlineByTitle.get(normalizeTitle(localTitle));
-      const song = onlineSong ?? {
-        id: `local-${index + 1}`,
-        name: localTitle,
-        artist: '洛天依',
-        cover: '',
-      };
+      const fileName = clip.fileName || clip.clipFile;
+      const name = localTitle(clip);
+      if (!name) return null;
       return {
-        ...song,
-        clipFileName: clip.fileName,
-        clipUrl: resolveMusicGuessClipUrl(clip.fileName, config),
+        id: 'local-' + (fileName || (index + 1)),
+        name,
+        artist: '本地曲库',
+        cover: '',
+        clipFileName: fileName,
+        clipUrl: resolveMusicGuessClipUrl(fileName, config),
         clipDurationSeconds: clip.durationSeconds,
-        source: 'aliyun-server',
-        localOnly: !onlineSong,
+        source: 'local-catalog',
       };
     })
     .filter(Boolean);
-}
-
-export async function fetchMusicGuessTracks(playlist, {
-  config = MUSIC_GUESS_CONFIG,
-  fetchImpl = globalThis.fetch,
-  manifest = MUSIC_GUESS_CLIP_MANIFEST,
-} = {}) {
-  if (!playlist) throw new Error('猜曲歌单不存在');
-  if (playlist.source !== 'netease-playlist') throw new Error('当前猜曲歌单未配置网易云数据源');
-  const localFallback = () => {
-    const tracks = mapMusicGuessPlaylistTracks([], { manifest, config, localFirst: true });
-    if (tracks.length < 4) throw new Error(`本地清单中只有 ${tracks.length} 首服务器片段`);
-    return tracks;
-  };
-  if (typeof fetchImpl !== 'function') {
-    if (playlist.localFirst) return localFallback();
-    throw new Error('当前环境不支持联网歌单');
-  }
-
-  let response;
-  try {
-    response = await fetchImpl(buildMusicGuessPlaylistUrl(playlist, config));
-  } catch {
-    if (playlist.localFirst) return localFallback();
-    throw new Error('网易云歌单连接失败');
-  }
-  if (!response.ok) {
-    if (playlist.localFirst) return localFallback();
-    throw new Error(`网易云歌单加载失败（${response.status}）`);
-  }
-
-  let songs;
-  try {
-    songs = await response.json();
-  } catch {
-    if (playlist.localFirst) return localFallback();
-    throw new Error('网易云歌单返回数据无效');
-  }
-  if (!Array.isArray(songs)) {
-    if (playlist.localFirst) return localFallback();
-    throw new Error('网易云歌单返回数据无效');
-  }
-
-  const tracks = mapMusicGuessPlaylistTracks(songs, { manifest, config, localFirst: playlist.localFirst });
-  if (tracks.length < 4) throw new Error(`歌单中只有 ${tracks.length} 首歌曲匹配到服务器片段`);
+  if (tracks.length < 4) throw new Error('当前曲库只有 ' + tracks.length + ' 首可用歌曲，至少需要 4 首');
   return tracks;
 }
+
+export const fetchMusicGuessTracks = getMusicGuessTracks;
 
 function shuffle(items, random) {
   const result = [...items];

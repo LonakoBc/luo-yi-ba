@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createMusicGuessService, fetchMusicGuessTracks, musicGuessEvaluation } from '../services/musicGuessService';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createMusicGuessService, getMusicGuessTracks, musicGuessEvaluation } from '../services/musicGuessService';
 import './MusicGuessPage.css';
 
 const CLIP_SECONDS = 15;
@@ -10,8 +10,8 @@ function AudioBars({ playing }) {
   return <span className={'music-guess-bars ' + (playing ? 'playing' : '')} aria-hidden="true">{[0, 1, 2, 3, 4, 5, 6].map((bar) => <i key={bar} />)}</span>;
 }
 
-function LoadingPage({ Brand, message = '正在读取网易云歌单……' }) {
-  return <div className="page-shell music-guess-page"><header className="inner-header music-guess-header"><Brand compact /></header><main className="music-guess-state"><span className="music-guess-state-icon" aria-hidden="true">♫</span><h2>{message}</h2><p>正在匹配服务器上的 15 秒猜曲片段，请稍候。</p></main></div>;
+function LoadingPage({ Brand, message = '正在读取本地曲库……' }) {
+  return <div className="page-shell music-guess-page"><header className="inner-header music-guess-header"><Brand compact /></header><main className="music-guess-state"><span className="music-guess-state-icon" aria-hidden="true">♫</span><h2>{message}</h2><p>正在准备服务器上的 15 秒猜曲片段，请稍候。</p></main></div>;
 }
 
 function MusicGuessDeveloperTools({ tracks, queuedTrackId, onQueue, onRestart }) {
@@ -53,7 +53,7 @@ function GuessResult({ game, total, onRestart, onBack }) {
   </section></div>;
 }
 
-export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.random, fetchImpl = globalThis.fetch, manifest }) {
+export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.random, manifest }) {
   const [tracks, setTracks] = useState(null);
   const [loadError, setLoadError] = useState('');
   const [retry, setRetry] = useState(0);
@@ -71,13 +71,14 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
     let cancelled = false;
     setTracks(null);
     setLoadError('');
-    fetchMusicGuessTracks(playlist, { fetchImpl, manifest }).then((nextTracks) => {
+    try {
+      const nextTracks = getMusicGuessTracks(playlist, { manifest });
       if (!cancelled) setTracks(nextTracks);
-    }).catch((error) => {
-      if (!cancelled) setLoadError(error.message || '网易云歌单加载失败');
-    });
+    } catch (error) {
+      if (!cancelled) setLoadError(error.message || '本地曲库加载失败');
+    }
     return () => { cancelled = true; };
-  }, [playlist, retry, fetchImpl]);
+  }, [playlist, retry, manifest]);
 
   useEffect(() => {
     if (service) setGame(service.startGame());
@@ -145,7 +146,7 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
     };
   }, [clearClip, startClip, game?.round.answer.id, game?.status]);
 
-  if (loadError) return <div className="page-shell music-guess-page"><header className="inner-header music-guess-header"><Brand compact /><button type="button" className="back-button" onClick={onBack}>← 选择歌单</button></header><main className="music-guess-state"><span className="music-guess-state-icon error" aria-hidden="true">!</span><h2>{loadError}</h2><p>请检查网易云歌单和服务器片段，或稍后重试。</p><div className="result-actions"><button type="button" className="primary-button" onClick={() => setRetry((value) => value + 1)}>重新加载</button><button type="button" className="ghost-button" onClick={onBack}>返回歌单</button></div></main></div>;
+  if (loadError) return <div className="page-shell music-guess-page"><header className="inner-header music-guess-header"><Brand compact /><button type="button" className="back-button" onClick={onBack}>← 选择歌单</button></header><main className="music-guess-state"><span className="music-guess-state-icon error" aria-hidden="true">!</span><h2>{loadError}</h2><p>请检查本地曲库与服务器片段，或稍后重试。</p><div className="result-actions"><button type="button" className="primary-button" onClick={() => setRetry((value) => value + 1)}>重新加载</button><button type="button" className="ghost-button" onClick={onBack}>返回歌单</button></div></main></div>;
   if (!tracks || !game) return <LoadingPage Brand={Brand} />;
 
   const resolved = FINISHED_STATUSES.includes(game.status) || game.status === 'revealed';
@@ -182,9 +183,9 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
 
   return <div className="page-shell music-guess-page music-guess-game-page">
     {SHOW_DEVELOPER_TOOLS && <MusicGuessDeveloperTools tracks={tracks} queuedTrackId={queuedTrackId} onQueue={setQueuedTrackId} onRestart={restart} />}
-    <header className="inner-header music-guess-header"><Brand compact /><div className="music-guess-header-actions"><a className="music-guess-playlist-link" href={playlist.url} target="_blank" rel="noreferrer noopener">打开网易云歌单 ↗</a><button type="button" className="back-button" onClick={onBack}>← 选择曲目</button></div></header>
+    <header className="inner-header music-guess-header"><Brand compact /><div className="music-guess-header-actions"><span className="music-guess-local-label">本地曲库</span><button type="button" className="back-button" onClick={onBack}>← 选择曲目</button></div></header>
     <main className="music-guess-main">
-      <div className="music-guess-heading"><div><p className="eyebrow">服务器片段猜曲 · {playlist.title}</p><h2>听歌识曲</h2><p>从网易云歌单读取歌名和歌手，播放服务器上的 15 秒片段，在三条命内猜出尽可能多的曲名。</p></div><div className="music-guess-stats" aria-label="游戏状态"><span><strong>{'♥'.repeat(game.lives)}{'♡'.repeat(3 - game.lives)}</strong>生命</span><span><strong>{game.score}</strong>得分</span><span><strong>{game.round.number}</strong>题</span></div></div>
+      <div className="music-guess-heading"><div><p className="eyebrow">本地曲库猜曲 · {playlist.title}</p><h2>听歌识曲</h2><p>根据所选本地曲库播放服务器上的 15 秒片段，在三条命内猜出尽可能多的曲名。</p></div><div className="music-guess-stats" aria-label="游戏状态"><span><strong>{'♥'.repeat(game.lives)}{'♡'.repeat(3 - game.lives)}</strong>生命</span><span><strong>{game.score}</strong>得分</span><span><strong>{game.round.number}</strong>题</span></div></div>
       <section className="music-guess-board" aria-label={'第 ' + game.round.number + ' 题'}>
         <div className="music-guess-player-row">
           <div className="music-guess-video-preview" aria-hidden="true"><span>♫</span><small>15s</small></div>
@@ -199,7 +200,7 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
         })}
       </section>
       <div className="music-guess-actions">{game.status === 'revealed' && <button type="button" className="primary-button" onClick={advanceRound}>下一题</button>}{!FINISHED_STATUSES.includes(game.status) && <button type="button" className="surrender-button" onClick={() => setShowSurrender(true)}>投降并结算</button>}</div>
-      <p className="music-guess-note">网易云歌单元数据 · 已匹配 {tracks.length} 个阿里云服务器 15 秒片段 · 不使用网易云在线音频</p>
+      <p className="music-guess-note">本地曲库 · 已匹配 {tracks.length} 个服务器 15 秒片段 · 不依赖网易云在线数据</p>
     </main>
     {showSurrender && <div className="modal-backdrop" role="presentation"><section className="result-dialog music-guess-confirm" role="dialog" aria-modal="true" aria-labelledby="music-guess-confirm-title"><p className="eyebrow">提前结束</p><h2 id="music-guess-confirm-title">现在投降并结算吗？</h2><p>当前歌曲会记为未作答，已经获得的分数会保留。</p><div className="result-actions"><button type="button" className="ghost-button" onClick={() => setShowSurrender(false)}>继续猜</button><button type="button" className="surrender-button" onClick={surrender}>确认投降</button></div></section></div>}
     {FINISHED_STATUSES.includes(game.status) && <GuessResult game={game} total={tracks.length} onRestart={restart} onBack={onBack} />}

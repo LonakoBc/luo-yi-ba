@@ -23,7 +23,8 @@ $releasePaths = @(
   'web/src/data/presets.generated.json',
   'web/src/services/gameService.js',
   'web/src/services/libraryService.js',
-  'web/src/services/multiplayerRules.js'
+  'web/src/services/multiplayerRules.js',
+  'guess_songs/assets'
 )
 
 foreach ($relativePath in $releasePaths) {
@@ -34,7 +35,9 @@ foreach ($relativePath in $releasePaths) {
 
 Push-Location $repositoryRoot
 try {
-  $stagingRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("luoyiba-release-" + [Guid]::NewGuid().ToString('N'))
+  # Keep the staging copy on the repository drive. This avoids failing when
+  # the Windows system temp drive is low on space during a release build.
+  $stagingRoot = Join-Path $repositoryRoot (Join-Path '.cache' ("luoyiba-release-" + [Guid]::NewGuid().ToString('N')))
   New-Item -ItemType Directory -Force -Path $stagingRoot | Out-Null
   try {
     foreach ($relativePath in $releasePaths) {

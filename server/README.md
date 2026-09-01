@@ -12,6 +12,8 @@ npm start
 
 默认监听 `127.0.0.1:3000`。可通过 `HOST`、`PORT`、`DATA_DIRECTORY` 和 `FRONTEND_ORIGIN` 调整监听地址、房间数据目录与允许的前端来源；多个正式来源用逗号分隔。
 
+听歌识曲的 MP3 由 Nginx 直接提供，服务器目录为 `/var/www/luo-yi-ba/music-guess/assets/`，公开路径为 `/media/music-guess/assets/<文件名>`。Nginx 配置会精确允许 Pages、`www.bilibili.com`、`www.bilibilitoy.com` 和本地调试来源，并保留音频 Range 请求头。
+
 ## 阿里云部署
 
 先在 Windows 工作区根目录生成完整发布包：

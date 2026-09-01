@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "generate:data": "node scripts/generate-song-data.mjs && node scripts/generate-preset-data.mjs && node scripts/generate-database-data.mjs && node scripts/generate-producer-data.mjs",
+    "sync:music-guess": "node scripts/sync-song-clips-from-excel.mjs",
     "predev": "npm run generate:data",
     "dev": "vite --configLoader runner",
     "preview": "vite preview",

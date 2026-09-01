@@ -6,7 +6,13 @@ RELEASE_ARCHIVE=/tmp/aliyun-multiplayer-release.tar.gz
 
 install -d -o luoyiba -g luoyiba "$APP_ROOT/server/data/rooms"
 install -d -o www-data -g www-data /var/www/certbot/.well-known/acme-challenge
+install -d -o www-data -g www-data /var/www/luo-yi-ba/music-guess/assets
 tar -xzf "$RELEASE_ARCHIVE" -C "$APP_ROOT"
+if [[ -d "$APP_ROOT/guess_songs/assets" ]]; then
+  install -d -o www-data -g www-data /var/www/luo-yi-ba/music-guess/assets
+  cp -a "$APP_ROOT/guess_songs/assets/." /var/www/luo-yi-ba/music-guess/assets/
+  chown -R www-data:www-data /var/www/luo-yi-ba/music-guess/assets
+fi
 chown -R luoyiba:luoyiba "$APP_ROOT/server" "$APP_ROOT/web"
 
 cd "$APP_ROOT/server"

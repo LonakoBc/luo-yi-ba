@@ -1,85 +1,71 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  buildMusicGuessPlaylistUrl,
+  createMusicGuessPlaylist,
   createMusicGuessService,
-  fetchMusicGuessTracks,
-  mapMusicGuessPlaylistTracks,
+  getMusicGuessTracks,
+  MUSIC_GUESS_GROUP_PLAYLISTS,
   MUSIC_GUESS_PLAYLISTS,
   musicGuessEvaluation,
   resolveMusicGuessClipUrl,
 } from './musicGuessService';
 
-const playlist = MUSIC_GUESS_PLAYLISTS[0];
 const manifest = [
-  { fileName: 'clip-001.mp3', sourceName: '甲曲.mp3', durationSeconds: 15 },
-  { fileName: 'clip-002.mp3', sourceName: '乙曲.mp3', durationSeconds: 15 },
-  { fileName: 'clip-003.mp3', sourceName: '丙曲.mp3', durationSeconds: 15 },
-  { fileName: 'clip-004.mp3', sourceName: '丁曲.mp3', durationSeconds: 15 },
+  { fileName: 'clip-001.mp3', sourceName: '甲曲.mp3', durationSeconds: 15, playlistIds: ['luotianyi'] },
+  { fileName: 'clip-002.mp3', sourceName: '乙曲.mp3', durationSeconds: 15, playlistIds: ['yanhe'] },
+  { fileName: 'clip-003.mp3', sourceName: '丙曲.mp3', durationSeconds: 15, playlistIds: ['luotianyi', 'yanhe'] },
+  { fileName: 'clip-004.mp3', sourceName: '丁曲.mp3', durationSeconds: 15, playlistIds: ['wangchuan'] },
+  { fileName: 'clip-005.mp3', sourceName: '戊曲.mp3', durationSeconds: 15, playlistIds: ['luotianyi'] },
+  { fileName: 'clip-006.mp3', sourceName: '己曲.mp3', durationSeconds: 15, playlistIds: ['luotianyi'] },
 ];
 
-const songs = ['甲曲', '乙曲', '丙曲', '丁曲'].map((title, index) => ({
-  id: 100 + index,
-  title,
-  author: '洛天依',
-  url: 'https://api.i-meto.com/should-not-be-used.mp3',
-  pic: 'https://example.com/' + index + '.jpg',
+const tracksForGame = manifest.map((clip) => ({
+  id: clip.fileName,
+  name: clip.sourceName.replace('.mp3', ''),
+  clipUrl: 'https://media.example/' + clip.fileName,
 }));
 
-describe('网易云元数据 + 服务器片段猜曲服务', () => {
-  it('按网易云歌单 ID 构造 Meting 请求地址', () => {
-    expect(buildMusicGuessPlaylistUrl(playlist, {
-      api: 'https://example.com/meting',
-      server: 'netease',
-      type: 'playlist',
-      id: 'ignored',
-    })).toBe('https://example.com/meting?server=netease&type=playlist&id=18330761615');
-  });
-
-  it('将网易云歌曲映射到服务器片段，并忽略接口返回的在线音频地址', async () => {
-    const fetchImpl = vi.fn().mockResolvedValue({ ok: true, json: async () => songs });
-    const tracks = await fetchMusicGuessTracks(playlist, {
-      fetchImpl,
-      manifest,
-      config: { api: 'https://example.com/meting', server: 'netease', type: 'playlist', id: playlist.neteasePlaylistId, clipBaseUrl: 'https://8.217.219.36/media/music-guess/clips' },
-    });
-
-    expect(fetchImpl).toHaveBeenCalledWith('https://example.com/meting?server=netease&type=playlist&id=18330761615');
-    expect(tracks[0]).toMatchObject({ id: '100', name: '甲曲', clipFileName: 'clip-001.mp3', clipUrl: 'https://8.217.219.36/media/music-guess/clips/clip-001.mp3', source: 'aliyun-server' });
-    expect(tracks[0]).not.toHaveProperty('url');
-  });
-
-  it('匹配括号、空格、扩展名和结尾标点的轻微差异', () => {
-    const tracks = mapMusicGuessPlaylistTracks([
-      { id: 1, title: '心跳同步的时光-Memory Ver.', author: '歌手' },
-    ], {
-      manifest: [{ fileName: 'clip-026.mp3', sourceName: '心跳同步的时光-Memory Ver.mp3', durationSeconds: 15 }],
-      config: { clipBaseUrl: 'https://media.example/clips' },
-    });
-    expect(tracks[0].clipUrl).toBe('https://media.example/clips/clip-026.mp3');
-    expect(resolveMusicGuessClipUrl('clip 01.mp3', { clipBaseUrl: 'https://media.example/clips/' })).toContain('clip%2001.mp3');
-  });
-
-  it('网易云接口失败时使用本地清单继续游戏', async () => {
-    const tracks = await fetchMusicGuessTracks(playlist, {
-      fetchImpl: vi.fn().mockRejectedValue(new Error('offline')),
+describe('本地曲库听歌识曲服务', () => {
+  it('按本地 playlistIds 筛选曲目，并使用服务器片段地址', () => {
+    const playlist = createMusicGuessPlaylist(['luotianyi']);
+    const tracks = getMusicGuessTracks(playlist, {
       manifest,
       config: { clipBaseUrl: 'https://media.example/clips' },
     });
-    expect(tracks).toHaveLength(4);
-    expect(tracks[0]).toMatchObject({ name: '甲曲', artist: '洛天依', localOnly: true });
+    expect(tracks.map((track) => track.name)).toEqual(['甲曲', '丙曲', '戊曲', '己曲']);
+    expect(tracks[0]).toMatchObject({
+      artist: '本地曲库',
+      clipFileName: 'clip-001.mp3',
+      clipUrl: 'https://media.example/clips/clip-001.mp3',
+      source: 'local-catalog',
+    });
   });
 
-  it('非本地优先歌单在接口失败或可匹配片段不足时返回可展示的错误', async () => {
-    await expect(fetchMusicGuessTracks({ ...playlist, localFirst: false }, { fetchImpl: vi.fn().mockRejectedValue(new Error('offline')), manifest }))
-      .rejects.toThrow('网易云歌单连接失败');
-    await expect(fetchMusicGuessTracks({ ...playlist, localFirst: false }, {
-      fetchImpl: vi.fn().mockResolvedValue({ ok: true, json: async () => [{ title: '不存在的歌曲' }] }),
-      manifest,
-    })).rejects.toThrow('只有 0 首歌曲匹配到服务器片段');
+  it('多个歌姬曲库取并集，重复 clipFile 只保留一条', () => {
+    const playlist = createMusicGuessPlaylist(['luotianyi', 'yanhe']);
+    const tracks = getMusicGuessTracks(playlist, { manifest, config: { clipBaseUrl: 'https://media.example' } });
+    expect(playlist.id).toBe('custom');
+    expect(tracks).toHaveLength(5);
+    expect(new Set(tracks.map((track) => track.clipFileName)).size).toBe(5);
+    expect(tracks.find((track) => track.name === '丙曲')).toBeTruthy();
+  });
+
+  it('快捷曲库包含 Vsinger、五维、忘川与全曲库', () => {
+    expect(MUSIC_GUESS_GROUP_PLAYLISTS.map((playlist) => playlist.id)).toEqual(['vsinger', 'five-dimension', 'wangchuan', 'all']);
+    expect(MUSIC_GUESS_PLAYLISTS.some((playlist) => playlist.id === 'luotianyi')).toBe(true);
+  });
+
+  it('没有本地命中时给出明确错误，不依赖网络请求', () => {
+    expect(() => getMusicGuessTracks(createMusicGuessPlaylist(['luotianyi']), {
+      manifest: [{ fileName: 'only.mp3', sourceName: '不存在.mp3', playlistIds: ['xinhua'] }],
+    })).toThrow('只有 0 首可用歌曲');
+  });
+
+  it('正确生成片段 URL，并编码特殊文件名', () => {
+    expect(resolveMusicGuessClipUrl('clip 01.mp3', { clipBaseUrl: 'https://media.example/clips/' }))
+      .toBe('https://media.example/clips/clip%2001.mp3');
   });
 
   it('每题生成一个答案和三项乱序干扰项，答错会消耗生命', () => {
-    const tracksForGame = songs.map((song, index) => ({ id: String(song.id), name: song.title, artist: song.author, clipUrl: 'https://media.example/' + index + '.mp3' }));
     const service = createMusicGuessService(tracksForGame, { random: () => 0 });
     const started = service.startGame();
     expect(started.round.options).toHaveLength(4);
@@ -89,18 +75,15 @@ describe('网易云元数据 + 服务器片段猜曲服务', () => {
     expect(afterWrong.status).toBe('revealed');
   });
 
-
-  it('允许本地管理员指定开局或下一题的音频，即使歌曲已经出现过', () => {
-    const tracksForGame = songs.map((song, index) => ({ id: String(song.id), name: song.title, clipUrl: 'https://media.example/' + index + '.mp3' }));
+  it('允许管理员指定开局或下一题的音频，即使歌曲已经出现过', () => {
     const service = createMusicGuessService(tracksForGame, { random: () => 0 });
-    const started = service.startGame('102');
-    expect(started.round.answer.id).toBe('102');
-    const revealed = { ...started, status: 'revealed' };
-    const next = service.nextRound(revealed, '102');
-    expect(next.round.answer.id).toBe('102');
+    const started = service.startGame('clip-003.mp3');
+    expect(started.round.answer.id).toBe('clip-003.mp3');
+    const next = service.nextRound({ ...started, status: 'revealed' }, 'clip-003.mp3');
+    expect(next.round.answer.id).toBe('clip-003.mp3');
   });
+
   it('支持连续答题、投降和分数评价', () => {
-    const tracksForGame = songs.map((song, index) => ({ id: String(song.id), name: song.title, clipUrl: 'https://media.example/' + index + '.mp3' }));
     const service = createMusicGuessService(tracksForGame, { random: () => 0 });
     let game = service.startGame();
     let rounds = 1;

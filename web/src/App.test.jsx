@@ -186,13 +186,13 @@ describe('App 交互', () => {
     expect(document.querySelector('audio')).toBe(audio);
   });
 
-  it('从主页进入联网听歌识曲并选择测试歌单', async () => {
+  it('从主页进入本地曲库听歌识曲并选择曲库', async () => {
     render(<App initialPage="home" />);
     openHomeQuickEntry();
     await enterHomeMode(screen.getByRole('button', { name: /听歌识曲/u }));
     expect(screen.getByRole('heading', { name: '选择猜测歌单' })).toBeVisible();
-    expect(screen.getByRole('button', { name: '选择歌单' })).toBeEnabled();
-    expect(screen.getByRole('link', { name: /网易云歌单（部分）/u })).toHaveAttribute('href', 'https://music.163.com/#/playlist?id=18330761615');
+    expect(screen.getByRole('button', { name: /Vsinger 曲库/u })).toBeEnabled();
+    expect(screen.queryByRole('link', { name: /网易云/u })).not.toBeInTheDocument();
   });
 
   it('从主页为谁是老资历选择曲库后开始，且全局 BGM 不会重新挂载', async () => {
