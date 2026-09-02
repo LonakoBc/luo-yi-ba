@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   createMusicGuessPlaylist,
   createMusicGuessService,
+  getMusicGuessPlaylistCount,
   getMusicGuessTracks,
   MUSIC_GUESS_GROUP_PLAYLISTS,
   MUSIC_GUESS_PLAYLISTS,
   musicGuessEvaluation,
+  musicGuessLifeBonus,
   resolveMusicGuessClipUrl,
 } from './musicGuessService';
 
@@ -52,6 +54,12 @@ describe('本地曲库听歌识曲服务', () => {
   it('快捷曲库包含 Vsinger、五维、忘川与全曲库', () => {
     expect(MUSIC_GUESS_GROUP_PLAYLISTS.map((playlist) => playlist.id)).toEqual(['vsinger', 'five-dimension', 'wangchuan', 'all']);
     expect(MUSIC_GUESS_PLAYLISTS.some((playlist) => playlist.id === 'luotianyi')).toBe(true);
+  });
+
+  it('快捷曲库和自定义曲库数量按唯一片段动态计算', () => {
+    expect(getMusicGuessPlaylistCount(MUSIC_GUESS_GROUP_PLAYLISTS.find((playlist) => playlist.id === 'vsinger'), manifest)).toBe(5);
+    expect(getMusicGuessPlaylistCount(['luotianyi'], manifest)).toBe(4);
+    expect(getMusicGuessPlaylistCount(['luotianyi', 'yanhe'], manifest)).toBe(5);
   });
 
   it('没有本地命中时给出明确错误，不依赖网络请求', () => {
@@ -102,5 +110,30 @@ describe('本地曲库听歌识曲服务', () => {
     expect(musicGuessEvaluation(40, 287).title).toBe('歌单掌控者');
     expect(musicGuessEvaluation(50, 287).title).toBe('人形点歌机');
     expect(service.surrender(service.startGame()).status).toBe('settled');
+  });
+
+  it('限时模式保留三条命，并在结算时按剩余生命给予 5/3/1 分奖励', () => {
+    const service = createMusicGuessService(tracksForGame, { random: () => 0, mode: 'timed', durationSeconds: 60 });
+    const started = service.startGame();
+    expect(started).toMatchObject({ mode: 'timed', durationSeconds: 60, lives: 3, score: 0 });
+    expect(service.timeUp(started)).toMatchObject({ status: 'time-up', score: 5, lifeBonus: 5 });
+
+    const oneWrong = service.chooseAnswer(started, started.round.options.find((track) => track.id !== started.round.answer.id).id);
+    expect(service.timeUp(oneWrong)).toMatchObject({ status: 'time-up', lives: 2, score: 3, lifeBonus: 3 });
+    expect(musicGuessLifeBonus(1)).toBe(1);
+    expect(musicGuessLifeBonus(0)).toBe(0);
+    expect(musicGuessEvaluation(20, 287, { mode: 'timed', lifeBonus: 3 }).title).toBe('节奏追踪者');
+  });
+
+  it('限时模式答错三次后立即结算且没有生命奖励', () => {
+    const service = createMusicGuessService(tracksForGame, { random: () => 0, mode: 'timed', durationSeconds: 300 });
+    let game = service.startGame();
+    for (let index = 0; index < 3; index += 1) {
+      const wrong = game.round.options.find((track) => track.id !== game.round.answer.id);
+      game = service.chooseAnswer(game, wrong.id);
+      if (game.status === 'lost') break;
+      game = service.nextRound(game);
+    }
+    expect(game).toMatchObject({ status: 'lost', lives: 0, score: 0, lifeBonus: 0 });
   });
 });

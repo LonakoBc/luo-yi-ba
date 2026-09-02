@@ -35,7 +35,7 @@ export const PLAYER_COLORS = Object.freeze([
   Object.freeze({ id: 'moqingxian', singerName: '墨清弦', colorName: '清弦黄', color: '#FFFF00' }),
   Object.freeze({ id: 'xinhua', singerName: '心华', colorName: '心华紫', color: '#EE82EE' }),
   Object.freeze({ id: 'haiyi', singerName: '海伊', colorName: '海伊蓝', color: '#5BCFFA' }),
-  Object.freeze({ id: 'cangqiong', singerName: '苍穹', colorName: '苍穹紫', color: '#9999FF' }),
+  Object.freeze({ id: 'cangqiong', singerName: '苍穹', colorName: '苍穹绿', color: '#66CC99' }),
   Object.freeze({ id: 'chiyu', singerName: '赤羽', colorName: '赤羽红', color: '#EE6666' }),
   Object.freeze({ id: 'shian', singerName: '诗岸', colorName: '诗岸金', color: '#F6C65B' }),
   Object.freeze({ id: 'muxin', singerName: '牧心', colorName: '牧心紫', color: '#72519A' }),

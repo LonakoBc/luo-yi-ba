@@ -190,7 +190,10 @@ describe('App 交互', () => {
     render(<App initialPage="home" />);
     openHomeQuickEntry();
     await enterHomeMode(screen.getByRole('button', { name: /听歌识曲/u }));
+    expect(screen.getByRole('heading', { name: '选择挑战模式' })).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: '选择限时3分钟' }));
     expect(screen.getByRole('heading', { name: '选择猜测歌单' })).toBeVisible();
+    expect(screen.getByText(/限时 3 分钟/u)).toBeVisible();
     expect(screen.getByRole('button', { name: /Vsinger 曲库/u })).toBeEnabled();
     expect(screen.queryByRole('link', { name: /网易云/u })).not.toBeInTheDocument();
   });

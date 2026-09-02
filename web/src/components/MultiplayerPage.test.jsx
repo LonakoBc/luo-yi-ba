@@ -89,7 +89,8 @@ it('等待阶段可选择未占用歌姬色，实际色值相同时一起禁用'
   const opponent = { id: 'p2', seatIndex: 1, colorId: 'xingchen', color: { id: 'xingchen', singerName: '星尘', colorName: '星尘紫', color: '#9999FF' } };
   render(<PlayerColorPicker room={{ players: [self, opponent] }} self={self} onSelect={onSelect} />);
   expect(screen.getByTitle('星尘紫已被占用')).toBeDisabled();
-  expect(screen.getByTitle('苍穹紫已被占用')).toBeDisabled();
+  expect(screen.getByTitle('选择苍穹绿')).not.toBeDisabled();
+  expect(screen.getByLabelText('苍穹绿')).toHaveStyle({ '--player-color': '#66CC99' });
   fireEvent.click(screen.getByTitle('选择赤羽红'));
   expect(onSelect).toHaveBeenCalledWith('chiyu');
 });

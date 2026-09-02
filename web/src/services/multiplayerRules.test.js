@@ -46,6 +46,7 @@ it('提供四个默认颜色和完整歌姬代表色候选', () => {
   expect(playerSeatFor(4)).toBeNull();
   expect(PLAYER_COLORS).toHaveLength(14);
   expect(playerColorFor('chiyu')).toMatchObject({ singerName: '赤羽', colorName: '赤羽红', color: '#EE6666' });
+  expect(playerColorFor('cangqiong')).toMatchObject({ singerName: '苍穹', colorName: '苍穹绿', color: '#66CC99' });
   expect(playerColorFor('missing')).toBeNull();
 });
 

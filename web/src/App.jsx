@@ -13,6 +13,7 @@ import GlobalBgm from './components/GlobalBgm';
 import HomeStage from './components/HomeStage';
 import LibraryPage from './components/LibraryPage';
 import MusicGuessLibraryPage from './components/MusicGuessLibraryPage';
+import MusicGuessModePage from './components/MusicGuessModePage';
 import MusicGuessPage from './components/MusicGuessPage';
 import MultiplayerPage from './components/MultiplayerPage';
 import ProducerGamePage from './components/ProducerGamePage';
@@ -53,14 +54,25 @@ function routeFromLocation(pathname, search = '') {
   const seniorityPresetMatch = pathname.match(/^\/seniority\/preset\/([a-z0-9-]+)$/u);
   if (seniorityPresetMatch) return { page: 'seniority', kind: 'preset', presetId: seniorityPresetMatch[1], search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
   if (pathname === '/seniority/custom') return { page: 'seniority', kind: 'custom', search, direction: new URLSearchParams(search).get('mode'), routeKey: `${pathname}${search}` };
-  if (pathname === '/music-guess') return { page: 'music-guess-select', routeKey: pathname };
+  if (pathname === '/music-guess') return { page: 'music-guess-mode', routeKey: pathname };
+  if (pathname === '/music-guess/playlist') {
+    const params = new URLSearchParams(search);
+    const mode = params.get('mode') === 'timed' ? 'timed' : 'unlimited';
+    const durationSeconds = [60, 180, 300].includes(Number(params.get('duration'))) ? Number(params.get('duration')) : 0;
+    return { page: 'music-guess-select', mode, durationSeconds, routeKey: pathname + search };
+  }
   const musicGuessMatch = pathname.match(/^\/music-guess\/playlist\/([a-z0-9-]+)$/u);
   if (musicGuessMatch) {
-    const include = new URLSearchParams(search).get('include');
+    const params = new URLSearchParams(search);
+    const include = params.get('include');
+    const mode = params.get('mode') === 'timed' ? 'timed' : 'unlimited';
+    const durationSeconds = [60, 180, 300].includes(Number(params.get('duration'))) ? Number(params.get('duration')) : 0;
     return {
       page: 'music-guess',
       playlistId: musicGuessMatch[1],
       includeIds: include ? include.split(',').filter(Boolean) : [],
+      mode,
+      durationSeconds,
       routeKey: pathname + search,
     };
   }
@@ -177,12 +189,19 @@ export default function App({ songs = songData, presets = presetData, database =
   const startSortingCustom = (filters) => navigate(`/sorting/custom?${filtersToSearch(filters)}`);
   const startCrosswordPreset = (presetId) => navigate(`/crossword/preset/${presetId}`);
   const startMusicGuess = () => navigate('/music-guess');
-  const startMusicGuessPlaylist = (selectedIds) => {
+  const startMusicGuessMode = ({ mode = 'unlimited', durationSeconds = 0 } = {}) => {
+    const params = new URLSearchParams({ mode });
+    if (mode === 'timed') params.set('duration', String(durationSeconds));
+    navigate('/music-guess/playlist?' + params.toString());
+  };
+  const startMusicGuessPlaylist = (selectedIds, modeConfig = {}) => {
     const ids = Array.isArray(selectedIds) ? selectedIds.filter(Boolean) : [selectedIds].filter(Boolean);
     if (!ids.length) return;
     const playlistId = ids.length === 1 ? ids[0] : 'custom';
-    const query = playlistId === 'custom' ? '?include=' + encodeURIComponent(ids.join(',')) : '';
-    navigate('/music-guess/playlist/' + playlistId + query);
+    const params = new URLSearchParams({ mode: modeConfig.mode === 'timed' ? 'timed' : 'unlimited' });
+    if (playlistId === 'custom') params.set('include', ids.join(','));
+    if (modeConfig.mode === 'timed') params.set('duration', String(modeConfig.durationSeconds));
+    navigate('/music-guess/playlist/' + playlistId + '?' + params.toString());
   };
 
   let pageContent;
@@ -247,13 +266,15 @@ export default function App({ songs = songData, presets = presetData, database =
       : senioritySongs.length >= 2
         ? <SeniorityPage key={route.routeKey ?? 'seniority'} songs={senioritySongs} direction={direction} random={random} onBack={() => navigate('/seniority')} Brand={Brand} />
       : <LibraryPage songs={songs} presets={presets} onBack={() => navigate('/')} onStartPreset={startSeniorityPreset} onStartCustom={startSeniorityCustom} Brand={Brand} eyebrow="发布时间挑战" intro="选择比较范围，再判断其中哪些歌曲更早发布。" startLabel="开始比较" minimumSongs={2} />;
+  } else if (route.page === 'music-guess-mode') {
+    pageContent = <MusicGuessModePage onChoose={startMusicGuessMode} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'music-guess-select') {
-    pageContent = <MusicGuessLibraryPage onSelect={startMusicGuessPlaylist} onBack={() => navigate('/')} Brand={Brand} />;
+    pageContent = <MusicGuessLibraryPage mode={route.mode} durationSeconds={route.durationSeconds} onSelect={(selectedIds) => startMusicGuessPlaylist(selectedIds, route)} onBack={() => navigate('/music-guess')} Brand={Brand} />;
   } else if (route.page === 'music-guess') {
     const playlist = getMusicGuessPlaylist(route.playlistId, route.includeIds);
     pageContent = playlist
-      ? <MusicGuessPage key={route.routeKey} playlist={playlist} random={random} onBack={() => navigate('/music-guess')} Brand={Brand} />
-      : <MusicGuessLibraryPage onSelect={startMusicGuessPlaylist} onBack={() => navigate('/')} Brand={Brand} />;
+      ? <MusicGuessPage key={route.routeKey} playlist={playlist} mode={route.mode} durationSeconds={route.durationSeconds} random={random} onBack={() => navigate('/music-guess/playlist?mode=' + route.mode + (route.mode === 'timed' ? '&duration=' + route.durationSeconds : ''))} Brand={Brand} />
+      : <MusicGuessModePage onChoose={startMusicGuessMode} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database-select') {
     pageContent = <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database') {

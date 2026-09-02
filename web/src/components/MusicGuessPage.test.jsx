@@ -3,31 +3,50 @@ import React from 'react';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import MusicGuessLibraryPage from './MusicGuessLibraryPage';
+import MusicGuessModePage from './MusicGuessModePage';
 import MusicGuessPage from './MusicGuessPage';
 import { MUSIC_GUESS_SINGER_PLAYLISTS } from '../services/musicGuessService';
 
 const Brand = () => <div>洛一把</div>;
 const playlist = MUSIC_GUESS_SINGER_PLAYLISTS[0];
-const manifest = ['甲曲', '乙曲', '丙曲', '丁曲'].map((title, index) => ({
+const manifest = ['甲曲', '乙曲', '丙曲', '丁曲', '戊曲'].map((title, index) => ({
   fileName: 'clip-00' + (index + 1) + '.mp3',
   sourceName: title + '.mp3',
   durationSeconds: 15,
-  playlistIds: ['luotianyi'],
+  playlistIds: index === 4 ? ['yanhe'] : ['luotianyi'],
 }));
 
 describe('本地曲库听歌识曲页面', () => {
   afterEach(() => {
     cleanup();
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
   it('歌单选择页提供快捷曲库和歌姬多选入口', () => {
     const onSelect = vi.fn();
-    render(<MusicGuessLibraryPage onSelect={onSelect} onBack={vi.fn()} Brand={Brand} />);
+    render(<MusicGuessLibraryPage onSelect={onSelect} onBack={vi.fn()} Brand={Brand} manifest={manifest} />);
     expect(screen.getByRole('heading', { name: '选择猜测歌单' })).not.toBeNull();
+    expect(screen.getByRole('button', { name: /Vsinger 曲库/u })).toHaveTextContent('5 首曲目');
+    expect(screen.getByRole('button', { name: /全曲库/u })).toHaveTextContent('困难！！！');
+    expect(screen.getByRole('complementary', { name: '歌单收集致谢' })).toHaveTextContent('若有词');
+    expect(screen.getByRole('complementary', { name: '歌单收集致谢' })).toHaveTextContent('闻灯岚');
     fireEvent.click(screen.getByRole('button', { name: /Vsinger 曲库/u }));
     expect(onSelect).toHaveBeenCalledWith(['vsinger']);
     expect(screen.queryByRole('link', { name: /网易云/u })).toBeNull();
+    fireEvent.click(screen.getByLabelText('言和'));
+    expect(screen.getByText(/共 5 首曲目/u)).toBeVisible();
+  });
+
+  it('模式选择页提供限时三档与不限时入口', () => {
+    const onChoose = vi.fn();
+    render(<MusicGuessModePage onChoose={onChoose} onBack={vi.fn()} Brand={Brand} />);
+    expect(screen.getByRole('heading', { name: '选择挑战模式' })).toBeVisible();
+    expect(screen.getByRole('button', { name: '选择限时5分钟' })).not.toHaveTextContent('计入排行榜');
+    fireEvent.click(screen.getByRole('button', { name: '选择限时5分钟' }));
+    expect(onChoose).toHaveBeenCalledWith({ mode: 'timed', durationSeconds: 300 });
+    fireEvent.click(screen.getByRole('button', { name: /不限时模式/u }));
+    expect(onChoose).toHaveBeenLastCalledWith({ mode: 'unlimited', durationSeconds: 0 });
   });
 
   it('加载本地曲库后直接使用服务器 audio，不创建 Bilibili iframe，并自动播放', async () => {
@@ -40,11 +59,11 @@ describe('本地曲库听歌识曲页面', () => {
     expect(document.querySelector('audio')?.getAttribute('src')).toContain('clip-001.mp3');
     expect(document.querySelector('iframe')).toBeNull();
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(1));
-    fireEvent.click(screen.getByRole('button', { name: /重新播放服务器猜曲片段/u }));
+    fireEvent.click(screen.getByRole('button', { name: /重新播放猜曲片段/u }));
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2));
     fireEvent.click(screen.getByRole('button', { name: '↻ 再次播放' }));
     await waitFor(() => expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(3));
-    expect(screen.getByText('第 1 题 · 服务器 15 秒片段')).not.toBeNull();
+    expect(screen.getByText('第 1 题 · 15 秒片段')).not.toBeNull();
 
     fireEvent.click(screen.getByRole('button', { name: '投降并结算' }));
     const confirm = screen.getByRole('dialog', { name: '现在投降并结算吗？' });
@@ -62,5 +81,18 @@ describe('本地曲库听歌识曲页面', () => {
     fireEvent.click(screen.getByRole('button', { name: '甲曲' }));
     fireEvent.click(screen.getByRole('button', { name: '下一题' }));
     expect(document.querySelector('audio')?.getAttribute('src')).toContain('clip-003.mp3');
+  });
+
+  it('限时模式显示倒计时，并在时间到后结算生命奖励', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    vi.spyOn(HTMLMediaElement.prototype, 'load').mockImplementation(() => {});
+    render(<MusicGuessPage playlist={playlist} manifest={manifest} mode="timed" durationSeconds={60} random={() => 0} onBack={vi.fn()} Brand={Brand} />);
+    await vi.advanceTimersByTimeAsync(100);
+    expect(screen.getByText('1:00')).toBeVisible();
+    await vi.advanceTimersByTimeAsync(61000);
+    expect(screen.getByRole('dialog', { name: '先把节奏稳住' })).toBeVisible();
+    expect(screen.getByText('生命奖励').closest('span')).toHaveTextContent('5');
   });
 });
