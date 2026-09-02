@@ -21,6 +21,8 @@
     "rebuild:songs": "node scripts/build-song-markdown.mjs",
     "rebuild:presets": "node scripts/build-library-presets.mjs",
     "images:refresh": "node scripts/refresh-song-images.mjs",
+    "images:download": "node scripts/download-song-covers.mjs",
+    "images:download-characters": "node scripts/download-character-images.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

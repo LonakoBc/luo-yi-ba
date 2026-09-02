@@ -207,6 +207,7 @@ export default function HomeStage({ actions }) {
         <div className="home-header-tools">
           <button type="button" className="home-quick-toggle" aria-expanded={quickOpen} onClick={() => setQuickOpen((open) => !open)}><span aria-hidden="true">▦</span> 快速入口</button>
           <div className="home-header-cards">
+            <button type="button" className="home-header-card collection-card" onClick={() => enterMode('collection')} aria-label="打开歌曲个人喜好表"><span>NEW · 收藏</span><span>个人喜好表</span></button>
             <button type="button" className="home-header-card qq-card" onClick={copyQqGroup} aria-label="复制联机水友 QQ 群号"><span>欢迎加入</span><span>联机水友Q群</span></button>
             <button type="button" className="home-header-card cg-card" onClick={() => setCgHidden((hidden) => !hidden)} aria-label={cgHidden ? '显示主页 AI CG' : '隐藏主页 AI CG'}><span>CG为AI生成</span><span>{cgHidden ? '点击显示' : '点击隐藏'}</span></button>
           </div>

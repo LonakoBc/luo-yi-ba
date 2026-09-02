@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import songData from './data/songs.generated.json';
 import presetData from './data/presets.generated.json';
 import databaseData from './data/database.generated.json';
 import producerData from './data/producers.generated.json';
 import CrosswordPage from './components/CrosswordPage';
 import CrosswordLibraryPage from './components/CrosswordLibraryPage';
+import CollectionPage from './components/CollectionPage';
 import DatabaseSingerPage from './components/DatabaseSingerPage';
 import GamePage from './components/GamePage';
 import FeedbackAdminPage from './components/FeedbackAdminPage';
@@ -25,6 +26,7 @@ import SortingPage from './components/SortingPage';
 import SongDatabasePage from './components/SongDatabasePage';
 import UpdateNoticeDialog, { UPDATE_NOTICE_STORAGE_KEY, canShowUpdateNotice } from './components/UpdateNoticeDialog';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
+import { buildCollectionProducerPool, buildCollectionSingerPool } from './services/collectionService';
 import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
 import { getMusicGuessPlaylist } from './services/musicGuessService';
 import { USES_HASH_ROUTING, browserPath, readRouteLocation } from './services/appRouting';
@@ -77,6 +79,7 @@ function routeFromLocation(pathname, search = '') {
     };
   }
   if (pathname === '/database') return { page: 'database-select', routeKey: pathname };
+  if (pathname === '/collection') return { page: 'collection', routeKey: pathname };
   const databaseMatch = pathname.match(/^\/database\/([a-z0-9-]+)$/u);
   if (databaseMatch) return { page: 'database', databaseId: databaseMatch[1], routeKey: pathname };
   if (pathname === '/play/easy') return { page: 'game', kind: 'preset', presetId: 'intro', routeKey: pathname };
@@ -159,6 +162,8 @@ export default function App({ songs = songData, presets = presetData, database =
   const initialRoute = testRoute ?? routeFromLocation(initialLocation.pathname, initialLocation.search);
   const [route, setRoute] = useState(initialRoute);
   const [showUpdateNotice, setShowUpdateNotice] = useState(() => canShowUpdateNotice({ initialPage, initialRoute }));
+  const collectionProducers = useMemo(() => buildCollectionProducerPool(producers, songs), [producers, songs]);
+  const collectionSingers = useMemo(() => buildCollectionSingerPool((database.catalog || []).filter((singer) => singer.id !== 'all')), [database]);
 
   useEffect(() => {
     if (initialPage) return undefined;
@@ -275,6 +280,8 @@ export default function App({ songs = songData, presets = presetData, database =
     pageContent = playlist
       ? <MusicGuessPage key={route.routeKey} playlist={playlist} mode={route.mode} durationSeconds={route.durationSeconds} random={random} onBack={() => navigate('/music-guess/playlist?mode=' + route.mode + (route.mode === 'timed' ? '&duration=' + route.durationSeconds : ''))} Brand={Brand} />
       : <MusicGuessModePage onChoose={startMusicGuessMode} onBack={() => navigate('/')} Brand={Brand} />;
+  } else if (route.page === 'collection') {
+    pageContent = <CollectionPage songs={songs} producers={collectionProducers} singers={collectionSingers} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database-select') {
     pageContent = <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'database') {
@@ -286,7 +293,7 @@ export default function App({ songs = songData, presets = presetData, database =
       ? <SongDatabasePage key={route.routeKey} singer={singer} songs={databaseSongs} onBack={() => navigate('/database')} onHome={() => navigate('/')} Brand={Brand} />
       : <DatabaseSingerPage catalog={database.catalog} producerCount={producers.length} onSelect={(id) => navigate(`/database/${id}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else {
-    pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), 'music-guess': startMusicGuess, database: () => navigate('/database') }} />;
+    pageContent = <HomeStage actions={{ guess: () => navigate('/modes'), multiplayer: () => navigate('/multiplayer'), producer: () => navigate('/producer'), crossword: () => navigate('/crossword'), seniority: () => navigate('/seniority'), sorting: () => navigate('/sorting'), 'music-guess': startMusicGuess, database: () => navigate('/database'), collection: () => navigate('/collection') }} />;
   }
   const musicGuessActive = route.page === 'music-guess-select' || route.page === 'music-guess';
   const routeViewKey = route.page === 'home' ? 'home' : (route.routeKey ?? route.page);

@@ -126,3 +126,6 @@
   .home-stage.is-exiting .home-stage-blur,
   .home-stage.is-exiting .home-stage-noise { animation-duration: .01ms !important; }
 }
+
+.home-header-card.collection-card { min-height: 58px; border-color: rgba(255,221,161,.9); color: #fff8e9; background: linear-gradient(145deg,rgba(238,138,91,.92),rgba(177,70,104,.82)); box-shadow: 0 12px 30px rgba(135,54,73,.28), inset 0 1px rgba(255,255,255,.4); font-size: 11px; }
+.home-header-card.collection-card span:first-child { color: #ffe7af; font-size: 8px; letter-spacing: .08em; }

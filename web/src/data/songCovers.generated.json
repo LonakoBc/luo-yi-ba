@@ -1,0 +1,3942 @@
+{
+  "generatedAt": "2026-09-02T08:54:59.281Z",
+  "source": "local WebP mirror of songs.generated.json imageUrl",
+  "covers": {
+    "vcpedia:∞ times": {
+      "title": "∞ TIMEs",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bb/%E2%88%9E_TIMEs.jpg/800px-%E2%88%9E_TIMEs.jpg",
+      "localUrl": "/song-covers/1897af7bcff1817aa3ec.webp",
+      "bytes": 12414,
+      "sourceBytes": 17056,
+      "downloadedAt": "2026-09-02T08:41:58.595Z"
+    },
+    "vcpedia:404 not found": {
+      "title": "404 Not Found",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/04/404_Not_Found%28new%29.jpg/800px-404_Not_Found%28new%29.jpg",
+      "localUrl": "/song-covers/7958248e87e9b7a8e6d2.webp",
+      "bytes": 20174,
+      "sourceBytes": 27452,
+      "downloadedAt": "2026-09-02T08:42:19.616Z"
+    },
+    "vcpedia:想在40岁左右死去。": {
+      "title": "40歳くらいで死にたい。",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/09/%E6%83%B3%E5%9C%A840%E5%B2%81%E5%B7%A6%E5%8F%B3%E6%AD%BB%E5%8E%BB.png/800px-%E6%83%B3%E5%9C%A840%E5%B2%81%E5%B7%A6%E5%8F%B3%E6%AD%BB%E5%8E%BB.png",
+      "localUrl": "/song-covers/ad97763b417c8c5370d6.webp",
+      "bytes": 9030,
+      "sourceBytes": 11268,
+      "downloadedAt": "2026-09-02T08:42:21.062Z"
+    },
+    "vcpedia:66ccff": {
+      "title": "66CCFF",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/ad/66CCFF.jpg/800px-66CCFF.jpg",
+      "localUrl": "/song-covers/d9d92d89ff14f4bf5c01.webp",
+      "bytes": 23218,
+      "sourceBytes": 32032,
+      "downloadedAt": "2026-09-02T08:42:22.546Z"
+    },
+    "vcpedia:9bang15便士": {
+      "title": "9Bang15便士",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8b/9Bang15%E4%BE%BF%E5%A3%AB.png/800px-9Bang15%E4%BE%BF%E5%A3%AB.png",
+      "localUrl": "/song-covers/944e0e7e6e4c9d132731.webp",
+      "bytes": 13812,
+      "sourceBytes": 18944,
+      "downloadedAt": "2026-09-02T08:42:24.034Z"
+    },
+    "vcpedia:阿弥陀佛头摇摇": {
+      "title": "阿弥陀佛头摇摇",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b8/%E9%98%BF%E5%BC%A5%E9%99%80%E4%BD%9B%E5%A4%B4%E6%91%87%E6%91%87.jpg/800px-%E9%98%BF%E5%BC%A5%E9%99%80%E4%BD%9B%E5%A4%B4%E6%91%87%E6%91%87.jpg",
+      "localUrl": "/song-covers/0d21613bd9bb4d2aec71.webp",
+      "bytes": 34962,
+      "sourceBytes": 44628,
+      "downloadedAt": "2026-09-02T08:42:25.571Z"
+    },
+    "vcpedia:埃及方块": {
+      "title": "埃及方块",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/aa/%E5%9F%83%E5%8F%8A%E6%96%B9%E5%9D%97.jpg/800px-%E5%9F%83%E5%8F%8A%E6%96%B9%E5%9D%97.jpg",
+      "localUrl": "/song-covers/110d70517f33d11f5455.webp",
+      "bytes": 19432,
+      "sourceBytes": 26402,
+      "downloadedAt": "2026-09-02T08:42:26.963Z"
+    },
+    "vcpedia:爱就是活见鬼": {
+      "title": "爱就是活见鬼",
+      "sourceUrl": "https://media.vcpedia.cn/8/87/%E7%88%B1%E5%B0%B1%E6%98%AF%E6%B4%BB%E8%A7%81%E9%AC%BC.jpg",
+      "localUrl": "/song-covers/174beba4b7b8ff138bfa.webp",
+      "bytes": 30968,
+      "sourceBytes": 71508,
+      "downloadedAt": "2026-09-02T08:42:28.189Z"
+    },
+    "vcpedia:暗恋人类日记": {
+      "title": "暗恋人类日记",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/55/%E6%9A%97%E6%81%8B%E4%BA%BA%E7%B1%BB%E6%97%A5%E8%AE%B0.jpg/800px-%E6%9A%97%E6%81%8B%E4%BA%BA%E7%B1%BB%E6%97%A5%E8%AE%B0.jpg",
+      "localUrl": "/song-covers/a45ce98f20ef84bd2e4d.webp",
+      "bytes": 30096,
+      "sourceBytes": 41510,
+      "downloadedAt": "2026-09-02T08:42:29.685Z"
+    },
+    "vcpedia:肮脏的神": {
+      "title": "肮脏的神",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b8/%E8%82%AE%E8%84%8F%E7%9A%84%E7%A5%9Efm.jpg/800px-%E8%82%AE%E8%84%8F%E7%9A%84%E7%A5%9Efm.jpg",
+      "localUrl": "/song-covers/6a272cb88324c033f112.webp",
+      "bytes": 19702,
+      "sourceBytes": 28432,
+      "downloadedAt": "2026-09-02T08:42:31.187Z"
+    },
+    "vcpedia:傲娇系男孩的告白日": {
+      "title": "傲娇系男孩的告白日",
+      "sourceUrl": "https://media.vcpedia.cn/2/2f/%E5%82%B2%E5%A8%87%E7%B3%BB%E7%94%B7%E5%AD%A9%E7%9A%84%E5%91%8A%E7%99%BD%E6%97%A5%28new%29.png",
+      "localUrl": "/song-covers/01e0b6a168b36a992369.webp",
+      "bytes": 47148,
+      "sourceBytes": 60378,
+      "downloadedAt": "2026-09-02T08:42:32.806Z"
+    },
+    "vcpedia:八辈子": {
+      "title": "八辈子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/12/%E6%B4%9B%E5%A4%A9%E4%BE%9D_%E5%85%AB%E8%BE%88%E5%AD%90.jpg/800px-%E6%B4%9B%E5%A4%A9%E4%BE%9D_%E5%85%AB%E8%BE%88%E5%AD%90.jpg",
+      "localUrl": "/song-covers/d6d34c3d6815bf9b9114.webp",
+      "bytes": 24798,
+      "sourceBytes": 36208,
+      "downloadedAt": "2026-09-02T08:42:34.345Z"
+    },
+    "vcpedia:八重回归": {
+      "title": "八重回归",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/93/%E5%85%AB%E9%87%8D%E5%9B%9E%E5%BD%92.jpg/800px-%E5%85%AB%E9%87%8D%E5%9B%9E%E5%BD%92.jpg",
+      "localUrl": "/song-covers/9e6b940c9b9af13809cd.webp",
+      "bytes": 30566,
+      "sourceBytes": 43036,
+      "downloadedAt": "2026-09-02T08:42:35.972Z"
+    },
+    "vcpedia:把一切化作歌献给你": {
+      "title": "把一切化作歌献给你",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/45/%E6%8A%8A%E4%B8%80%E5%88%87%E5%8C%96%E4%BD%9C%E6%AD%8C%E7%8C%AE%E7%BB%99%E4%BD%A0.jpg/800px-%E6%8A%8A%E4%B8%80%E5%88%87%E5%8C%96%E4%BD%9C%E6%AD%8C%E7%8C%AE%E7%BB%99%E4%BD%A0.jpg",
+      "localUrl": "/song-covers/862726b98f0607147f24.webp",
+      "bytes": 10172,
+      "sourceBytes": 15598,
+      "downloadedAt": "2026-09-02T08:42:37.469Z"
+    },
+    "vcpedia:白鸟过河滩": {
+      "title": "白鸟过河滩",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/27/%E7%99%BD%E9%B8%9F%E8%BF%87%E6%B2%B3%E6%BB%A9.jpg/800px-%E7%99%BD%E9%B8%9F%E8%BF%87%E6%B2%B3%E6%BB%A9.jpg",
+      "localUrl": "/song-covers/779faf759625866118a9.webp",
+      "bytes": 30888,
+      "sourceBytes": 44362,
+      "downloadedAt": "2026-09-02T08:42:38.965Z"
+    },
+    "vcpedia:白石溪": {
+      "title": "白石溪",
+      "sourceUrl": "https://media.vcpedia.cn/e/e0/%E7%99%BD%E7%9F%B3%E6%BA%AA%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/9cbd36aae40873e88f89.webp",
+      "bytes": 19726,
+      "sourceBytes": 62966,
+      "downloadedAt": "2026-09-02T08:42:40.190Z"
+    },
+    "vcpedia:白噪": {
+      "title": "白噪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8c/%E7%99%BD%E5%99%AA%28new%29.jpg/800px-%E7%99%BD%E5%99%AA%28new%29.jpg",
+      "localUrl": "/song-covers/4d0be6ef6a3bb48d6c61.webp",
+      "bytes": 28122,
+      "sourceBytes": 41872,
+      "downloadedAt": "2026-09-02T08:42:41.678Z"
+    },
+    "vcpedia:拜云台": {
+      "title": "拜云台",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/da/%E6%8B%9C%E4%BA%91%E5%8F%B0.jpg/800px-%E6%8B%9C%E4%BA%91%E5%8F%B0.jpg",
+      "localUrl": "/song-covers/4ded14406a4c84030edd.webp",
+      "bytes": 47344,
+      "sourceBytes": 66628,
+      "downloadedAt": "2026-09-02T08:42:43.205Z"
+    },
+    "vcpedia:保卫罗德岛": {
+      "title": "保卫罗德岛",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a7/%E4%BF%9D%E5%8D%AB%E7%BD%97%E5%BE%B7%E5%B2%9B_pv%E5%B0%81%E9%9D%A2.jpg/800px-%E4%BF%9D%E5%8D%AB%E7%BD%97%E5%BE%B7%E5%B2%9B_pv%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/f16c40d7c8a851b3dab5.webp",
+      "bytes": 31254,
+      "sourceBytes": 43792,
+      "downloadedAt": "2026-09-02T08:42:44.759Z"
+    },
+    "vcpedia:背光处的行星": {
+      "title": "背光处的行星",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/09/%E8%83%8C%E5%85%89%E5%A4%84%E7%9A%84%E8%A1%8C%E6%98%9F.jpg/800px-%E8%83%8C%E5%85%89%E5%A4%84%E7%9A%84%E8%A1%8C%E6%98%9F.jpg",
+      "localUrl": "/song-covers/0d8e6170661b6ce12bda.webp",
+      "bytes": 21638,
+      "sourceBytes": 30550,
+      "downloadedAt": "2026-09-02T08:42:46.194Z"
+    },
+    "vcpedia:被嘲讽者的复仇": {
+      "title": "被嘲讽者的复仇",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/30/%E8%A2%AB%E5%98%B2%E8%AE%BD%E8%80%85%E7%9A%84%E5%A4%8D%E4%BB%87.png/800px-%E8%A2%AB%E5%98%B2%E8%AE%BD%E8%80%85%E7%9A%84%E5%A4%8D%E4%BB%87.png",
+      "localUrl": "/song-covers/c830e67826b66eea3705.webp",
+      "bytes": 21942,
+      "sourceBytes": 28114,
+      "downloadedAt": "2026-09-02T08:42:47.656Z"
+    },
+    "vcpedia:被世界抛弃的孩子": {
+      "title": "被世界抛弃的孩子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/50/%E8%A2%AB%E4%B8%96%E7%95%8C%E6%8A%9B%E5%BC%83%E7%9A%84%E5%AD%A9%E5%AD%90.jpg/800px-%E8%A2%AB%E4%B8%96%E7%95%8C%E6%8A%9B%E5%BC%83%E7%9A%84%E5%AD%A9%E5%AD%90.jpg",
+      "localUrl": "/song-covers/9eaf66a35a30b23281e4.webp",
+      "bytes": 34706,
+      "sourceBytes": 49942,
+      "downloadedAt": "2026-09-02T08:42:49.115Z"
+    },
+    "vcpedia:毕业通知": {
+      "title": "毕业通知",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fc/%E6%AF%95%E4%B8%9A%E9%80%9A%E7%9F%A5.jpg/800px-%E6%AF%95%E4%B8%9A%E9%80%9A%E7%9F%A5.jpg",
+      "localUrl": "/song-covers/c030c941a1128de631cb.webp",
+      "bytes": 28242,
+      "sourceBytes": 41992,
+      "downloadedAt": "2026-09-02T08:42:50.691Z"
+    },
+    "vcpedia:闭眼 我触碰幻想的边界": {
+      "title": "闭眼 我触碰幻想的边界",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fd/%E9%97%AD%E7%9C%BC%EF%BC%8C%E6%88%91%E8%A7%A6%E7%A2%B0%E5%B9%BB%E6%83%B3%E7%9A%84%E8%BE%B9%E7%95%8C.jpg/800px-%E9%97%AD%E7%9C%BC%EF%BC%8C%E6%88%91%E8%A7%A6%E7%A2%B0%E5%B9%BB%E6%83%B3%E7%9A%84%E8%BE%B9%E7%95%8C.jpg",
+      "localUrl": "/song-covers/540235871d81c46e3d65.webp",
+      "bytes": 45298,
+      "sourceBytes": 60342,
+      "downloadedAt": "2026-09-02T08:42:52.246Z"
+    },
+    "vcpedia:表里如一": {
+      "title": "表里如一",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/70/%E8%A1%A8%E9%87%8C%E5%A6%82%E4%B8%80%28new%29.jpg/800px-%E8%A1%A8%E9%87%8C%E5%A6%82%E4%B8%80%28new%29.jpg",
+      "localUrl": "/song-covers/ecbb767c515fab9b880a.webp",
+      "bytes": 22894,
+      "sourceBytes": 31500,
+      "downloadedAt": "2026-09-02T08:42:53.725Z"
+    },
+    "vcpedia:病态主角观": {
+      "title": "病态主角观",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f9/%E7%97%85%E6%80%81%E4%B8%BB%E8%A7%92%E8%A7%82.jpg/800px-%E7%97%85%E6%80%81%E4%B8%BB%E8%A7%92%E8%A7%82.jpg",
+      "localUrl": "/song-covers/8dbcc47d66edde23f658.webp",
+      "bytes": 48268,
+      "sourceBytes": 70340,
+      "downloadedAt": "2026-09-02T08:42:55.311Z"
+    },
+    "vcpedia:补天裂": {
+      "title": "补天裂",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/96/%E8%A1%A5%E5%A4%A9%E8%A3%82.jpg/800px-%E8%A1%A5%E5%A4%A9%E8%A3%82.jpg",
+      "localUrl": "/song-covers/339d688740aad657eb80.webp",
+      "bytes": 37296,
+      "sourceBytes": 55054,
+      "downloadedAt": "2026-09-02T08:42:56.829Z"
+    },
+    "vcpedia:不凡": {
+      "title": "不凡",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/66/%E4%B8%8D%E5%87%A1%28new%29.jpg/800px-%E4%B8%8D%E5%87%A1%28new%29.jpg",
+      "localUrl": "/song-covers/2bc38b7edc804aa0fd7d.webp",
+      "bytes": 38990,
+      "sourceBytes": 61090,
+      "downloadedAt": "2026-09-02T08:42:58.316Z"
+    },
+    "vcpedia:不赴": {
+      "title": "不赴",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ec/%E4%B8%8D%E8%B5%B4.jpg/800px-%E4%B8%8D%E8%B5%B4.jpg",
+      "localUrl": "/song-covers/0b3d9324a10fbd6ecb29.webp",
+      "bytes": 34070,
+      "sourceBytes": 47578,
+      "downloadedAt": "2026-09-02T08:42:59.858Z"
+    },
+    "vcpedia:不堪人间": {
+      "title": "不堪人间",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9d/%E4%B8%8D%E5%A0%AA%E4%BA%BA%E9%97%B4.jpg/800px-%E4%B8%8D%E5%A0%AA%E4%BA%BA%E9%97%B4.jpg",
+      "localUrl": "/song-covers/0e2c948608442f46cd47.webp",
+      "bytes": 35040,
+      "sourceBytes": 52954,
+      "downloadedAt": "2026-09-02T08:43:01.388Z"
+    },
+    "vcpedia:不可道": {
+      "title": "不可道",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/ff/%E4%B8%8D%E5%8F%AF%E9%81%93.jpg/800px-%E4%B8%8D%E5%8F%AF%E9%81%93.jpg",
+      "localUrl": "/song-covers/adf58e957777de6d6a3f.webp",
+      "bytes": 28970,
+      "sourceBytes": 41746,
+      "downloadedAt": "2026-09-02T08:43:03.130Z"
+    },
+    "vcpedia:不老不死": {
+      "title": "不老不死",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/76/%E4%B8%8D%E8%80%81%E4%B8%8D%E6%AD%BB%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29-new.png/800px-%E4%B8%8D%E8%80%81%E4%B8%8D%E6%AD%BB%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29-new.png",
+      "localUrl": "/song-covers/616a7919f2ce09d51e0a.webp",
+      "bytes": 93132,
+      "sourceBytes": 134638,
+      "downloadedAt": "2026-09-02T08:43:05.996Z"
+    },
+    "vcpedia:布虎记": {
+      "title": "布虎记",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/84/%E5%B8%83%E8%99%8E%E8%AE%B0.jpg/800px-%E5%B8%83%E8%99%8E%E8%AE%B0.jpg",
+      "localUrl": "/song-covers/d9b1d75e2948b043a5be.webp",
+      "bytes": 37390,
+      "sourceBytes": 52766,
+      "downloadedAt": "2026-09-02T08:43:07.552Z"
+    },
+    "vcpedia:布衣": {
+      "title": "布衣",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/39/%E5%B8%83%E8%A1%A3%28%E6%AD%8C%E6%9B%B2%29.jpg/800px-%E5%B8%83%E8%A1%A3%28%E6%AD%8C%E6%9B%B2%29.jpg",
+      "localUrl": "/song-covers/9077fc432776092056b0.webp",
+      "bytes": 33766,
+      "sourceBytes": 47250,
+      "downloadedAt": "2026-09-02T08:43:09.013Z"
+    },
+    "vcpedia:参考答案:略": {
+      "title": "参考答案：略",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/aa/%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%9A%E7%95%A5.jpg/800px-%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%9A%E7%95%A5.jpg",
+      "localUrl": "/song-covers/a2f51ffbbe3b80559572.webp",
+      "bytes": 31220,
+      "sourceBytes": 48666,
+      "downloadedAt": "2026-09-02T08:43:10.637Z"
+    },
+    "vcpedia:苍蝇": {
+      "title": "苍蝇",
+      "sourceUrl": "https://media.vcpedia.cn/e/ed/%E8%8B%8D%E8%9D%87%28ilem%29.png",
+      "localUrl": "/song-covers/be8d10c335aa49fc2123.webp",
+      "bytes": 10582,
+      "sourceBytes": 10576,
+      "downloadedAt": "2026-09-02T08:43:11.790Z"
+    },
+    "vcpedia:操戈天下": {
+      "title": "操戈天下",
+      "sourceUrl": "https://media.vcpedia.cn/e/e9/%E6%93%8D%E6%88%88%E5%A4%A9%E4%B8%8B.jpg",
+      "localUrl": "/song-covers/89fa6492befbcec2974c.webp",
+      "bytes": 30448,
+      "sourceBytes": 87472,
+      "downloadedAt": "2026-09-02T08:43:13.037Z"
+    },
+    "vcpedia:唱给雅音宫羽": {
+      "title": "唱给雅音宫羽",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/69/%E9%BB%91%E7%82%8E-M82A1-1.jpg/800px-%E9%BB%91%E7%82%8E-M82A1-1.jpg",
+      "localUrl": "/song-covers/fb47db5d80445ae65fba.webp",
+      "bytes": 51198,
+      "sourceBytes": 71962,
+      "downloadedAt": "2026-09-02T08:43:14.626Z"
+    },
+    "vcpedia:唱山": {
+      "title": "唱山",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b6/%E5%94%B1%E5%B1%B1.jpg/800px-%E5%94%B1%E5%B1%B1.jpg",
+      "localUrl": "/song-covers/383af9768b0823efb9ac.webp",
+      "bytes": 48238,
+      "sourceBytes": 75052,
+      "downloadedAt": "2026-09-02T08:43:16.085Z"
+    },
+    "vcpedia:潮声回响": {
+      "title": "潮声回响",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fc/%E6%BD%AE%E5%A3%B0%E5%9B%9E%E5%93%8D.jpg/800px-%E6%BD%AE%E5%A3%B0%E5%9B%9E%E5%93%8D.jpg",
+      "localUrl": "/song-covers/2bf469437930819d9b2e.webp",
+      "bytes": 41686,
+      "sourceBytes": 60540,
+      "downloadedAt": "2026-09-02T08:43:17.603Z"
+    },
+    "vcpedia:丑马": {
+      "title": "丑马",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/75/%E4%B8%91%E9%A9%AC.png/800px-%E4%B8%91%E9%A9%AC.png",
+      "localUrl": "/song-covers/f5d8924dbdd4e5f05f05.webp",
+      "bytes": 44832,
+      "sourceBytes": 60736,
+      "downloadedAt": "2026-09-02T08:43:19.172Z"
+    },
+    "vcpedia:初心依然": {
+      "title": "初心依然",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/db/%E5%88%9D%E5%BF%83%E4%BE%9D%E7%84%B6.jpg/800px-%E5%88%9D%E5%BF%83%E4%BE%9D%E7%84%B6.jpg",
+      "localUrl": "/song-covers/96b8a9c4b0618d328f9f.webp",
+      "bytes": 25262,
+      "sourceBytes": 35562,
+      "downloadedAt": "2026-09-02T08:43:20.708Z"
+    },
+    "vcpedia:穿越黑夜": {
+      "title": "穿越黑夜",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bc/%E7%A9%BF%E8%B6%8A%E9%BB%91%E5%A4%9C.jpg/800px-%E7%A9%BF%E8%B6%8A%E9%BB%91%E5%A4%9C.jpg",
+      "localUrl": "/song-covers/d25e009194e3cb622c53.webp",
+      "bytes": 31350,
+      "sourceBytes": 47188,
+      "downloadedAt": "2026-09-02T08:43:22.209Z"
+    },
+    "vcpedia:春风来": {
+      "title": "春风来",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a2/%E6%98%A5%E9%A3%8E%E6%9D%A5.jpg/800px-%E6%98%A5%E9%A3%8E%E6%9D%A5.jpg",
+      "localUrl": "/song-covers/06c0b81c10c0fff68906.webp",
+      "bytes": 17810,
+      "sourceBytes": 26158,
+      "downloadedAt": "2026-09-02T08:43:23.652Z"
+    },
+    "vcpedia:春日纪行": {
+      "title": "春日纪行",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/11/%E6%98%A5%E6%97%A5%E7%BA%AA%E8%A1%8C%28new%29.jpg/800px-%E6%98%A5%E6%97%A5%E7%BA%AA%E8%A1%8C%28new%29.jpg",
+      "localUrl": "/song-covers/57d9beb29ff245ca7768.webp",
+      "bytes": 31168,
+      "sourceBytes": 39220,
+      "downloadedAt": "2026-09-02T08:43:25.166Z"
+    },
+    "vcpedia:纯蓝": {
+      "title": "纯蓝",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bf/%E7%BA%AF%E8%93%9Dnew.png/800px-%E7%BA%AF%E8%93%9Dnew.png",
+      "localUrl": "/song-covers/7a43e71710bc4a4b6af8.webp",
+      "bytes": 30594,
+      "sourceBytes": 47232,
+      "downloadedAt": "2026-09-02T08:43:26.704Z"
+    },
+    "vcpedia:达拉崩吧": {
+      "title": "达拉崩吧",
+      "sourceUrl": "https://media.vcpedia.cn/9/9d/%E8%BE%BE%E6%8B%89%E5%B4%A9%E5%90%A7.jpg",
+      "localUrl": "/song-covers/eea5060d16203e7aae79.webp",
+      "bytes": 24670,
+      "sourceBytes": 24964,
+      "downloadedAt": "2026-09-02T08:43:27.868Z"
+    },
+    "vcpedia:达拉崩吧·史诗版": {
+      "title": "达拉崩吧·史诗版",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/68/%E8%BE%BE%E6%8B%89%E5%B4%A9%E5%90%A7%E5%8F%B2%E8%AF%97%E7%89%88.jpg/800px-%E8%BE%BE%E6%8B%89%E5%B4%A9%E5%90%A7%E5%8F%B2%E8%AF%97%E7%89%88.jpg",
+      "localUrl": "/song-covers/5d58cf2cbb8bc34bfce4.webp",
+      "bytes": 27372,
+      "sourceBytes": 37758,
+      "downloadedAt": "2026-09-02T08:43:29.351Z"
+    },
+    "vcpedia:大地球歌厅": {
+      "title": "大地球歌厅",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d2/%E5%A4%A7%E5%9C%B0%E7%90%83%E6%AD%8C%E5%8E%85.jpg/800px-%E5%A4%A7%E5%9C%B0%E7%90%83%E6%AD%8C%E5%8E%85.jpg",
+      "localUrl": "/song-covers/6c78b081a697e1ebcea8.webp",
+      "bytes": 44932,
+      "sourceBytes": 61734,
+      "downloadedAt": "2026-09-02T08:43:30.795Z"
+    },
+    "vcpedia:大航海家": {
+      "title": "大航海家",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/53/%E5%A4%A7%E8%88%AA%E6%B5%B7%E5%AE%B6.jpg/800px-%E5%A4%A7%E8%88%AA%E6%B5%B7%E5%AE%B6.jpg",
+      "localUrl": "/song-covers/ffe637378e3e38484857.webp",
+      "bytes": 35420,
+      "sourceBytes": 46016,
+      "downloadedAt": "2026-09-02T08:43:32.356Z"
+    },
+    "vcpedia:大吉": {
+      "title": "大吉",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ec/%E6%B4%9B%E5%A4%A9%E4%BE%9D%E5%A4%A7%E5%90%89.jpg/800px-%E6%B4%9B%E5%A4%A9%E4%BE%9D%E5%A4%A7%E5%90%89.jpg",
+      "localUrl": "/song-covers/1ac3c4932dc269bd9ebf.webp",
+      "bytes": 8114,
+      "sourceBytes": 10594,
+      "downloadedAt": "2026-09-02T08:43:33.907Z"
+    },
+    "vcpedia:大建造家": {
+      "title": "大建造家",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e6/%E5%A4%A7%E5%BB%BA%E9%80%A0%E5%AE%B6.jpg/800px-%E5%A4%A7%E5%BB%BA%E9%80%A0%E5%AE%B6.jpg",
+      "localUrl": "/song-covers/c71aca0045ed5d5d007a.webp",
+      "bytes": 52896,
+      "sourceBytes": 75572,
+      "downloadedAt": "2026-09-02T08:43:35.422Z"
+    },
+    "vcpedia:大氿歌": {
+      "title": "大氿歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e2/%E5%A4%A7%E6%B0%BF%E6%AD%8C.jpg/800px-%E5%A4%A7%E6%B0%BF%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/aa69512498c05541d3f6.webp",
+      "bytes": 21646,
+      "sourceBytes": 30024,
+      "downloadedAt": "2026-09-02T08:43:36.876Z"
+    },
+    "vcpedia:大时代": {
+      "title": "大时代",
+      "sourceUrl": "https://media.vcpedia.cn/2/2d/%E5%A4%A7%E6%99%82%E4%BB%A3.png",
+      "localUrl": "/song-covers/ae3290161ed605951310.webp",
+      "bytes": 25150,
+      "sourceBytes": 25758,
+      "downloadedAt": "2026-09-02T08:43:38.104Z"
+    },
+    "vcpedia:大小姐的复仇生涯": {
+      "title": "大小姐的复仇生涯",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9d/%E5%A4%A7%E5%B0%8F%E5%A7%90%E7%9A%84%E5%A4%8D%E4%BB%87%E7%94%9F%E6%B6%AF.jpg/800px-%E5%A4%A7%E5%B0%8F%E5%A7%90%E7%9A%84%E5%A4%8D%E4%BB%87%E7%94%9F%E6%B6%AF.jpg",
+      "localUrl": "/song-covers/83f0954bb77f53ce6002.webp",
+      "bytes": 22406,
+      "sourceBytes": 30504,
+      "downloadedAt": "2026-09-02T08:43:39.511Z"
+    },
+    "vcpedia:大小姐的逃亡生涯": {
+      "title": "大小姐的逃亡生涯",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c6/%E5%A4%A7%E5%B0%8F%E5%A7%90%E7%9A%84%E9%80%83%E4%BA%A1%E7%94%9F%E6%B6%AF.jpg/800px-%E5%A4%A7%E5%B0%8F%E5%A7%90%E7%9A%84%E9%80%83%E4%BA%A1%E7%94%9F%E6%B6%AF.jpg",
+      "localUrl": "/song-covers/4052eeb8e1ad9786e10c.webp",
+      "bytes": 19654,
+      "sourceBytes": 27126,
+      "downloadedAt": "2026-09-02T08:43:41.036Z"
+    },
+    "vcpedia:大小姐和大少爷的反派生涯": {
+      "title": "大小姐和大少爷的反派生涯",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f8/%E5%A4%A7%E5%B0%8F%E5%A7%90%E5%92%8C%E5%A4%A7%E5%B0%91%E7%88%B7%E7%9A%84%E5%8F%8D%E6%B4%BE%E7%94%9F%E6%B6%AF.jpg/800px-%E5%A4%A7%E5%B0%8F%E5%A7%90%E5%92%8C%E5%A4%A7%E5%B0%91%E7%88%B7%E7%9A%84%E5%8F%8D%E6%B4%BE%E7%94%9F%E6%B6%AF.jpg",
+      "localUrl": "/song-covers/e942a87c66fe5615e641.webp",
+      "bytes": 17854,
+      "sourceBytes": 25342,
+      "downloadedAt": "2026-09-02T08:43:42.508Z"
+    },
+    "vcpedia:大哉乾元": {
+      "title": "大哉乾元",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/15/%E5%A4%A7%E5%93%89%E4%B9%BE%E5%85%83.jpg/800px-%E5%A4%A7%E5%93%89%E4%B9%BE%E5%85%83.jpg",
+      "localUrl": "/song-covers/7156ce31eae121732883.webp",
+      "bytes": 44984,
+      "sourceBytes": 67246,
+      "downloadedAt": "2026-09-02T08:43:44.039Z"
+    },
+    "vcpedia:代替我": {
+      "title": "代替我",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/ab/%E4%BB%A3%E6%9B%BF%E6%88%91.jpg/800px-%E4%BB%A3%E6%9B%BF%E6%88%91.jpg",
+      "localUrl": "/song-covers/19a22ddba9d5a216dd57.webp",
+      "bytes": 75424,
+      "sourceBytes": 113874,
+      "downloadedAt": "2026-09-02T08:43:45.637Z"
+    },
+    "vcpedia:戴帽子的孩子": {
+      "title": "戴帽子的孩子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d6/%E6%88%B4%E5%B8%BD%E5%AD%90%E7%9A%84%E5%AD%A9%E5%AD%90%28new%29.jpg/800px-%E6%88%B4%E5%B8%BD%E5%AD%90%E7%9A%84%E5%AD%A9%E5%AD%90%28new%29.jpg",
+      "localUrl": "/song-covers/819499aed04b5b0e360d.webp",
+      "bytes": 25636,
+      "sourceBytes": 38798,
+      "downloadedAt": "2026-09-02T08:43:47.096Z"
+    },
+    "vcpedia:但我讨厌摇滚乐": {
+      "title": "但我讨厌摇滚乐",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cd/%E4%BD%86%E6%88%91%E8%AE%A8%E5%8E%8C%E6%91%87%E6%BB%9A%E4%B9%90.jpg/800px-%E4%BD%86%E6%88%91%E8%AE%A8%E5%8E%8C%E6%91%87%E6%BB%9A%E4%B9%90.jpg",
+      "localUrl": "/song-covers/d69ea5d832b5d73b12b7.webp",
+      "bytes": 23040,
+      "sourceBytes": 37804,
+      "downloadedAt": "2026-09-02T08:43:48.549Z"
+    },
+    "vcpedia:当然是选择原谅她啊": {
+      "title": "当然是选择原谅她啊",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/26/%E5%BD%93%E7%84%B6%E6%98%AF%E9%80%89%E6%8B%A9%E5%8E%9F%E8%B0%85%E5%A5%B9.jpg/800px-%E5%BD%93%E7%84%B6%E6%98%AF%E9%80%89%E6%8B%A9%E5%8E%9F%E8%B0%85%E5%A5%B9.jpg",
+      "localUrl": "/song-covers/a6971d2a4a106ec96afe.webp",
+      "bytes": 11268,
+      "sourceBytes": 14016,
+      "downloadedAt": "2026-09-02T08:43:50.022Z"
+    },
+    "vcpedia:当饮": {
+      "title": "当饮",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b0/%E5%BD%93%E9%A5%AE.jpg/800px-%E5%BD%93%E9%A5%AE.jpg",
+      "localUrl": "/song-covers/7a2933ea8f403ecde631.webp",
+      "bytes": 49452,
+      "sourceBytes": 75480,
+      "downloadedAt": "2026-09-02T08:43:51.585Z"
+    },
+    "vcpedia:刀剑春秋": {
+      "title": "刀剑春秋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/12/%E5%88%80%E5%89%91%E6%98%A5%E7%A7%8B.png/800px-%E5%88%80%E5%89%91%E6%98%A5%E7%A7%8B.png",
+      "localUrl": "/song-covers/b44d8045aa6ef68b3ac5.webp",
+      "bytes": 22964,
+      "sourceBytes": 28490,
+      "downloadedAt": "2026-09-02T08:43:53.083Z"
+    },
+    "vcpedia:到深空更深处去": {
+      "title": "到深空更深处去",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/08/%E5%88%B0%E6%B7%B1%E7%A9%BA%E6%9B%B4%E6%B7%B1%E5%A4%84%E5%8E%BB.png/800px-%E5%88%B0%E6%B7%B1%E7%A9%BA%E6%9B%B4%E6%B7%B1%E5%A4%84%E5%8E%BB.png",
+      "localUrl": "/song-covers/c67ce493e0ec5b00aea4.webp",
+      "bytes": 28160,
+      "sourceBytes": 38664,
+      "downloadedAt": "2026-09-02T08:43:54.548Z"
+    },
+    "vcpedia:道寄江雪": {
+      "title": "道寄江雪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0f/%E9%81%93%E5%AF%84%E6%B1%9F%E9%9B%AA.jpg/800px-%E9%81%93%E5%AF%84%E6%B1%9F%E9%9B%AA.jpg",
+      "localUrl": "/song-covers/c07a0cf5923ea2f7eb74.webp",
+      "bytes": 40052,
+      "sourceBytes": 59270,
+      "downloadedAt": "2026-09-02T08:43:56.058Z"
+    },
+    "vcpedia:得过且过的勇者": {
+      "title": "得过且过的勇者",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/ba/%E5%BE%97%E8%BF%87%E4%B8%94%E8%BF%87%E7%9A%84%E5%8B%87%E8%80%85.jpeg/800px-%E5%BE%97%E8%BF%87%E4%B8%94%E8%BF%87%E7%9A%84%E5%8B%87%E8%80%85.jpeg",
+      "localUrl": "/song-covers/bee75a15e7456c35f553.webp",
+      "bytes": 31422,
+      "sourceBytes": 42082,
+      "downloadedAt": "2026-09-02T08:43:57.581Z"
+    },
+    "vcpedia:地势坤": {
+      "title": "地势坤",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c9/%E5%9C%B0%E5%8A%BF%E5%9D%A4.png/800px-%E5%9C%B0%E5%8A%BF%E5%9D%A4.png",
+      "localUrl": "/song-covers/6450e6eead0efe5767bf.webp",
+      "bytes": 66666,
+      "sourceBytes": 98098,
+      "downloadedAt": "2026-09-02T08:43:59.419Z"
+    },
+    "vcpedia:灯塔(乐正龙牙)": {
+      "title": "灯塔",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/24/%E7%81%AF%E5%A1%94new%28%E4%B9%90%E6%AD%A3%E9%BE%99%E7%89%99%29.jpg/800px-%E7%81%AF%E5%A1%94new%28%E4%B9%90%E6%AD%A3%E9%BE%99%E7%89%99%29.jpg",
+      "localUrl": "/song-covers/6018260f6cfbc224c36a.webp",
+      "bytes": 28772,
+      "sourceBytes": 43656,
+      "downloadedAt": "2026-09-02T08:44:00.980Z"
+    },
+    "vcpedia:登陆宇宙": {
+      "title": "登陆宇宙",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8b/%E7%99%BB%E9%99%86%E5%AE%87%E5%AE%99.jpg/800px-%E7%99%BB%E9%99%86%E5%AE%87%E5%AE%99.jpg",
+      "localUrl": "/song-covers/7c643ad93c71ef84aacd.webp",
+      "bytes": 21986,
+      "sourceBytes": 30626,
+      "downloadedAt": "2026-09-02T08:44:02.480Z"
+    },
+    "vcpedia:滴答滴答(星葵)": {
+      "title": "滴答滴答",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/af/%E6%BB%B4%E7%AD%94%E6%BB%B4%E7%AD%94%28%E6%98%9F%E8%91%B5%29.jpg/800px-%E6%BB%B4%E7%AD%94%E6%BB%B4%E7%AD%94%28%E6%98%9F%E8%91%B5%29.jpg",
+      "localUrl": "/song-covers/4652bd81d64b4ab249ce.webp",
+      "bytes": 19316,
+      "sourceBytes": 28486,
+      "downloadedAt": "2026-09-02T08:44:03.901Z"
+    },
+    "vcpedia:蝶变": {
+      "title": "蝶变",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5b/%E8%9D%B6%E5%8F%98%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg/800px-%E8%9D%B6%E5%8F%98%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/45b5e5f372985f058c4c.webp",
+      "bytes": 29210,
+      "sourceBytes": 44390,
+      "downloadedAt": "2026-09-02T08:44:05.415Z"
+    },
+    "vcpedia:东京不太热": {
+      "title": "东京不太热",
+      "sourceUrl": "https://media.vcpedia.cn/6/62/%E4%B8%9C%E4%BA%AC%E4%B8%8D%E5%A4%AA%E7%83%AD.jpg",
+      "localUrl": "/song-covers/f130308230cd068b5dcc.webp",
+      "bytes": 16312,
+      "sourceBytes": 33366,
+      "downloadedAt": "2026-09-02T08:44:06.569Z"
+    },
+    "vcpedia:独占春": {
+      "title": "独占春",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7d/%E7%8B%AC%E5%8D%A0%E6%98%A5.png/800px-%E7%8B%AC%E5%8D%A0%E6%98%A5.png",
+      "localUrl": "/song-covers/a5d950d9ce8646395ca0.webp",
+      "bytes": 54164,
+      "sourceBytes": 83448,
+      "downloadedAt": "2026-09-02T08:44:08.201Z"
+    },
+    "vcpedia:短恨歌": {
+      "title": "短恨歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a6/%E7%9F%AD%E6%81%A8%E6%AD%8C.jpg/800px-%E7%9F%AD%E6%81%A8%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/e5062ce29e81a02f284f.webp",
+      "bytes": 24272,
+      "sourceBytes": 38642,
+      "downloadedAt": "2026-09-02T08:44:10.055Z"
+    },
+    "vcpedia:多情岸": {
+      "title": "多情岸",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f1/%E5%A4%9A%E6%83%85%E5%B2%B8.jpg/800px-%E5%A4%9A%E6%83%85%E5%B2%B8.jpg",
+      "localUrl": "/song-covers/49f6f269568a008380f9.webp",
+      "bytes": 8830,
+      "sourceBytes": 12292,
+      "downloadedAt": "2026-09-02T08:44:11.499Z"
+    },
+    "vcpedia:二人三角": {
+      "title": "二人三角",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d2/%E4%BA%8C%E4%BA%BA%E4%B8%89%E8%A7%92%28new%29.png/800px-%E4%BA%8C%E4%BA%BA%E4%B8%89%E8%A7%92%28new%29.png",
+      "localUrl": "/song-covers/5ba1df8bf7ce818f5fc5.webp",
+      "bytes": 22546,
+      "sourceBytes": 29306,
+      "downloadedAt": "2026-09-02T08:44:13.008Z"
+    },
+    "vcpedia:二十三": {
+      "title": "二十三",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4d/%E4%BA%8C%E5%8D%81%E4%B8%89.jpg/800px-%E4%BA%8C%E5%8D%81%E4%B8%89.jpg",
+      "localUrl": "/song-covers/3e790f085a7a333fc2fb.webp",
+      "bytes": 32266,
+      "sourceBytes": 42392,
+      "downloadedAt": "2026-09-02T08:44:14.475Z"
+    },
+    "vcpedia:二重变革": {
+      "title": "二重变革",
+      "sourceUrl": "https://media.vcpedia.cn/2/24/%E4%BA%8C%E9%87%8D%E8%AE%8A%E9%9D%A9.jpg",
+      "localUrl": "/song-covers/378f2f5fe15c94d53a41.webp",
+      "bytes": 30362,
+      "sourceBytes": 64822,
+      "downloadedAt": "2026-09-02T08:44:15.663Z"
+    },
+    "vcpedia:繁华唱遍": {
+      "title": "繁华唱遍",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/67/%E7%B9%81%E5%8D%8E%E5%94%B1%E9%81%8D.jpg/800px-%E7%B9%81%E5%8D%8E%E5%94%B1%E9%81%8D.jpg",
+      "localUrl": "/song-covers/1c8f8cf204f5dda5c14e.webp",
+      "bytes": 38426,
+      "sourceBytes": 64850,
+      "downloadedAt": "2026-09-02T08:44:17.205Z"
+    },
+    "vcpedia:反派死于话多": {
+      "title": "反派死于话多",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/12/%E5%8F%8D%E6%B4%BE%E6%AD%BB%E4%BA%8E%E8%AF%9D%E5%A4%9A.jpg/800px-%E5%8F%8D%E6%B4%BE%E6%AD%BB%E4%BA%8E%E8%AF%9D%E5%A4%9A.jpg",
+      "localUrl": "/song-covers/e857204cdb906a1da3a4.webp",
+      "bytes": 32254,
+      "sourceBytes": 43862,
+      "downloadedAt": "2026-09-02T08:44:18.694Z"
+    },
+    "vcpedia:反乌托邦": {
+      "title": "反乌托邦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b4/%E5%B0%98%E5%B1%B1%E5%8F%8D%E4%B9%8C%E6%89%98%E9%82%A6%E5%B0%81%E9%9D%A2.jpeg/800px-%E5%B0%98%E5%B1%B1%E5%8F%8D%E4%B9%8C%E6%89%98%E9%82%A6%E5%B0%81%E9%9D%A2.jpeg",
+      "localUrl": "/song-covers/3dadfe739e86b8d79eb5.webp",
+      "bytes": 22210,
+      "sourceBytes": 35346,
+      "downloadedAt": "2026-09-02T08:44:20.107Z"
+    },
+    "vcpedia:放大": {
+      "title": "放大",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4e/%E6%94%BE%E5%A4%A7.jpg/800px-%E6%94%BE%E5%A4%A7.jpg",
+      "localUrl": "/song-covers/018e8e36f0df938ecbac.webp",
+      "bytes": 41746,
+      "sourceBytes": 62340,
+      "downloadedAt": "2026-09-02T08:44:21.678Z"
+    },
+    "vcpedia:飞萤燃夜": {
+      "title": "飞萤燃夜",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/1a/%E9%A3%9E%E8%90%A4%E7%87%83%E5%A4%9C.jpg/800px-%E9%A3%9E%E8%90%A4%E7%87%83%E5%A4%9C.jpg",
+      "localUrl": "/song-covers/9d63127fc70e1c2e6a24.webp",
+      "bytes": 45680,
+      "sourceBytes": 61948,
+      "downloadedAt": "2026-09-02T08:44:23.159Z"
+    },
+    "vcpedia:非常非议": {
+      "title": "非常非议",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/55/%E9%9D%9E%E5%B8%B8%E9%9D%9E%E8%AE%AE.jpg/800px-%E9%9D%9E%E5%B8%B8%E9%9D%9E%E8%AE%AE.jpg",
+      "localUrl": "/song-covers/65cf1feefb3562aa128f.webp",
+      "bytes": 24670,
+      "sourceBytes": 35448,
+      "downloadedAt": "2026-09-02T08:44:24.592Z"
+    },
+    "vcpedia:非人哉": {
+      "title": "非人哉",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4f/%E9%9D%9E%E4%BA%BA%E5%93%89.jpg/800px-%E9%9D%9E%E4%BA%BA%E5%93%89.jpg",
+      "localUrl": "/song-covers/071779a84c7d7014b5f2.webp",
+      "bytes": 44878,
+      "sourceBytes": 57172,
+      "downloadedAt": "2026-09-02T08:44:26.101Z"
+    },
+    "vcpedia:沸雪煮相思": {
+      "title": "沸雪煮相思",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b8/%E6%B2%B8%E9%9B%AA%E7%85%AE%E7%9B%B8%E6%80%9D.jpg/800px-%E6%B2%B8%E9%9B%AA%E7%85%AE%E7%9B%B8%E6%80%9D.jpg",
+      "localUrl": "/song-covers/01a9bb32d404a17d25fe.webp",
+      "bytes": 19240,
+      "sourceBytes": 27926,
+      "downloadedAt": "2026-09-02T08:44:27.576Z"
+    },
+    "vcpedia:风羽": {
+      "title": "风羽",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e7/%E9%A2%A8%E7%BE%BD.jpg/800px-%E9%A2%A8%E7%BE%BD.jpg",
+      "localUrl": "/song-covers/26cd5fbc1d6d40ed1506.webp",
+      "bytes": 40216,
+      "sourceBytes": 56082,
+      "downloadedAt": "2026-09-02T08:44:29.110Z"
+    },
+    "vcpedia:风之子": {
+      "title": "风之子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/ce/%E9%A3%8E%E4%B9%8B%E5%AD%90.jpg/800px-%E9%A3%8E%E4%B9%8B%E5%AD%90.jpg",
+      "localUrl": "/song-covers/2569c571fb6d71fb7a17.webp",
+      "bytes": 67448,
+      "sourceBytes": 106562,
+      "downloadedAt": "2026-09-02T08:44:30.699Z"
+    },
+    "vcpedia:腐女子的恋爱理论": {
+      "title": "腐女子的恋爱理论",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d9/%E8%85%90%E5%A5%B3%E5%AD%90%E7%9A%84%E6%81%8B%E7%88%B1%E7%90%86%E8%AE%BAnew.jpg/800px-%E8%85%90%E5%A5%B3%E5%AD%90%E7%9A%84%E6%81%8B%E7%88%B1%E7%90%86%E8%AE%BAnew.jpg",
+      "localUrl": "/song-covers/bff71f42659a4336ef24.webp",
+      "bytes": 24926,
+      "sourceBytes": 30770,
+      "downloadedAt": "2026-09-02T08:44:32.183Z"
+    },
+    "vcpedia:干物女(weiwei)": {
+      "title": "干物女",
+      "sourceUrl": "https://media.vcpedia.cn/f/fc/%E5%B9%B2%E7%89%A9%E5%A5%B3%28WeiWei%29.jpg",
+      "localUrl": "/song-covers/32b36552119252fc1866.webp",
+      "bytes": 15622,
+      "sourceBytes": 30492,
+      "downloadedAt": "2026-09-02T08:44:33.324Z"
+    },
+    "vcpedia:杠上开花": {
+      "title": "杠上开花",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/11/%E6%9D%A0%E4%B8%8A%E5%BC%80%E8%8A%B1.jpeg/800px-%E6%9D%A0%E4%B8%8A%E5%BC%80%E8%8A%B1.jpeg",
+      "localUrl": "/song-covers/7d44ac4fca98e37afed1.webp",
+      "bytes": 53418,
+      "sourceBytes": 74946,
+      "downloadedAt": "2026-09-02T08:44:34.864Z"
+    },
+    "vcpedia:告死鸟": {
+      "title": "告死鸟",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/96/%E5%91%8A%E6%AD%BB%E9%B8%9F.jpg/800px-%E5%91%8A%E6%AD%BB%E9%B8%9F.jpg",
+      "localUrl": "/song-covers/b038169f97743be5b620.webp",
+      "bytes": 3482,
+      "sourceBytes": 4798,
+      "downloadedAt": "2026-09-02T08:44:36.337Z"
+    },
+    "vcpedia:哥。": {
+      "title": "哥。",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/57/%E5%93%A5.jpg/800px-%E5%93%A5.jpg",
+      "localUrl": "/song-covers/e97d1f9321df211f9819.webp",
+      "bytes": 19256,
+      "sourceBytes": 25640,
+      "downloadedAt": "2026-09-02T08:44:37.851Z"
+    },
+    "vcpedia:鸽子": {
+      "title": "鸽子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c4/%E9%B8%BD%E5%AD%90%28ilem%29.png/800px-%E9%B8%BD%E5%AD%90%28ilem%29.png",
+      "localUrl": "/song-covers/0585964db52bd6500257.webp",
+      "bytes": 7324,
+      "sourceBytes": 10798,
+      "downloadedAt": "2026-09-02T08:44:39.317Z"
+    },
+    "vcpedia:歌": {
+      "title": "歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/24/%E6%AD%8C.jpg/800px-%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/71dab143f238f977416d.webp",
+      "bytes": 7598,
+      "sourceBytes": 11310,
+      "downloadedAt": "2026-09-02T08:44:40.715Z"
+    },
+    "vcpedia:歌行四方": {
+      "title": "歌行四方",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d9/%E6%AD%8C%E8%A1%8C%E5%9B%9B%E6%96%B9.jpg/800px-%E6%AD%8C%E8%A1%8C%E5%9B%9B%E6%96%B9.jpg",
+      "localUrl": "/song-covers/8712c227f5e2649fd3e7.webp",
+      "bytes": 31156,
+      "sourceBytes": 41996,
+      "downloadedAt": "2026-09-02T08:44:42.240Z"
+    },
+    "vcpedia:哈利波特学院印象曲·格兰芬多": {
+      "title": "格兰芬多",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f4/%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E6%A0%BC%E5%85%B0%E8%8A%AC%E5%A4%9A.jpg/800px-%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E6%A0%BC%E5%85%B0%E8%8A%AC%E5%A4%9A.jpg",
+      "localUrl": "/song-covers/fda2662db3b6364c5997.webp",
+      "bytes": 39250,
+      "sourceBytes": 56856,
+      "downloadedAt": "2026-09-02T08:44:43.743Z"
+    },
+    "vcpedia:给世界依点颜色!": {
+      "title": "给世界依点颜色！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/45/%E7%BB%99%E4%B8%96%E7%95%8C%E4%BE%9D%E7%82%B9%E9%A2%9C%E8%89%B2%EF%BC%81.png/800px-%E7%BB%99%E4%B8%96%E7%95%8C%E4%BE%9D%E7%82%B9%E9%A2%9C%E8%89%B2%EF%BC%81.png",
+      "localUrl": "/song-covers/d4109beb5b5681404c52.webp",
+      "bytes": 45458,
+      "sourceBytes": 59434,
+      "downloadedAt": "2026-09-02T08:44:45.267Z"
+    },
+    "vcpedia:勾指起誓": {
+      "title": "勾指起誓",
+      "sourceUrl": "https://media.vcpedia.cn/e/e0/%E5%8B%BE%E6%8C%87%E8%B5%B7%E8%AA%93_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/f3b2ba6859ba17574e00.webp",
+      "bytes": 7022,
+      "sourceBytes": 7060,
+      "downloadedAt": "2026-09-02T08:44:46.397Z"
+    },
+    "vcpedia:故我逢真": {
+      "title": "故我逢真",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d3/%E6%95%85%E6%88%91%E9%80%A2%E7%9C%9F.jpg/800px-%E6%95%85%E6%88%91%E9%80%A2%E7%9C%9F.jpg",
+      "localUrl": "/song-covers/068acf2a369ad109ffc2.webp",
+      "bytes": 26568,
+      "sourceBytes": 35038,
+      "downloadedAt": "2026-09-02T08:44:47.888Z"
+    },
+    "vcpedia:怪物大暴走": {
+      "title": "怪物大暴走",
+      "sourceUrl": "https://media.vcpedia.cn/6/68/%E6%80%AA%E7%89%A9%E5%A4%A7%E6%9A%B4%E8%B5%B0%E2%80%94%E2%80%94%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/58365113a91fcf01efe4.webp",
+      "bytes": 2944,
+      "sourceBytes": 6764,
+      "downloadedAt": "2026-09-02T08:44:49.048Z"
+    },
+    "vcpedia:关于你": {
+      "title": "关于你",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4a/%E5%85%B3%E4%BA%8E%E4%BD%A0.jpg/800px-%E5%85%B3%E4%BA%8E%E4%BD%A0.jpg",
+      "localUrl": "/song-covers/dd5a71bf5655e642e579.webp",
+      "bytes": 37800,
+      "sourceBytes": 49588,
+      "downloadedAt": "2026-09-02T08:44:50.530Z"
+    },
+    "vcpedia:冠世一战": {
+      "title": "冠世一战",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/13/%E5%86%A0%E4%B8%96%E4%B8%80%E6%88%98.jpg/800px-%E5%86%A0%E4%B8%96%E4%B8%80%E6%88%98.jpg",
+      "localUrl": "/song-covers/a940b54f8352a28c375d.webp",
+      "bytes": 49696,
+      "sourceBytes": 73014,
+      "downloadedAt": "2026-09-02T08:44:52.078Z"
+    },
+    "vcpedia:光(kide)": {
+      "title": "光(Kide)",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/29/%E5%85%89%28Kide%29.jpg/800px-%E5%85%89%28Kide%29.jpg",
+      "localUrl": "/song-covers/5d80bcdea1d5c3bbe3df.webp",
+      "bytes": 22734,
+      "sourceBytes": 33874,
+      "downloadedAt": "2026-09-02T08:44:53.577Z"
+    },
+    "vcpedia:光与影的对白": {
+      "title": "光与影的对白",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cd/%E5%85%89%E4%B8%8E%E5%BD%B1%E7%9A%84%E5%AF%B9%E7%99%BD.jpg/800px-%E5%85%89%E4%B8%8E%E5%BD%B1%E7%9A%84%E5%AF%B9%E7%99%BD.jpg",
+      "localUrl": "/song-covers/30c15deeeaab539aaf32.webp",
+      "bytes": 46476,
+      "sourceBytes": 64884,
+      "downloadedAt": "2026-09-02T08:44:55.104Z"
+    },
+    "vcpedia:归钓吟": {
+      "title": "归钓吟",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cb/%E5%BD%92%E9%92%93%E5%90%9F.jpg/800px-%E5%BD%92%E9%92%93%E5%90%9F.jpg",
+      "localUrl": "/song-covers/5f1e1539db32f03998c6.webp",
+      "bytes": 37100,
+      "sourceBytes": 54316,
+      "downloadedAt": "2026-09-02T08:44:56.574Z"
+    },
+    "vcpedia:皈依者狂热": {
+      "title": "皈依者狂热",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f7/%E7%9A%88%E4%BE%9D%E8%80%85%E7%8B%82%E7%83%AD.jpg/800px-%E7%9A%88%E4%BE%9D%E8%80%85%E7%8B%82%E7%83%AD.jpg",
+      "localUrl": "/song-covers/2b563e16cd4a0f9fa2ac.webp",
+      "bytes": 25318,
+      "sourceBytes": 34204,
+      "downloadedAt": "2026-09-02T08:44:58.044Z"
+    },
+    "vcpedia:刽子手": {
+      "title": "刽子手",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/47/%E5%8A%8A%E5%AD%90%E6%89%8B.jpg/800px-%E5%8A%8A%E5%AD%90%E6%89%8B.jpg",
+      "localUrl": "/song-covers/3b1109b8eb5024d46585.webp",
+      "bytes": 58820,
+      "sourceBytes": 83100,
+      "downloadedAt": "2026-09-02T08:44:59.689Z"
+    },
+    "vcpedia:滚!": {
+      "title": "滚！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f4/%E6%BB%9A%EF%BC%81.jpg/800px-%E6%BB%9A%EF%BC%81.jpg",
+      "localUrl": "/song-covers/a053af68493f61eb352c.webp",
+      "bytes": 33618,
+      "sourceBytes": 48992,
+      "downloadedAt": "2026-09-02T08:45:01.211Z"
+    },
+    "vcpedia:海风以南": {
+      "title": "海风以南",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/86/%E6%B5%B7%E9%A3%8E%E4%BB%A5%E5%8D%97%28new%29.jpg/800px-%E6%B5%B7%E9%A3%8E%E4%BB%A5%E5%8D%97%28new%29.jpg",
+      "localUrl": "/song-covers/c57a25ef93adf5bcba81.webp",
+      "bytes": 67510,
+      "sourceBytes": 96232,
+      "downloadedAt": "2026-09-02T08:45:02.924Z"
+    },
+    "vcpedia:海棠仙": {
+      "title": "海棠仙",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e5/%E6%B5%B7%E6%A3%A0%E4%BB%99.jpg/800px-%E6%B5%B7%E6%A3%A0%E4%BB%99.jpg",
+      "localUrl": "/song-covers/359b53fe3e4ef8933c16.webp",
+      "bytes": 24672,
+      "sourceBytes": 33454,
+      "downloadedAt": "2026-09-02T08:45:04.578Z"
+    },
+    "vcpedia:好嗨哟": {
+      "title": "好嗨哟",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/05/%E5%A5%BD%E5%97%A8%E5%93%9F.jpg/800px-%E5%A5%BD%E5%97%A8%E5%93%9F.jpg",
+      "localUrl": "/song-covers/e464a1aaac9c156a8590.webp",
+      "bytes": 33104,
+      "sourceBytes": 45318,
+      "downloadedAt": "2026-09-02T08:45:06.099Z"
+    },
+    "vcpedia:好字唯之": {
+      "title": "好字唯之",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/44/%E5%A5%BD%E5%AD%97%E5%94%AF%E4%B9%8B.jpg/800px-%E5%A5%BD%E5%AD%97%E5%94%AF%E4%B9%8B.jpg",
+      "localUrl": "/song-covers/6ebec6945f92fbc02cd7.webp",
+      "bytes": 33850,
+      "sourceBytes": 48848,
+      "downloadedAt": "2026-09-02T08:45:07.646Z"
+    },
+    "vcpedia:哈利波特学院印象曲·赫奇帕奇": {
+      "title": "赫奇帕奇",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/14/%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E8%B5%AB%E5%A5%87%E5%B8%95%E5%A5%87%28%E6%94%B9%29.jpg/800px-%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E8%B5%AB%E5%A5%87%E5%B8%95%E5%A5%87%28%E6%94%B9%29.jpg",
+      "localUrl": "/song-covers/a7b1b4878322916e4209.webp",
+      "bytes": 36238,
+      "sourceBytes": 55268,
+      "downloadedAt": "2026-09-02T08:45:09.153Z"
+    },
+    "vcpedia:黑凤梨": {
+      "title": "黑凤梨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6d/%E9%BB%91%E5%87%A4%E6%A2%A8%28new%29.png/800px-%E9%BB%91%E5%87%A4%E6%A2%A8%28new%29.png",
+      "localUrl": "/song-covers/87f9002b6b760eaaa50a.webp",
+      "bytes": 31770,
+      "sourceBytes": 43688,
+      "downloadedAt": "2026-09-02T08:45:10.651Z"
+    },
+    "vcpedia:红昭愿": {
+      "title": "红昭愿",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/be/%E7%BA%A2%E6%98%AD%E6%84%BF.jpg/800px-%E7%BA%A2%E6%98%AD%E6%84%BF.jpg",
+      "localUrl": "/song-covers/408310df7ed15ecc2c14.webp",
+      "bytes": 26976,
+      "sourceBytes": 40404,
+      "downloadedAt": "2026-09-02T08:45:12.105Z"
+    },
+    "vcpedia:蝴蝶(瞿子千)": {
+      "title": "蝴蝶",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/03/%E8%9D%B4%E8%9D%B6_%E5%86%8D%E7%94%9F.png/800px-%E8%9D%B4%E8%9D%B6_%E5%86%8D%E7%94%9F.png",
+      "localUrl": "/song-covers/f730e6d04c02d7476bec.webp",
+      "bytes": 65900,
+      "sourceBytes": 90092,
+      "downloadedAt": "2026-09-02T08:45:14.152Z"
+    },
+    "vcpedia:蝴蝶旅客": {
+      "title": "蝴蝶旅客",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2c/%E8%9D%B4%E8%9D%B6%E6%97%85%E5%AE%A2.jpg/800px-%E8%9D%B4%E8%9D%B6%E6%97%85%E5%AE%A2.jpg",
+      "localUrl": "/song-covers/23d647b88c2ebe386423.webp",
+      "bytes": 24956,
+      "sourceBytes": 33600,
+      "downloadedAt": "2026-09-02T08:45:15.847Z"
+    },
+    "vcpedia:花": {
+      "title": "花",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d7/%E8%8A%B1%28%E4%B9%90%E6%AD%A3%E7%BB%AB%29.jpg/800px-%E8%8A%B1%28%E4%B9%90%E6%AD%A3%E7%BB%AB%29.jpg",
+      "localUrl": "/song-covers/7584a13c3e7818f2836e.webp",
+      "bytes": 33276,
+      "sourceBytes": 46032,
+      "downloadedAt": "2026-09-02T08:45:17.272Z"
+    },
+    "vcpedia:花儿纳吉": {
+      "title": "花儿纳吉",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/63/%E8%8A%B1%E5%84%BF%E7%BA%B3%E5%90%89_%E5%B0%81%E9%9D%A2.jpg/800px-%E8%8A%B1%E5%84%BF%E7%BA%B3%E5%90%89_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/7b09c9166c307373c995.webp",
+      "bytes": 5550,
+      "sourceBytes": 7758,
+      "downloadedAt": "2026-09-02T08:45:18.674Z"
+    },
+    "vcpedia:化作繁星": {
+      "title": "化作繁星",
+      "sourceUrl": "https://media.vcpedia.cn/9/92/%E5%8C%96%E4%BD%9C%E7%B9%81%E6%98%9F.png",
+      "localUrl": "/song-covers/a717aee3be141158157d.webp",
+      "bytes": 23932,
+      "sourceBytes": 25876,
+      "downloadedAt": "2026-09-02T08:45:20.483Z"
+    },
+    "vcpedia:寰宇记书": {
+      "title": "寰宇记书",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d1/%E5%AF%B0%E5%AE%87%E8%AE%B0%E4%B9%A6.jpg/800px-%E5%AF%B0%E5%AE%87%E8%AE%B0%E4%B9%A6.jpg",
+      "localUrl": "/song-covers/6b825896934e38761489.webp",
+      "bytes": 36388,
+      "sourceBytes": 54938,
+      "downloadedAt": "2026-09-02T08:45:22.019Z"
+    },
+    "vcpedia:灰死病少女": {
+      "title": "灰死病少女",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/99/%E7%81%B0%E6%AD%BB%E7%97%85%E5%B0%91%E5%A5%B3.jpg/800px-%E7%81%B0%E6%AD%BB%E7%97%85%E5%B0%91%E5%A5%B3.jpg",
+      "localUrl": "/song-covers/e5a17d6c31933d6a6c9d.webp",
+      "bytes": 29418,
+      "sourceBytes": 38388,
+      "downloadedAt": "2026-09-02T08:45:23.494Z"
+    },
+    "vcpedia:回音": {
+      "title": "回音",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fd/%E5%9B%9E%E9%9F%B301.png/800px-%E5%9B%9E%E9%9F%B301.png",
+      "localUrl": "/song-covers/84cedcf85b24923c598d.webp",
+      "bytes": 9544,
+      "sourceBytes": 12258,
+      "downloadedAt": "2026-09-02T08:45:24.920Z"
+    },
+    "vcpedia:寄明月": {
+      "title": "寄明月",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/24/%E5%AF%84%E6%98%8E%E6%9C%88.jpg/800px-%E5%AF%84%E6%98%8E%E6%9C%88.jpg",
+      "localUrl": "/song-covers/c6a6f3221975c2f92312.webp",
+      "bytes": 29936,
+      "sourceBytes": 41898,
+      "downloadedAt": "2026-09-02T08:45:26.410Z"
+    },
+    "vcpedia:寄予你的歌": {
+      "title": "寄予你的歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9c/%E5%AF%84%E4%BA%88%E4%BD%A0%E7%9A%84%E6%AD%8C.jpg/800px-%E5%AF%84%E4%BA%88%E4%BD%A0%E7%9A%84%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/140f234811d3a8263988.webp",
+      "bytes": 55202,
+      "sourceBytes": 82496,
+      "downloadedAt": "2026-09-02T08:45:27.960Z"
+    },
+    "vcpedia:剑与雪": {
+      "title": "剑与雪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/75/%E5%89%91%E4%B8%8E%E9%9B%AA.jpg/800px-%E5%89%91%E4%B8%8E%E9%9B%AA.jpg",
+      "localUrl": "/song-covers/360283cfc4378b05685a.webp",
+      "bytes": 40318,
+      "sourceBytes": 55760,
+      "downloadedAt": "2026-09-02T08:45:29.490Z"
+    },
+    "vcpedia:贱侠": {
+      "title": "贱侠",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/40/%E8%B4%B1%E4%BE%A0%28ACE%E7%89%88%29.jpg/800px-%E8%B4%B1%E4%BE%A0%28ACE%E7%89%88%29.jpg",
+      "localUrl": "/song-covers/8840199aa2a8eeb0ab7b.webp",
+      "bytes": 21710,
+      "sourceBytes": 28602,
+      "downloadedAt": "2026-09-02T08:45:30.959Z"
+    },
+    "vcpedia:键盘侠的斗争哲学": {
+      "title": "键盘侠的斗争哲学",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0f/%E9%94%AE%E7%9B%98%E4%BE%A0%E7%9A%84%E6%96%97%E4%BA%89%E5%93%B2%E5%AD%A6.png/800px-%E9%94%AE%E7%9B%98%E4%BE%A0%E7%9A%84%E6%96%97%E4%BA%89%E5%93%B2%E5%AD%A6.png",
+      "localUrl": "/song-covers/f3fe41116f05b15b96aa.webp",
+      "bytes": 35694,
+      "sourceBytes": 44422,
+      "downloadedAt": "2026-09-02T08:45:32.470Z"
+    },
+    "vcpedia:将军行": {
+      "title": "将军行",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/70/%E5%B0%86%E5%86%9B%E8%A1%8C.jpg/800px-%E5%B0%86%E5%86%9B%E8%A1%8C.jpg",
+      "localUrl": "/song-covers/aab3f3608b36c60fb4a1.webp",
+      "bytes": 43714,
+      "sourceBytes": 60976,
+      "downloadedAt": "2026-09-02T08:45:34.065Z"
+    },
+    "vcpedia:僵尸舞": {
+      "title": "僵尸舞",
+      "sourceUrl": "https://media.vcpedia.cn/9/99/%E5%83%B5%E5%B0%B8%E8%88%9E_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/5ef3c7e2540a78a21f8d.webp",
+      "bytes": 9154,
+      "sourceBytes": 17386,
+      "downloadedAt": "2026-09-02T08:45:35.477Z"
+    },
+    "vcpedia:今天没吃药": {
+      "title": "今天没吃药",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2c/%E4%BB%8A%E5%A4%A9%E6%B2%A1%E5%90%83%E8%8D%AF_%E5%B0%81%E9%9D%A2.jpg/800px-%E4%BB%8A%E5%A4%A9%E6%B2%A1%E5%90%83%E8%8D%AF_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/667affc70cd4a1764eff.webp",
+      "bytes": 4408,
+      "sourceBytes": 5614,
+      "downloadedAt": "2026-09-02T08:45:36.889Z"
+    },
+    "vcpedia:金鳞甲": {
+      "title": "金鳞甲",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cf/%E9%87%91%E9%B3%9E%E7%94%B2.jpg/800px-%E9%87%91%E9%B3%9E%E7%94%B2.jpg",
+      "localUrl": "/song-covers/3619a246c3a1077fd605.webp",
+      "bytes": 40950,
+      "sourceBytes": 62430,
+      "downloadedAt": "2026-09-02T08:45:38.375Z"
+    },
+    "vcpedia:惊鹊": {
+      "title": "惊鹊",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/80/%E6%83%8A%E9%B9%8A.jpg/800px-%E6%83%8A%E9%B9%8A.jpg",
+      "localUrl": "/song-covers/f22abc063ab3b2b32296.webp",
+      "bytes": 30884,
+      "sourceBytes": 43682,
+      "downloadedAt": "2026-09-02T08:45:39.926Z"
+    },
+    "vcpedia:惊蛰正中央": {
+      "title": "惊蛰正中央",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0d/%E6%83%8A%E8%9B%B0%E6%AD%A3%E4%B8%AD%E5%A4%AE.jpg/800px-%E6%83%8A%E8%9B%B0%E6%AD%A3%E4%B8%AD%E5%A4%AE.jpg",
+      "localUrl": "/song-covers/6ba2efff455c603bc2c7.webp",
+      "bytes": 40550,
+      "sourceBytes": 66576,
+      "downloadedAt": "2026-09-02T08:45:41.415Z"
+    },
+    "vcpedia:警察蜀黍!!!就是这个人!!!!": {
+      "title": "警察蜀黍!!!就是这个人!!!!",
+      "sourceUrl": "https://media.vcpedia.cn/b/bc/%E8%AD%A6%E5%AF%9F%E8%9C%80%E9%BB%8D.png",
+      "localUrl": "/song-covers/b50519d580d295976db8.webp",
+      "bytes": 16862,
+      "sourceBytes": 17010,
+      "downloadedAt": "2026-09-02T08:45:42.612Z"
+    },
+    "vcpedia:九九八十一(乐正绫)": {
+      "title": "九九八十一",
+      "sourceUrl": "https://media.vcpedia.cn/6/65/%E4%B9%9D%E4%B9%9D%E5%85%AB%E5%8D%81%E4%B8%80.jpg",
+      "localUrl": "/song-covers/3819f7cf19c7d9e0cb8e.webp",
+      "bytes": 34538,
+      "sourceBytes": 64910,
+      "downloadedAt": "2026-09-02T08:45:43.814Z"
+    },
+    "vcpedia:九天九夜": {
+      "title": "九天九夜",
+      "sourceUrl": "https://media.vcpedia.cn/e/ee/%E4%B9%9D%E5%A4%A9%E4%B9%9D%E5%A4%9C.jpg",
+      "localUrl": "/song-covers/78cf75210ac0cd52f281.webp",
+      "bytes": 65530,
+      "sourceBytes": 96414,
+      "downloadedAt": "2026-09-02T08:45:45.055Z"
+    },
+    "vcpedia:九月不停雨": {
+      "title": "九月不停雨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/af/%E4%B9%9D%E6%9C%88%E4%B8%8D%E5%81%9C%E9%9B%A8.jpg/800px-%E4%B9%9D%E6%9C%88%E4%B8%8D%E5%81%9C%E9%9B%A8.jpg",
+      "localUrl": "/song-covers/38c2129201f687a2f5c4.webp",
+      "bytes": 18708,
+      "sourceBytes": 26462,
+      "downloadedAt": "2026-09-02T08:45:46.596Z"
+    },
+    "vcpedia:九重现实": {
+      "title": "九重现实",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/45/%E4%B9%9D%E9%87%8D%E7%8E%B0%E5%AE%9E.jpg/800px-%E4%B9%9D%E9%87%8D%E7%8E%B0%E5%AE%9E.jpg",
+      "localUrl": "/song-covers/416ff2e7a885255ec245.webp",
+      "bytes": 27764,
+      "sourceBytes": 39142,
+      "downloadedAt": "2026-09-02T08:45:48.037Z"
+    },
+    "vcpedia:酒心吻": {
+      "title": "酒心吻",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c0/%E9%85%92%E5%BF%83%E5%90%BB.jpg/800px-%E9%85%92%E5%BF%83%E5%90%BB.jpg",
+      "localUrl": "/song-covers/b9ddc75ecbcfaeaec6ca.webp",
+      "bytes": 35388,
+      "sourceBytes": 49236,
+      "downloadedAt": "2026-09-02T08:45:49.592Z"
+    },
+    "vcpedia:巨蟹座": {
+      "title": "巨蟹座",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c9/%E5%B7%A8%E8%9F%B9%E5%BA%A7new.png/800px-%E5%B7%A8%E8%9F%B9%E5%BA%A7new.png",
+      "localUrl": "/song-covers/5267812c2b0aa2a8d165.webp",
+      "bytes": 45374,
+      "sourceBytes": 61612,
+      "downloadedAt": "2026-09-02T08:45:51.112Z"
+    },
+    "vcpedia:聚光(ikz)": {
+      "title": "聚光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ea/%E8%81%9A%E5%85%89_%E6%B4%9B%E5%A4%A9%E4%BE%9D_%E5%B0%81%E9%9D%A2.jpg/800px-%E8%81%9A%E5%85%89_%E6%B4%9B%E5%A4%A9%E4%BE%9D_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/46e8dad5f017886d25b8.webp",
+      "bytes": 31542,
+      "sourceBytes": 48936,
+      "downloadedAt": "2026-09-02T08:45:52.587Z"
+    },
+    "vcpedia:卷!": {
+      "title": "卷！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d3/%E5%8D%B7.jpg/800px-%E5%8D%B7.jpg",
+      "localUrl": "/song-covers/4a3a73e0f1a787b970a6.webp",
+      "bytes": 21764,
+      "sourceBytes": 29196,
+      "downloadedAt": "2026-09-02T08:45:53.979Z"
+    },
+    "vcpedia:绝对占有": {
+      "title": "绝对占有",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/78/%E7%BB%9D%E5%AF%B9%E5%8D%A0%E6%9C%89%28new%29.jpg/800px-%E7%BB%9D%E5%AF%B9%E5%8D%A0%E6%9C%89%28new%29.jpg",
+      "localUrl": "/song-covers/25998827e3b0d749893c.webp",
+      "bytes": 47786,
+      "sourceBytes": 72908,
+      "downloadedAt": "2026-09-02T08:45:55.456Z"
+    },
+    "vcpedia:绝体绝命": {
+      "title": "绝体绝命",
+      "sourceUrl": "https://media.vcpedia.cn/5/59/%E7%BB%9D%E4%BD%93%E7%BB%9D%E5%91%BD%28new%29.jpg",
+      "localUrl": "/song-covers/5d3488101015d4bf6774.webp",
+      "bytes": 88920,
+      "sourceBytes": 248998,
+      "downloadedAt": "2026-09-02T08:45:57.112Z"
+    },
+    "vcpedia:开心高兴歌": {
+      "title": "开心高兴歌",
+      "sourceUrl": "https://media.vcpedia.cn/e/e0/%E5%BC%80%E5%BF%83%E9%AB%98%E5%85%B4%E6%AD%8C.png",
+      "localUrl": "/song-covers/09a88c0ce5b8d256474d.webp",
+      "bytes": 84758,
+      "sourceBytes": 97152,
+      "downloadedAt": "2026-09-02T08:45:58.726Z"
+    },
+    "vcpedia:恺撒": {
+      "title": "恺撒",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e9/%E6%81%BA%E6%92%92%28%E6%AD%8C%E6%9B%B2%29.jpg/800px-%E6%81%BA%E6%92%92%28%E6%AD%8C%E6%9B%B2%29.jpg",
+      "localUrl": "/song-covers/0f4ec880deb751f89fd6.webp",
+      "bytes": 73180,
+      "sourceBytes": 105780,
+      "downloadedAt": "2026-09-02T08:46:00.337Z"
+    },
+    "vcpedia:空白世界": {
+      "title": "空白世界",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5c/%E7%A9%BA%E7%99%BD%E4%B8%96%E7%95%8C.jpg/800px-%E7%A9%BA%E7%99%BD%E4%B8%96%E7%95%8C.jpg",
+      "localUrl": "/song-covers/c341a0be2b22377bfa76.webp",
+      "bytes": 31190,
+      "sourceBytes": 41934,
+      "downloadedAt": "2026-09-02T08:46:01.960Z"
+    },
+    "vcpedia:空想世界的某一天": {
+      "title": "空想世界的某一天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/12/%E7%A9%BA%E6%83%B3%E4%B8%96%E7%95%8C%E7%9A%84%E6%9F%90%E4%B8%80%E5%A4%A9%28new%29.png/800px-%E7%A9%BA%E6%83%B3%E4%B8%96%E7%95%8C%E7%9A%84%E6%9F%90%E4%B8%80%E5%A4%A9%28new%29.png",
+      "localUrl": "/song-covers/248fecf425c5947eed31.webp",
+      "bytes": 43220,
+      "sourceBytes": 59730,
+      "downloadedAt": "2026-09-02T08:46:03.522Z"
+    },
+    "vcpedia:空心人札记": {
+      "title": "空心人札记",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cd/%E7%A9%BA%E5%BF%83%E4%BA%BA%E6%9C%AD%E8%AE%B0.jpg/800px-%E7%A9%BA%E5%BF%83%E4%BA%BA%E6%9C%AD%E8%AE%B0.jpg",
+      "localUrl": "/song-covers/6fc3f83ce896b5fe032b.webp",
+      "bytes": 17428,
+      "sourceBytes": 24998,
+      "downloadedAt": "2026-09-02T08:46:05.014Z"
+    },
+    "vcpedia:旷古回响": {
+      "title": "旷古回响",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dc/%E6%97%B7%E5%8F%A4%E5%9B%9E%E5%93%8D.jpg/800px-%E6%97%B7%E5%8F%A4%E5%9B%9E%E5%93%8D.jpg",
+      "localUrl": "/song-covers/7321a566aa95d3259fe8.webp",
+      "bytes": 35046,
+      "sourceBytes": 52252,
+      "downloadedAt": "2026-09-02T08:46:06.794Z"
+    },
+    "vcpedia:哈利波特学院印象曲·拉文克劳": {
+      "title": "拉文克劳",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/94/%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E6%8B%89%E6%96%87%E5%85%8B%E5%8A%B3%EF%BC%88%E6%94%B9%EF%BC%89.jpg/800px-%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%AD%A6%E9%99%A2%E5%8D%B0%E8%B1%A1%E6%9B%B2%C2%B7%E6%8B%89%E6%96%87%E5%85%8B%E5%8A%B3%EF%BC%88%E6%94%B9%EF%BC%89.jpg",
+      "localUrl": "/song-covers/2da3ebdef70300b75339.webp",
+      "bytes": 31528,
+      "sourceBytes": 46956,
+      "downloadedAt": "2026-09-02T08:46:08.272Z"
+    },
+    "vcpedia:来自瓦纳海姆": {
+      "title": "来自瓦纳海姆",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/73/%E6%9D%A5%E8%87%AA%E7%93%A6%E7%BA%B3%E6%B5%B7%E5%A7%86.jpg/800px-%E6%9D%A5%E8%87%AA%E7%93%A6%E7%BA%B3%E6%B5%B7%E5%A7%86.jpg",
+      "localUrl": "/song-covers/e022ace46028dd911293.webp",
+      "bytes": 32670,
+      "sourceBytes": 48438,
+      "downloadedAt": "2026-09-02T08:46:09.777Z"
+    },
+    "vcpedia:烂掉的白月光": {
+      "title": "烂掉的白月光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/81/%E7%83%82%E6%8E%89%E7%9A%84%E7%99%BD%E6%9C%88%E5%85%89.jpg/800px-%E7%83%82%E6%8E%89%E7%9A%84%E7%99%BD%E6%9C%88%E5%85%89.jpg",
+      "localUrl": "/song-covers/5f8a2ffb65b01cd79f68.webp",
+      "bytes": 3628,
+      "sourceBytes": 4820,
+      "downloadedAt": "2026-09-02T08:46:11.226Z"
+    },
+    "vcpedia:狼狈": {
+      "title": "狼狈",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0d/%E6%B4%9B%E5%A4%A9%E4%BE%9D-%E7%8B%BC%E7%8B%88.png/800px-%E6%B4%9B%E5%A4%A9%E4%BE%9D-%E7%8B%BC%E7%8B%88.png",
+      "localUrl": "/song-covers/b1ac080be872198df535.webp",
+      "bytes": 7436,
+      "sourceBytes": 9854,
+      "downloadedAt": "2026-09-02T08:46:12.640Z"
+    },
+    "vcpedia:老街北": {
+      "title": "老街北",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/21/%E8%80%81%E8%A1%97%E5%8C%97.jpg/800px-%E8%80%81%E8%A1%97%E5%8C%97.jpg",
+      "localUrl": "/song-covers/e60cf88913d5201b6518.webp",
+      "bytes": 18836,
+      "sourceBytes": 26492,
+      "downloadedAt": "2026-09-02T08:46:14.048Z"
+    },
+    "vcpedia:乐鸣东方(歌曲)": {
+      "title": "乐鸣东方",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/df/%E4%B9%90%E9%B8%A3%E4%B8%9C%E6%96%B9.jpg/800px-%E4%B9%90%E9%B8%A3%E4%B8%9C%E6%96%B9.jpg",
+      "localUrl": "/song-covers/0c6ae73de9c262b5e3c2.webp",
+      "bytes": 33416,
+      "sourceBytes": 49888,
+      "downloadedAt": "2026-09-02T08:46:15.534Z"
+    },
+    "vcpedia:涟漪": {
+      "title": "涟漪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bb/%E6%B6%9F%E6%BC%AA%28new%29.jpg/800px-%E6%B6%9F%E6%BC%AA%28new%29.jpg",
+      "localUrl": "/song-covers/ea85623338e4be80d22a.webp",
+      "bytes": 19934,
+      "sourceBytes": 26188,
+      "downloadedAt": "2026-09-02T08:46:17.085Z"
+    },
+    "vcpedia:恋爱吧 魔法少女": {
+      "title": "恋爱吧☆魔法少女",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/23/%E6%81%8B%E7%88%B1%E5%90%A7%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3.jpg/800px-%E6%81%8B%E7%88%B1%E5%90%A7%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3.jpg",
+      "localUrl": "/song-covers/8afc70156bda2f16ba01.webp",
+      "bytes": 29546,
+      "sourceBytes": 43456,
+      "downloadedAt": "2026-09-02T08:46:18.579Z"
+    },
+    "vcpedia:恋爱色魔法": {
+      "title": "恋爱色魔法",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/aa/%E6%81%8B%E7%88%B1%E8%89%B2%E9%AD%94%E6%B3%95%28new%29.jpg/800px-%E6%81%8B%E7%88%B1%E8%89%B2%E9%AD%94%E6%B3%95%28new%29.jpg",
+      "localUrl": "/song-covers/6f3bc2d2f8a4a25e8313.webp",
+      "bytes": 67148,
+      "sourceBytes": 105114,
+      "downloadedAt": "2026-09-02T08:46:20.175Z"
+    },
+    "vcpedia:凉雨": {
+      "title": "凉雨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/64/%E5%87%89%E9%9B%A8.jpg/800px-%E5%87%89%E9%9B%A8.jpg",
+      "localUrl": "/song-covers/780bf46b152fc354c322.webp",
+      "bytes": 24902,
+      "sourceBytes": 34734,
+      "downloadedAt": "2026-09-02T08:46:21.645Z"
+    },
+    "vcpedia:两秒之结": {
+      "title": "两秒之结",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a6/%E5%85%A9%E7%A7%92%E4%B9%8B%E7%B5%90.png/800px-%E5%85%A9%E7%A7%92%E4%B9%8B%E7%B5%90.png",
+      "localUrl": "/song-covers/2508a7410720ae616f30.webp",
+      "bytes": 13348,
+      "sourceBytes": 16472,
+      "downloadedAt": "2026-09-02T08:46:23.124Z"
+    },
+    "vcpedia:临川浮梦": {
+      "title": "临川浮梦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9f/%E4%B8%B4%E5%B7%9D%E6%B5%AE%E6%A2%A6.jpg/800px-%E4%B8%B4%E5%B7%9D%E6%B5%AE%E6%A2%A6.jpg",
+      "localUrl": "/song-covers/0e4959b8e0dc3fd661cf.webp",
+      "bytes": 37554,
+      "sourceBytes": 52698,
+      "downloadedAt": "2026-09-02T08:46:24.589Z"
+    },
+    "vcpedia:〇": {
+      "title": "〇",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/35/%E3%80%87.png/800px-%E3%80%87.png",
+      "localUrl": "/song-covers/4b59f7746e7fd40a41c9.webp",
+      "bytes": 14018,
+      "sourceBytes": 19222,
+      "downloadedAt": "2026-09-02T08:46:26.038Z"
+    },
+    "vcpedia:泠重乞愿": {
+      "title": "泠重乞愿",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/64/%E6%B3%A0%E9%87%8D%E4%B9%9E%E9%A1%98.jpg/800px-%E6%B3%A0%E9%87%8D%E4%B9%9E%E9%A1%98.jpg",
+      "localUrl": "/song-covers/326ef4d2e0328c4748be.webp",
+      "bytes": 23172,
+      "sourceBytes": 32268,
+      "downloadedAt": "2026-09-02T08:46:27.513Z"
+    },
+    "vcpedia:零和zero-sum": {
+      "title": "零和Zero-Sum",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c9/%E9%9B%B6%E5%92%8CZero-Sum%28%E6%98%9F%E5%A1%B5%E7%89%88%29.jpg/800px-%E9%9B%B6%E5%92%8CZero-Sum%28%E6%98%9F%E5%A1%B5%E7%89%88%29.jpg",
+      "localUrl": "/song-covers/efb5b0487d9cfc458224.webp",
+      "bytes": 33524,
+      "sourceBytes": 46276,
+      "downloadedAt": "2026-09-02T08:46:29.025Z"
+    },
+    "vcpedia:零秒之依": {
+      "title": "零秒之依",
+      "sourceUrl": "https://media.vcpedia.cn/6/69/%E7%A7%92.jpg",
+      "localUrl": "/song-covers/5e01f656a1ceee348057.webp",
+      "bytes": 74972,
+      "sourceBytes": 144890,
+      "downloadedAt": "2026-09-02T08:46:30.647Z"
+    },
+    "vcpedia:零重祈愿": {
+      "title": "零重祈愿",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9b/%E9%9B%B6%E9%87%8D%E7%A5%88%E6%84%BF.jpg/800px-%E9%9B%B6%E9%87%8D%E7%A5%88%E6%84%BF.jpg",
+      "localUrl": "/song-covers/fc71db441dbd4fafd7e4.webp",
+      "bytes": 42260,
+      "sourceBytes": 61608,
+      "downloadedAt": "2026-09-02T08:46:32.158Z"
+    },
+    "vcpedia:流光(针原翼)": {
+      "title": "流光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9e/%E6%B5%81%E5%85%89light_me_up.jpg/800px-%E6%B5%81%E5%85%89light_me_up.jpg",
+      "localUrl": "/song-covers/8dce594ecebf91e19c95.webp",
+      "bytes": 49730,
+      "sourceBytes": 73550,
+      "downloadedAt": "2026-09-02T08:46:33.675Z"
+    },
+    "vcpedia:流年如歌": {
+      "title": "流年如歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a1/%E6%B5%81%E5%B9%B4%E5%A6%82%E6%AD%8C.jpg/800px-%E6%B5%81%E5%B9%B4%E5%A6%82%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/6780b149074657f1976c.webp",
+      "bytes": 20852,
+      "sourceBytes": 29800,
+      "downloadedAt": "2026-09-02T08:46:35.095Z"
+    },
+    "vcpedia:六月的明天": {
+      "title": "六月的明天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b1/%E5%85%AD%E6%9C%88%E7%9A%84%E6%98%8E%E5%A4%A9.jpg/800px-%E5%85%AD%E6%9C%88%E7%9A%84%E6%98%8E%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/ea0391160415495f2bac.webp",
+      "bytes": 36772,
+      "sourceBytes": 50564,
+      "downloadedAt": "2026-09-02T08:46:36.705Z"
+    },
+    "vcpedia:六重不忠": {
+      "title": "六重不忠",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e4/%E5%85%AD%E9%87%8D%E4%B8%8D%E5%BF%A0.jpg/800px-%E5%85%AD%E9%87%8D%E4%B8%8D%E5%BF%A0.jpg",
+      "localUrl": "/song-covers/7b03f22eef5fc2bd43be.webp",
+      "bytes": 32764,
+      "sourceBytes": 44286,
+      "downloadedAt": "2026-09-02T08:46:38.149Z"
+    },
+    "vcpedia:罗汉拳": {
+      "title": "罗汉拳",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0c/%E7%BD%97%E6%B1%89%E6%8B%B3.jpg/800px-%E7%BD%97%E6%B1%89%E6%8B%B3.jpg",
+      "localUrl": "/song-covers/55508398e72ae5aeed2d.webp",
+      "bytes": 15250,
+      "sourceBytes": 17684,
+      "downloadedAt": "2026-09-02T08:46:39.602Z"
+    },
+    "vcpedia:洛水天依": {
+      "title": "洛水天依",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/33/%E6%B4%9B%E6%B0%B4%E5%A4%A9%E4%BE%9D.jpg/800px-%E6%B4%9B%E6%B0%B4%E5%A4%A9%E4%BE%9D.jpg",
+      "localUrl": "/song-covers/fc116f2258d0c9794ade.webp",
+      "bytes": 24994,
+      "sourceBytes": 34654,
+      "downloadedAt": "2026-09-02T08:46:41.059Z"
+    },
+    "vcpedia:洛阳怀": {
+      "title": "洛阳怀",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/91/%E6%B4%9B%E9%98%B3%E6%80%80.jpg/800px-%E6%B4%9B%E9%98%B3%E6%80%80.jpg",
+      "localUrl": "/song-covers/14d3ccdadc0516585137.webp",
+      "bytes": 8432,
+      "sourceBytes": 11546,
+      "downloadedAt": "2026-09-02T08:46:42.500Z"
+    },
+    "vcpedia:马": {
+      "title": "馬",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e7/%E9%A9%AC.jpg/800px-%E9%A9%AC.jpg",
+      "localUrl": "/song-covers/86aec5ae7e3f3335c21e.webp",
+      "bytes": 25982,
+      "sourceBytes": 36284,
+      "downloadedAt": "2026-09-02T08:46:43.977Z"
+    },
+    "vcpedia:梦里啥都有": {
+      "title": "梦里啥都有",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8d/%E6%A2%A6%E9%87%8C%E5%95%A5%E9%83%BD%E6%9C%89.jpg/800px-%E6%A2%A6%E9%87%8C%E5%95%A5%E9%83%BD%E6%9C%89.jpg",
+      "localUrl": "/song-covers/d12f7cf28bf9e9141c92.webp",
+      "bytes": 51582,
+      "sourceBytes": 76536,
+      "downloadedAt": "2026-09-02T08:46:45.456Z"
+    },
+    "vcpedia:梦良衣": {
+      "title": "梦良衣",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b9/%E6%A2%A6%E8%89%AF%E8%A1%A3_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%A2%A6%E8%89%AF%E8%A1%A3_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/4a8f2968f63f1d3e14af.webp",
+      "bytes": 9142,
+      "sourceBytes": 11244,
+      "downloadedAt": "2026-09-02T08:46:46.908Z"
+    },
+    "vcpedia:梦想→world→歌唱": {
+      "title": "梦想→World→歌唱",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/55/%E5%A4%A2%E6%83%B3_World_%E6%AD%8C%E5%94%B1.png/800px-%E5%A4%A2%E6%83%B3_World_%E6%AD%8C%E5%94%B1.png",
+      "localUrl": "/song-covers/93c45df464cc4a7ba218.webp",
+      "bytes": 11086,
+      "sourceBytes": 13826,
+      "downloadedAt": "2026-09-02T08:46:48.326Z"
+    },
+    "vcpedia:梦语": {
+      "title": "梦语",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/da/%E6%A2%A6%E8%AF%AD_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%A2%A6%E8%AF%AD_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/dbf7a2c7cdb35f9c019b.webp",
+      "bytes": 28102,
+      "sourceBytes": 43006,
+      "downloadedAt": "2026-09-02T08:46:49.752Z"
+    },
+    "vcpedia:梦之雨": {
+      "title": "梦之雨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6e/%E5%A4%A2%E4%B9%8B%E9%9B%A8%28new%29.png/800px-%E5%A4%A2%E4%B9%8B%E9%9B%A8%28new%29.png",
+      "localUrl": "/song-covers/fc8ca1e8b6884e9fb51a.webp",
+      "bytes": 30762,
+      "sourceBytes": 44458,
+      "downloadedAt": "2026-09-02T08:46:51.247Z"
+    },
+    "vcpedia:弥留之际": {
+      "title": "弥留之际",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/79/%E5%BC%A5%E7%95%99%E4%B9%8B%E9%99%85.jpg/800px-%E5%BC%A5%E7%95%99%E4%B9%8B%E9%99%85.jpg",
+      "localUrl": "/song-covers/36a44d35166ef8eba461.webp",
+      "bytes": 56612,
+      "sourceBytes": 86812,
+      "downloadedAt": "2026-09-02T08:46:52.757Z"
+    },
+    "vcpedia:魔法时刻": {
+      "title": "魔法时刻",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7f/%E9%AD%94%E6%B3%95%E6%97%B6%E5%88%BB.png/800px-%E9%AD%94%E6%B3%95%E6%97%B6%E5%88%BB.png",
+      "localUrl": "/song-covers/7b1ea893ad3d46377d23.webp",
+      "bytes": 41176,
+      "sourceBytes": 57336,
+      "downloadedAt": "2026-09-02T08:46:54.434Z"
+    },
+    "vcpedia:魔法旋律": {
+      "title": "魔法旋律",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dc/%E9%AD%94%E6%B3%95%E6%97%8B%E5%BE%8B.jpg/800px-%E9%AD%94%E6%B3%95%E6%97%8B%E5%BE%8B.jpg",
+      "localUrl": "/song-covers/0e0784b37b46278bde0a.webp",
+      "bytes": 23808,
+      "sourceBytes": 29530,
+      "downloadedAt": "2026-09-02T08:46:55.893Z"
+    },
+    "vcpedia:末日disco": {
+      "title": "末日disco",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c8/%E6%9C%AB%E6%97%A5DISCO.png/800px-%E6%9C%AB%E6%97%A5DISCO.png",
+      "localUrl": "/song-covers/6a5bd21e81c50edb6cec.webp",
+      "bytes": 24004,
+      "sourceBytes": 32818,
+      "downloadedAt": "2026-09-02T08:46:57.424Z"
+    },
+    "vcpedia:墨隐侠声": {
+      "title": "墨隐侠声",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fe/%E5%A2%A8%E9%9A%90%E4%BE%A0%E5%A3%B0.png/800px-%E5%A2%A8%E9%9A%90%E4%BE%A0%E5%A3%B0.png",
+      "localUrl": "/song-covers/bb147dc91179505d3532.webp",
+      "bytes": 28448,
+      "sourceBytes": 43180,
+      "downloadedAt": "2026-09-02T08:46:58.996Z"
+    },
+    "vcpedia:木兰行": {
+      "title": "木兰行",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b0/%E6%9C%A8%E5%85%B0%E8%A1%8C%28new%29.jpg/800px-%E6%9C%A8%E5%85%B0%E8%A1%8C%28new%29.jpg",
+      "localUrl": "/song-covers/2ccb5856bdce36bf064d.webp",
+      "bytes": 35116,
+      "sourceBytes": 50644,
+      "downloadedAt": "2026-09-02T08:47:00.622Z"
+    },
+    "vcpedia:牧星者": {
+      "title": "牧星者",
+      "sourceUrl": "https://media.vcpedia.cn/c/c2/%E7%89%A7%E6%98%9F%E8%80%85.png",
+      "localUrl": "/song-covers/9dc7760157c80dbbc0b4.webp",
+      "bytes": 37610,
+      "sourceBytes": 38848,
+      "downloadedAt": "2026-09-02T08:47:01.842Z"
+    },
+    "vcpedia:那些我恐惧至极的事": {
+      "title": "那些我恐惧至极的事",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c3/%E9%82%A3%E4%BA%9B%E6%88%91%E6%81%90%E6%83%A7%E8%87%B3%E6%9E%81%E7%9A%84%E4%BA%8B.jpg/800px-%E9%82%A3%E4%BA%9B%E6%88%91%E6%81%90%E6%83%A7%E8%87%B3%E6%9E%81%E7%9A%84%E4%BA%8B.jpg",
+      "localUrl": "/song-covers/07035dbadc87faa1c40f.webp",
+      "bytes": 42536,
+      "sourceBytes": 61464,
+      "downloadedAt": "2026-09-02T08:47:03.351Z"
+    },
+    "vcpedia:那些我无法原谅的事": {
+      "title": "那些我无法原谅的事",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e1/%E9%82%A3%E4%BA%9B%E6%88%91%E6%97%A0%E6%B3%95%E5%8E%9F%E8%B0%85%E7%9A%84%E4%BA%8B%E5%AE%8C%E6%95%B4.jpg/800px-%E9%82%A3%E4%BA%9B%E6%88%91%E6%97%A0%E6%B3%95%E5%8E%9F%E8%B0%85%E7%9A%84%E4%BA%8B%E5%AE%8C%E6%95%B4.jpg",
+      "localUrl": "/song-covers/c34dea1439e829ec87a1.webp",
+      "bytes": 26080,
+      "sourceBytes": 38954,
+      "downloadedAt": "2026-09-02T08:47:04.859Z"
+    },
+    "vcpedia:南京夜无电波讯号": {
+      "title": "南京夜无电波讯号",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3b/%E5%8D%97%E4%BA%AC%E5%A4%9C%E6%97%A0%E7%94%B5%E6%B3%A2%E8%AE%AF%E5%8F%B7.jpg/800px-%E5%8D%97%E4%BA%AC%E5%A4%9C%E6%97%A0%E7%94%B5%E6%B3%A2%E8%AE%AF%E5%8F%B7.jpg",
+      "localUrl": "/song-covers/519421ee5de783ea75b5.webp",
+      "bytes": 14398,
+      "sourceBytes": 20580,
+      "downloadedAt": "2026-09-02T08:47:06.321Z"
+    },
+    "vcpedia:泥汤": {
+      "title": "泥汤",
+      "sourceUrl": "https://media.vcpedia.cn/6/66/%E6%B3%A5%E6%B1%A4_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/3b37dc47b8f48f057e68.webp",
+      "bytes": 2304,
+      "sourceBytes": 2700,
+      "downloadedAt": "2026-09-02T08:47:08.112Z"
+    },
+    "vcpedia:你的眼泪同你一样廉价": {
+      "title": "你的眼泪同你一样廉价",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/57/%E4%BD%A0%E7%9A%84%E7%9C%BC%E6%B3%AA%E5%90%8C%E4%BD%A0%E4%B8%80%E6%A0%B7%E5%BB%89%E4%BB%B7.jpg/800px-%E4%BD%A0%E7%9A%84%E7%9C%BC%E6%B3%AA%E5%90%8C%E4%BD%A0%E4%B8%80%E6%A0%B7%E5%BB%89%E4%BB%B7.jpg",
+      "localUrl": "/song-covers/eac6fa5b4e60423d5e95.webp",
+      "bytes": 24668,
+      "sourceBytes": 44922,
+      "downloadedAt": "2026-09-02T08:47:09.567Z"
+    },
+    "vcpedia:你好,世界!": {
+      "title": "你好，世界！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5b/%E4%BD%A0%E5%A5%BD%EF%BC%8C%E4%B8%96%E7%95%8C%EF%BC%81.jpg/800px-%E4%BD%A0%E5%A5%BD%EF%BC%8C%E4%B8%96%E7%95%8C%EF%BC%81.jpg",
+      "localUrl": "/song-covers/913724417f069f4ee339.webp",
+      "bytes": 40920,
+      "sourceBytes": 58090,
+      "downloadedAt": "2026-09-02T08:47:11.048Z"
+    },
+    "vcpedia:你真的好弔": {
+      "title": "你真的好弔",
+      "sourceUrl": "https://media.vcpedia.cn/9/94/%E4%BD%A0%E7%9C%9F%E7%9A%84%E5%A5%BD%E5%BC%94.png",
+      "localUrl": "/song-covers/52470a356f4ee42f5266.webp",
+      "bytes": 13882,
+      "sourceBytes": 14690,
+      "downloadedAt": "2026-09-02T08:47:12.271Z"
+    },
+    "vcpedia:逆浪千秋": {
+      "title": "逆浪千秋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/1b/%E9%80%86%E6%B5%AA%E5%8D%83%E7%A7%8B.jpg/800px-%E9%80%86%E6%B5%AA%E5%8D%83%E7%A7%8B.jpg",
+      "localUrl": "/song-covers/4784d767fbd9215f613c.webp",
+      "bytes": 29062,
+      "sourceBytes": 42824,
+      "downloadedAt": "2026-09-02T08:47:13.755Z"
+    },
+    "vcpedia:女孩你为何踮脚尖": {
+      "title": "女孩你为何踮脚尖",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dc/%E5%A5%B3%E5%AD%A9%E4%BD%A0%E4%B8%BA%E4%BD%95%E8%B8%AE%E8%84%9A%E5%B0%96%28new%29.png/800px-%E5%A5%B3%E5%AD%A9%E4%BD%A0%E4%B8%BA%E4%BD%95%E8%B8%AE%E8%84%9A%E5%B0%96%28new%29.png",
+      "localUrl": "/song-covers/9659a3f1bfee8a866493.webp",
+      "bytes": 24906,
+      "sourceBytes": 32104,
+      "downloadedAt": "2026-09-02T08:47:15.230Z"
+    },
+    "vcpedia:跑!": {
+      "title": "跑！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d5/%E8%B7%91.jpg/800px-%E8%B7%91.jpg",
+      "localUrl": "/song-covers/5291cc7e37a8a76c4e25.webp",
+      "bytes": 14834,
+      "sourceBytes": 20876,
+      "downloadedAt": "2026-09-02T08:47:16.716Z"
+    },
+    "vcpedia:佩珀尔幻象": {
+      "title": "佩珀尔幻象",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4f/%E4%BD%A9%E7%8F%80%E5%B0%94%E5%B9%BB%E8%B1%A1.jpg/800px-%E4%BD%A9%E7%8F%80%E5%B0%94%E5%B9%BB%E8%B1%A1.jpg",
+      "localUrl": "/song-covers/4bc3cfca185a36996895.webp",
+      "bytes": 52124,
+      "sourceBytes": 78012,
+      "downloadedAt": "2026-09-02T08:47:18.225Z"
+    },
+    "vcpedia:皮影戏": {
+      "title": "皮影戏",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bc/%E7%9A%AE%E5%BD%B1%E6%88%8F%28%E6%AD%8C%E6%9B%B2%29.jpg/800px-%E7%9A%AE%E5%BD%B1%E6%88%8F%28%E6%AD%8C%E6%9B%B2%29.jpg",
+      "localUrl": "/song-covers/5dde206b052d5340f1df.webp",
+      "bytes": 25826,
+      "sourceBytes": 40640,
+      "downloadedAt": "2026-09-02T08:47:19.643Z"
+    },
+    "vcpedia:辟浪": {
+      "title": "辟浪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/75/%E8%BE%9F%E6%B5%AA.jpg/800px-%E8%BE%9F%E6%B5%AA.jpg",
+      "localUrl": "/song-covers/48ef1320c03273935fd7.webp",
+      "bytes": 37642,
+      "sourceBytes": 56494,
+      "downloadedAt": "2026-09-02T08:47:21.118Z"
+    },
+    "vcpedia:聘书": {
+      "title": "聘书",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dd/%E8%81%98%E4%B9%A6.jpg/800px-%E8%81%98%E4%B9%A6.jpg",
+      "localUrl": "/song-covers/f84a74c75fa34b74b502.webp",
+      "bytes": 49590,
+      "sourceBytes": 77832,
+      "downloadedAt": "2026-09-02T08:47:23.772Z"
+    },
+    "vcpedia:破云来": {
+      "title": "破云来",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/94/%E7%A0%B4%E4%BA%91%E6%9D%A5.jpg/800px-%E7%A0%B4%E4%BA%91%E6%9D%A5.jpg",
+      "localUrl": "/song-covers/91986a74e5ce25488a9f.webp",
+      "bytes": 32440,
+      "sourceBytes": 47340,
+      "downloadedAt": "2026-09-02T08:47:25.286Z"
+    },
+    "vcpedia:普通disco": {
+      "title": "普通DISCO",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3b/%E6%99%AE%E9%80%9A%E7%9A%84disco_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%99%AE%E9%80%9A%E7%9A%84disco_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/aec86bb6ab9ef45ddc73.webp",
+      "bytes": 5052,
+      "sourceBytes": 6040,
+      "downloadedAt": "2026-09-02T08:47:26.820Z"
+    },
+    "vcpedia:七秒之恋": {
+      "title": "七秒之恋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dd/%E4%B8%83%E7%A7%92%E4%B9%8B%E6%88%80.png/800px-%E4%B8%83%E7%A7%92%E4%B9%8B%E6%88%80.png",
+      "localUrl": "/song-covers/d08d3311c317d56fcfe9.webp",
+      "bytes": 32008,
+      "sourceBytes": 39988,
+      "downloadedAt": "2026-09-02T08:47:28.271Z"
+    },
+    "vcpedia:七重痼病": {
+      "title": "七重痼病",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/43/%E4%B8%83%E9%87%8D%E7%97%BC%E7%97%85.jpg/800px-%E4%B8%83%E9%87%8D%E7%97%BC%E7%97%85.jpg",
+      "localUrl": "/song-covers/57f94d39292fae66b75a.webp",
+      "bytes": 38630,
+      "sourceBytes": 52626,
+      "downloadedAt": "2026-09-02T08:47:29.797Z"
+    },
+    "vcpedia:栖凰": {
+      "title": "栖凰",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/71/%E6%A0%96%E5%87%B0.jpg/800px-%E6%A0%96%E5%87%B0.jpg",
+      "localUrl": "/song-covers/194b794ebfd56c1dd2e1.webp",
+      "bytes": 18344,
+      "sourceBytes": 26018,
+      "downloadedAt": "2026-09-02T08:47:31.260Z"
+    },
+    "vcpedia:奇迹从来没出现": {
+      "title": "奇迹从来没出现",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7a/%E5%A5%87%E8%BF%B9%E4%BB%8E%E6%9D%A5%E6%B2%A1%E5%87%BA%E7%8E%B0.jpg/800px-%E5%A5%87%E8%BF%B9%E4%BB%8E%E6%9D%A5%E6%B2%A1%E5%87%BA%E7%8E%B0.jpg",
+      "localUrl": "/song-covers/d56c0367bea160d18da8.webp",
+      "bytes": 32692,
+      "sourceBytes": 52154,
+      "downloadedAt": "2026-09-02T08:47:32.727Z"
+    },
+    "vcpedia:起来!": {
+      "title": "起来！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b1/%E8%B5%B7%E4%BE%86.jpg/800px-%E8%B5%B7%E4%BE%86.jpg",
+      "localUrl": "/song-covers/1de23bfce7d9c87b4428.webp",
+      "bytes": 22898,
+      "sourceBytes": 29734,
+      "downloadedAt": "2026-09-02T08:47:34.217Z"
+    },
+    "vcpedia:起战令": {
+      "title": "起战令",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/db/%E8%B5%B7%E6%88%98%E4%BB%A4.jpg/800px-%E8%B5%B7%E6%88%98%E4%BB%A4.jpg",
+      "localUrl": "/song-covers/5c5d01ccf39e80155358.webp",
+      "bytes": 51992,
+      "sourceBytes": 71128,
+      "downloadedAt": "2026-09-02T08:47:35.751Z"
+    },
+    "vcpedia:千金胧梦": {
+      "title": "千金胧梦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2c/%E5%8D%83%E9%87%91%E8%83%A7%E6%A2%A6.jpg/800px-%E5%8D%83%E9%87%91%E8%83%A7%E6%A2%A6.jpg",
+      "localUrl": "/song-covers/16e60357fb35499439c4.webp",
+      "bytes": 85874,
+      "sourceBytes": 126818,
+      "downloadedAt": "2026-09-02T08:47:37.298Z"
+    },
+    "vcpedia:千里邀月": {
+      "title": "千里邀月",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/48/%E5%8D%83%E9%87%8C%E9%82%80%E6%9C%88.jpg/800px-%E5%8D%83%E9%87%8C%E9%82%80%E6%9C%88.jpg",
+      "localUrl": "/song-covers/52e1651711bfb59fe82e.webp",
+      "bytes": 28202,
+      "sourceBytes": 37910,
+      "downloadedAt": "2026-09-02T08:47:39.173Z"
+    },
+    "vcpedia:千秋梦": {
+      "title": "千秋梦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/06/%E5%8D%83%E7%A7%8B%E6%A2%A6.jpg/800px-%E5%8D%83%E7%A7%8B%E6%A2%A6.jpg",
+      "localUrl": "/song-covers/ee8412c27aab19589ac8.webp",
+      "bytes": 33092,
+      "sourceBytes": 46472,
+      "downloadedAt": "2026-09-02T08:47:45.248Z"
+    },
+    "vcpedia:前尘如梦": {
+      "title": "前尘如梦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f8/%E5%89%8D%E5%B0%98%E5%A6%82%E6%A2%A6%28%E5%8E%9F%E7%89%88%29.png/800px-%E5%89%8D%E5%B0%98%E5%A6%82%E6%A2%A6%28%E5%8E%9F%E7%89%88%29.png",
+      "localUrl": "/song-covers/b58d1f3adb19659cf8eb.webp",
+      "bytes": 14422,
+      "sourceBytes": 17590,
+      "downloadedAt": "2026-09-02T08:47:46.792Z"
+    },
+    "vcpedia:亲爱的": {
+      "title": "亲爱的",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9e/%E4%BA%B2%E7%88%B1%E7%9A%84%28new%29.jpg/800px-%E4%BA%B2%E7%88%B1%E7%9A%84%28new%29.jpg",
+      "localUrl": "/song-covers/4980b8559205e3377be6.webp",
+      "bytes": 33386,
+      "sourceBytes": 50336,
+      "downloadedAt": "2026-09-02T08:47:48.389Z"
+    },
+    "vcpedia:青鸟衔风": {
+      "title": "青鸟衔风",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/05/%E9%9D%92%E9%B8%9F%E8%A1%94%E9%A3%8E.jpg/800px-%E9%9D%92%E9%B8%9F%E8%A1%94%E9%A3%8E.jpg",
+      "localUrl": "/song-covers/c613eb238aa95597c949.webp",
+      "bytes": 40684,
+      "sourceBytes": 58402,
+      "downloadedAt": "2026-09-02T08:47:49.990Z"
+    },
+    "vcpedia:倾国": {
+      "title": "倾国",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ea/%E5%80%BE%E5%9B%BD%E6%9B%B2%E7%BB%98.jpg/800px-%E5%80%BE%E5%9B%BD%E6%9B%B2%E7%BB%98.jpg",
+      "localUrl": "/song-covers/ee0b6f65cddbcc7e6f4d.webp",
+      "bytes": 48174,
+      "sourceBytes": 68142,
+      "downloadedAt": "2026-09-02T08:47:51.505Z"
+    },
+    "vcpedia:请不要带我走。": {
+      "title": "请不要带我走。",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5b/%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%B8%A6%E6%88%91%E8%B5%B0.jpg/800px-%E8%AF%B7%E4%B8%8D%E8%A6%81%E5%B8%A6%E6%88%91%E8%B5%B0.jpg",
+      "localUrl": "/song-covers/293c4022e7a4aadeac3f.webp",
+      "bytes": 59328,
+      "sourceBytes": 88514,
+      "downloadedAt": "2026-09-02T08:47:53.048Z"
+    },
+    "vcpedia:权御天下": {
+      "title": "权御天下",
+      "sourceUrl": "https://media.vcpedia.cn/9/91/%E5%B0%81%E9%9D%A2-%E6%9D%83%E5%BE%A1%E5%A4%A9%E4%B8%8B.jpg",
+      "localUrl": "/song-covers/26eeba1a749655e0bf29.webp",
+      "bytes": 16358,
+      "sourceBytes": 24102,
+      "downloadedAt": "2026-09-02T08:47:54.227Z"
+    },
+    "vcpedia:然而我不是神": {
+      "title": "然而我不是神",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6e/%E7%84%B6%E8%80%8C%E6%88%91%E4%B8%8D%E6%98%AF%E7%A5%9E%28new%29.png/800px-%E7%84%B6%E8%80%8C%E6%88%91%E4%B8%8D%E6%98%AF%E7%A5%9E%28new%29.png",
+      "localUrl": "/song-covers/805d6e644b499d987389.webp",
+      "bytes": 51330,
+      "sourceBytes": 72818,
+      "downloadedAt": "2026-09-02T08:47:55.837Z"
+    },
+    "vcpedia:人间应又雪": {
+      "title": "人间应又雪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/92/%E4%BA%BA%E9%97%B4%E5%BA%94%E5%8F%88%E9%9B%AA.jpg/800px-%E4%BA%BA%E9%97%B4%E5%BA%94%E5%8F%88%E9%9B%AA.jpg",
+      "localUrl": "/song-covers/59d456c85ebe4471f76c.webp",
+      "bytes": 39560,
+      "sourceBytes": 56156,
+      "downloadedAt": "2026-09-02T08:47:57.463Z"
+    },
+    "vcpedia:人是猫": {
+      "title": "人是猫",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/71/%E4%BA%BA%E6%98%AF%E7%8C%AB.jpg/800px-%E4%BA%BA%E6%98%AF%E7%8C%AB.jpg",
+      "localUrl": "/song-covers/baa34d4cf2b9557673ca.webp",
+      "bytes": 13838,
+      "sourceBytes": 18412,
+      "downloadedAt": "2026-09-02T08:47:58.655Z"
+    },
+    "vcpedia:仍与你心跳同步": {
+      "title": "仍与你心跳同步",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/97/%E4%BB%8D%E4%B8%8E%E4%BD%A0%E5%BF%83%E8%B7%B3%E5%90%8C%E6%AD%A5.jpg/800px-%E4%BB%8D%E4%B8%8E%E4%BD%A0%E5%BF%83%E8%B7%B3%E5%90%8C%E6%AD%A5.jpg",
+      "localUrl": "/song-covers/549ee0ea8b5a22b65f66.webp",
+      "bytes": 24610,
+      "sourceBytes": 33020,
+      "downloadedAt": "2026-09-02T08:48:00.155Z"
+    },
+    "vcpedia:日月山河": {
+      "title": "日月山河",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7c/%E6%97%A5%E6%9C%88%E5%B1%B1%E6%B2%B3.jpg/800px-%E6%97%A5%E6%9C%88%E5%B1%B1%E6%B2%B3.jpg",
+      "localUrl": "/song-covers/29eac34c420f19e0b4db.webp",
+      "bytes": 54564,
+      "sourceBytes": 86618,
+      "downloadedAt": "2026-09-02T08:48:01.725Z"
+    },
+    "vcpedia:如果(2023拜年纪单品)": {
+      "title": "如果",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/aa/%E5%A6%82%E6%9E%9C-%E5%8D%95%E5%93%81%E5%B0%81%E9%9D%A2.jpg/800px-%E5%A6%82%E6%9E%9C-%E5%8D%95%E5%93%81%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/c067d37daad6537a7323.webp",
+      "bytes": 16926,
+      "sourceBytes": 22150,
+      "downloadedAt": "2026-09-02T08:48:03.236Z"
+    },
+    "vcpedia:如见青山": {
+      "title": "如见青山",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0a/%E5%A6%82%E8%A7%81%E9%9D%92%E5%B1%B1.jpg/800px-%E5%A6%82%E8%A7%81%E9%9D%92%E5%B1%B1.jpg",
+      "localUrl": "/song-covers/f4a4f66757baf69b867d.webp",
+      "bytes": 39454,
+      "sourceBytes": 52994,
+      "downloadedAt": "2026-09-02T08:48:04.717Z"
+    },
+    "vcpedia:弱碱性费南雪": {
+      "title": "弱碱性费南雪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5e/%E5%BC%B1%E7%A2%B1%E6%80%A7%E8%B4%B9%E5%8D%97%E9%9B%AA.jpg/800px-%E5%BC%B1%E7%A2%B1%E6%80%A7%E8%B4%B9%E5%8D%97%E9%9B%AA.jpg",
+      "localUrl": "/song-covers/2cb0cefc1b713dfb35f9.webp",
+      "bytes": 28128,
+      "sourceBytes": 40410,
+      "downloadedAt": "2026-09-02T08:48:06.222Z"
+    },
+    "vcpedia:三月雨": {
+      "title": "三月雨",
+      "sourceUrl": "https://media.vcpedia.cn/8/8a/%E4%B8%89%E6%9C%88%E9%9B%A8.jpg",
+      "localUrl": "/song-covers/8916cb5110ffb6d08b1b.webp",
+      "bytes": 54436,
+      "sourceBytes": 158390,
+      "downloadedAt": "2026-09-02T08:48:07.483Z"
+    },
+    "vcpedia:三重爱恋": {
+      "title": "三重爱恋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/04/%E4%B8%89%E9%87%8D%E7%88%B1%E6%81%8B%28%E6%96%B0%29.jpg/800px-%E4%B8%89%E9%87%8D%E7%88%B1%E6%81%8B%28%E6%96%B0%29.jpg",
+      "localUrl": "/song-covers/88af16fac83eb93bed3b.webp",
+      "bytes": 29042,
+      "sourceBytes": 39636,
+      "downloadedAt": "2026-09-02T08:48:08.930Z"
+    },
+    "vcpedia:沙城": {
+      "title": "沙城",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4f/%E6%B2%99%E5%9F%8E.jpg/800px-%E6%B2%99%E5%9F%8E.jpg",
+      "localUrl": "/song-covers/ff08bb1e3a176e97b3e3.webp",
+      "bytes": 29014,
+      "sourceBytes": 39024,
+      "downloadedAt": "2026-09-02T08:48:10.407Z"
+    },
+    "vcpedia:刹那芳华": {
+      "title": "刹那芳华",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/82/%E5%88%B9%E9%82%A3%E8%8A%B3%E5%8D%8E.jpg/800px-%E5%88%B9%E9%82%A3%E8%8A%B3%E5%8D%8E.jpg",
+      "localUrl": "/song-covers/3a1dbe019c4076098485.webp",
+      "bytes": 44254,
+      "sourceBytes": 62330,
+      "downloadedAt": "2026-09-02T08:48:11.900Z"
+    },
+    "vcpedia:啥啊": {
+      "title": "啥啊",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3b/%E5%95%A5%E5%95%8A.jpg/800px-%E5%95%A5%E5%95%8A.jpg",
+      "localUrl": "/song-covers/16fe6f2f7fb2a8ab0601.webp",
+      "bytes": 23972,
+      "sourceBytes": 33852,
+      "downloadedAt": "2026-09-02T08:48:13.400Z"
+    },
+    "vcpedia:山河令": {
+      "title": "山河令",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a0/%E5%B1%B1%E6%B2%B3%E4%BB%A4.jpg/800px-%E5%B1%B1%E6%B2%B3%E4%BB%A4.jpg",
+      "localUrl": "/song-covers/48a80a1a6c1396a1964b.webp",
+      "bytes": 24198,
+      "sourceBytes": 34936,
+      "downloadedAt": "2026-09-02T08:48:14.862Z"
+    },
+    "vcpedia:上城名媛": {
+      "title": "上城名媛",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5b/%E4%B8%8A%E5%9F%8E%E5%90%8D%E5%AA%9B.jpg/800px-%E4%B8%8A%E5%9F%8E%E5%90%8D%E5%AA%9B.jpg",
+      "localUrl": "/song-covers/372731c1229386e12262.webp",
+      "bytes": 27974,
+      "sourceBytes": 39228,
+      "downloadedAt": "2026-09-02T08:48:16.269Z"
+    },
+    "vcpedia:上山岗": {
+      "title": "上山岗",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/49/%E4%B8%8A%E5%B1%B1%E5%B2%97_ilem.jpg/800px-%E4%B8%8A%E5%B1%B1%E5%B2%97_ilem.jpg",
+      "localUrl": "/song-covers/31d210e6f791f543e0ff.webp",
+      "bytes": 4568,
+      "sourceBytes": 6400,
+      "downloadedAt": "2026-09-02T08:48:17.944Z"
+    },
+    "vcpedia:上下上下": {
+      "title": "上下上下",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/61/%E4%B8%8A%E4%B8%8B%E4%B8%8A%E4%B8%8B.jpg/800px-%E4%B8%8A%E4%B8%8B%E4%B8%8A%E4%B8%8B.jpg",
+      "localUrl": "/song-covers/aefb7b01c1befac4e577.webp",
+      "bytes": 1366,
+      "sourceBytes": 1824,
+      "downloadedAt": "2026-09-02T08:48:19.337Z"
+    },
+    "vcpedia:谁杀死了知更鸟": {
+      "title": "谁杀死了知更鸟",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/40/%E8%B0%81%E6%9D%80%E6%AD%BB%E4%BA%86%E7%9F%A5%E6%9B%B4%E9%B8%9F.jpg/800px-%E8%B0%81%E6%9D%80%E6%AD%BB%E4%BA%86%E7%9F%A5%E6%9B%B4%E9%B8%9F.jpg",
+      "localUrl": "/song-covers/cae9ac338d348ea17b2c.webp",
+      "bytes": 17524,
+      "sourceBytes": 24006,
+      "downloadedAt": "2026-09-02T08:48:20.795Z"
+    },
+    "vcpedia:深夜诗人": {
+      "title": "深夜诗人",
+      "sourceUrl": "https://media.vcpedia.cn/b/bc/%E6%B7%B1%E5%A4%9C%E8%AF%97%E4%BA%BA.png",
+      "localUrl": "/song-covers/35ed205e6e7934bf4b24.webp",
+      "bytes": 3540,
+      "sourceBytes": 3628,
+      "downloadedAt": "2026-09-02T08:48:22.257Z"
+    },
+    "vcpedia:神经病之歌": {
+      "title": "神经病之歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ea/%E7%A5%9E%E7%BB%8F%E7%97%85%E4%B9%8B%E6%AD%8C_%E5%B0%81%E9%9D%A2.png/800px-%E7%A5%9E%E7%BB%8F%E7%97%85%E4%B9%8B%E6%AD%8C_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/75a7b856e132111ff635.webp",
+      "bytes": 6224,
+      "sourceBytes": 9062,
+      "downloadedAt": "2026-09-02T08:48:23.725Z"
+    },
+    "vcpedia:生": {
+      "title": "生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f8/%E7%94%9F.jpg/800px-%E7%94%9F.jpg",
+      "localUrl": "/song-covers/6a24af42e0de74e0986d.webp",
+      "bytes": 55362,
+      "sourceBytes": 80446,
+      "downloadedAt": "2026-09-02T08:48:25.270Z"
+    },
+    "vcpedia:生死一舞的爱语": {
+      "title": "生死一舞的爱语",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6b/%E7%94%9F%E6%AD%BB%E4%B8%80%E8%88%9E%E7%9A%84%E7%88%B1%E8%AF%AD.jpg/800px-%E7%94%9F%E6%AD%BB%E4%B8%80%E8%88%9E%E7%9A%84%E7%88%B1%E8%AF%AD.jpg",
+      "localUrl": "/song-covers/9830b114816ffe38c51a.webp",
+      "bytes": 46466,
+      "sourceBytes": 79376,
+      "downloadedAt": "2026-09-02T08:48:26.804Z"
+    },
+    "vcpedia:失眠少女(米库喵)": {
+      "title": "失眠少女",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/64/%E5%A4%B1%E7%9C%A0%E5%B0%91%E5%A5%B3%28new%29.jpg/800px-%E5%A4%B1%E7%9C%A0%E5%B0%91%E5%A5%B3%28new%29.jpg",
+      "localUrl": "/song-covers/c04b75db95740fa18209.webp",
+      "bytes": 21790,
+      "sourceBytes": 33060,
+      "downloadedAt": "2026-09-02T08:48:28.343Z"
+    },
+    "vcpedia:十二号诛杀者": {
+      "title": "十二号诛杀者",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/88/%E5%8D%81%E4%BA%8C%E5%8F%B7%E8%AF%9B%E6%9D%80%E8%80%85%28new%29.jpg/800px-%E5%8D%81%E4%BA%8C%E5%8F%B7%E8%AF%9B%E6%9D%80%E8%80%85%28new%29.jpg",
+      "localUrl": "/song-covers/e2b20c1be950b9143f75.webp",
+      "bytes": 14954,
+      "sourceBytes": 20046,
+      "downloadedAt": "2026-09-02T08:48:29.814Z"
+    },
+    "vcpedia:十重告别": {
+      "title": "十重告别",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8c/%E5%8D%81%E9%87%8D%E5%91%8A%E5%88%AB.jpg/800px-%E5%8D%81%E9%87%8D%E5%91%8A%E5%88%AB.jpg",
+      "localUrl": "/song-covers/724dd7251108fca9af81.webp",
+      "bytes": 31136,
+      "sourceBytes": 44092,
+      "downloadedAt": "2026-09-02T08:48:31.326Z"
+    },
+    "vcpedia:时一现耳三千岁": {
+      "title": "时一现耳三千岁",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e8/%E6%97%B6%E4%B8%80%E7%8E%B0%E8%80%B3%E4%B8%89%E5%8D%83%E5%B2%81.jpg/800px-%E6%97%B6%E4%B8%80%E7%8E%B0%E8%80%B3%E4%B8%89%E5%8D%83%E5%B2%81.jpg",
+      "localUrl": "/song-covers/009dd6212639a2b37705.webp",
+      "bytes": 55240,
+      "sourceBytes": 77836,
+      "downloadedAt": "2026-09-02T08:48:32.925Z"
+    },
+    "vcpedia:时钟嘀嗒": {
+      "title": "时钟嘀嗒",
+      "sourceUrl": "https://media.vcpedia.cn/1/18/%E6%97%B6%E9%92%9F%E5%98%80%E5%97%92.jpg",
+      "localUrl": "/song-covers/ecda205f14e12653dd04.webp",
+      "bytes": 8176,
+      "sourceBytes": 14752,
+      "downloadedAt": "2026-09-02T08:48:34.306Z"
+    },
+    "vcpedia:始见千秋": {
+      "title": "始见千秋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/83/%E5%A7%8B%E8%A7%81%E5%8D%83%E7%A7%8B.jpg/800px-%E5%A7%8B%E8%A7%81%E5%8D%83%E7%A7%8B.jpg",
+      "localUrl": "/song-covers/b2679cd72edc778ad338.webp",
+      "bytes": 39160,
+      "sourceBytes": 56240,
+      "downloadedAt": "2026-09-02T08:48:35.889Z"
+    },
+    "vcpedia:世末歌者": {
+      "title": "世末歌者",
+      "sourceUrl": "https://media.vcpedia.cn/1/14/%E4%B8%96%E6%9C%AB%E6%AD%8C%E8%80%85.jpg",
+      "localUrl": "/song-covers/c9e299e5d31497f4061d.webp",
+      "bytes": 28888,
+      "sourceBytes": 40648,
+      "downloadedAt": "2026-09-02T08:48:37.096Z"
+    },
+    "vcpedia:世末积雨云": {
+      "title": "世末积雨云",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/48/%E4%B8%96%E6%9C%AB%E7%A7%AF%E9%9B%A8%E4%BA%91.jpg/800px-%E4%B8%96%E6%9C%AB%E7%A7%AF%E9%9B%A8%E4%BA%91.jpg",
+      "localUrl": "/song-covers/5cb6e31a30a517b831b8.webp",
+      "bytes": 35354,
+      "sourceBytes": 49172,
+      "downloadedAt": "2026-09-02T08:48:38.616Z"
+    },
+    "vcpedia:是不是我本不该出生": {
+      "title": "是不是我本不该出生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/62/%E6%98%AF%E4%B8%8D%E6%98%AF%E6%88%91%E6%9C%AC%E4%B8%8D%E8%AF%A5%E5%87%BA%E7%94%9F.jpg/800px-%E6%98%AF%E4%B8%8D%E6%98%AF%E6%88%91%E6%9C%AC%E4%B8%8D%E8%AF%A5%E5%87%BA%E7%94%9F.jpg",
+      "localUrl": "/song-covers/bbfd4929355f1d0eba34.webp",
+      "bytes": 48236,
+      "sourceBytes": 76286,
+      "downloadedAt": "2026-09-02T08:48:40.282Z"
+    },
+    "vcpedia:是非": {
+      "title": "是非",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/60/%E6%98%AF%E9%9D%9E.jpg/800px-%E6%98%AF%E9%9D%9E.jpg",
+      "localUrl": "/song-covers/15ec1ecd33c6448404ef.webp",
+      "bytes": 25556,
+      "sourceBytes": 35596,
+      "downloadedAt": "2026-09-02T08:48:41.826Z"
+    },
+    "vcpedia:售楼小姐": {
+      "title": "售楼小姐",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6f/%E5%94%AE%E6%A5%BC%E5%B0%8F%E5%A7%90.jpg/800px-%E5%94%AE%E6%A5%BC%E5%B0%8F%E5%A7%90.jpg",
+      "localUrl": "/song-covers/b8d9d729569e54900389.webp",
+      "bytes": 6178,
+      "sourceBytes": 7796,
+      "downloadedAt": "2026-09-02T08:48:43.254Z"
+    },
+    "vcpedia:数风流": {
+      "title": "数风流",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4e/%E6%95%B0%E9%A3%8E%E6%B5%81.jpg/800px-%E6%95%B0%E9%A3%8E%E6%B5%81.jpg",
+      "localUrl": "/song-covers/2dd63721a26bff03b3f3.webp",
+      "bytes": 50274,
+      "sourceBytes": 70226,
+      "downloadedAt": "2026-09-02T08:48:44.749Z"
+    },
+    "vcpedia:双向监禁": {
+      "title": "双向监禁",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/56/%E5%8F%8C%E5%90%91%E7%9B%91%E7%A6%81%28new%29.png/800px-%E5%8F%8C%E5%90%91%E7%9B%91%E7%A6%81%28new%29.png",
+      "localUrl": "/song-covers/d200476f9e81a4d54ad2.webp",
+      "bytes": 9320,
+      "sourceBytes": 13982,
+      "downloadedAt": "2026-09-02T08:48:46.152Z"
+    },
+    "vcpedia:双向倾诉": {
+      "title": "双向倾诉",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/45/%E5%8F%8C%E5%90%91%E5%80%BE%E8%AF%89%28new%29.jpg/800px-%E5%8F%8C%E5%90%91%E5%80%BE%E8%AF%89%28new%29.jpg",
+      "localUrl": "/song-covers/3a06a2b9e59f13a715b3.webp",
+      "bytes": 17422,
+      "sourceBytes": 24464,
+      "downloadedAt": "2026-09-02T08:48:47.592Z"
+    },
+    "vcpedia:双向思念": {
+      "title": "双向思念",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2d/%E5%8F%8C%E5%90%91%E6%80%9D%E5%BF%B5.png/800px-%E5%8F%8C%E5%90%91%E6%80%9D%E5%BF%B5.png",
+      "localUrl": "/song-covers/c8493f486bfab752aee5.webp",
+      "bytes": 9524,
+      "sourceBytes": 11616,
+      "downloadedAt": "2026-09-02T08:48:49.080Z"
+    },
+    "vcpedia:双向遗忘": {
+      "title": "双向遗忘",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/22/%E5%8F%8C%E5%90%91%E9%81%97%E5%BF%98%28new%29.png/800px-%E5%8F%8C%E5%90%91%E9%81%97%E5%BF%98%28new%29.png",
+      "localUrl": "/song-covers/4882c8efb272379501d4.webp",
+      "bytes": 12880,
+      "sourceBytes": 15944,
+      "downloadedAt": "2026-09-02T08:48:50.556Z"
+    },
+    "vcpedia:双星伴生": {
+      "title": "双星伴生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/03/%E5%8F%8C%E6%98%9F%E4%BC%B4%E7%94%9F.jpg/800px-%E5%8F%8C%E6%98%9F%E4%BC%B4%E7%94%9F.jpg",
+      "localUrl": "/song-covers/509c282742db89d22160.webp",
+      "bytes": 28922,
+      "sourceBytes": 39288,
+      "downloadedAt": "2026-09-02T08:48:52.049Z"
+    },
+    "vcpedia:双鱼座": {
+      "title": "双鱼座",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/48/%E5%8F%8C%E9%B1%BC%E5%BA%A7.jpg/800px-%E5%8F%8C%E9%B1%BC%E5%BA%A7.jpg",
+      "localUrl": "/song-covers/de9b7fdc4ff4de2f04b5.webp",
+      "bytes": 14974,
+      "sourceBytes": 19624,
+      "downloadedAt": "2026-09-02T08:48:53.447Z"
+    },
+    "vcpedia:霜雪千年": {
+      "title": "霜雪千年",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d0/%E9%9C%9C%E9%9B%AA%E5%8D%83%E5%B9%B4.jpg/800px-%E9%9C%9C%E9%9B%AA%E5%8D%83%E5%B9%B4.jpg",
+      "localUrl": "/song-covers/85a667619b73f6c4f0ab.webp",
+      "bytes": 39428,
+      "sourceBytes": 59576,
+      "downloadedAt": "2026-09-02T08:48:54.915Z"
+    },
+    "vcpedia:水叙湖风": {
+      "title": "水叙湖风",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d0/%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E.jpg/800px-%E6%B0%B4%E5%8F%99%E6%B9%96%E9%A3%8E.jpg",
+      "localUrl": "/song-covers/7d319d1fdf502f83703e.webp",
+      "bytes": 47012,
+      "sourceBytes": 69146,
+      "downloadedAt": "2026-09-02T08:48:56.432Z"
+    },
+    "vcpedia:说书先生": {
+      "title": "说书先生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f5/%E8%AF%B4%E4%B9%A6%E5%85%88%E7%94%9F%E5%B0%81%E9%9D%A2.jpg/800px-%E8%AF%B4%E4%B9%A6%E5%85%88%E7%94%9F%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/9ddd844c98ffd3e2d1c4.webp",
+      "bytes": 16378,
+      "sourceBytes": 19536,
+      "downloadedAt": "2026-09-02T08:48:58.040Z"
+    },
+    "vcpedia:思华年": {
+      "title": "思华年",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/97/%E6%80%9D%E5%8D%8E%E5%B9%B4.jpg/800px-%E6%80%9D%E5%8D%8E%E5%B9%B4.jpg",
+      "localUrl": "/song-covers/7877df73d47d987591ca.webp",
+      "bytes": 55808,
+      "sourceBytes": 79604,
+      "downloadedAt": "2026-09-02T08:48:59.761Z"
+    },
+    "vcpedia:哈利波特学院印象曲·斯莱特林": {
+      "title": "斯莱特林",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/79/%E6%96%AF%E8%8E%B1%E7%89%B9%E6%9E%97%E5%8D%B0%E8%B1%A1%E6%9B%B2.jpg/800px-%E6%96%AF%E8%8E%B1%E7%89%B9%E6%9E%97%E5%8D%B0%E8%B1%A1%E6%9B%B2.jpg",
+      "localUrl": "/song-covers/1c361895d6020b7c898f.webp",
+      "bytes": 38462,
+      "sourceBytes": 57958,
+      "downloadedAt": "2026-09-02T08:49:01.327Z"
+    },
+    "vcpedia:四风判词": {
+      "title": "四风判词",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/ce/%E5%9B%9B%E9%A3%8E%E5%88%A4%E8%AF%8D%E6%B4%9B%E5%A4%A9%E4%BE%9D%E7%89%88.jpg/800px-%E5%9B%9B%E9%A3%8E%E5%88%A4%E8%AF%8D%E6%B4%9B%E5%A4%A9%E4%BE%9D%E7%89%88.jpg",
+      "localUrl": "/song-covers/5f34a2fc108afc2d24d5.webp",
+      "bytes": 22034,
+      "sourceBytes": 33982,
+      "downloadedAt": "2026-09-02T08:49:04.407Z"
+    },
+    "vcpedia:四秒之眷": {
+      "title": "四秒之眷",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/77/%E5%9B%9B%E7%A7%92%E4%B9%8B%E7%9C%B7.png/800px-%E5%9B%9B%E7%A7%92%E4%B9%8B%E7%9C%B7.png",
+      "localUrl": "/song-covers/0301b8c2754947c38cc0.webp",
+      "bytes": 27746,
+      "sourceBytes": 35222,
+      "downloadedAt": "2026-09-02T08:49:06.047Z"
+    },
+    "vcpedia:四重罪孽": {
+      "title": "四重罪孽",
+      "sourceUrl": "https://media.vcpedia.cn/1/12/%E5%9B%9B%E9%87%8D%E7%BD%AA%E5%AD%BD.jpg",
+      "localUrl": "/song-covers/0a792147ce4ddfa01f87.webp",
+      "bytes": 39470,
+      "sourceBytes": 79668,
+      "downloadedAt": "2026-09-02T08:49:07.289Z"
+    },
+    "vcpedia:宿命论": {
+      "title": "宿命论",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a1/%E5%AE%BF%E5%91%BD%E8%AE%BA.png/800px-%E5%AE%BF%E5%91%BD%E8%AE%BA.png",
+      "localUrl": "/song-covers/c134b593c9dc8816ca10.webp",
+      "bytes": 22772,
+      "sourceBytes": 30784,
+      "downloadedAt": "2026-09-02T08:49:08.763Z"
+    },
+    "vcpedia:碎镜": {
+      "title": "碎镜",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7b/%E7%A2%8E%E9%95%9C.jpg/800px-%E7%A2%8E%E9%95%9C.jpg",
+      "localUrl": "/song-covers/85657ad5011d70b67200.webp",
+      "bytes": 48412,
+      "sourceBytes": 67598,
+      "downloadedAt": "2026-09-02T08:49:10.401Z"
+    },
+    "vcpedia:孙尚香": {
+      "title": "孙尚香",
+      "sourceUrl": "https://media.vcpedia.cn/6/6d/%E5%AD%99%E5%B0%9A%E9%A6%99.jpg",
+      "localUrl": "/song-covers/385b3997ab5b51284dd3.webp",
+      "bytes": 20368,
+      "sourceBytes": 53836,
+      "downloadedAt": "2026-09-02T08:49:11.763Z"
+    },
+    "vcpedia:所以我戴上了耳机": {
+      "title": "所以我戴上了耳机",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f0/%E6%89%80%E4%BB%A5%E6%88%91%E6%88%B4%E4%B8%8A%E4%BA%86%E8%80%B3%E6%9C%BA-%E5%B0%81%E9%9D%A2.jpeg/800px-%E6%89%80%E4%BB%A5%E6%88%91%E6%88%B4%E4%B8%8A%E4%BA%86%E8%80%B3%E6%9C%BA-%E5%B0%81%E9%9D%A2.jpeg",
+      "localUrl": "/song-covers/e9395bc3e771bbf7cc93.webp",
+      "bytes": 29094,
+      "sourceBytes": 42236,
+      "downloadedAt": "2026-09-02T08:49:13.363Z"
+    },
+    "vcpedia:她失去的重要的东西": {
+      "title": "她失去的重要的东西",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/38/%E5%A5%B9%E5%A4%B1%E5%8E%BB%E7%9A%84%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%9C%E8%A5%BF.jpeg/800px-%E5%A5%B9%E5%A4%B1%E5%8E%BB%E7%9A%84%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%9C%E8%A5%BF.jpeg",
+      "localUrl": "/song-covers/df5d908c8b157a80db8e.webp",
+      "bytes": 17278,
+      "sourceBytes": 25140,
+      "downloadedAt": "2026-09-02T08:49:14.819Z"
+    },
+    "vcpedia:塔与少女的无题诗": {
+      "title": "塔与少女的无题诗",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ee/%E5%A1%94%E4%B8%8E%E5%B0%91%E5%A5%B3%E7%9A%84%E6%97%A0%E9%A2%98%E8%AF%97.jpg/800px-%E5%A1%94%E4%B8%8E%E5%B0%91%E5%A5%B3%E7%9A%84%E6%97%A0%E9%A2%98%E8%AF%97.jpg",
+      "localUrl": "/song-covers/a54319133463f7a26c33.webp",
+      "bytes": 28668,
+      "sourceBytes": 37340,
+      "downloadedAt": "2026-09-02T08:49:16.325Z"
+    },
+    "vcpedia:太阳是什么颜色": {
+      "title": "太阳是什么颜色",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/08/%E5%A4%AA%E9%98%B3%E6%98%AF%E4%BB%80%E4%B9%88%E9%A2%9C%E8%89%B2.jpg/800px-%E5%A4%AA%E9%98%B3%E6%98%AF%E4%BB%80%E4%B9%88%E9%A2%9C%E8%89%B2.jpg",
+      "localUrl": "/song-covers/23edd778f3c5a04557bf.webp",
+      "bytes": 73516,
+      "sourceBytes": 114942,
+      "downloadedAt": "2026-09-02T08:49:17.926Z"
+    },
+    "vcpedia:逃!": {
+      "title": "逃！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/ff/%E9%80%83.jpg/800px-%E9%80%83.jpg",
+      "localUrl": "/song-covers/96b562d09fea45488789.webp",
+      "bytes": 24046,
+      "sourceBytes": 32060,
+      "downloadedAt": "2026-09-02T08:49:19.344Z"
+    },
+    "vcpedia:逃避现实": {
+      "title": "逃避现实",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ed/%E9%80%83%E9%81%BF%E7%8E%B0%E5%AE%9E_%E5%B0%81%E9%9D%A2_QGRay.jpg/800px-%E9%80%83%E9%81%BF%E7%8E%B0%E5%AE%9E_%E5%B0%81%E9%9D%A2_QGRay.jpg",
+      "localUrl": "/song-covers/f2b88cd11be0d9415fab.webp",
+      "bytes": 43934,
+      "sourceBytes": 60656,
+      "downloadedAt": "2026-09-02T08:49:20.852Z"
+    },
+    "vcpedia:桃花笑": {
+      "title": "桃花笑",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d9/%E6%A1%83%E8%8A%B1%E7%AC%91.png/800px-%E6%A1%83%E8%8A%B1%E7%AC%91.png",
+      "localUrl": "/song-covers/afe0fbe200971a89d978.webp",
+      "bytes": 29870,
+      "sourceBytes": 37110,
+      "downloadedAt": "2026-09-02T08:49:22.336Z"
+    },
+    "vcpedia:桃源故人": {
+      "title": "桃源故人",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4c/%E6%A1%83%E6%BA%90%E6%95%85%E4%BA%BA.jpg/800px-%E6%A1%83%E6%BA%90%E6%95%85%E4%BA%BA.jpg",
+      "localUrl": "/song-covers/3e63e348441bfa184bc9.webp",
+      "bytes": 47322,
+      "sourceBytes": 70160,
+      "downloadedAt": "2026-09-02T08:49:23.830Z"
+    },
+    "vcpedia:天才般的我": {
+      "title": "天才般的我",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bc/%E5%A4%A9%E6%89%8D%E8%88%AC%E7%9A%84%E6%88%91.jpg/800px-%E5%A4%A9%E6%89%8D%E8%88%AC%E7%9A%84%E6%88%91.jpg",
+      "localUrl": "/song-covers/9eb53594310f35f79a26.webp",
+      "bytes": 14858,
+      "sourceBytes": 19478,
+      "downloadedAt": "2026-09-02T08:49:25.415Z"
+    },
+    "vcpedia:天命周兴": {
+      "title": "天命周兴",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c3/%E5%A4%A9%E5%91%BD%E5%91%A8%E5%85%B4.jpg/800px-%E5%A4%A9%E5%91%BD%E5%91%A8%E5%85%B4.jpg",
+      "localUrl": "/song-covers/f91e2d0aa1df8e2374b8.webp",
+      "bytes": 35348,
+      "sourceBytes": 55570,
+      "downloadedAt": "2026-09-02T08:49:26.941Z"
+    },
+    "vcpedia:天生尤物": {
+      "title": "天生尤物",
+      "sourceUrl": "https://media.vcpedia.cn/4/44/%E5%A4%A9%E7%94%9F%E5%B0%A4%E7%89%A9.jpg",
+      "localUrl": "/song-covers/5f9e23d95b6941e1e482.webp",
+      "bytes": 80396,
+      "sourceBytes": 171960,
+      "downloadedAt": "2026-09-02T08:49:28.597Z"
+    },
+    "vcpedia:天下局": {
+      "title": "天下局",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d2/%E5%A4%A9%E4%B8%8B%E5%B1%80.jpg/800px-%E5%A4%A9%E4%B8%8B%E5%B1%80.jpg",
+      "localUrl": "/song-covers/0289f0b847126fdf404b.webp",
+      "bytes": 26342,
+      "sourceBytes": 38600,
+      "downloadedAt": "2026-09-02T08:49:30.148Z"
+    },
+    "vcpedia:天星问": {
+      "title": "天星问",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4c/%E5%A4%A9%E6%98%9F%E9%97%AE%E6%9B%B2%E7%BB%98.png/800px-%E5%A4%A9%E6%98%9F%E9%97%AE%E6%9B%B2%E7%BB%98.png",
+      "localUrl": "/song-covers/6e6e2f24bbd2374b7fe5.webp",
+      "bytes": 75646,
+      "sourceBytes": 105580,
+      "downloadedAt": "2026-09-02T08:49:32.825Z"
+    },
+    "vcpedia:天行健": {
+      "title": "天行健",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ec/%E5%A4%A9%E8%A1%8C%E5%81%A5.jpg/800px-%E5%A4%A9%E8%A1%8C%E5%81%A5.jpg",
+      "localUrl": "/song-covers/d408349c61d73497b9be.webp",
+      "bytes": 31694,
+      "sourceBytes": 47640,
+      "downloadedAt": "2026-09-02T08:49:34.329Z"
+    },
+    "vcpedia:甜度百分之七十一点一": {
+      "title": "甜度71.1%",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4b/%E7%94%9C%E5%BA%A671.1%25.jpg/800px-%E7%94%9C%E5%BA%A671.1%25.jpg",
+      "localUrl": "/song-covers/f3c901f2a6317d9dfe2c.webp",
+      "bytes": 23894,
+      "sourceBytes": 34194,
+      "downloadedAt": "2026-09-02T08:49:35.846Z"
+    },
+    "vcpedia:听见wo!": {
+      "title": "听见WO！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/76/%E5%90%AC%E8%A7%81WO%EF%BC%81.jpg/800px-%E5%90%AC%E8%A7%81WO%EF%BC%81.jpg",
+      "localUrl": "/song-covers/afe5b2baf6b9709b442f.webp",
+      "bytes": 29042,
+      "sourceBytes": 41994,
+      "downloadedAt": "2026-09-02T08:49:37.352Z"
+    },
+    "vcpedia:听我一言": {
+      "title": "听我一言",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/eb/%E5%90%AC%E6%88%91%E4%B8%80%E8%A8%80.jpg/800px-%E5%90%AC%E6%88%91%E4%B8%80%E8%A8%80.jpg",
+      "localUrl": "/song-covers/ac003d370af0de682c6c.webp",
+      "bytes": 50320,
+      "sourceBytes": 71694,
+      "downloadedAt": "2026-09-02T08:49:38.941Z"
+    },
+    "vcpedia:同赴天命": {
+      "title": "同赴天命",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2f/%E5%90%8C%E8%B5%B4%E5%A4%A9%E5%91%BD.jpg/800px-%E5%90%8C%E8%B5%B4%E5%A4%A9%E5%91%BD.jpg",
+      "localUrl": "/song-covers/b7fa1c7d0fe9222a08f4.webp",
+      "bytes": 20010,
+      "sourceBytes": 29286,
+      "downloadedAt": "2026-09-02T08:49:40.412Z"
+    },
+    "vcpedia:铜羽乘风": {
+      "title": "铜羽乘风",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fd/%E9%93%9C%E7%BE%BD%E4%B9%98%E9%A3%8E.jpg/800px-%E9%93%9C%E7%BE%BD%E4%B9%98%E9%A3%8E.jpg",
+      "localUrl": "/song-covers/2fc423f88d3c848b2c5c.webp",
+      "bytes": 52932,
+      "sourceBytes": 79918,
+      "downloadedAt": "2026-09-02T08:49:41.942Z"
+    },
+    "vcpedia:童年的终结": {
+      "title": "童年的终结",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b6/%E7%AB%A5%E5%B9%B4%E7%9A%84%E7%BB%88%E7%BB%93.jpg/800px-%E7%AB%A5%E5%B9%B4%E7%9A%84%E7%BB%88%E7%BB%93.jpg",
+      "localUrl": "/song-covers/4810a7ad781779f39471.webp",
+      "bytes": 16722,
+      "sourceBytes": 26360,
+      "downloadedAt": "2026-09-02T08:49:43.395Z"
+    },
+    "vcpedia:偷猎时间的天才": {
+      "title": "偷猎时间的天才",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6f/%E5%81%B7%E7%8C%8E%E6%97%B6%E9%97%B4%E7%9A%84%E5%A4%A9%E6%89%8D.jpg/800px-%E5%81%B7%E7%8C%8E%E6%97%B6%E9%97%B4%E7%9A%84%E5%A4%A9%E6%89%8D.jpg",
+      "localUrl": "/song-covers/7e5f8a89264f67d764df.webp",
+      "bytes": 37550,
+      "sourceBytes": 56386,
+      "downloadedAt": "2026-09-02T08:49:44.916Z"
+    },
+    "vcpedia:偷外卖之歌": {
+      "title": "偷外卖之歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/52/%E5%81%B7%E5%A4%96%E5%8D%96%E4%B9%8B%E6%AD%8C.jpg/800px-%E5%81%B7%E5%A4%96%E5%8D%96%E4%B9%8B%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/b73a030e0abd05882ce2.webp",
+      "bytes": 22520,
+      "sourceBytes": 25942,
+      "downloadedAt": "2026-09-02T08:49:46.422Z"
+    },
+    "vcpedia:徒劳的爱之美少女": {
+      "title": "徒劳的爱之美少女",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/77/%E5%BE%92%E5%8A%B3%E7%9A%84%E7%88%B1%E4%B9%8B%E7%BE%8E%E5%B0%91%E5%A5%B3.jpg/800px-%E5%BE%92%E5%8A%B3%E7%9A%84%E7%88%B1%E4%B9%8B%E7%BE%8E%E5%B0%91%E5%A5%B3.jpg",
+      "localUrl": "/song-covers/8dd297ab402d0ba604e2.webp",
+      "bytes": 31296,
+      "sourceBytes": 43318,
+      "downloadedAt": "2026-09-02T08:49:47.925Z"
+    },
+    "vcpedia:兔儿嗨": {
+      "title": "兔儿嗨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a0/%E5%85%94%E5%84%BF%E5%97%A8.jpg/800px-%E5%85%94%E5%84%BF%E5%97%A8.jpg",
+      "localUrl": "/song-covers/9c8f9a58d347de3ee155.webp",
+      "bytes": 63840,
+      "sourceBytes": 88824,
+      "downloadedAt": "2026-09-02T08:49:49.425Z"
+    },
+    "vcpedia:兔子先生": {
+      "title": "兔子先生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f1/%E5%85%94%E5%AD%90%E5%85%88%E7%94%9F.png/800px-%E5%85%94%E5%AD%90%E5%85%88%E7%94%9F.png",
+      "localUrl": "/song-covers/eb0e3a9903e5dba51f91.webp",
+      "bytes": 15150,
+      "sourceBytes": 20306,
+      "downloadedAt": "2026-09-02T08:49:50.951Z"
+    },
+    "vcpedia:歪歪?": {
+      "title": "歪歪？",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/58/%E6%AD%AA%E6%AD%AA.jpg/800px-%E6%AD%AA%E6%AD%AA.jpg",
+      "localUrl": "/song-covers/9f576267e61b359e4de0.webp",
+      "bytes": 32990,
+      "sourceBytes": 45538,
+      "downloadedAt": "2026-09-02T08:49:52.432Z"
+    },
+    "vcpedia:万分之一的光": {
+      "title": "万分之一的光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/65/%E4%B8%87%E5%88%86%E4%B9%8B%E4%B8%80%E7%9A%84%E5%85%89.png/800px-%E4%B8%87%E5%88%86%E4%B9%8B%E4%B8%80%E7%9A%84%E5%85%89.png",
+      "localUrl": "/song-covers/e402d42300f18b355bbd.webp",
+      "bytes": 34808,
+      "sourceBytes": 46662,
+      "downloadedAt": "2026-09-02T08:49:53.967Z"
+    },
+    "vcpedia:万古生香": {
+      "title": "万古生香",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b8/%E4%B8%87%E5%8F%A4%E7%94%9F%E9%A6%99.jpg/800px-%E4%B8%87%E5%8F%A4%E7%94%9F%E9%A6%99.jpg",
+      "localUrl": "/song-covers/e15f61e71d0969dd8027.webp",
+      "bytes": 53094,
+      "sourceBytes": 77830,
+      "downloadedAt": "2026-09-02T08:49:55.400Z"
+    },
+    "vcpedia:万能诊听器": {
+      "title": "万能诊听器",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cc/%E4%B8%87%E8%83%BD%E8%AF%8A%E5%90%AC%E5%99%A8.jpeg/800px-%E4%B8%87%E8%83%BD%E8%AF%8A%E5%90%AC%E5%99%A8.jpeg",
+      "localUrl": "/song-covers/89927421ebf933711a15.webp",
+      "bytes": 28898,
+      "sourceBytes": 38604,
+      "downloadedAt": "2026-09-02T08:49:56.900Z"
+    },
+    "vcpedia:万神纪": {
+      "title": "万神纪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cf/%E4%B8%87%E7%A5%9E%E7%BA%AA.jpg/800px-%E4%B8%87%E7%A5%9E%E7%BA%AA.jpg",
+      "localUrl": "/song-covers/3838e776e73c9af9895b.webp",
+      "bytes": 57452,
+      "sourceBytes": 85572,
+      "downloadedAt": "2026-09-02T08:49:58.389Z"
+    },
+    "vcpedia:万圣街": {
+      "title": "万圣街",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/43/%E4%B8%87%E5%9C%A3%E8%A1%97%28%E6%AD%8C%E6%9B%B2%29.jpg/800px-%E4%B8%87%E5%9C%A3%E8%A1%97%28%E6%AD%8C%E6%9B%B2%29.jpg",
+      "localUrl": "/song-covers/8c71bdcc4e3282d6a4c0.webp",
+      "bytes": 36008,
+      "sourceBytes": 48054,
+      "downloadedAt": "2026-09-02T08:49:59.881Z"
+    },
+    "vcpedia:万物有灵": {
+      "title": "万物有灵",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f3/%E4%B8%87%E7%89%A9%E6%9C%89%E7%81%B5.jpg/800px-%E4%B8%87%E7%89%A9%E6%9C%89%E7%81%B5.jpg",
+      "localUrl": "/song-covers/2c890dba4d5ef6965667.webp",
+      "bytes": 37676,
+      "sourceBytes": 54088,
+      "downloadedAt": "2026-09-02T08:50:01.447Z"
+    },
+    "vcpedia:万象霜天": {
+      "title": "万象霜天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/67/%E4%B8%87%E8%B1%A1%E9%9C%9C%E5%A4%A9.jpg/800px-%E4%B8%87%E8%B1%A1%E9%9C%9C%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/f69467bec9286433cfd5.webp",
+      "bytes": 30254,
+      "sourceBytes": 47264,
+      "downloadedAt": "2026-09-02T08:50:02.973Z"
+    },
+    "vcpedia:王后": {
+      "title": "王后",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/da/%E7%8E%8B%E5%90%8E%28new%29.jpg/800px-%E7%8E%8B%E5%90%8E%28new%29.jpg",
+      "localUrl": "/song-covers/3f78551fea2da223c155.webp",
+      "bytes": 29928,
+      "sourceBytes": 42502,
+      "downloadedAt": "2026-09-02T08:50:04.440Z"
+    },
+    "vcpedia:妄想症paranoia系列": {
+      "title": "妄想Reality",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/62/%E5%A6%84%E6%83%B3%E7%97%87%E5%B0%88%E8%BC%AF%E5%B0%81%E9%9D%A201.jpg/800px-%E5%A6%84%E6%83%B3%E7%97%87%E5%B0%88%E8%BC%AF%E5%B0%81%E9%9D%A201.jpg",
+      "localUrl": "/song-covers/f05a3ba98c3d312ed86a.webp",
+      "bytes": 67240,
+      "sourceBytes": 101256,
+      "downloadedAt": "2026-09-02T08:50:06.017Z"
+    },
+    "vcpedia:妄语人间": {
+      "title": "妄语人间",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4b/%E5%A6%84%E8%AF%AD%E4%BA%BA%E9%97%B4.jpg/800px-%E5%A6%84%E8%AF%AD%E4%BA%BA%E9%97%B4.jpg",
+      "localUrl": "/song-covers/c358029eb128e04f4c80.webp",
+      "bytes": 38424,
+      "sourceBytes": 56438,
+      "downloadedAt": "2026-09-02T08:50:07.521Z"
+    },
+    "vcpedia:威诺希": {
+      "title": "威诺希",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/15/%E5%A8%81%E8%AF%BA%E5%B8%8C.png/800px-%E5%A8%81%E8%AF%BA%E5%B8%8C.png",
+      "localUrl": "/song-covers/73055ee5161587997cd8.webp",
+      "bytes": 39086,
+      "sourceBytes": 59938,
+      "downloadedAt": "2026-09-02T08:50:09.036Z"
+    },
+    "vcpedia:微光": {
+      "title": "微光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dc/%E5%BE%AE%E5%85%89_%E6%88%AA%E5%9B%BE.png/800px-%E5%BE%AE%E5%85%89_%E6%88%AA%E5%9B%BE.png",
+      "localUrl": "/song-covers/b463416ff1b638762098.webp",
+      "bytes": 25936,
+      "sourceBytes": 33878,
+      "downloadedAt": "2026-09-02T08:50:10.657Z"
+    },
+    "vcpedia:为了你唱下去": {
+      "title": "为了你唱下去",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fb/%E7%82%BA%E4%BA%86%E4%BD%A0%E5%94%B1%E4%B8%8B%E5%8E%BB.jpg/800px-%E7%82%BA%E4%BA%86%E4%BD%A0%E5%94%B1%E4%B8%8B%E5%8E%BB.jpg",
+      "localUrl": "/song-covers/5ad07cb0be6ff9bde2af.webp",
+      "bytes": 25560,
+      "sourceBytes": 35512,
+      "downloadedAt": "2026-09-02T08:50:12.189Z"
+    },
+    "vcpedia:为六弦琴而作": {
+      "title": "为六弦琴而作",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/75/%E4%B8%BA%E5%85%AD%E5%BC%A6%E7%90%B4%E8%80%8C%E4%BD%9C.jpg/800px-%E4%B8%BA%E5%85%AD%E5%BC%A6%E7%90%B4%E8%80%8C%E4%BD%9C.jpg",
+      "localUrl": "/song-covers/123f64e6c9e4331786c3.webp",
+      "bytes": 43330,
+      "sourceBytes": 64860,
+      "downloadedAt": "2026-09-02T08:50:13.878Z"
+    },
+    "vcpedia:为每一位将军的势不可挡": {
+      "title": "为每一位将军的势不可挡",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7f/%E4%B8%BA%E6%AF%8F%E4%B8%80%E4%BD%8D%E5%B0%86%E5%86%9B%E7%9A%84%E5%8A%BF%E4%B8%8D%E5%8F%AF%E6%8C%A1.jpg/800px-%E4%B8%BA%E6%AF%8F%E4%B8%80%E4%BD%8D%E5%B0%86%E5%86%9B%E7%9A%84%E5%8A%BF%E4%B8%8D%E5%8F%AF%E6%8C%A1.jpg",
+      "localUrl": "/song-covers/1e0062328159a3484718.webp",
+      "bytes": 35572,
+      "sourceBytes": 53674,
+      "downloadedAt": "2026-09-02T08:50:15.372Z"
+    },
+    "vcpedia:为谁而为": {
+      "title": "为谁而为",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/62/%E4%B8%BA%E8%B0%81%E8%80%8C%E4%B8%BA%E5%AE%8C%E6%95%B4.png/800px-%E4%B8%BA%E8%B0%81%E8%80%8C%E4%B8%BA%E5%AE%8C%E6%95%B4.png",
+      "localUrl": "/song-covers/f98ba0b6708cdfe4fe05.webp",
+      "bytes": 30830,
+      "sourceBytes": 44164,
+      "downloadedAt": "2026-09-02T08:50:16.914Z"
+    },
+    "vcpedia:为岳": {
+      "title": "为岳",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3b/%E4%B8%BA%E5%B2%B3.jpg/800px-%E4%B8%BA%E5%B2%B3.jpg",
+      "localUrl": "/song-covers/82521888915bc85bf074.webp",
+      "bytes": 28158,
+      "sourceBytes": 48260,
+      "downloadedAt": "2026-09-02T08:50:18.444Z"
+    },
+    "vcpedia:未来的我": {
+      "title": "未来的我",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/22/%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%88%91.jpg/800px-%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%88%91.jpg",
+      "localUrl": "/song-covers/d0b70e0ee84cd1c52c6b.webp",
+      "bytes": 27958,
+      "sourceBytes": 38828,
+      "downloadedAt": "2026-09-02T08:50:19.931Z"
+    },
+    "vcpedia:未完成秋天": {
+      "title": "未完成秋天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/02/%E6%9C%AA%E5%AE%8C%E6%88%90%E7%A7%8B%E5%A4%A9.jpg/800px-%E6%9C%AA%E5%AE%8C%E6%88%90%E7%A7%8B%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/27f5850ff3d9a60ee791.webp",
+      "bytes": 70464,
+      "sourceBytes": 113292,
+      "downloadedAt": "2026-09-02T08:50:21.576Z"
+    },
+    "vcpedia:未知旅行fm": {
+      "title": "未知旅行FM",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3f/%E6%9C%AA%E7%9F%A5%E6%97%85%E8%A1%8CFM.jpg/800px-%E6%9C%AA%E7%9F%A5%E6%97%85%E8%A1%8CFM.jpg",
+      "localUrl": "/song-covers/21c3b4ce2566358ba1dd.webp",
+      "bytes": 35694,
+      "sourceBytes": 49668,
+      "downloadedAt": "2026-09-02T08:50:23.032Z"
+    },
+    "vcpedia:文学少女的忧郁": {
+      "title": "文学少女的忧郁",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3f/%E6%96%87%E5%AD%A6%E5%B0%91%E5%A5%B3%E7%9A%84%E5%BF%A7%E9%83%81.jpg/800px-%E6%96%87%E5%AD%A6%E5%B0%91%E5%A5%B3%E7%9A%84%E5%BF%A7%E9%83%81.jpg",
+      "localUrl": "/song-covers/631b20366bf83e619d3c.webp",
+      "bytes": 20410,
+      "sourceBytes": 29386,
+      "downloadedAt": "2026-09-02T08:50:24.492Z"
+    },
+    "vcpedia:问剑春秋": {
+      "title": "问剑春秋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/71/%E9%97%AE%E5%89%91%E6%98%A5%E7%A7%8B%28new%29.jpg/800px-%E9%97%AE%E5%89%91%E6%98%A5%E7%A7%8B%28new%29.jpg",
+      "localUrl": "/song-covers/0f4859406f5a94694b38.webp",
+      "bytes": 16616,
+      "sourceBytes": 23336,
+      "downloadedAt": "2026-09-02T08:50:25.943Z"
+    },
+    "vcpedia:我的悲伤是水做的": {
+      "title": "我的悲伤是水做的",
+      "sourceUrl": "https://media.vcpedia.cn/c/c4/%E6%88%91%E7%9A%84%E6%82%B2%E4%BC%A4%E6%98%AF%E6%B0%B4%E5%81%9A%E7%9A%84.jpg",
+      "localUrl": "/song-covers/992ab352a1c5fe5d800c.webp",
+      "bytes": 20252,
+      "sourceBytes": 39764,
+      "downloadedAt": "2026-09-02T08:50:27.144Z"
+    },
+    "vcpedia:我的世界(鸟爷)": {
+      "title": "我的世界",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/54/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C%28%E9%B8%9F%E7%88%B7%29.jpg/800px-%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C%28%E9%B8%9F%E7%88%B7%29.jpg",
+      "localUrl": "/song-covers/0e52c28775857f160130.webp",
+      "bytes": 23350,
+      "sourceBytes": 27556,
+      "downloadedAt": "2026-09-02T08:50:28.631Z"
+    },
+    "vcpedia:我的世界总是在下雨": {
+      "title": "我的世界总是在下雨",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/29/%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C%E6%80%BB%E6%98%AF%E5%9C%A8%E4%B8%8B%E9%9B%A8.jpg/800px-%E6%88%91%E7%9A%84%E4%B8%96%E7%95%8C%E6%80%BB%E6%98%AF%E5%9C%A8%E4%B8%8B%E9%9B%A8.jpg",
+      "localUrl": "/song-covers/49727f35017ec14212c4.webp",
+      "bytes": 38708,
+      "sourceBytes": 56614,
+      "downloadedAt": "2026-09-02T08:50:30.143Z"
+    },
+    "vcpedia:我多想说再见啊": {
+      "title": "我多想说再见啊",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4b/%E6%88%91%E5%A4%9A%E6%83%B3%E8%AF%B4%E5%86%8D%E8%A7%81%E5%95%8A.jpg/800px-%E6%88%91%E5%A4%9A%E6%83%B3%E8%AF%B4%E5%86%8D%E8%A7%81%E5%95%8A.jpg",
+      "localUrl": "/song-covers/5267c35058b1a7a4c789.webp",
+      "bytes": 30920,
+      "sourceBytes": 43476,
+      "downloadedAt": "2026-09-02T08:50:31.659Z"
+    },
+    "vcpedia:我可能放了假寒假": {
+      "title": "我可能放了假寒假",
+      "sourceUrl": "https://media.vcpedia.cn/1/17/%E6%88%91%E5%8F%AF%E8%83%BD%E6%94%BE%E4%BA%86%E5%81%87%E5%AF%92%E5%81%87.jpg",
+      "localUrl": "/song-covers/6e09bda1fee453276c2a.webp",
+      "bytes": 3464,
+      "sourceBytes": 3506,
+      "downloadedAt": "2026-09-02T08:50:32.828Z"
+    },
+    "vcpedia:我没有歌能给你听": {
+      "title": "我没有歌能给你听",
+      "sourceUrl": "https://media.vcpedia.cn/2/2c/%E6%88%91%E6%B2%A1%E6%9C%89%E6%AD%8C%E8%83%BD%E7%BB%99%E4%BD%A0%E5%90%AC_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/b1fc5d4afb8b798c064a.webp",
+      "bytes": 5474,
+      "sourceBytes": 5378,
+      "downloadedAt": "2026-09-02T08:50:34.189Z"
+    },
+    "vcpedia:我们正驶向黎明": {
+      "title": "我们正驶向黎明",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/76/%E6%88%91%E4%BB%AC%E6%AD%A3%E9%A9%B6%E5%90%91%E9%BB%8E%E6%98%8E_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%88%91%E4%BB%AC%E6%AD%A3%E9%A9%B6%E5%90%91%E9%BB%8E%E6%98%8E_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/0dfda3a5c4600da6127d.webp",
+      "bytes": 40088,
+      "sourceBytes": 57652,
+      "downloadedAt": "2026-09-02T08:50:35.669Z"
+    },
+    "vcpedia:我是,女孩。": {
+      "title": "我是，女孩。",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9d/%E6%88%91%E6%98%AF%EF%BC%8C%E5%A5%B3%E5%AD%A9_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%88%91%E6%98%AF%EF%BC%8C%E5%A5%B3%E5%AD%A9_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/3cade05fb7b183774908.webp",
+      "bytes": 97514,
+      "sourceBytes": 146564,
+      "downloadedAt": "2026-09-02T08:50:37.256Z"
+    },
+    "vcpedia:我是初音未来": {
+      "title": "我是初音未来",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a6/%E6%88%91%E6%98%AF%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.jpg/800px-%E6%88%91%E6%98%AF%E5%88%9D%E9%9F%B3%E6%9C%AA%E6%9D%A5.jpg",
+      "localUrl": "/song-covers/587c97d351554450e746.webp",
+      "bytes": 13774,
+      "sourceBytes": 17774,
+      "downloadedAt": "2026-09-02T08:50:38.666Z"
+    },
+    "vcpedia:我是秦始皇": {
+      "title": "我是秦始皇",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/00/%E6%88%91%E6%98%AF%E7%A7%A6%E5%A7%8B%E7%9A%87_%E5%B0%81%E9%9D%A2.jpg/800px-%E6%88%91%E6%98%AF%E7%A7%A6%E5%A7%8B%E7%9A%87_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/f3295bc0696aa488ed1e.webp",
+      "bytes": 25332,
+      "sourceBytes": 33162,
+      "downloadedAt": "2026-09-02T08:50:40.110Z"
+    },
+    "vcpedia:我属于火山口": {
+      "title": "我属于火山口",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/82/%E6%88%91%E5%B1%9E%E4%BA%8E%E7%81%AB%E5%B1%B1%E5%8F%A3.png/800px-%E6%88%91%E5%B1%9E%E4%BA%8E%E7%81%AB%E5%B1%B1%E5%8F%A3.png",
+      "localUrl": "/song-covers/70946489f2fd0ad47f4a.webp",
+      "bytes": 13408,
+      "sourceBytes": 18202,
+      "downloadedAt": "2026-09-02T08:50:41.576Z"
+    },
+    "vcpedia:我想要太多太多": {
+      "title": "我想要太多太多",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f3/%E6%88%91%E6%83%B3%E8%A6%81%E5%A4%AA%E5%A4%9A%E5%A4%AA%E5%A4%9A.jpg/800px-%E6%88%91%E6%83%B3%E8%A6%81%E5%A4%AA%E5%A4%9A%E5%A4%AA%E5%A4%9A.jpg",
+      "localUrl": "/song-covers/8db186e81ba8594fff77.webp",
+      "bytes": 30322,
+      "sourceBytes": 41114,
+      "downloadedAt": "2026-09-02T08:50:43.075Z"
+    },
+    "vcpedia:我要买买买": {
+      "title": "我要买买买",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/1b/%E6%88%91%E8%A6%81%E4%B9%B0%E4%B9%B0%E4%B9%B0.png/800px-%E6%88%91%E8%A6%81%E4%B9%B0%E4%B9%B0%E4%B9%B0.png",
+      "localUrl": "/song-covers/fb47638e5f3488c8560d.webp",
+      "bytes": 12150,
+      "sourceBytes": 15282,
+      "downloadedAt": "2026-09-02T08:50:44.512Z"
+    },
+    "vcpedia:我要鲨人": {
+      "title": "我要鲨人",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d6/%E6%88%91%E8%A6%81%E9%B2%A8%E4%BA%BA.jpg/800px-%E6%88%91%E8%A6%81%E9%B2%A8%E4%BA%BA.jpg",
+      "localUrl": "/song-covers/07092ffda8612d962bcb.webp",
+      "bytes": 8006,
+      "sourceBytes": 10714,
+      "downloadedAt": "2026-09-02T08:50:45.924Z"
+    },
+    "vcpedia:我约等于世界": {
+      "title": "我约等于世界",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7b/%E6%88%91%E7%BA%A6%E7%AD%89%E4%BA%8E%E4%B8%96%E7%95%8C.jpg/800px-%E6%88%91%E7%BA%A6%E7%AD%89%E4%BA%8E%E4%B8%96%E7%95%8C.jpg",
+      "localUrl": "/song-covers/04434e15d25733d34830.webp",
+      "bytes": 32248,
+      "sourceBytes": 45668,
+      "downloadedAt": "2026-09-02T08:50:47.430Z"
+    },
+    "vcpedia:我在": {
+      "title": "我在",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2c/%E6%88%91%E5%9C%A8.jpg/800px-%E6%88%91%E5%9C%A8.jpg",
+      "localUrl": "/song-covers/25210c3178075e0fda52.webp",
+      "bytes": 29266,
+      "sourceBytes": 40848,
+      "downloadedAt": "2026-09-02T08:50:48.930Z"
+    },
+    "vcpedia:我在池袋看漂亮姐姐": {
+      "title": "我在池袋看漂亮姐姐",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6f/%E6%88%91%E5%9C%A8%E6%B1%A0%E8%A2%8B%E7%9C%8B%E6%BC%82%E4%BA%AE%E5%A7%90%E5%A7%90%E5%B0%81%E9%9D%A2.jpg/800px-%E6%88%91%E5%9C%A8%E6%B1%A0%E8%A2%8B%E7%9C%8B%E6%BC%82%E4%BA%AE%E5%A7%90%E5%A7%90%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/ab58df99fbe602300bf7.webp",
+      "bytes": 21230,
+      "sourceBytes": 28932,
+      "downloadedAt": "2026-09-02T08:50:50.421Z"
+    },
+    "vcpedia:无理无智": {
+      "title": "无理无智",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/79/%E6%97%A0%E7%90%86%E6%97%A0%E6%99%BA_%E9%A2%84%E5%91%8A%E5%9B%BE.jpg/800px-%E6%97%A0%E7%90%86%E6%97%A0%E6%99%BA_%E9%A2%84%E5%91%8A%E5%9B%BE.jpg",
+      "localUrl": "/song-covers/162b6e3cf123f005aeda.webp",
+      "bytes": 50086,
+      "sourceBytes": 70690,
+      "downloadedAt": "2026-09-02T08:50:51.987Z"
+    },
+    "vcpedia:无": {
+      "title": "無",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f5/%E6%97%A0%28%E7%AB%8B%E5%85%A5%E7%A6%81%E6%AD%A2%29.png/800px-%E6%97%A0%28%E7%AB%8B%E5%85%A5%E7%A6%81%E6%AD%A2%29.png",
+      "localUrl": "/song-covers/e9cdc62eeed3ca64c485.webp",
+      "bytes": 9548,
+      "sourceBytes": 15580,
+      "downloadedAt": "2026-09-02T08:50:53.534Z"
+    },
+    "vcpedia:五重空洞": {
+      "title": "五重空洞",
+      "sourceUrl": "https://media.vcpedia.cn/6/63/%E4%BA%94%E9%87%8D%E7%A9%BA%E6%B4%9E.jpg",
+      "localUrl": "/song-covers/688e4ea8289b347786e0.webp",
+      "bytes": 41534,
+      "sourceBytes": 56328,
+      "downloadedAt": "2026-09-02T08:50:54.772Z"
+    },
+    "vcpedia:武装乙女": {
+      "title": "武装乙女",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/72/%E6%AD%A6%E8%A3%85%E4%B9%99%E5%A5%B3.png/800px-%E6%AD%A6%E8%A3%85%E4%B9%99%E5%A5%B3.png",
+      "localUrl": "/song-covers/233b8f11b38d3ec63a39.webp",
+      "bytes": 44952,
+      "sourceBytes": 57366,
+      "downloadedAt": "2026-09-02T08:50:56.307Z"
+    },
+    "vcpedia:舞不醉心": {
+      "title": "舞不醉心",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/28/%E8%88%9E%E4%B8%8D%E9%86%89%E5%BF%83%28new%29.jpg/800px-%E8%88%9E%E4%B8%8D%E9%86%89%E5%BF%83%28new%29.jpg",
+      "localUrl": "/song-covers/e09bd9ef24bfe06ea711.webp",
+      "bytes": 22434,
+      "sourceBytes": 30926,
+      "downloadedAt": "2026-09-02T08:50:57.793Z"
+    },
+    "vcpedia:西行": {
+      "title": "西行",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d5/%E8%A5%BF%E8%A1%8C.jpg/800px-%E8%A5%BF%E8%A1%8C.jpg",
+      "localUrl": "/song-covers/351747e0ae401d04570e.webp",
+      "bytes": 21458,
+      "sourceBytes": 29646,
+      "downloadedAt": "2026-09-02T08:50:59.341Z"
+    },
+    "vcpedia:蜥蜴舞曲": {
+      "title": "蜥蜴舞曲",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cd/%E8%9C%A5%E8%9C%B4%E8%88%9E%E6%9B%B2.jpg/800px-%E8%9C%A5%E8%9C%B4%E8%88%9E%E6%9B%B2.jpg",
+      "localUrl": "/song-covers/be2f4d9c4501aae501a6.webp",
+      "bytes": 31214,
+      "sourceBytes": 40680,
+      "downloadedAt": "2026-09-02T08:51:00.873Z"
+    },
+    "vcpedia:洗脑日记": {
+      "title": "洗脑日记",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/fb/%E6%B4%97%E8%84%91%E6%97%A5%E8%AE%B0.jpg/800px-%E6%B4%97%E8%84%91%E6%97%A5%E8%AE%B0.jpg",
+      "localUrl": "/song-covers/a0c5ffed5e83b2cafdf1.webp",
+      "bytes": 24818,
+      "sourceBytes": 32364,
+      "downloadedAt": "2026-09-02T08:51:02.364Z"
+    },
+    "vcpedia:戏游九州": {
+      "title": "戏游九州",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/13/%E6%88%8F%E6%B8%B8%E4%B9%9D%E5%B7%9E.jpg/800px-%E6%88%8F%E6%B8%B8%E4%B9%9D%E5%B7%9E.jpg",
+      "localUrl": "/song-covers/f217c9fc6b43c2721c55.webp",
+      "bytes": 34474,
+      "sourceBytes": 48832,
+      "downloadedAt": "2026-09-02T08:51:03.846Z"
+    },
+    "vcpedia:下等马": {
+      "title": "下等马",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/61/%E4%B8%8B%E7%AD%89%E9%A9%AC.png/800px-%E4%B8%8B%E7%AD%89%E9%A9%AC.png",
+      "localUrl": "/song-covers/45101e1592a599edcfe5.webp",
+      "bytes": 33990,
+      "sourceBytes": 48500,
+      "downloadedAt": "2026-09-02T08:51:05.355Z"
+    },
+    "vcpedia:下雨,然后被困在奶茶店": {
+      "title": "下雨，然后被困在奶茶店",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3c/%E4%B8%8B%E9%9B%A8%EF%BC%8C%E7%84%B6%E5%90%8E%E8%A2%AB%E5%9B%B0%E5%9C%A8%E5%A5%B6%E8%8C%B6%E5%BA%97.jpg/800px-%E4%B8%8B%E9%9B%A8%EF%BC%8C%E7%84%B6%E5%90%8E%E8%A2%AB%E5%9B%B0%E5%9C%A8%E5%A5%B6%E8%8C%B6%E5%BA%97.jpg",
+      "localUrl": "/song-covers/ed6fb43252d80e277c6d.webp",
+      "bytes": 19578,
+      "sourceBytes": 26536,
+      "downloadedAt": "2026-09-02T08:51:06.896Z"
+    },
+    "vcpedia:夏虫": {
+      "title": "夏虫",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d9/%E5%A4%8F%E8%99%AB.jpg/800px-%E5%A4%8F%E8%99%AB.jpg",
+      "localUrl": "/song-covers/b8f9f6c0777991a1207d.webp",
+      "bytes": 52472,
+      "sourceBytes": 76404,
+      "downloadedAt": "2026-09-02T08:51:08.431Z"
+    },
+    "vcpedia:夏末恋爱": {
+      "title": "夏末恋爱",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bb/%E5%A4%8F%E6%9C%AB%E6%81%8B%E7%88%B1%28new%29.jpg/800px-%E5%A4%8F%E6%9C%AB%E6%81%8B%E7%88%B1%28new%29.jpg",
+      "localUrl": "/song-covers/dc486bbad5831fe3ab6a.webp",
+      "bytes": 61254,
+      "sourceBytes": 81776,
+      "downloadedAt": "2026-09-02T08:51:10.047Z"
+    },
+    "vcpedia:夏日尽头的我们": {
+      "title": "夏日尽头的我们",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6a/%E5%A4%8F%E6%97%A5%E5%B0%BD%E5%A4%B4%E7%9A%84%E6%88%91%E4%BB%AC.jpg/800px-%E5%A4%8F%E6%97%A5%E5%B0%BD%E5%A4%B4%E7%9A%84%E6%88%91%E4%BB%AC.jpg",
+      "localUrl": "/song-covers/5a273744d94a4c9f6126.webp",
+      "bytes": 6900,
+      "sourceBytes": 11324,
+      "downloadedAt": "2026-09-02T08:51:11.529Z"
+    },
+    "vcpedia:仙舟旧纪": {
+      "title": "仙舟旧纪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f2/%E4%BB%99%E8%88%9F%E6%97%A7%E7%BA%AA.jpg/800px-%E4%BB%99%E8%88%9F%E6%97%A7%E7%BA%AA.jpg",
+      "localUrl": "/song-covers/3c5f65e7be62ec19b1f5.webp",
+      "bytes": 61824,
+      "sourceBytes": 92396,
+      "downloadedAt": "2026-09-02T08:51:13.174Z"
+    },
+    "vcpedia:咸咸的": {
+      "title": "咸咸的",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f9/%E5%92%B8%E5%92%B8%E7%9A%84.jpg/800px-%E5%92%B8%E5%92%B8%E7%9A%84.jpg",
+      "localUrl": "/song-covers/bee68ecc32d9aba9124a.webp",
+      "bytes": 19400,
+      "sourceBytes": 28956,
+      "downloadedAt": "2026-09-02T08:51:14.651Z"
+    },
+    "vcpedia:羡人间": {
+      "title": "羡人间",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e9/%E7%BE%A1%E4%BA%BA%E9%97%B4.jpg/800px-%E7%BE%A1%E4%BA%BA%E9%97%B4.jpg",
+      "localUrl": "/song-covers/ad708a8a0fa4e5977606.webp",
+      "bytes": 63556,
+      "sourceBytes": 88914,
+      "downloadedAt": "2026-09-02T08:51:16.320Z"
+    },
+    "vcpedia:献给风和蝉鸣": {
+      "title": "献给风和蝉鸣",
+      "sourceUrl": "https://media.vcpedia.cn/8/86/%E7%8C%AE%E7%BB%99%E9%A3%8E%E5%92%8C%E8%9D%89%E9%B8%A3.jpg",
+      "localUrl": "/song-covers/8b2eb6214045182a0f2b.webp",
+      "bytes": 32462,
+      "sourceBytes": 56912,
+      "downloadedAt": "2026-09-02T08:51:17.898Z"
+    },
+    "vcpedia:献给我仅有的粉丝": {
+      "title": "献给我仅有的粉丝",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b0/%E7%8C%AE%E7%BB%99%E6%88%91%E4%BB%85%E6%9C%89%E7%9A%84%E7%B2%89%E4%B8%9D.jpg/800px-%E7%8C%AE%E7%BB%99%E6%88%91%E4%BB%85%E6%9C%89%E7%9A%84%E7%B2%89%E4%B8%9D.jpg",
+      "localUrl": "/song-covers/26e95fd5c2f911911eed.webp",
+      "bytes": 31032,
+      "sourceBytes": 44156,
+      "downloadedAt": "2026-09-02T08:51:19.437Z"
+    },
+    "vcpedia:相虎": {
+      "title": "相虎",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dd/%E7%9B%B8%E8%99%8E.jpg/800px-%E7%9B%B8%E8%99%8E.jpg",
+      "localUrl": "/song-covers/e3bd075e43f774312add.webp",
+      "bytes": 29656,
+      "sourceBytes": 43108,
+      "downloadedAt": "2026-09-02T08:51:20.880Z"
+    },
+    "vcpedia:相思若循": {
+      "title": "相思若循",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/40/%E7%9B%B8%E6%80%9D%E8%8B%A5%E5%BE%AA.jpg/800px-%E7%9B%B8%E6%80%9D%E8%8B%A5%E5%BE%AA.jpg",
+      "localUrl": "/song-covers/46eb93d3ef6dc7ed8591.webp",
+      "bytes": 41686,
+      "sourceBytes": 59118,
+      "downloadedAt": "2026-09-02T08:51:22.342Z"
+    },
+    "vcpedia:香草茶与黑咖啡": {
+      "title": "香草茶与黑咖啡",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9e/%E9%A6%99%E8%8D%89%E8%8C%B6%E4%B8%8E%E9%BB%91%E5%92%96%E5%95%A1.jpg/800px-%E9%A6%99%E8%8D%89%E8%8C%B6%E4%B8%8E%E9%BB%91%E5%92%96%E5%95%A1.jpg",
+      "localUrl": "/song-covers/b7b1cd58840fd40a4d84.webp",
+      "bytes": 36152,
+      "sourceBytes": 51026,
+      "downloadedAt": "2026-09-02T08:51:23.840Z"
+    },
+    "vcpedia:想象一朵未来的玫瑰": {
+      "title": "想象一朵未来的玫瑰",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ed/%E6%83%B3%E8%B1%A1%E4%B8%80%E6%9C%B5%E6%9C%AA%E6%9D%A5%E7%9A%84%E7%8E%AB%E7%91%B0.jpg/800px-%E6%83%B3%E8%B1%A1%E4%B8%80%E6%9C%B5%E6%9C%AA%E6%9D%A5%E7%9A%84%E7%8E%AB%E7%91%B0.jpg",
+      "localUrl": "/song-covers/5782b76d11fe35f3a8a2.webp",
+      "bytes": 23760,
+      "sourceBytes": 30978,
+      "downloadedAt": "2026-09-02T08:51:25.354Z"
+    },
+    "vcpedia:写给我第一个喜欢的女孩的歌": {
+      "title": "写给我第一个喜欢的女孩的歌",
+      "sourceUrl": "https://media.vcpedia.cn/c/c7/%E5%86%99%E7%BB%99%E6%88%91%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%96%9C%E6%AC%A2%E7%9A%84%E5%A5%B3%E5%AD%A9%E7%9A%84%E6%AD%8C.png",
+      "localUrl": "/song-covers/38c02876f045b2c8835d.webp",
+      "bytes": 15414,
+      "sourceBytes": 15376,
+      "downloadedAt": "2026-09-02T08:51:26.555Z"
+    },
+    "vcpedia:写给我家狗的歌": {
+      "title": "写给我家狗的歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0c/%E5%86%99%E7%BB%99%E6%88%91%E5%AE%B6%E7%8B%97%E7%9A%84%E6%AD%8C.jpg/800px-%E5%86%99%E7%BB%99%E6%88%91%E5%AE%B6%E7%8B%97%E7%9A%84%E6%AD%8C.jpg",
+      "localUrl": "/song-covers/ad1bcb29d67d3c53a7a9.webp",
+      "bytes": 22250,
+      "sourceBytes": 28786,
+      "downloadedAt": "2026-09-02T08:51:28.044Z"
+    },
+    "vcpedia:心": {
+      "title": "心",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/71/%E5%BF%83.jpg/800px-%E5%BF%83.jpg",
+      "localUrl": "/song-covers/d4b1cdbf97a50c04ad2a.webp",
+      "bytes": 29550,
+      "sourceBytes": 41402,
+      "downloadedAt": "2026-09-02T08:51:29.609Z"
+    },
+    "vcpedia:心电感应": {
+      "title": "心电感应",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f6/%E5%BF%83%E7%94%B5%E6%84%9F%E5%BA%94%28%E6%AD%8C%E6%9B%B2%29.jpg/800px-%E5%BF%83%E7%94%B5%E6%84%9F%E5%BA%94%28%E6%AD%8C%E6%9B%B2%29.jpg",
+      "localUrl": "/song-covers/1cd4942babea074ef52d.webp",
+      "bytes": 19246,
+      "sourceBytes": 27258,
+      "downloadedAt": "2026-09-02T08:51:31.073Z"
+    },
+    "vcpedia:心里有鬼": {
+      "title": "心里有鬼",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/de/%E5%BF%83%E9%87%8C%E6%9C%89%E9%AC%BC%28%E5%85%A8%E5%9C%96%29.jpg/800px-%E5%BF%83%E9%87%8C%E6%9C%89%E9%AC%BC%28%E5%85%A8%E5%9C%96%29.jpg",
+      "localUrl": "/song-covers/9fe780b67b6ab3600e02.webp",
+      "bytes": 27396,
+      "sourceBytes": 41088,
+      "downloadedAt": "2026-09-02T08:51:32.534Z"
+    },
+    "vcpedia:心伤癖": {
+      "title": "心傷癖",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3d/%E5%BF%83%E5%82%B7%E7%99%96.jpg/800px-%E5%BF%83%E5%82%B7%E7%99%96.jpg",
+      "localUrl": "/song-covers/c78c7a2d129cb0bfacd0.webp",
+      "bytes": 17848,
+      "sourceBytes": 27092,
+      "downloadedAt": "2026-09-02T08:51:33.921Z"
+    },
+    "vcpedia:心上秋": {
+      "title": "心上秋",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/90/%E5%BF%83%E4%B8%8A%E7%A7%8B.jpg/800px-%E5%BF%83%E4%B8%8A%E7%A7%8B.jpg",
+      "localUrl": "/song-covers/84948fe300e965d75ae7.webp",
+      "bytes": 25976,
+      "sourceBytes": 39004,
+      "downloadedAt": "2026-09-02T08:51:35.356Z"
+    },
+    "vcpedia:心跳同步的时光": {
+      "title": "心跳同步的时光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/13/%E5%BF%83%E8%B7%B3%E5%90%8C%E6%AD%A5%E7%9A%84%E6%97%B6%E5%85%89.png/800px-%E5%BF%83%E8%B7%B3%E5%90%8C%E6%AD%A5%E7%9A%84%E6%97%B6%E5%85%89.png",
+      "localUrl": "/song-covers/b231b944297e762335f0.webp",
+      "bytes": 35046,
+      "sourceBytes": 48648,
+      "downloadedAt": "2026-09-02T08:51:36.841Z"
+    },
+    "vcpedia:心音盒": {
+      "title": "心音盒",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/30/%E5%BF%83%E9%9F%B3%E7%9B%92%28new%29.jpg/800px-%E5%BF%83%E9%9F%B3%E7%9B%92%28new%29.jpg",
+      "localUrl": "/song-covers/1ea6bb7956a1d4de6cb1.webp",
+      "bytes": 35320,
+      "sourceBytes": 52294,
+      "downloadedAt": "2026-09-02T08:51:38.306Z"
+    },
+    "vcpedia:心印": {
+      "title": "心印",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/43/%E5%BF%83%E5%8D%B0%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29.png/800px-%E5%BF%83%E5%8D%B0%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29.png",
+      "localUrl": "/song-covers/e0c55bedd641473958bc.webp",
+      "bytes": 41656,
+      "sourceBytes": 54382,
+      "downloadedAt": "2026-09-02T08:51:40.336Z"
+    },
+    "vcpedia:星球卑": {
+      "title": "星球卑",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/37/%E6%98%9F%E7%90%83%E5%8D%91%E6%9B%B2%E7%BB%981.jpg/800px-%E6%98%9F%E7%90%83%E5%8D%91%E6%9B%B2%E7%BB%981.jpg",
+      "localUrl": "/song-covers/dc555efea08a142a509d.webp",
+      "bytes": 30578,
+      "sourceBytes": 46738,
+      "downloadedAt": "2026-09-02T08:51:41.831Z"
+    },
+    "vcpedia:星愿starwish": {
+      "title": "星愿StarWish",
+      "sourceUrl": "https://media.vcpedia.cn/8/8a/%E6%98%9F%E6%84%BFStarWish.jpg",
+      "localUrl": "/song-covers/988d17dde244a604ba9a.webp",
+      "bytes": 71216,
+      "sourceBytes": 97542,
+      "downloadedAt": "2026-09-02T08:51:43.098Z"
+    },
+    "vcpedia:兄妹控即是正义": {
+      "title": "兄/妹控即是正☆义!",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/be/%E5%85%84%E5%A6%B9%E6%8E%A7%E5%8D%B3%E6%98%AF%E6%AD%A3%E4%B9%89.jpg/800px-%E5%85%84%E5%A6%B9%E6%8E%A7%E5%8D%B3%E6%98%AF%E6%AD%A3%E4%B9%89.jpg",
+      "localUrl": "/song-covers/7bcf0ee0fe65faedb3c0.webp",
+      "bytes": 16906,
+      "sourceBytes": 23960,
+      "downloadedAt": "2026-09-02T08:51:49.068Z"
+    },
+    "vcpedia:虚拟少年": {
+      "title": "虚拟少年",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/95/%E8%99%9A%E6%8B%9F%E5%B0%91%E5%B9%B4b.jpg/800px-%E8%99%9A%E6%8B%9F%E5%B0%91%E5%B9%B4b.jpg",
+      "localUrl": "/song-covers/2a4ad960fed4c2db505f.webp",
+      "bytes": 34832,
+      "sourceBytes": 54142,
+      "downloadedAt": "2026-09-02T08:51:50.525Z"
+    },
+    "vcpedia:说谎是恋爱的开始": {
+      "title": "嘘つきは恋のはじまり",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/26/%E8%AF%B4%E8%B0%8E%E6%98%AF%E6%81%8B%E7%88%B1%E7%9A%84%E5%BC%80%E5%A7%8B.jpg/800px-%E8%AF%B4%E8%B0%8E%E6%98%AF%E6%81%8B%E7%88%B1%E7%9A%84%E5%BC%80%E5%A7%8B.jpg",
+      "localUrl": "/song-covers/ebc42529de651e354e72.webp",
+      "bytes": 18026,
+      "sourceBytes": 24350,
+      "downloadedAt": "2026-09-02T08:51:51.961Z"
+    },
+    "vcpedia:叙梦": {
+      "title": "叙梦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/42/%E5%8F%99%E6%A2%A6.jpg/800px-%E5%8F%99%E6%A2%A6.jpg",
+      "localUrl": "/song-covers/7daf9e35a683bd745a23.webp",
+      "bytes": 34122,
+      "sourceBytes": 54906,
+      "downloadedAt": "2026-09-02T08:51:53.988Z"
+    },
+    "vcpedia:絮雪": {
+      "title": "絮雪",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b7/%E7%B5%AE%E9%9B%AA%E6%9B%B2%E7%BB%98.jpg/800px-%E7%B5%AE%E9%9B%AA%E6%9B%B2%E7%BB%98.jpg",
+      "localUrl": "/song-covers/ccb854dde89f49e223fc.webp",
+      "bytes": 31906,
+      "sourceBytes": 53476,
+      "downloadedAt": "2026-09-02T08:51:55.431Z"
+    },
+    "vcpedia:喧嚷": {
+      "title": "喧嚷",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0b/%E5%96%A7%E5%9A%B7.jpg/800px-%E5%96%A7%E5%9A%B7.jpg",
+      "localUrl": "/song-covers/bea45a4c18293430d936.webp",
+      "bytes": 19190,
+      "sourceBytes": 25848,
+      "downloadedAt": "2026-09-02T08:51:56.906Z"
+    },
+    "vcpedia:哑巴": {
+      "title": "哑巴",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4c/%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg/640px-%E5%93%91%E5%B7%B4%E8%A7%86%E9%A2%91%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/633d6f6d3aead2e420f6.webp",
+      "bytes": 31552,
+      "sourceBytes": 31656,
+      "downloadedAt": "2026-09-02T08:51:58.391Z"
+    },
+    "vcpedia:言氏战鼓": {
+      "title": "言氏战鼓",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c3/%E8%A8%80%E6%B0%8F%E6%88%98%E9%BC%93_%E5%B0%81%E9%9D%A2.jpg/800px-%E8%A8%80%E6%B0%8F%E6%88%98%E9%BC%93_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/72fc7340e36b1e3d7c36.webp",
+      "bytes": 4538,
+      "sourceBytes": 5864,
+      "downloadedAt": "2026-09-02T08:51:59.848Z"
+    },
+    "vcpedia:燕双归": {
+      "title": "燕双归",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dc/%E7%87%95%E5%8F%8C%E5%BD%92.jpg/800px-%E7%87%95%E5%8F%8C%E5%BD%92.jpg",
+      "localUrl": "/song-covers/e0040099c198c22b482b.webp",
+      "bytes": 42468,
+      "sourceBytes": 61052,
+      "downloadedAt": "2026-09-02T08:52:02.051Z"
+    },
+    "vcpedia:扬旗鸣鼓": {
+      "title": "扬旗鸣鼓",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d1/%E6%89%AC%E6%97%97%E9%B8%A3%E9%BC%93.jpg/800px-%E6%89%AC%E6%97%97%E9%B8%A3%E9%BC%93.jpg",
+      "localUrl": "/song-covers/b5622c203d9850cf769e.webp",
+      "bytes": 47450,
+      "sourceBytes": 62010,
+      "downloadedAt": "2026-09-02T08:52:03.632Z"
+    },
+    "vcpedia:遥远小镇的我": {
+      "title": "遥远小镇的我",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/68/%E9%81%A5%E8%BF%9C%E5%B0%8F%E9%95%87%E7%9A%84%E6%88%91.jpg/800px-%E9%81%A5%E8%BF%9C%E5%B0%8F%E9%95%87%E7%9A%84%E6%88%91.jpg",
+      "localUrl": "/song-covers/e739d2356b68da529c25.webp",
+      "bytes": 55974,
+      "sourceBytes": 86434,
+      "downloadedAt": "2026-09-02T08:52:05.163Z"
+    },
+    "vcpedia:野狗子": {
+      "title": "野狗子",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/51/%E9%87%8E%E7%8B%97%E5%AD%90.jpg/800px-%E9%87%8E%E7%8B%97%E5%AD%90.jpg",
+      "localUrl": "/song-covers/25fdbb2b583e8b25563c.webp",
+      "bytes": 16734,
+      "sourceBytes": 23834,
+      "downloadedAt": "2026-09-02T08:52:07.100Z"
+    },
+    "vcpedia:夜间出租车": {
+      "title": "夜间出租车",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/11/%E5%A4%9C%E9%97%B4%E5%87%BA%E7%A7%9F%E8%BD%A6.jpeg/800px-%E5%A4%9C%E9%97%B4%E5%87%BA%E7%A7%9F%E8%BD%A6.jpeg",
+      "localUrl": "/song-covers/93a2bba97cd0b11636d3.webp",
+      "bytes": 26454,
+      "sourceBytes": 35322,
+      "downloadedAt": "2026-09-02T08:52:08.556Z"
+    },
+    "vcpedia:夜舞": {
+      "title": "夜舞",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9f/%E5%A4%9C%E8%88%9E.png/800px-%E5%A4%9C%E8%88%9E.png",
+      "localUrl": "/song-covers/b1478c9d5116183b8aea.webp",
+      "bytes": 39000,
+      "sourceBytes": 55596,
+      "downloadedAt": "2026-09-02T08:52:10.093Z"
+    },
+    "vcpedia:一半一半": {
+      "title": "一半一半",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cb/%E4%B8%80%E5%8D%8A%E4%B8%80%E5%8D%8A.jpg/800px-%E4%B8%80%E5%8D%8A%E4%B8%80%E5%8D%8A.jpg",
+      "localUrl": "/song-covers/ee8ec34e26e632d1e4a4.webp",
+      "bytes": 26586,
+      "sourceBytes": 46390,
+      "downloadedAt": "2026-09-02T08:52:11.592Z"
+    },
+    "vcpedia:一点一点": {
+      "title": "一点一点",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a9/%E4%B8%80%E7%82%B9%E4%B8%80%E7%82%B9.jpg/800px-%E4%B8%80%E7%82%B9%E4%B8%80%E7%82%B9.jpg",
+      "localUrl": "/song-covers/1a31dc68ff5a3e2c3a8c.webp",
+      "bytes": 12694,
+      "sourceBytes": 17846,
+      "downloadedAt": "2026-09-02T08:52:13.082Z"
+    },
+    "vcpedia:一花依世界": {
+      "title": "一花依世界",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/57/%E4%B8%80%E8%8A%B1%E4%BE%9D%E4%B8%96%E7%95%8C.jpg/800px-%E4%B8%80%E8%8A%B1%E4%BE%9D%E4%B8%96%E7%95%8C.jpg",
+      "localUrl": "/song-covers/9733e44b24c87a65fddc.webp",
+      "bytes": 37590,
+      "sourceBytes": 50904,
+      "downloadedAt": "2026-09-02T08:52:14.584Z"
+    },
+    "vcpedia:一梦千宵": {
+      "title": "一梦千宵",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5a/%E4%B8%80%E6%A2%A6%E5%8D%83%E5%AE%B5.png/800px-%E4%B8%80%E6%A2%A6%E5%8D%83%E5%AE%B5.png",
+      "localUrl": "/song-covers/7d45d215e750cc8c1f8a.webp",
+      "bytes": 49000,
+      "sourceBytes": 68646,
+      "downloadedAt": "2026-09-02T08:52:16.051Z"
+    },
+    "vcpedia:一人行者": {
+      "title": "一人行者",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c2/%E4%B8%80%E4%BA%BA%E8%A1%8C%E8%80%85_%E5%B0%81%E9%9D%A2.png/800px-%E4%B8%80%E4%BA%BA%E8%A1%8C%E8%80%85_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/8984c4ecc1072a819cde.webp",
+      "bytes": 24642,
+      "sourceBytes": 33570,
+      "downloadedAt": "2026-09-02T08:52:17.763Z"
+    },
+    "vcpedia:一万万": {
+      "title": "一万万",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7b/%E4%B8%80%E4%B8%87%E4%B8%87.jpg/800px-%E4%B8%80%E4%B8%87%E4%B8%87.jpg",
+      "localUrl": "/song-covers/811586680df118dd5fbd.webp",
+      "bytes": 26572,
+      "sourceBytes": 38300,
+      "downloadedAt": "2026-09-02T08:52:19.324Z"
+    },
+    "vcpedia:一重加害": {
+      "title": "一重加害",
+      "sourceUrl": "https://media.vcpedia.cn/7/7b/%E4%B8%80%E9%87%8D%E5%8A%A0%E5%AE%B3.jpg",
+      "localUrl": "/song-covers/ad836f16aa4f0474202e.webp",
+      "bytes": 34582,
+      "sourceBytes": 68442,
+      "downloadedAt": "2026-09-02T08:52:20.558Z"
+    },
+    "vcpedia:依存症": {
+      "title": "依存症",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3f/%E4%BE%9D%E5%AD%98%E7%97%87.png/800px-%E4%BE%9D%E5%AD%98%E7%97%87.png",
+      "localUrl": "/song-covers/d3dc967700e19d2a5e37.webp",
+      "bytes": 15782,
+      "sourceBytes": 20380,
+      "downloadedAt": "2026-09-02T08:52:22.045Z"
+    },
+    "vcpedia:忆红莲": {
+      "title": "忆红莲",
+      "sourceUrl": "https://media.vcpedia.cn/d/de/%E5%BF%86%E7%BA%A2%E8%8E%B2.png",
+      "localUrl": "/song-covers/a56c27bf6f53dd595333.webp",
+      "bytes": 15654,
+      "sourceBytes": 16420,
+      "downloadedAt": "2026-09-02T08:52:23.266Z"
+    },
+    "vcpedia:异见者": {
+      "title": "异见者",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/06/%E5%BC%82%E8%A7%81%E8%80%85.png/800px-%E5%BC%82%E8%A7%81%E8%80%85.png",
+      "localUrl": "/song-covers/4a5e471e87e4b6696684.webp",
+      "bytes": 39476,
+      "sourceBytes": 53302,
+      "downloadedAt": "2026-09-02T08:52:24.850Z"
+    },
+    "vcpedia:异样的风暴中心": {
+      "title": "异样的风暴中心",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8e/%E7%95%B0%E6%A8%A3%E7%9A%84%E9%A2%A8%E6%9A%B4%E4%B8%AD%E5%BF%83.png/640px-%E7%95%B0%E6%A8%A3%E7%9A%84%E9%A2%A8%E6%9A%B4%E4%B8%AD%E5%BF%83.png",
+      "localUrl": "/song-covers/564fbadb715e1c961359.webp",
+      "bytes": 17144,
+      "sourceBytes": 17180,
+      "downloadedAt": "2026-09-02T08:52:26.279Z"
+    },
+    "vcpedia:易安难安": {
+      "title": "易安难安",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d5/%E6%98%93%E5%AE%89%E9%9A%BE%E5%AE%89.jpg/800px-%E6%98%93%E5%AE%89%E9%9A%BE%E5%AE%89.jpg",
+      "localUrl": "/song-covers/0e22a65ceced7ae8b049.webp",
+      "bytes": 38972,
+      "sourceBytes": 56942,
+      "downloadedAt": "2026-09-02T08:52:27.710Z"
+    },
+    "vcpedia:易水诀": {
+      "title": "易水诀",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3e/%E6%98%93%E6%B0%B4%E8%AF%80.jpg/800px-%E6%98%93%E6%B0%B4%E8%AF%80.jpg",
+      "localUrl": "/song-covers/5a845611e4ac80d32eaa.webp",
+      "bytes": 17556,
+      "sourceBytes": 26412,
+      "downloadedAt": "2026-09-02T08:52:29.172Z"
+    },
+    "vcpedia:弈": {
+      "title": "弈",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/28/%E5%BC%88.jpg/800px-%E5%BC%88.jpg",
+      "localUrl": "/song-covers/345ed323c20484524925.webp",
+      "bytes": 17888,
+      "sourceBytes": 26058,
+      "downloadedAt": "2026-09-02T08:52:30.631Z"
+    },
+    "vcpedia:阴阳先生": {
+      "title": "阴阳先生",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9d/%E9%98%B4%E9%98%B3%E5%85%88%E7%94%9F_%E5%B0%81%E9%9D%A2.png/800px-%E9%98%B4%E9%98%B3%E5%85%88%E7%94%9F_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/b72aba81b931dca53025.webp",
+      "bytes": 36414,
+      "sourceBytes": 67714,
+      "downloadedAt": "2026-09-02T08:52:32.118Z"
+    },
+    "vcpedia:罂粟花冠": {
+      "title": "罂粟花冠",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/20/%E7%BD%82%E7%B2%9F%E8%8A%B1%E5%86%A0%28new%29.png/800px-%E7%BD%82%E7%B2%9F%E8%8A%B1%E5%86%A0%28new%29.png",
+      "localUrl": "/song-covers/9578381d093994087fe4.webp",
+      "bytes": 41754,
+      "sourceBytes": 53516,
+      "downloadedAt": "2026-09-02T08:52:33.643Z"
+    },
+    "vcpedia:影照千年华": {
+      "title": "影照千年华",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/80/%E5%BD%B1%E7%85%A7%E5%8D%83%E5%B9%B4%E5%8D%8E.jpg/800px-%E5%BD%B1%E7%85%A7%E5%8D%83%E5%B9%B4%E5%8D%8E.jpg",
+      "localUrl": "/song-covers/3bac3d00aabcb012e0bc.webp",
+      "bytes": 19186,
+      "sourceBytes": 27354,
+      "downloadedAt": "2026-09-02T08:52:35.100Z"
+    },
+    "vcpedia:由": {
+      "title": "由",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/25/%E7%94%B1%28new%29.png/800px-%E7%94%B1%28new%29.png",
+      "localUrl": "/song-covers/e331749b3486f744d773.webp",
+      "bytes": 50078,
+      "sourceBytes": 65236,
+      "downloadedAt": "2026-09-02T08:52:41.198Z"
+    },
+    "vcpedia:游云惊龙": {
+      "title": "游云惊龙",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/1c/%E6%B8%B8%E4%BA%91%E6%83%8A%E9%BE%99.jpg/800px-%E6%B8%B8%E4%BA%91%E6%83%8A%E9%BE%99.jpg",
+      "localUrl": "/song-covers/bea68ae0c52f3bd435bb.webp",
+      "bytes": 38206,
+      "sourceBytes": 52400,
+      "downloadedAt": "2026-09-02T08:52:42.720Z"
+    },
+    "vcpedia:有你刚刚好": {
+      "title": "有你刚刚好",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/92/%E6%9C%89%E4%BD%A0%E5%88%9A%E5%88%9A%E5%A5%BD.jpg/800px-%E6%9C%89%E4%BD%A0%E5%88%9A%E5%88%9A%E5%A5%BD.jpg",
+      "localUrl": "/song-covers/9ac532c7e150c0909a5f.webp",
+      "bytes": 58938,
+      "sourceBytes": 80730,
+      "downloadedAt": "2026-09-02T08:52:44.238Z"
+    },
+    "vcpedia:有兽焉": {
+      "title": "有兽焉",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3c/%E6%9C%89%E5%85%BD%E7%84%89%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29.png/800px-%E6%9C%89%E5%85%BD%E7%84%89%28%E6%B4%9B%E5%A4%A9%E4%BE%9D%29.png",
+      "localUrl": "/song-covers/0b6f5f05416602edfe93.webp",
+      "bytes": 34030,
+      "sourceBytes": 51012,
+      "downloadedAt": "2026-09-02T08:52:45.862Z"
+    },
+    "vcpedia:又一个夜晚": {
+      "title": "又一个夜晚",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bf/%E5%8F%88%E4%B8%80%E4%B8%AA%E5%A4%9C%E6%99%9A.jpg/800px-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%A4%9C%E6%99%9A.jpg",
+      "localUrl": "/song-covers/a1c7e46ffa59e71449b2.webp",
+      "bytes": 53014,
+      "sourceBytes": 76256,
+      "downloadedAt": "2026-09-02T08:52:47.605Z"
+    },
+    "vcpedia:余火": {
+      "title": "余火",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/92/%E4%BD%99%E7%81%AB.jpg/800px-%E4%BD%99%E7%81%AB.jpg",
+      "localUrl": "/song-covers/e395ace41477d122b56a.webp",
+      "bytes": 29412,
+      "sourceBytes": 41272,
+      "downloadedAt": "2026-09-02T08:52:49.161Z"
+    },
+    "vcpedia:欲": {
+      "title": "欲",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3e/%E6%AC%B2%28new%29.jpg/800px-%E6%AC%B2%28new%29.jpg",
+      "localUrl": "/song-covers/b9348b73009a8ddf5569.webp",
+      "bytes": 23568,
+      "sourceBytes": 33582,
+      "downloadedAt": "2026-09-02T08:52:50.672Z"
+    },
+    "vcpedia:欲泪海": {
+      "title": "欲泪海",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/40/%E6%AC%B2%E6%B3%AA%E6%B5%B7.jpg/800px-%E6%AC%B2%E6%B3%AA%E6%B5%B7.jpg",
+      "localUrl": "/song-covers/af7e2568181904964b95.webp",
+      "bytes": 18618,
+      "sourceBytes": 27518,
+      "downloadedAt": "2026-09-02T08:52:52.262Z"
+    },
+    "vcpedia:远方(忘川风华录)": {
+      "title": "远方",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/dd/%E8%BF%9C%E6%96%B9%28%E5%BF%98%E5%B7%9D%E9%A3%8E%E5%8D%8E%E5%BD%95%29.jpg/800px-%E8%BF%9C%E6%96%B9%28%E5%BF%98%E5%B7%9D%E9%A3%8E%E5%8D%8E%E5%BD%95%29.jpg",
+      "localUrl": "/song-covers/f8969d941d33e64d6731.webp",
+      "bytes": 50082,
+      "sourceBytes": 81890,
+      "downloadedAt": "2026-09-02T08:52:53.832Z"
+    },
+    "vcpedia:月华舞": {
+      "title": "月华舞",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6d/%E6%9C%88%E5%8D%8E%E8%88%9E.jpg/800px-%E6%9C%88%E5%8D%8E%E8%88%9E.jpg",
+      "localUrl": "/song-covers/baa9cec059d6a91265e6.webp",
+      "bytes": 34868,
+      "sourceBytes": 48656,
+      "downloadedAt": "2026-09-02T08:52:55.567Z"
+    },
+    "vcpedia:月色清弦": {
+      "title": "月色清弦",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/30/%E6%9C%88%E8%89%B2%E6%B8%85%E5%BC%A6.jpg/800px-%E6%9C%88%E8%89%B2%E6%B8%85%E5%BC%A6.jpg",
+      "localUrl": "/song-covers/3a13092229bd45b48b25.webp",
+      "bytes": 49352,
+      "sourceBytes": 77378,
+      "downloadedAt": "2026-09-02T08:52:57.085Z"
+    },
+    "vcpedia:越冰船": {
+      "title": "越冰船",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/47/%E8%B6%8A%E5%86%B0%E8%88%B9_%E5%B0%81%E9%9D%A2.jpg/800px-%E8%B6%8A%E5%86%B0%E8%88%B9_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/503c78f107f259786544.webp",
+      "bytes": 63764,
+      "sourceBytes": 100296,
+      "downloadedAt": "2026-09-02T08:52:58.732Z"
+    },
+    "vcpedia:云山尽处": {
+      "title": "云山尽处",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/58/%E4%BA%91%E5%B1%B1%E5%B0%BD%E5%A4%84.jpg/800px-%E4%BA%91%E5%B1%B1%E5%B0%BD%E5%A4%84.jpg",
+      "localUrl": "/song-covers/c1a642ab6a565dcd8f57.webp",
+      "bytes": 39672,
+      "sourceBytes": 57144,
+      "downloadedAt": "2026-09-02T08:53:00.244Z"
+    },
+    "vcpedia:再声 recall": {
+      "title": "再声 Recall",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a6/%E5%86%8D%E5%A3%B0Recall.jpg/800px-%E5%86%8D%E5%A3%B0Recall.jpg",
+      "localUrl": "/song-covers/791e75ffa3d26dd48782.webp",
+      "bytes": 45658,
+      "sourceBytes": 70166,
+      "downloadedAt": "2026-09-02T08:53:01.869Z"
+    },
+    "vcpedia:再一杯!": {
+      "title": "再一杯！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/c1/%E5%86%8D%E4%B8%80%E6%9D%AF%EF%BC%81.jpg/800px-%E5%86%8D%E4%B8%80%E6%9D%AF%EF%BC%81.jpg",
+      "localUrl": "/song-covers/d5f02a5a284456f8c617.webp",
+      "bytes": 38782,
+      "sourceBytes": 54038,
+      "downloadedAt": "2026-09-02T08:53:03.472Z"
+    },
+    "vcpedia:在下,言和": {
+      "title": "在下，言和",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4b/%E5%9C%A8%E4%B8%8B%E8%A8%80%E5%92%8C%E5%B0%81%E9%9D%A2.jpg/800px-%E5%9C%A8%E4%B8%8B%E8%A8%80%E5%92%8C%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/0d6d6bf1a3b133da0dc8.webp",
+      "bytes": 32038,
+      "sourceBytes": 42962,
+      "downloadedAt": "2026-09-02T08:53:04.935Z"
+    },
+    "vcpedia:簪花人间": {
+      "title": "簪花人间",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a8/%E7%B0%AA%E8%8A%B1%E4%BA%BA%E9%97%B4.jpg/800px-%E7%B0%AA%E8%8A%B1%E4%BA%BA%E9%97%B4.jpg",
+      "localUrl": "/song-covers/e5b18f47beb58904b64c.webp",
+      "bytes": 23164,
+      "sourceBytes": 30610,
+      "downloadedAt": "2026-09-02T08:53:06.369Z"
+    },
+    "vcpedia:咱俩谁管谁叫爹": {
+      "title": "咱俩谁管谁叫爹",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e4/%E5%92%B1%E4%BF%A9%E8%B0%81%E7%AE%A1%E8%B0%81%E5%8F%AB%E7%88%B9.jpg/800px-%E5%92%B1%E4%BF%A9%E8%B0%81%E7%AE%A1%E8%B0%81%E5%8F%AB%E7%88%B9.jpg",
+      "localUrl": "/song-covers/b158d1b65f8d2cbe4ace.webp",
+      "bytes": 30228,
+      "sourceBytes": 40902,
+      "downloadedAt": "2026-09-02T08:53:07.826Z"
+    },
+    "vcpedia:葬歌(ilem)": {
+      "title": "葬歌",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e5/%E8%91%AC%E6%AD%8C_ilem.png/800px-%E8%91%AC%E6%AD%8C_ilem.png",
+      "localUrl": "/song-covers/64f074b7612a4e1dc54d.webp",
+      "bytes": 2574,
+      "sourceBytes": 3272,
+      "downloadedAt": "2026-09-02T08:53:09.241Z"
+    },
+    "vcpedia:折光": {
+      "title": "折光",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/ae/%E6%8A%98%E5%85%89.png/800px-%E6%8A%98%E5%85%89.png",
+      "localUrl": "/song-covers/d706ced0c805ac1de9de.webp",
+      "bytes": 27366,
+      "sourceBytes": 36512,
+      "downloadedAt": "2026-09-02T08:53:10.780Z"
+    },
+    "vcpedia:珍珠": {
+      "title": "珍珠",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a8/%E7%8F%8D%E7%8F%A0.jpg/800px-%E7%8F%8D%E7%8F%A0.jpg",
+      "localUrl": "/song-covers/de6282b445afcbc36460.webp",
+      "bytes": 42896,
+      "sourceBytes": 65990,
+      "downloadedAt": "2026-09-02T08:53:12.245Z"
+    },
+    "vcpedia:直到最后一天": {
+      "title": "直到最后一天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/1d/%E7%9B%B4%E5%88%B0%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9.jpg/800px-%E7%9B%B4%E5%88%B0%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/21193d8d2e5235b6780a.webp",
+      "bytes": 49962,
+      "sourceBytes": 77748,
+      "downloadedAt": "2026-09-02T08:53:13.745Z"
+    },
+    "vcpedia:中华墨水娘": {
+      "title": "中华墨水娘",
+      "sourceUrl": "https://media.vcpedia.cn/8/84/%E4%B8%AD%E5%8D%8E%E5%A2%A8%E6%B0%B4%E5%A8%98.PNG",
+      "localUrl": "/song-covers/6c073f845fec1d4d8053.webp",
+      "bytes": 22960,
+      "sourceBytes": 22764,
+      "downloadedAt": "2026-09-02T08:53:15.259Z"
+    },
+    "vcpedia:中华少女·终": {
+      "title": "中华少女·终",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/ac/%E4%B8%AD%E5%8D%8E%E5%B0%91%E5%A5%B3%E6%9B%B2%E7%BB%98.jpg/800px-%E4%B8%AD%E5%8D%8E%E5%B0%91%E5%A5%B3%E6%9B%B2%E7%BB%98.jpg",
+      "localUrl": "/song-covers/e16bcf94745ef936aac3.webp",
+      "bytes": 70542,
+      "sourceBytes": 103028,
+      "downloadedAt": "2026-09-02T08:53:16.781Z"
+    },
+    "vcpedia:中华铄金娘": {
+      "title": "中华铄金娘",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/cd/%E4%B8%AD%E5%8D%8E%E9%93%84%E9%87%91%E5%A8%98.jpg/800px-%E4%B8%AD%E5%8D%8E%E9%93%84%E9%87%91%E5%A8%98.jpg",
+      "localUrl": "/song-covers/a4b893a64ffa75acd572.webp",
+      "bytes": 29754,
+      "sourceBytes": 39866,
+      "downloadedAt": "2026-09-02T08:53:18.248Z"
+    },
+    "vcpedia:中华缘木娘": {
+      "title": "中华缘木娘",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4b/%E4%B8%AD%E5%8D%8E%E7%BC%98%E6%9C%A8%E5%A8%98_%E5%B0%81%E9%9D%A2.png/800px-%E4%B8%AD%E5%8D%8E%E7%BC%98%E6%9C%A8%E5%A8%98_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/2386e0cd7ff804aa4060.webp",
+      "bytes": 17442,
+      "sourceBytes": 24724,
+      "downloadedAt": "2026-09-02T08:53:19.681Z"
+    },
+    "vcpedia:中华粘土娘": {
+      "title": "中华粘土娘",
+      "sourceUrl": "https://media.vcpedia.cn/9/93/%E4%B8%AD%E5%8D%8E%E7%B2%98%E5%9C%9F%E5%A8%98.jpeg",
+      "localUrl": "/song-covers/445b0ee0308d183a3973.webp",
+      "bytes": 32350,
+      "sourceBytes": 32124,
+      "downloadedAt": "2026-09-02T08:53:21.108Z"
+    },
+    "vcpedia:中华烛火娘": {
+      "title": "中华烛火娘",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/47/%E4%B8%AD%E5%8D%8E%E7%83%9B%E7%81%AB%E5%A8%98_%E5%B0%81%E9%9D%A2.png/800px-%E4%B8%AD%E5%8D%8E%E7%83%9B%E7%81%AB%E5%A8%98_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/1bba5deb0bdb114253c4.webp",
+      "bytes": 38418,
+      "sourceBytes": 50908,
+      "downloadedAt": "2026-09-02T08:53:22.619Z"
+    },
+    "vcpedia:并非终末": {
+      "title": "終末じゃない",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/aa/%E4%B8%A6%E9%9D%9E%E7%BB%88%E6%9C%AB.png/800px-%E4%B8%A6%E9%9D%9E%E7%BB%88%E6%9C%AB.png",
+      "localUrl": "/song-covers/ffd30b0865c5cd9db6b0.webp",
+      "bytes": 15204,
+      "sourceBytes": 22728,
+      "downloadedAt": "2026-09-02T08:53:24.081Z"
+    },
+    "vcpedia:众生的": {
+      "title": "众生的",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/98/%E4%BC%97%E7%94%9F%E7%9A%84%28%E5%B0%81%E9%9D%A2%29.jpg/800px-%E4%BC%97%E7%94%9F%E7%9A%84%28%E5%B0%81%E9%9D%A2%29.jpg",
+      "localUrl": "/song-covers/7f09bceab9c8a629a789.webp",
+      "bytes": 43230,
+      "sourceBytes": 68512,
+      "downloadedAt": "2026-09-02T08:53:25.604Z"
+    },
+    "vcpedia:重力索引": {
+      "title": "重力索引",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/35/%E9%87%8D%E5%8A%9B%E7%B4%A2%E5%BC%95.png/800px-%E9%87%8D%E5%8A%9B%E7%B4%A2%E5%BC%95.png",
+      "localUrl": "/song-covers/59990b47145e4fb7bae7.webp",
+      "bytes": 87914,
+      "sourceBytes": 122164,
+      "downloadedAt": "2026-09-02T08:53:27.282Z"
+    },
+    "vcpedia:竹鼠煮熟术": {
+      "title": "竹鼠煮熟术",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/93/%E7%AB%B9%E9%BC%A0%E7%85%AE%E7%86%9F%E6%9C%AF.png/800px-%E7%AB%B9%E9%BC%A0%E7%85%AE%E7%86%9F%E6%9C%AF.png",
+      "localUrl": "/song-covers/43830731aa867a896013.webp",
+      "bytes": 36212,
+      "sourceBytes": 47384,
+      "downloadedAt": "2026-09-02T08:53:28.823Z"
+    },
+    "vcpedia:逐梦之翼": {
+      "title": "逐梦之翼",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/9e/%E5%B0%81%E9%9D%A2-%E9%80%90%E6%A2%A6%E4%B9%8B%E7%BF%BC.png/800px-%E5%B0%81%E9%9D%A2-%E9%80%90%E6%A2%A6%E4%B9%8B%E7%BF%BC.png",
+      "localUrl": "/song-covers/761e78dbd10f62d5157b.webp",
+      "bytes": 17336,
+      "sourceBytes": 21302,
+      "downloadedAt": "2026-09-02T08:53:30.267Z"
+    },
+    "vcpedia:主播有点忙": {
+      "title": "主播有点忙",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/34/%E4%B8%BB%E6%92%AD%E6%9C%89%E7%82%B9%E5%BF%99.jpg/800px-%E4%B8%BB%E6%92%AD%E6%9C%89%E7%82%B9%E5%BF%99.jpg",
+      "localUrl": "/song-covers/ff165d6993fce3cd5c64.webp",
+      "bytes": 30848,
+      "sourceBytes": 44296,
+      "downloadedAt": "2026-09-02T08:53:31.769Z"
+    },
+    "vcpedia:追光使者": {
+      "title": "追光使者",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/99/%E8%BF%BD%E5%85%89%E4%BD%BF%E8%80%85.jpg/800px-%E8%BF%BD%E5%85%89%E4%BD%BF%E8%80%85.jpg",
+      "localUrl": "/song-covers/09a6a757e9c88e14c914.webp",
+      "bytes": 25396,
+      "sourceBytes": 34724,
+      "downloadedAt": "2026-09-02T08:53:33.204Z"
+    },
+    "vcpedia:追火问天": {
+      "title": "追火问天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/0f/%E8%BF%BD%E7%81%AB%E9%97%AE%E5%A4%A9.jpg/800px-%E8%BF%BD%E7%81%AB%E9%97%AE%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/cb297142ac2d8dcca03e.webp",
+      "bytes": 31226,
+      "sourceBytes": 44274,
+      "downloadedAt": "2026-09-02T08:53:34.694Z"
+    },
+    "vcpedia:捉迷藏(春野)": {
+      "title": "捉迷藏",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/89/%E6%8D%89%E8%BF%B7%E8%97%8F%E6%B4%9B%E5%A4%A9%E4%BE%9D.jpg/800px-%E6%8D%89%E8%BF%B7%E8%97%8F%E6%B4%9B%E5%A4%A9%E4%BE%9D.jpg",
+      "localUrl": "/song-covers/94a03aaa38b19e015577.webp",
+      "bytes": 17490,
+      "sourceBytes": 25804,
+      "downloadedAt": "2026-09-02T08:53:36.204Z"
+    },
+    "vcpedia:灼": {
+      "title": "灼",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/2e/%E7%81%BC.jpg/800px-%E7%81%BC.jpg",
+      "localUrl": "/song-covers/e713e7433d66cf081615.webp",
+      "bytes": 29432,
+      "sourceBytes": 44158,
+      "downloadedAt": "2026-09-02T08:53:37.736Z"
+    },
+    "vcpedia:灼之花": {
+      "title": "灼之花",
+      "sourceUrl": "https://media.vcpedia.cn/5/5f/%E7%81%BC%E4%B9%8B%E8%8A%B1.jpg",
+      "localUrl": "/song-covers/b67178f2c27d89ff5ae8.webp",
+      "bytes": 52366,
+      "sourceBytes": 128764,
+      "downloadedAt": "2026-09-02T08:53:38.994Z"
+    },
+    "vcpedia:自暴自弃": {
+      "title": "自暴自弃",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/c/ca/%E8%87%AA%E6%9A%B4%E8%87%AA%E5%BC%83.png/800px-%E8%87%AA%E6%9A%B4%E8%87%AA%E5%BC%83.png",
+      "localUrl": "/song-covers/aa766597c42e05232345.webp",
+      "bytes": 21924,
+      "sourceBytes": 28968,
+      "downloadedAt": "2026-09-02T08:53:40.462Z"
+    },
+    "vcpedia:自攻自受": {
+      "title": "自攻自受",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5e/%E8%87%AA%E6%94%BB%E8%87%AA%E5%8F%97.jpg/800px-%E8%87%AA%E6%94%BB%E8%87%AA%E5%8F%97.jpg",
+      "localUrl": "/song-covers/cd79680642820a78dee3.webp",
+      "bytes": 33564,
+      "sourceBytes": 46982,
+      "downloadedAt": "2026-09-02T08:53:42.035Z"
+    },
+    "vcpedia:自生自灭": {
+      "title": "自生自灭",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e7/%E8%87%AA%E7%94%9F%E8%87%AA%E7%81%AD%28new%29.jpg/800px-%E8%87%AA%E7%94%9F%E8%87%AA%E7%81%AD%28new%29.jpg",
+      "localUrl": "/song-covers/aa0cc870b08b24306520.webp",
+      "bytes": 24436,
+      "sourceBytes": 34002,
+      "downloadedAt": "2026-09-02T08:53:43.553Z"
+    },
+    "vcpedia:自我主张崇拜": {
+      "title": "自我主张崇拜",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4d/%E8%87%AA%E6%88%91%E4%B8%BB%E5%BC%A0%E5%B4%87%E6%8B%9C.jpg/800px-%E8%87%AA%E6%88%91%E4%B8%BB%E5%BC%A0%E5%B4%87%E6%8B%9C.jpg",
+      "localUrl": "/song-covers/f263f825a652717a3b77.webp",
+      "bytes": 31922,
+      "sourceBytes": 45536,
+      "downloadedAt": "2026-09-02T08:53:45.002Z"
+    },
+    "vcpedia:自言自语(sya)": {
+      "title": "自言自语",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/07/%E8%87%AA%E8%A8%80%E8%87%AA%E8%AF%AD.jpg/800px-%E8%87%AA%E8%A8%80%E8%87%AA%E8%AF%AD.jpg",
+      "localUrl": "/song-covers/0587e7e6ea6f0a790705.webp",
+      "bytes": 25348,
+      "sourceBytes": 33498,
+      "downloadedAt": "2026-09-02T08:53:46.432Z"
+    },
+    "vcpedia:自作自受": {
+      "title": "自作自受",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4d/%E8%87%AA%E4%BD%9C%E8%87%AA%E5%8F%97.png/800px-%E8%87%AA%E4%BD%9C%E8%87%AA%E5%8F%97.png",
+      "localUrl": "/song-covers/c2f43a47ebdec7d77ebf.webp",
+      "bytes": 34320,
+      "sourceBytes": 44610,
+      "downloadedAt": "2026-09-02T08:53:47.940Z"
+    },
+    "vcpedia:祖龙吟": {
+      "title": "祖龙吟",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f5/%E7%A5%96%E9%BE%99%E5%90%9F.jpg/800px-%E7%A5%96%E9%BE%99%E5%90%9F.jpg",
+      "localUrl": "/song-covers/7903e6034431068458d2.webp",
+      "bytes": 20010,
+      "sourceBytes": 26748,
+      "downloadedAt": "2026-09-02T08:53:49.398Z"
+    },
+    "vcpedia:最美的夏天": {
+      "title": "最美的夏天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a4/%E6%9C%80%E7%BE%8E%E7%9A%84%E5%A4%8F%E5%A4%A9_%E5%B0%81%E9%9D%A2.png/800px-%E6%9C%80%E7%BE%8E%E7%9A%84%E5%A4%8F%E5%A4%A9_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/50e350aa5ce613df22a7.webp",
+      "bytes": 21170,
+      "sourceBytes": 27466,
+      "downloadedAt": "2026-09-02T08:53:50.884Z"
+    },
+    "vcpedia:最完美的夏天": {
+      "title": "最完美的夏天",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/80/%E6%9C%80%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%A4%8F%E5%A4%A9.jpg/800px-%E6%9C%80%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%A4%8F%E5%A4%A9.jpg",
+      "localUrl": "/song-covers/dfe876114dbd7b769d95.webp",
+      "bytes": 46410,
+      "sourceBytes": 66946,
+      "downloadedAt": "2026-09-02T08:53:52.324Z"
+    },
+    "vcpedia:最终祈愿": {
+      "title": "最终祈愿",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/52/%E6%9C%80%E7%BB%88%E7%A5%88%E6%84%BF.jpg/800px-%E6%9C%80%E7%BB%88%E7%A5%88%E6%84%BF.jpg",
+      "localUrl": "/song-covers/7f9ab03d519aee2c4d7f.webp",
+      "bytes": 23456,
+      "sourceBytes": 35568,
+      "downloadedAt": "2026-09-02T08:53:53.869Z"
+    },
+    "vcpedia:ace(墨清弦)": {
+      "title": "ACE",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f5/Ace-MMD%E5%B0%81%E9%9D%A2.jpg/800px-Ace-MMD%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/ea940f124ce8f47882d9.webp",
+      "bytes": 40162,
+      "sourceBytes": 54598,
+      "downloadedAt": "2026-09-02T08:53:55.346Z"
+    },
+    "vcpedia:aloud": {
+      "title": "Aloud",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b4/Aloud_%E6%9B%B2%E7%BB%98.jpg/800px-Aloud_%E6%9B%B2%E7%BB%98.jpg",
+      "localUrl": "/song-covers/d533eaaa80ca14508ff8.webp",
+      "bytes": 58820,
+      "sourceBytes": 88534,
+      "downloadedAt": "2026-09-02T08:53:56.863Z"
+    },
+    "vcpedia:attack!": {
+      "title": "Attack!",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/29/Attack%EF%BC%81.jpg/800px-Attack%EF%BC%81.jpg",
+      "localUrl": "/song-covers/c40f1f5fb9d762bc0c99.webp",
+      "bytes": 28248,
+      "sourceBytes": 37374,
+      "downloadedAt": "2026-09-02T08:53:58.288Z"
+    },
+    "vcpedia:awake": {
+      "title": "AWAKE",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ef/AWAKE.jpg/800px-AWAKE.jpg",
+      "localUrl": "/song-covers/8c54edb6d2bc1fff79dd.webp",
+      "bytes": 54310,
+      "sourceBytes": 77294,
+      "downloadedAt": "2026-09-02T08:53:59.842Z"
+    },
+    "vcpedia:break out": {
+      "title": "Break Out",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/32/Break_Out%28%E4%B9%90%E6%AD%A3%E7%BB%AB%29.jpg/800px-Break_Out%28%E4%B9%90%E6%AD%A3%E7%BB%AB%29.jpg",
+      "localUrl": "/song-covers/850625dc0c1693e2ebb1.webp",
+      "bytes": 38628,
+      "sourceBytes": 52264,
+      "downloadedAt": "2026-09-02T08:54:01.373Z"
+    },
+    "vcpedia:chu~chu~chu~": {
+      "title": "Chu~chu~chu~",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/ef/Chu~chu~chu~.jpg/800px-Chu~chu~chu~.jpg",
+      "localUrl": "/song-covers/ed092b2b48573e300f16.webp",
+      "bytes": 39482,
+      "sourceBytes": 57120,
+      "downloadedAt": "2026-09-02T08:54:02.948Z"
+    },
+    "vcpedia:code:ty712": {
+      "title": "code：TY712",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/02/Code%EF%BC%9ATY712.png/800px-Code%EF%BC%9ATY712.png",
+      "localUrl": "/song-covers/da266f917fb6e379ffdb.webp",
+      "bytes": 33400,
+      "sourceBytes": 45434,
+      "downloadedAt": "2026-09-02T08:54:04.483Z"
+    },
+    "vcpedia:connect~心的连接~": {
+      "title": "CONNECT~心的连接~",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/94/%E5%B0%81%E9%9D%A2-CONNECT~%E5%BF%83%E7%9A%84%E8%BF%9E%E6%8E%A5~.png/800px-%E5%B0%81%E9%9D%A2-CONNECT~%E5%BF%83%E7%9A%84%E8%BF%9E%E6%8E%A5~.png",
+      "localUrl": "/song-covers/3228578a0cde9df0654d.webp",
+      "bytes": 29440,
+      "sourceBytes": 40188,
+      "downloadedAt": "2026-09-02T08:54:06.023Z"
+    },
+    "vcpedia:d!s!llus!on": {
+      "title": "D!s!llus!on",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/7f/D%21s%21llus%21on.jpg/800px-D%21s%21llus%21on.jpg",
+      "localUrl": "/song-covers/5ddec8b15ad1d0fb8656.webp",
+      "bytes": 32106,
+      "sourceBytes": 46464,
+      "downloadedAt": "2026-09-02T08:54:07.870Z"
+    },
+    "vcpedia:d!scolor": {
+      "title": "D!scolor",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/16/D%21scolor%28new%29.jpg/800px-D%21scolor%28new%29.jpg",
+      "localUrl": "/song-covers/03ef3e32b5440ad05339.webp",
+      "bytes": 37728,
+      "sourceBytes": 55602,
+      "downloadedAt": "2026-09-02T08:54:09.338Z"
+    },
+    "vcpedia:dramatic": {
+      "title": "Dramatic",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/be/Dramatic.jpg/800px-Dramatic.jpg",
+      "localUrl": "/song-covers/624ae1c860152ba62d24.webp",
+      "bytes": 27132,
+      "sourceBytes": 39098,
+      "downloadedAt": "2026-09-02T08:54:10.822Z"
+    },
+    "vcpedia:expres": {
+      "title": "EXpres",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/eb/EXpres_illustration.png/800px-EXpres_illustration.png",
+      "localUrl": "/song-covers/a1df8a4b0aad03e7a658.webp",
+      "bytes": 32146,
+      "sourceBytes": 44984,
+      "downloadedAt": "2026-09-02T08:54:12.388Z"
+    },
+    "vcpedia:glitter days": {
+      "title": "Glitter Days",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8e/GlitterDays_%E5%B0%81%E9%9D%A2.png/800px-GlitterDays_%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/68d6474ea5e63e4f5ebb.webp",
+      "bytes": 88730,
+      "sourceBytes": 117398,
+      "downloadedAt": "2026-09-02T08:54:18.652Z"
+    },
+    "vcpedia:hello&bye,days": {
+      "title": "hello&bye,days",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/ac/Hello%26bye%2Cdays.jpg/800px-Hello%26bye%2Cdays.jpg",
+      "localUrl": "/song-covers/92e3661c5acf5cf0e2eb.webp",
+      "bytes": 11980,
+      "sourceBytes": 16860,
+      "downloadedAt": "2026-09-02T08:54:20.116Z"
+    },
+    "vcpedia:i love u": {
+      "title": "I LOVE U",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3c/I_LOVE_U.png/800px-I_LOVE_U.png",
+      "localUrl": "/song-covers/debbb5296994841ba6aa.webp",
+      "bytes": 19720,
+      "sourceBytes": 25920,
+      "downloadedAt": "2026-09-02T08:54:21.568Z"
+    },
+    "vcpedia:i.i.idiot": {
+      "title": "I.I.IDIOT",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/45/I.I.IDIOT.jpg/800px-I.I.IDIOT.jpg",
+      "localUrl": "/song-covers/e5855dde404f72084f94.webp",
+      "bytes": 43562,
+      "sourceBytes": 69984,
+      "downloadedAt": "2026-09-02T08:54:23.098Z"
+    },
+    "vcpedia:i.i.igrok": {
+      "title": "I.I.IGROK",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/69/I.I.IGROK.jpg/800px-I.I.IGROK.jpg",
+      "localUrl": "/song-covers/1f46003989a6b7f42d9c.webp",
+      "bytes": 22568,
+      "sourceBytes": 35132,
+      "downloadedAt": "2026-09-02T08:54:24.648Z"
+    },
+    "vcpedia:in your breath": {
+      "title": "In Your Breath",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/2/22/In_your_breath.jpg/800px-In_your_breath.jpg",
+      "localUrl": "/song-covers/b10ae4d0a98f82b5f7d4.webp",
+      "bytes": 28524,
+      "sourceBytes": 44876,
+      "downloadedAt": "2026-09-02T08:54:26.154Z"
+    },
+    "vcpedia:kata": {
+      "title": "KATA",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f9/KATA.jpg/800px-KATA.jpg",
+      "localUrl": "/song-covers/16bd1a07062850f01d9a.webp",
+      "bytes": 63904,
+      "sourceBytes": 91170,
+      "downloadedAt": "2026-09-02T08:54:27.713Z"
+    },
+    "vcpedia:kill my emotion": {
+      "title": "Kill My Emotion",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/49/KILL_MY_EMOTION.jpg/800px-KILL_MY_EMOTION.jpg",
+      "localUrl": "/song-covers/174b8c4b798b35cd55df.webp",
+      "bytes": 31796,
+      "sourceBytes": 39848,
+      "downloadedAt": "2026-09-02T08:54:29.233Z"
+    },
+    "vcpedia:kill my justice": {
+      "title": "Kill My Justice",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/f/f4/Kill_My_Justice.jpg/800px-Kill_My_Justice.jpg",
+      "localUrl": "/song-covers/d189902b93dfc55cf8d9.webp",
+      "bytes": 20610,
+      "sourceBytes": 26472,
+      "downloadedAt": "2026-09-02T08:54:30.673Z"
+    },
+    "vcpedia:mao!": {
+      "title": "MAO！",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/37/MAO%EF%BC%81.jpg/800px-MAO%EF%BC%81.jpg",
+      "localUrl": "/song-covers/f994c4529dee6094054c.webp",
+      "bytes": 22280,
+      "sourceBytes": 31150,
+      "downloadedAt": "2026-09-02T08:54:32.073Z"
+    },
+    "vcpedia:meave": {
+      "title": "Meave",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/39/Meave.jpg/800px-Meave.jpg",
+      "localUrl": "/song-covers/091d68de04e64951003e.webp",
+      "bytes": 13992,
+      "sourceBytes": 19354,
+      "downloadedAt": "2026-09-02T08:54:33.473Z"
+    },
+    "vcpedia:monologue": {
+      "title": "Monologue",
+      "sourceUrl": "https://media.vcpedia.cn/2/20/Lost_In_Tianyi.png",
+      "localUrl": "/song-covers/4568ef2dc77dd917e5ba.webp",
+      "bytes": 38652,
+      "sourceBytes": 57092,
+      "downloadedAt": "2026-09-02T08:54:35.002Z"
+    },
+    "vcpedia:monster!monster!": {
+      "title": "Monster!Monster!",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d0/Monster%21Monster%21.jpg/800px-Monster%21Monster%21.jpg",
+      "localUrl": "/song-covers/856d32a552985267fa64.webp",
+      "bytes": 27642,
+      "sourceBytes": 37342,
+      "downloadedAt": "2026-09-02T08:54:36.522Z"
+    },
+    "vcpedia:montagem pitty": {
+      "title": "MONTAGEM PITTY（拼接遗憾）",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/61/MONTAGEM_PITTY%E6%96%B0%E5%B0%81%E9%9D%A2.png/800px-MONTAGEM_PITTY%E6%96%B0%E5%B0%81%E9%9D%A2.png",
+      "localUrl": "/song-covers/1477dbfdc3dee6f40cf7.webp",
+      "bytes": 22906,
+      "sourceBytes": 29694,
+      "downloadedAt": "2026-09-02T08:54:38.461Z"
+    },
+    "vcpedia:override": {
+      "title": "Override",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/37/Override_%E5%B0%81%E9%9D%A2.jpg/800px-Override_%E5%B0%81%E9%9D%A2.jpg",
+      "localUrl": "/song-covers/fe6ee12c89840458dc40.webp",
+      "bytes": 52072,
+      "sourceBytes": 79140,
+      "downloadedAt": "2026-09-02T08:54:40.374Z"
+    },
+    "vcpedia:rainy bunny": {
+      "title": "Rainy Bunny",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/68/Rainy_Bunny.jpg/800px-Rainy_Bunny.jpg",
+      "localUrl": "/song-covers/414f0e846cb9c0a00fa7.webp",
+      "bytes": 23902,
+      "sourceBytes": 33808,
+      "downloadedAt": "2026-09-02T08:54:41.813Z"
+    },
+    "vcpedia:替罪羔羊": {
+      "title": "SCAPEG♾AT",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/a/a7/SCAPEG%E2%99%BEAT%28Yuma%29.jpg/800px-SCAPEG%E2%99%BEAT%28Yuma%29.jpg",
+      "localUrl": "/song-covers/77f1f8db81bfdf07fc6d.webp",
+      "bytes": 38488,
+      "sourceBytes": 54446,
+      "downloadedAt": "2026-09-02T08:54:43.264Z"
+    },
+    "vcpedia:scarlet drop": {
+      "title": "Scarlet Drop",
+      "sourceUrl": "https://media.vcpedia.cn/f/fc/Scarlet_Drop.jpg",
+      "localUrl": "/song-covers/9a8c2659604c6cc1adb6.webp",
+      "bytes": 38946,
+      "sourceBytes": 84820,
+      "downloadedAt": "2026-09-02T08:54:44.533Z"
+    },
+    "vcpedia:seattle物语": {
+      "title": "Seattle物语",
+      "sourceUrl": "https://media.vcpedia.cn/2/28/Seattle%E7%89%A9%E8%AF%AD.png",
+      "localUrl": "/song-covers/2f9f7d11270d82da396e.webp",
+      "bytes": 14820,
+      "sourceBytes": 17210,
+      "downloadedAt": "2026-09-02T08:54:45.968Z"
+    },
+    "vcpedia:seattle物语 ii": {
+      "title": "Seattle物语 II",
+      "sourceUrl": "https://media.vcpedia.cn/6/66/Seattle%E7%89%A9%E8%AF%ADII.jpg",
+      "localUrl": "/song-covers/71d33eb82b895c6e1240.webp",
+      "bytes": 25194,
+      "sourceBytes": 37736,
+      "downloadedAt": "2026-09-02T08:54:47.170Z"
+    },
+    "vcpedia:side by side": {
+      "title": "Side by Side",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e0/Side_by_Side.jpg/800px-Side_by_Side.jpg",
+      "localUrl": "/song-covers/360a1563b3c795136093.webp",
+      "bytes": 59938,
+      "sourceBytes": 87428,
+      "downloadedAt": "2026-09-02T08:54:48.716Z"
+    },
+    "vcpedia:signal scream": {
+      "title": "Signal Scream",
+      "sourceUrl": "https://media.vcpedia.cn/5/55/Signal_Scream.png",
+      "localUrl": "/song-covers/03dddac6441ce8406e58.webp",
+      "bytes": 13602,
+      "sourceBytes": 16766,
+      "downloadedAt": "2026-09-02T08:54:50.217Z"
+    },
+    "vcpedia:solar storm": {
+      "title": "Solar Storm",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/5e/Solar_Storm.jpg/800px-Solar_Storm.jpg",
+      "localUrl": "/song-covers/4fd92aec206cb056d0b7.webp",
+      "bytes": 25906,
+      "sourceBytes": 37000,
+      "downloadedAt": "2026-09-02T08:54:51.670Z"
+    },
+    "vcpedia:t.a.o.": {
+      "title": "T.A.O.",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/41/T.A.O.png/800px-T.A.O.png",
+      "localUrl": "/song-covers/50194d54cf53791f59af.webp",
+      "bytes": 19740,
+      "sourceBytes": 26646,
+      "downloadedAt": "2026-09-02T08:54:53.146Z"
+    },
+    "vcpedia:talking to the rain": {
+      "title": "Talking to the Rain",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/44/Talking_to_the_Rain.png/800px-Talking_to_the_Rain.png",
+      "localUrl": "/song-covers/b44205c5ab5843c3a7a4.webp",
+      "bytes": 20166,
+      "sourceBytes": 28680,
+      "downloadedAt": "2026-09-02T08:54:54.623Z"
+    },
+    "vcpedia:to b continued": {
+      "title": "To B Continued",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/3/3b/To_B_Continued.png/800px-To_B_Continued.png",
+      "localUrl": "/song-covers/efd6db71256312202e1a.webp",
+      "bytes": 51034,
+      "sourceBytes": 73636,
+      "downloadedAt": "2026-09-02T08:54:56.205Z"
+    },
+    "vcpedia:定制之物": {
+      "title": "オーダーメイド",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/0/09/Order_made.png/800px-Order_made.png",
+      "localUrl": "/song-covers/b19656a834f9896af7f5.webp",
+      "bytes": 14936,
+      "sourceBytes": 19854,
+      "downloadedAt": "2026-09-02T08:54:57.709Z"
+    },
+    "vcpedia:decadism": {
+      "title": "ディカディズム（并非终末）",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e3/D%C3%A9cadism.jpg/800px-D%C3%A9cadism.jpg",
+      "localUrl": "/song-covers/e4cbfb41baeb55f91f39.webp",
+      "bytes": 12300,
+      "sourceBytes": 17204,
+      "downloadedAt": "2026-09-02T08:54:59.199Z"
+    }
+  }
+}

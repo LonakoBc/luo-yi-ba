@@ -1,0 +1,537 @@
+{
+  "generatedAt": "2026-09-02T09:06:55.706Z",
+  "source": "local WebP mirror of VCPedia pageimages",
+  "characters": {
+    "singer:luotianyi": {
+      "title": "洛天依",
+      "localUrl": "/character-images/singers/6b3060b8fd46788f71a9.webp",
+      "sourceUrl": "https://media.vcpedia.cn/9/94/%E6%B4%9B%E5%A4%A9%E4%BE%9D.png",
+      "pageUrl": "https://vcpedia.cn/%E6%B4%9B%E5%A4%A9%E4%BE%9D",
+      "bytes": 71322,
+      "sourceBytes": 70330,
+      "downloadedAt": "2026-09-02T09:05:19.403Z"
+    },
+    "singer:yuezhengling": {
+      "title": "乐正绫",
+      "localUrl": "/character-images/singers/0135a3e8c8f7358dca55.webp",
+      "sourceUrl": "https://media.vcpedia.cn/8/84/YUEZHENGLING.jpg",
+      "pageUrl": "https://vcpedia.cn/%E4%B9%90%E6%AD%A3%E7%BB%AB",
+      "bytes": 33794,
+      "sourceBytes": 53784,
+      "downloadedAt": "2026-09-02T09:05:20.587Z"
+    },
+    "singer:yanhe": {
+      "title": "言和",
+      "localUrl": "/character-images/singers/a7757690ddf6e7be1757.webp",
+      "sourceUrl": "https://media.vcpedia.cn/1/1f/Yanhe.jpg",
+      "pageUrl": "https://vcpedia.cn/%E8%A8%80%E5%92%8C",
+      "bytes": 32344,
+      "sourceBytes": 37310,
+      "downloadedAt": "2026-09-02T09:05:21.828Z"
+    },
+    "singer:longya": {
+      "title": "乐正龙牙",
+      "localUrl": "/character-images/singers/f82d6d80c636ca5cf52f.webp",
+      "sourceUrl": "https://media.vcpedia.cn/5/5c/YUEZHENGLONGYA.jpg",
+      "pageUrl": "https://vcpedia.cn/%E4%B9%90%E6%AD%A3%E9%BE%99%E7%89%99",
+      "bytes": 38328,
+      "sourceBytes": 64492,
+      "downloadedAt": "2026-09-02T09:05:23.231Z"
+    },
+    "singer:zhiyu-moke": {
+      "title": "徵羽摩柯",
+      "localUrl": "/character-images/singers/3aa7c6fc735dd50885bc.webp",
+      "sourceUrl": "https://media.vcpedia.cn/2/20/%E5%BE%B5%E7%BE%BD%E6%91%A9%E6%9F%AF.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%BE%B5%E7%BE%BD%E6%91%A9%E6%9F%AF",
+      "bytes": 36838,
+      "sourceBytes": 59050,
+      "downloadedAt": "2026-09-02T09:05:24.442Z"
+    },
+    "singer:moqingxian": {
+      "title": "墨清弦",
+      "localUrl": "/character-images/singers/a1c49e91a5c47f6f085d.webp",
+      "sourceUrl": "https://media.vcpedia.cn/9/94/MOQINGXIAN.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%A2%A8%E6%B8%85%E5%BC%A6",
+      "bytes": 44624,
+      "sourceBytes": 73332,
+      "downloadedAt": "2026-09-02T09:05:25.983Z"
+    },
+    "singer:xinhua": {
+      "title": "心华",
+      "localUrl": "/character-images/singers/1d647af587f7cd370ddf.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/77/%E5%BF%83%E5%8D%8EV3_KV.png/800px-%E5%BF%83%E5%8D%8EV3_KV.png",
+      "pageUrl": "https://vcpedia.cn/%E5%BF%83%E5%8D%8E",
+      "bytes": 80886,
+      "sourceBytes": 108374,
+      "downloadedAt": "2026-09-02T09:05:28.111Z"
+    },
+    "singer:xingchen": {
+      "title": "星尘",
+      "localUrl": "/character-images/singers/ee19e3b699ce689ef007.webp",
+      "sourceUrl": "https://media.vcpedia.cn/f/fb/Xingchen.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%98%9F%E5%B0%98",
+      "bytes": 35742,
+      "sourceBytes": 88098,
+      "downloadedAt": "2026-09-02T09:05:29.709Z"
+    },
+    "singer:haiyi": {
+      "title": "海伊",
+      "localUrl": "/character-images/singers/d31c7d6c6e34008f24b3.webp",
+      "sourceUrl": "https://media.vcpedia.cn/d/dd/%E6%B5%B7%E4%BC%8A%E4%BA%BA%E8%A8%AD%28new%29.png",
+      "pageUrl": "https://vcpedia.cn/%E6%B5%B7%E4%BC%8A",
+      "bytes": 54900,
+      "sourceBytes": 53968,
+      "downloadedAt": "2026-09-02T09:05:33.450Z"
+    },
+    "singer:cangqiong": {
+      "title": "苍穹",
+      "localUrl": "/character-images/singers/4906feba6e68d9981bfa.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/bd/%E8%8B%8D%E7%A9%B9.png/800px-%E8%8B%8D%E7%A9%B9.png",
+      "pageUrl": "https://vcpedia.cn/%E8%8B%8D%E7%A9%B9",
+      "bytes": 89536,
+      "sourceBytes": 126538,
+      "downloadedAt": "2026-09-02T09:05:38.103Z"
+    },
+    "singer:chiyu": {
+      "title": "赤羽",
+      "localUrl": "/character-images/singers/e805366b5feac81a0f28.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/54/%E8%B5%A4%E7%BE%BD%E7%AB%8B%E7%BB%98%28new%29.png/800px-%E8%B5%A4%E7%BE%BD%E7%AB%8B%E7%BB%98%28new%29.png",
+      "pageUrl": "https://vcpedia.cn/%E8%B5%A4%E7%BE%BD",
+      "bytes": 51944,
+      "sourceBytes": 67876,
+      "downloadedAt": "2026-09-02T09:05:42.093Z"
+    },
+    "singer:shian": {
+      "title": "诗岸",
+      "localUrl": "/character-images/singers/7c0d528798884213f5a9.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4e/%E8%AF%97%E5%B2%B8%E7%AB%8B%E7%BB%98.png/800px-%E8%AF%97%E5%B2%B8%E7%AB%8B%E7%BB%98.png",
+      "pageUrl": "https://vcpedia.cn/%E8%AF%97%E5%B2%B8",
+      "bytes": 51892,
+      "sourceBytes": 68106,
+      "downloadedAt": "2026-09-02T09:05:45.862Z"
+    },
+    "singer:muxin": {
+      "title": "牧心",
+      "localUrl": "/character-images/singers/19a0d9a7d03ed2930ced.webp",
+      "sourceUrl": "https://media.vcpedia.cn/f/f4/Muxin_full.png",
+      "pageUrl": "https://vcpedia.cn/%E7%89%A7%E5%BF%83",
+      "bytes": 22576,
+      "sourceBytes": 34292,
+      "downloadedAt": "2026-09-02T09:05:48.418Z"
+    },
+    "singer:minus": {
+      "title": "永夜Minus",
+      "localUrl": "/character-images/singers/360b789e227ffb441119.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/6f/Minus%E5%85%AC%E5%BC%8F%E6%9C%8D.png/800px-Minus%E5%85%AC%E5%BC%8F%E6%9C%8D.png",
+      "pageUrl": "https://vcpedia.cn/%E6%B0%B8%E5%A4%9CMinus",
+      "bytes": 68580,
+      "sourceBytes": 101746,
+      "downloadedAt": "2026-09-02T09:05:52.543Z"
+    },
+    "famous-producer:阿良良木健": {
+      "title": "阿良良木健",
+      "localUrl": "/character-images/famous-producers/6a0a0ba549474907ffd4.webp",
+      "sourceUrl": "https://media.vcpedia.cn/5/5e/%E5%8F%AF%E7%88%B1%E7%9A%84%E8%87%AA%E6%8B%8D.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%98%BF%E8%89%AF%E8%89%AF%E6%9C%A8%E5%81%A5",
+      "bytes": 44934,
+      "sourceBytes": 130316,
+      "downloadedAt": "2026-09-02T09:05:54.121Z"
+    },
+    "famous-producer:cop": {
+      "title": "COP",
+      "localUrl": "/character-images/famous-producers/deb8c1f8b30bce04769b.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/9/92/COP.jpg/800px-COP.jpg",
+      "pageUrl": "https://vcpedia.cn/COP",
+      "bytes": 32220,
+      "sourceBytes": 47178,
+      "downloadedAt": "2026-09-02T09:05:55.594Z"
+    },
+    "famous-producer:creuzer": {
+      "title": "Creuzer",
+      "localUrl": "/character-images/famous-producers/dbc148ffccf49700bd35.webp",
+      "sourceUrl": "https://media.vcpedia.cn/9/9e/Creuzer%28new%29.jpg",
+      "pageUrl": "https://vcpedia.cn/Creuzer",
+      "bytes": 11544,
+      "sourceBytes": 25158,
+      "downloadedAt": "2026-09-02T09:05:56.744Z"
+    },
+    "famous-producer:纯白": {
+      "title": "纯白",
+      "localUrl": "/character-images/famous-producers/cd3710db0fe66f1f6d52.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/5/55/%E7%BA%AF%E7%99%BD%E5%A4%B4%E5%83%8F.jpg/800px-%E7%BA%AF%E7%99%BD%E5%A4%B4%E5%83%8F.jpg",
+      "pageUrl": "https://vcpedia.cn/%E7%BA%AF%E7%99%BD",
+      "bytes": 33856,
+      "sourceBytes": 45858,
+      "downloadedAt": "2026-09-02T09:05:58.148Z"
+    },
+    "famous-producer:ddickky": {
+      "title": "Ddickky",
+      "localUrl": "/character-images/famous-producers/1f06e4dc5c5a3a3045a6.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e9/Ddickky.jpg/800px-Ddickky.jpg",
+      "pageUrl": "https://vcpedia.cn/Ddickky",
+      "bytes": 62290,
+      "sourceBytes": 97534,
+      "downloadedAt": "2026-09-02T09:05:59.797Z"
+    },
+    "famous-producer:dela": {
+      "title": "DELA",
+      "localUrl": "/character-images/famous-producers/976727ef1f4f2b86eedc.webp",
+      "sourceUrl": "https://media.vcpedia.cn/b/b3/DELA.png",
+      "pageUrl": "https://vcpedia.cn/DELA",
+      "bytes": 5280,
+      "sourceBytes": 5264,
+      "downloadedAt": "2026-09-02T09:06:01.020Z"
+    },
+    "famous-producer:动点p": {
+      "title": "动点P",
+      "localUrl": "/character-images/famous-producers/38b6ed4d0ad7ca1f3587.webp",
+      "sourceUrl": "https://media.vcpedia.cn/8/83/%E5%8A%A8%E7%82%B9P.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%8A%A8%E7%82%B9P",
+      "bytes": 21968,
+      "sourceBytes": 23560,
+      "downloadedAt": "2026-09-02T09:06:02.867Z"
+    },
+    "famous-producer:卦者灵风": {
+      "title": "卦者灵风",
+      "localUrl": "/character-images/famous-producers/8e327d393d9715a7fca6.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/6c/%E5%8D%A6%E8%80%85%E7%81%B5%E9%A3%8E.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%8D%A6%E8%80%85%E7%81%B5%E9%A3%8E",
+      "bytes": 8942,
+      "sourceBytes": 15274,
+      "downloadedAt": "2026-09-02T09:06:04.005Z"
+    },
+    "famous-producer:鬼面p": {
+      "title": "鬼面P",
+      "localUrl": "/character-images/famous-producers/8199129ea8b43f845afd.webp",
+      "sourceUrl": "https://media.vcpedia.cn/e/e7/%E9%AC%BC%E9%9D%A2P2022.9.11.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%AC%BC%E9%9D%A2P",
+      "bytes": 25596,
+      "sourceBytes": 25666,
+      "downloadedAt": "2026-09-02T09:06:05.170Z"
+    },
+    "famous-producer:hk君": {
+      "title": "H.K.君",
+      "localUrl": "/character-images/famous-producers/132e94f7e00f7c220038.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/e/e9/H.K.%E5%90%9B.png/800px-H.K.%E5%90%9B.png",
+      "pageUrl": "https://vcpedia.cn/H.K.%E5%90%9B",
+      "bytes": 23444,
+      "sourceBytes": 27434,
+      "downloadedAt": "2026-09-02T09:06:06.830Z"
+    },
+    "famous-producer:海鲜面": {
+      "title": "海鲜面",
+      "localUrl": "/character-images/famous-producers/6b8115adf57903e064bd.webp",
+      "sourceUrl": "https://media.vcpedia.cn/1/1b/%E5%BA%B7%E5%B8%88%E5%82%85%E3%81%AE%E6%B5%B7%E9%B2%9C%E9%9D%A2.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%B5%B7%E9%B2%9C%E9%9D%A2",
+      "bytes": 7082,
+      "sourceBytes": 12194,
+      "downloadedAt": "2026-09-02T09:06:07.952Z"
+    },
+    "famous-producer:ikz": {
+      "title": "iKz",
+      "localUrl": "/character-images/famous-producers/5fe4748e04b0fd38013a.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/b/b6/IKz%28new%29.jpg/800px-IKz%28new%29.jpg",
+      "pageUrl": "https://vcpedia.cn/IKz",
+      "bytes": 27334,
+      "sourceBytes": 36640,
+      "downloadedAt": "2026-09-02T09:06:09.525Z"
+    },
+    "famous-producer:ilem": {
+      "title": "ilem",
+      "localUrl": "/character-images/famous-producers/f4485ae5eaa5c8896968.webp",
+      "sourceUrl": "https://media.vcpedia.cn/5/5e/Ilem_myface.jpg",
+      "pageUrl": "https://vcpedia.cn/Ilem",
+      "bytes": 4026,
+      "sourceBytes": 4482,
+      "downloadedAt": "2026-09-02T09:06:10.631Z"
+    },
+    "famous-producer:jusf周存": {
+      "title": "JUSF周存",
+      "localUrl": "/character-images/famous-producers/c40e79f364825132684d.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/6d/JUSF.jpg",
+      "pageUrl": "https://vcpedia.cn/JUSF%E5%91%A8%E5%AD%98",
+      "bytes": 24086,
+      "sourceBytes": 34196,
+      "downloadedAt": "2026-09-02T09:06:11.769Z"
+    },
+    "famous-producer:绛舞乱丸": {
+      "title": "绛舞乱丸",
+      "localUrl": "/character-images/famous-producers/4040f00f369798d47f31.webp",
+      "sourceUrl": "https://media.vcpedia.cn/5/53/%E7%BB%9B%E8%88%9E%E4%B9%B1%E4%B8%B8.jpg",
+      "pageUrl": "https://vcpedia.cn/%E7%BB%9B%E8%88%9E%E4%B9%B1%E4%B8%B8",
+      "bytes": 7998,
+      "sourceBytes": 12948,
+      "downloadedAt": "2026-09-02T09:06:13.169Z"
+    },
+    "famous-producer:kbshinya": {
+      "title": "KBShinya",
+      "localUrl": "/character-images/famous-producers/95db9766c8374340e0e1.webp",
+      "sourceUrl": "https://media.vcpedia.cn/4/40/Pic_kbshinya.jpg",
+      "pageUrl": "https://vcpedia.cn/KBShinya",
+      "bytes": 21292,
+      "sourceBytes": 43420,
+      "downloadedAt": "2026-09-02T09:06:14.334Z"
+    },
+    "famous-producer:litterzy": {
+      "title": "litterzy",
+      "localUrl": "/character-images/famous-producers/711265504ec0b43d9e8f.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/1/18/Litterzy02.jpg/800px-Litterzy02.jpg",
+      "pageUrl": "https://vcpedia.cn/Litterzy",
+      "bytes": 26868,
+      "sourceBytes": 36578,
+      "downloadedAt": "2026-09-02T09:06:15.797Z"
+    },
+    "famous-producer:ls": {
+      "title": "LS",
+      "localUrl": "/character-images/famous-producers/d6e338f92757fc5bb02e.webp",
+      "sourceUrl": "https://media.vcpedia.cn/c/c7/LS.jpg",
+      "pageUrl": "https://vcpedia.cn/LS",
+      "bytes": 1186,
+      "sourceBytes": 1062,
+      "downloadedAt": "2026-09-02T09:06:16.912Z"
+    },
+    "famous-producer:立入禁止": {
+      "title": "立入禁止",
+      "localUrl": "/character-images/famous-producers/6eb2cfceaa5448b30716.webp",
+      "sourceUrl": "https://media.vcpedia.cn/3/35/%E7%AB%8B%E5%85%A5%E7%A6%81%E6%AD%A2.jpg",
+      "pageUrl": "https://vcpedia.cn/%E7%AB%8B%E5%85%A5%E7%A6%81%E6%AD%A2",
+      "bytes": 10364,
+      "sourceBytes": 20612,
+      "downloadedAt": "2026-09-02T09:06:18.034Z"
+    },
+    "famous-producer:mara然": {
+      "title": "Mara然",
+      "localUrl": "/character-images/famous-producers/75401ece61f28f13e2de.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/7/71/Mara%E7%84%B6%E5%A4%B4%E5%83%8F.webp/800px-Mara%E7%84%B6%E5%A4%B4%E5%83%8F.webp.png",
+      "pageUrl": "https://vcpedia.cn/Mara%E7%84%B6",
+      "bytes": 11694,
+      "sourceBytes": 14472,
+      "downloadedAt": "2026-09-02T09:06:19.482Z"
+    },
+    "famous-producer:mocker44": {
+      "title": "MOCKER44.",
+      "localUrl": "/character-images/famous-producers/c7838d7054771972ef57.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/d/d3/MOCKER44..jpg/800px-MOCKER44..jpg",
+      "pageUrl": "https://vcpedia.cn/MOCKER44.",
+      "bytes": 39260,
+      "sourceBytes": 50822,
+      "downloadedAt": "2026-09-02T09:06:21.093Z"
+    },
+    "famous-producer:纳兰寻风": {
+      "title": "纳兰寻风",
+      "localUrl": "/character-images/famous-producers/0d73113c463a44953d2f.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/41/%E7%BA%B3%E5%85%B0%E5%AF%BB%E9%A3%8E.jpg/800px-%E7%BA%B3%E5%85%B0%E5%AF%BB%E9%A3%8E.jpg",
+      "pageUrl": "https://vcpedia.cn/%E7%BA%B3%E5%85%B0%E5%AF%BB%E9%A3%8E",
+      "bytes": 32740,
+      "sourceBytes": 43054,
+      "downloadedAt": "2026-09-02T09:06:22.573Z"
+    },
+    "famous-producer:丨闹闹丶丨": {
+      "title": "丨闹闹丶丨",
+      "localUrl": "/character-images/famous-producers/9569de98bbf7ecab28d6.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/6b/%E9%97%B9%E9%97%B9.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%97%B9%E9%97%B9",
+      "bytes": 15486,
+      "sourceBytes": 29994,
+      "downloadedAt": "2026-09-02T09:06:23.978Z"
+    },
+    "famous-producer:鸟爷torisama": {
+      "title": "鸟爷ToriSama",
+      "localUrl": "/character-images/famous-producers/e5b757177b9800997658.webp",
+      "sourceUrl": "https://media.vcpedia.cn/2/23/%E9%B8%9F%E7%88%B7ToriSama.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%B8%9F%E7%88%B7ToriSama",
+      "bytes": 7036,
+      "sourceBytes": 7626,
+      "downloadedAt": "2026-09-02T09:06:25.110Z"
+    },
+    "famous-producer:poker": {
+      "title": "PoKeR",
+      "localUrl": "/character-images/famous-producers/5808bcf08b579559343e.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/66/PoKeR%E4%BA%BA%E8%A8%AD.jpg",
+      "pageUrl": "https://vcpedia.cn/PoKeR",
+      "bytes": 10600,
+      "sourceBytes": 17840,
+      "downloadedAt": "2026-09-02T09:06:26.480Z"
+    },
+    "famous-producer:潜移默化p": {
+      "title": "潜移默化P",
+      "localUrl": "/character-images/famous-producers/839badb895c7b4745dee.webp",
+      "sourceUrl": "https://media.vcpedia.cn/7/73/%E6%BD%9B%E7%A7%BB%E9%BB%98%E5%8C%96.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%BD%9C%E7%A7%BB%E9%BB%98%E5%8C%96P",
+      "bytes": 18698,
+      "sourceBytes": 42810,
+      "downloadedAt": "2026-09-02T09:06:27.911Z"
+    },
+    "famous-producer:sya": {
+      "title": "Sya",
+      "localUrl": "/character-images/famous-producers/cd21f711d04007b6f7be.webp",
+      "sourceUrl": "https://media.vcpedia.cn/f/f9/%E8%B3%BD%E4%BA%9E.png",
+      "pageUrl": "https://vcpedia.cn/Sya",
+      "bytes": 12114,
+      "sourceBytes": 12326,
+      "downloadedAt": "2026-09-02T09:06:29.360Z"
+    },
+    "famous-producer:杉田朗": {
+      "title": "杉田朗",
+      "localUrl": "/character-images/famous-producers/3000030153e5330b8c9d.webp",
+      "sourceUrl": "https://media.vcpedia.cn/8/89/%E6%9D%89%E7%94%B0%E6%9C%97%E5%A4%A7%E5%A4%A7.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%9D%89%E7%94%B0%E6%9C%97",
+      "bytes": 5990,
+      "sourceBytes": 5332,
+      "downloadedAt": "2026-09-02T09:06:30.480Z"
+    },
+    "famous-producer:苏逸人形兎": {
+      "title": "苏逸（人形兎）",
+      "localUrl": "/character-images/famous-producers/ff3f22d90459b12f93a5.webp",
+      "sourceUrl": "https://media.vcpedia.cn/7/77/%E4%BA%BA%E5%BD%A2%E5%85%8E01.jpg",
+      "pageUrl": "https://vcpedia.cn/%E8%8B%8F%E9%80%B8",
+      "bytes": 41616,
+      "sourceBytes": 116676,
+      "downloadedAt": "2026-09-02T09:06:32.033Z"
+    },
+    "famous-producer:t2o": {
+      "title": "T2o",
+      "localUrl": "/character-images/famous-producers/f0a0c6b3136b3fbb203c.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/68/T2o.jpeg",
+      "pageUrl": "https://vcpedia.cn/T2o",
+      "bytes": 4784,
+      "sourceBytes": 5324,
+      "downloadedAt": "2026-09-02T09:06:33.418Z"
+    },
+    "famous-producer:停电前夜": {
+      "title": "停电前夜",
+      "localUrl": "/character-images/famous-producers/22f4142a94fe33e01404.webp",
+      "sourceUrl": "https://media.vcpedia.cn/d/d0/%E5%81%9C%E7%94%B5%E5%89%8D%E5%A4%9C.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%81%9C%E7%94%B5%E5%89%8D%E5%A4%9C",
+      "bytes": 1766,
+      "sourceBytes": 3238,
+      "downloadedAt": "2026-09-02T09:06:34.528Z"
+    },
+    "famous-producer:wing翼": {
+      "title": "Wing翼",
+      "localUrl": "/character-images/famous-producers/613cbbd8fe712d067680.webp",
+      "sourceUrl": "https://media.vcpedia.cn/3/3b/Wing%E7%BF%BC.jpg",
+      "pageUrl": "https://vcpedia.cn/Wing%E7%BF%BC",
+      "bytes": 17302,
+      "sourceBytes": 36746,
+      "downloadedAt": "2026-09-02T09:06:35.982Z"
+    },
+    "famous-producer:wovop": {
+      "title": "WOVOP",
+      "localUrl": "/character-images/famous-producers/23ff9e098408613b0ace.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4f/WOVOP%28new%29.jpg/800px-WOVOP%28new%29.jpg",
+      "pageUrl": "https://vcpedia.cn/WOVOP",
+      "bytes": 49282,
+      "sourceBytes": 69584,
+      "downloadedAt": "2026-09-02T09:06:37.539Z"
+    },
+    "famous-producer:乌龟sui": {
+      "title": "乌龟Sui",
+      "localUrl": "/character-images/famous-producers/62939b91215bc1faabcc.webp",
+      "sourceUrl": "https://media.vcpedia.cn/a/af/Wugui1.jpg",
+      "pageUrl": "https://vcpedia.cn/%E4%B9%8C%E9%BE%9FSui",
+      "bytes": 3168,
+      "sourceBytes": 3452,
+      "downloadedAt": "2026-09-02T09:06:38.872Z"
+    },
+    "famous-producer:乌托邦p": {
+      "title": "乌托邦P",
+      "localUrl": "/character-images/famous-producers/de3dd9dba568a7edc233.webp",
+      "sourceUrl": "https://media.vcpedia.cn/e/ef/%E4%B9%8C%E6%89%98%E9%82%A6p.jpg",
+      "pageUrl": "https://vcpedia.cn/%E4%B9%8C%E6%89%98%E9%82%A6P",
+      "bytes": 10116,
+      "sourceBytes": 25698,
+      "downloadedAt": "2026-09-02T09:06:40.000Z"
+    },
+    "famous-producer:希望索任合资": {
+      "title": "希望索任合资",
+      "localUrl": "/character-images/famous-producers/51be73eb19a8c37435e5.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/4/4a/%E5%B8%8C%E6%9C%9B%E7%B4%A2%E4%BB%BB%E5%90%88%E8%B5%84%28new%29.jpg/800px-%E5%B8%8C%E6%9C%9B%E7%B4%A2%E4%BB%BB%E5%90%88%E8%B5%84%28new%29.jpg",
+      "pageUrl": "https://vcpedia.cn/%E5%B8%8C%E6%9C%9B%E7%B4%A2%E4%BB%BB%E5%90%88%E8%B5%84",
+      "bytes": 18172,
+      "sourceBytes": 23644,
+      "downloadedAt": "2026-09-02T09:06:41.427Z"
+    },
+    "famous-producer:小野道": {
+      "title": "小野道",
+      "localUrl": "/character-images/famous-producers/c6beaf1740ce65e2314f.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/6/69/%E5%B0%8F%E9%87%8E%E9%81%93ono.webp/240px-%E5%B0%8F%E9%87%8E%E9%81%93ono.webp.png",
+      "pageUrl": "https://vcpedia.cn/%E5%B0%8F%E9%87%8E%E9%81%93",
+      "bytes": 6138,
+      "sourceBytes": 6076,
+      "downloadedAt": "2026-09-02T09:06:42.801Z"
+    },
+    "famous-producer:邪叫教主": {
+      "title": "邪叫教主",
+      "localUrl": "/character-images/famous-producers/b8d76b90bc4488f95e4d.webp",
+      "sourceUrl": "https://media.vcpedia.cn/6/65/Xiejiaojiaozhu_avatar_new.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%82%AA%E5%8F%AB%E6%95%99%E4%B8%BB",
+      "bytes": 28780,
+      "sourceBytes": 58920,
+      "downloadedAt": "2026-09-02T09:06:44.188Z"
+    },
+    "famous-producer:星葵": {
+      "title": "星葵",
+      "localUrl": "/character-images/famous-producers/bd99c4b6948a2f861168.webp",
+      "sourceUrl": "https://media.vcpedia.cn/b/bc/%E6%98%9F%E8%91%B5.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%98%9F%E8%91%B5",
+      "bytes": 15338,
+      "sourceBytes": 41180,
+      "downloadedAt": "2026-09-02T09:06:45.362Z"
+    },
+    "famous-producer:伊野奏": {
+      "title": "伊野奏",
+      "localUrl": "/character-images/famous-producers/714afe5843ac43d8a9c3.webp",
+      "sourceUrl": "https://media.vcpedia.cn/8/80/%E4%BC%8A%E9%87%8E%E5%A5%8F.jpg",
+      "pageUrl": "https://vcpedia.cn/%E4%BC%8A%E9%87%8E%E5%A5%8F",
+      "bytes": 15222,
+      "sourceBytes": 31560,
+      "downloadedAt": "2026-09-02T09:06:46.772Z"
+    },
+    "famous-producer:雨狸": {
+      "title": "雨狸",
+      "localUrl": "/character-images/famous-producers/aac5468c0cde227bdf11.webp",
+      "sourceUrl": "https://media.vcpedia.cn/d/d8/%E9%9B%A8%E7%8B%B8%E4%BA%BA%E8%A8%AD.jpg",
+      "pageUrl": "https://vcpedia.cn/%E9%9B%A8%E7%8B%B8",
+      "bytes": 46770,
+      "sourceBytes": 103694,
+      "downloadedAt": "2026-09-02T09:06:48.309Z"
+    },
+    "famous-producer:z新豪": {
+      "title": "Z新豪",
+      "localUrl": "/character-images/famous-producers/1f95f0afae2d74e7ba70.webp",
+      "sourceUrl": "https://media.vcpedia.cn/8/8a/Z%E6%96%B0%E8%B1%AA%E5%BE%AE%E5%8D%9A%E5%A4%B4%E5%83%8F.gif",
+      "pageUrl": "https://vcpedia.cn/Z%E6%96%B0%E8%B1%AA",
+      "bytes": 7756,
+      "sourceBytes": 7872,
+      "downloadedAt": "2026-09-02T09:06:49.445Z"
+    },
+    "famous-producer:战场原妖精": {
+      "title": "战场原妖精",
+      "localUrl": "/character-images/famous-producers/b240ec008efc8b226df1.webp",
+      "sourceUrl": "https://media.vcpedia.cn/0/02/%E6%88%B0%E5%A0%B4%E5%8E%9F%E5%A6%96%E7%B2%BE01.jpg",
+      "pageUrl": "https://vcpedia.cn/%E6%88%98%E5%9C%BA%E5%8E%9F%E5%A6%96%E7%B2%BE",
+      "bytes": 36456,
+      "sourceBytes": 58346,
+      "downloadedAt": "2026-09-02T09:06:50.869Z"
+    },
+    "famous-producer:籽三兰音reine": {
+      "title": "籽三（兰音Reine）",
+      "localUrl": "/character-images/famous-producers/ce9959c1c77a9114c1ce.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/80/%E7%B1%BD%E4%B8%89%E8%87%AA%E7%BB%98icon.jpg/800px-%E7%B1%BD%E4%B8%89%E8%87%AA%E7%BB%98icon.jpg",
+      "pageUrl": "https://vcpedia.cn/%E7%B1%BD%E4%B8%89",
+      "bytes": 30814,
+      "sourceBytes": 41366,
+      "downloadedAt": "2026-09-02T09:06:52.314Z"
+    },
+    "famous-producer:chilichillyuhcusummer": {
+      "title": "ChiliChill（Yu.H、CuSummer）",
+      "localUrl": "/character-images/famous-producers/4c26a6c2bda2ba766a1d.webp",
+      "sourceUrl": "https://media.vcpedia.cn/thumb/8/8e/ChiliChill_New1.png/800px-ChiliChill_New1.png",
+      "pageUrl": "https://vcpedia.cn/ChiliChill",
+      "bytes": 10166,
+      "sourceBytes": 12550,
+      "downloadedAt": "2026-09-02T09:06:55.705Z"
+    }
+  }
+}
