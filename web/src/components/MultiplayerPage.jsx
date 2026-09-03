@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import GuessInput from './GuessInput';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
 import MultiplayerSortingGame from './MultiplayerSortingGame';
+import { MultiplayerEmotePicker, MultiplayerEmotePopups, useMultiplayerEmotePopups } from './MultiplayerEmotes';
 import { GuessValue, SONG_FEEDBACK_COLUMNS } from './SongTable';
 import { createLocalGameService } from '../services/gameService';
 import { createDefaultFilters, filterSongs, getLibraryOptions, songsForPreset } from '../services/libraryService';
@@ -254,6 +255,7 @@ function Room({ code, songs, presets, onExit }) {
   const [error, setError] = useState(identity ? '' : '这台设备没有该房间的加入凭据');
   const [now, setNow] = useState(Date.now());
   const [dismissedResultRound, setDismissedResultRound] = useState(null);
+  const [emotePopups, showEmotePopup] = useMultiplayerEmotePopups();
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now() + clockOffsetRef.current), 250);
     return () => clearInterval(timer);
@@ -273,7 +275,8 @@ function Room({ code, songs, presets, onExit }) {
           clockOffsetRef.current = serverClockOffset(message.room?.serverNow, receivedAt);
           setNow(receivedAt + clockOffsetRef.current);
           setRoom(message.room);
-        } else if (message.type === 'error') setError(message.error);
+        } else if (message.type === 'emote') showEmotePopup(message);
+        else if (message.type === 'error') setError(message.error);
       };
       socket.onclose = () => { if (!disposed) { setConnection('reconnecting'); retryRef.current = setTimeout(connect, 1500); } };
       socket.onerror = () => socket.close();
@@ -313,6 +316,8 @@ function Room({ code, songs, presets, onExit }) {
   const showRoundResult = room.phase === 'round-result' && dismissedResultRound !== resultRoundKey;
   return <Shell onBack={onExit} title={finished ? '最终排名' : `房间 ${room.code}`} intro={`${modeName} · ${room.poolName} · ${room.capacity} 人 · ${triathlon ? `第 ${room.overallRoundNumber || 0} / ${TRIATHLON_TOTAL_ROUNDS} 轮` : `${room.roundCount} ${seniority ? '题' : '轮'}`}`}>
     <div className={`connection-pill ${connection}`}>{connection === 'online' ? '实时连接正常' : '正在重连…'}</div>
+    <MultiplayerEmotePopups popups={emotePopups} players={room.players} selfId={self?.id} />
+    <MultiplayerEmotePicker disabled={connection !== 'online'} onSend={(emoteId) => send({ type: 'send_emote', emoteId })} />
     {room.phase === 'waiting' ? <section className="multiplayer-panel waiting-room"><div className="room-code"><span>房间码</span><strong>{room.code}</strong></div><div className="room-share-actions"><button type="button" className="ghost-button" onClick={() => navigator.clipboard.writeText(room.code)}>复制房间码</button><button type="button" className="ghost-button" onClick={copyInvite}>复制邀请链接</button></div><div className="waiting-seats">{Array.from({ length: room.capacity }, (_, index) => {
       const player = room.players.find((item) => (item.seat?.index ?? item.seatIndex ?? item.joinOrder) === index);
       const seat = playerSeatFor(index);

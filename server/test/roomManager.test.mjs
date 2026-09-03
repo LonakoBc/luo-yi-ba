@@ -29,6 +29,14 @@ test('creates, joins and runs an authoritative two-player match', async () => {
     const secondSocket = new MockSocket();
     await room.run(() => room.connect(creator.resumeToken, firstSocket));
     await room.run(() => room.connect(joiner.resumeToken, secondSocket));
+    await room.run(() => room.command(firstSocket, { type: 'send_emote', emoteId: 'luotianyi-hit' }));
+    assert.deepEqual(firstSocket.messages.at(-1), secondSocket.messages.at(-1));
+    assert.equal(secondSocket.messages.at(-1).type, 'emote');
+    assert.equal(secondSocket.messages.at(-1).playerId, creator.playerId);
+    assert.equal(secondSocket.messages.at(-1).emoteId, 'luotianyi-hit');
+    await room.run(() => room.command(secondSocket, { type: 'send_emote', emoteId: 'not-an-emote' }));
+    assert.equal(secondSocket.messages.at(-1).error, '表情无效');
+    await room.run(() => room.command(secondSocket, { type: 'sync' }));
     let waitingState = secondSocket.messages.at(-1).room;
     assert.deepEqual(waitingState.players.map(({ seatIndex, color }) => [seatIndex, color.id, color.colorName]), [
       [0, 'luotianyi', '天依蓝'],

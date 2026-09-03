@@ -24,6 +24,7 @@ $releasePaths = @(
   'web/src/services/gameService.js',
   'web/src/services/libraryService.js',
   'web/src/services/multiplayerRules.js',
+  'web/src/services/multiplayerEmotes.js',
   'guess_songs/assets'
 )
 

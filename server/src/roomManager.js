@@ -8,6 +8,7 @@ import {
 } from '../../web/src/services/multiplayerRules.js';
 import { catalogVersion, selectPool } from './catalog.js';
 import { createModeHandler, initialModeState, supportsMode } from './modes/index.js';
+import { isMultiplayerEmoteId, MULTIPLAYER_EMOTE_COOLDOWN_MS } from '../../web/src/services/multiplayerEmotes.js';
 
 export { catalogVersion } from './catalog.js';
 
@@ -49,6 +50,7 @@ class RoomSession {
     this.manager = manager;
     this.room = room;
     this.sockets = new Map();
+    this.emoteSentAt = new Map();
     this.timer = null;
     this.queue = Promise.resolve();
     this.modeHandler = createModeHandler(room.mode, this);
@@ -126,6 +128,7 @@ class RoomSession {
     }
     if (message.type === 'leave_room') return this.leave(player);
     if (message.type === 'select_color') return this.selectColor(player, message.colorId, socket);
+    if (message.type === 'send_emote') return this.sendEmote(player, message.emoteId, socket);
     if (await this.modeHandler.handleCommand(player, message, socket)) return;
     this.sendError(socket, '未知命令');
   }
@@ -152,6 +155,15 @@ class RoomSession {
     player.colorId = color.id;
     await this.save();
     this.broadcast();
+  }
+
+  sendEmote(player, emoteId, socket) {
+    if (!isMultiplayerEmoteId(emoteId)) return this.sendError(socket, '表情无效');
+    const sentAt = Date.now();
+    const previousSentAt = this.emoteSentAt.get(player.id) ?? 0;
+    if (sentAt - previousSentAt < MULTIPLAYER_EMOTE_COOLDOWN_MS) return this.sendError(socket, '表情发送太快了');
+    this.emoteSentAt.set(player.id, sentAt);
+    this.broadcastMessage({ type: 'emote', playerId: player.id, emoteId, sentAt });
   }
 
   transferHost() {
@@ -197,6 +209,13 @@ class RoomSession {
 
   sendError(socket, error) {
     if (socket.readyState === 1) socket.send(JSON.stringify({ type: 'error', error }));
+  }
+
+  broadcastMessage(message) {
+    const serialized = JSON.stringify(message);
+    for (const socket of this.sockets.keys()) {
+      if (socket.readyState === 1) socket.send(serialized);
+    }
   }
 
   broadcast() {

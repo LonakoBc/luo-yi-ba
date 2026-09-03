@@ -3,6 +3,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset } from './MultiplayerPage';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
 import MultiplayerSortingGame from './MultiplayerSortingGame';
+import { MultiplayerEmotePicker, MultiplayerEmotePopups } from './MultiplayerEmotes';
 
 const songs = [
   { id: 'a', title: '甲曲', releaseMonth: '2020-01', staffPeople: ['甲'], staffDisplay: '作曲：甲', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], concertCount: 0, special: '单曲', lyrics: '甲歌词', sourceLibraries: [{ id: 'luotianyi', name: '洛天依' }] },
@@ -12,6 +13,19 @@ const songs = [
 const presets = [{ id: 'all', name: '全曲库', description: '全部', titles: songs.map(({ title }) => title) }];
 
 afterEach(() => localStorage.clear());
+
+it('表情面板展示完整 28 张并发送稳定的表情 ID', () => {
+  const onSend = vi.fn();
+  const { rerender } = render(<MultiplayerEmotePicker onSend={onSend} />);
+  fireEvent.click(screen.getByRole('button', { name: '打开表情' }));
+  expect(screen.getByRole('region', { name: '联机表情' })).toBeVisible();
+  expect(screen.getAllByRole('button', { name: /发送/u })).toHaveLength(28);
+  fireEvent.click(screen.getByRole('button', { name: '发送洛天依一发入魂表情' }));
+  expect(onSend).toHaveBeenCalledWith('luotianyi-hit');
+  rerender(<MultiplayerEmotePopups popups={[{ key: 'p1:1', playerId: 'p1', emoteId: 'luotianyi-hit', sentAt: 1 }]} players={[{ id: 'p1', nickname: '天依粉丝', color: { color: '#66CCFF' } }]} selfId="p1" />);
+  expect(screen.getByAltText('天依粉丝发送了一发入魂表情')).toBeVisible();
+  expect(screen.getByText('天依粉丝（你）')).toBeVisible();
+});
 
 it('联机入口校验昵称和六位房间码并按玩法进入创建配置', () => {
   const navigate = vi.fn();
