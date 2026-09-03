@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { songsById } from '../catalog.js';
 import {
   MULTIPLAYER_PROTOCOL_VERSION,
+  PARTY_MODE,
   SORTING_MODE,
   SORTING_REVEAL_DURATION_MS,
   SORTING_ROUND_DURATION_MS,
@@ -100,13 +101,17 @@ export class SortingMode {
   async startMatch(player, socket) {
     if (player.id !== this.room.hostId) return this.session.sendError(socket, '只有房主可以开始游戏');
     if (this.room.phase !== 'waiting') return this.session.sendError(socket, '游戏已经开始');
-    if (this.room.players.length !== this.room.capacity) return this.session.sendError(socket, '等待玩家坐满后才能开始');
+    if (!this.room.players.length) return this.session.sendError(socket, '至少需要一名玩家才能开始');
     try { this.room.sortingSchedule = createSchedule(this.room); }
     catch (error) { return this.session.sendError(socket, error.message); }
     await this.startRound();
   }
 
   async startRound() {
+    if (this.room.mode === PARTY_MODE && this.room.sortingScheduleStage !== this.room.partyStageIndex) {
+      this.room.sortingSchedule = createSchedule(this.room);
+      this.room.sortingScheduleStage = this.room.partyStageIndex;
+    }
     const roundNumber = this.room.roundNumber + 1;
     const round = this.room.sortingSchedule[roundNumber - 1];
     const now = Date.now();

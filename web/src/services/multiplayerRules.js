@@ -5,8 +5,16 @@ export const GUESS_SONG_MODE = 'guess-song';
 export const SENIORITY_MODE = 'seniority';
 export const SORTING_MODE = 'sorting';
 export const TRIATHLON_MODE = 'triathlon';
+export const PARTY_MODE = 'party';
+export const CROSSWORD_MODE = 'crossword';
+export const PRODUCER_MODE = 'producer-famous';
+export const MUSIC_GUESS_MODE = 'music-guess';
+export const CROSSWORD_LIBRARY_PRESET_IDS = Object.freeze(['all', 'henian', 'medium5']);
 export const MULTIPLAYER_MODE = GUESS_SONG_MODE;
-export const MULTIPLAYER_MODES = Object.freeze([GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE]);
+export const MULTIPLAYER_MODES = Object.freeze([
+  GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE, PARTY_MODE, TRIATHLON_MODE,
+  CROSSWORD_MODE, PRODUCER_MODE, MUSIC_GUESS_MODE,
+]);
 export const ROOM_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const ROUND_DURATION_MS = 90_000;
 export const ROUND_BREAK_MS = 10_000;
@@ -24,6 +32,22 @@ export const SORTING_SONGS_PER_ROUND = 5;
 export const SORTING_ROUND_COUNTS = Object.freeze([3, 5, 7]);
 export const TRIATHLON_STAGE_ROUNDS = 3;
 export const TRIATHLON_TOTAL_ROUNDS = 9;
+export const CROSSWORD_ENTRY_COUNT = 6;
+export const CROSSWORD_ROUND_DURATION_MS = 90_000;
+export const CROSSWORD_REVEAL_DURATION_MS = 10_000;
+export const CROSSWORD_ROUND_COUNTS = Object.freeze([1, 3, 5]);
+export const PRODUCER_ROUND_DURATION_MS = 90_000;
+export const PRODUCER_REVEAL_DURATION_MS = 10_000;
+export const PRODUCER_ROUND_COUNTS = Object.freeze([1, 3, 5]);
+export const MUSIC_GUESS_ROUND_DURATION_MS = 30_000;
+export const MUSIC_GUESS_REVEAL_DURATION_MS = 4_000;
+export const MUSIC_GUESS_ROUND_COUNTS = Object.freeze([1, 3, 5]);
+export const PARTY_STAGE_ROUND_COUNTS = Object.freeze([1, 2, 3]);
+export const PARTY_MIN_STAGE_COUNT = 3;
+export const PARTY_MAX_STAGE_COUNT = 7;
+export const PARTY_MODE_OPTIONS = Object.freeze([
+  GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE, CROSSWORD_MODE, PRODUCER_MODE, MUSIC_GUESS_MODE,
+]);
 
 export const PLAYER_COLORS = Object.freeze([
   Object.freeze({ id: 'luotianyi', singerName: '洛天依', colorName: '天依蓝', color: '#66CCFF' }),
@@ -78,19 +102,44 @@ export const HINT_STEPS = [
 ];
 
 export function allowedRoundCounts(capacity, mode = GUESS_SONG_MODE) {
+  if (mode === PARTY_MODE) return [...PARTY_STAGE_ROUND_COUNTS];
   if (mode === SENIORITY_MODE) return [...SENIORITY_ROUND_COUNTS];
   if (mode === SORTING_MODE) return [...SORTING_ROUND_COUNTS];
   if (mode === TRIATHLON_MODE) return [TRIATHLON_TOTAL_ROUNDS];
+  if ([CROSSWORD_MODE, PRODUCER_MODE, MUSIC_GUESS_MODE].includes(mode)) return [...(
+    mode === CROSSWORD_MODE ? CROSSWORD_ROUND_COUNTS
+      : mode === PRODUCER_MODE ? PRODUCER_ROUND_COUNTS : MUSIC_GUESS_ROUND_COUNTS
+  )];
   return capacity === 2 ? [1, 3, 5] : [3, 5, 7];
+}
+
+export function partyStageTotalRounds(stages = []) {
+  return stages.reduce((total, stage) => total + (Number(stage?.roundCount) || 0), 0);
+}
+
+export function validatePartyStages(stages) {
+  if (!Array.isArray(stages) || stages.length < PARTY_MIN_STAGE_COUNT || stages.length > PARTY_MAX_STAGE_COUNT) return '派对模式至少需要选择三个玩法';
+  const normalized = stages.map((stage) => ({ mode: stage?.mode, roundCount: Number(stage?.roundCount) }));
+  if (new Set(normalized.map(({ mode }) => mode)).size !== normalized.length) return '派对模式不能重复选择同一玩法';
+  if (normalized.some(({ mode, roundCount }) => !PARTY_MODE_OPTIONS.includes(mode) || !PARTY_STAGE_ROUND_COUNTS.includes(roundCount))) return '派对模式的玩法或轮数无效';
+  return null;
+}
+
+export function minimumSongsForMode(mode, roundCount) {
+  if ([PRODUCER_MODE, MUSIC_GUESS_MODE].includes(mode)) return 0;
+  if (mode === CROSSWORD_MODE) return CROSSWORD_ENTRY_COUNT;
+  if (mode === SENIORITY_MODE) return 2;
+  if (mode === SORTING_MODE) return roundCount * SORTING_SONGS_PER_ROUND;
+  if (mode === TRIATHLON_MODE) return SORTING_SONGS_PER_ROUND;
+  return roundCount;
 }
 
 export function validateMatchConfig({ capacity, roundCount, songCount, mode = GUESS_SONG_MODE }) {
   if (!MULTIPLAYER_MODES.includes(mode)) return '联机玩法无效';
   if (![2, 3, 4].includes(capacity)) return '房间人数必须为 2–4 人';
   if (!allowedRoundCounts(capacity, mode).includes(roundCount)) return '轮数不适用于当前玩法或房间人数';
-  const minimumSongs = mode === SENIORITY_MODE ? 2
-    : mode === SORTING_MODE ? roundCount * SORTING_SONGS_PER_ROUND
-      : mode === TRIATHLON_MODE ? SORTING_SONGS_PER_ROUND : roundCount;
+  if (mode === PARTY_MODE) return '派对模式需要单独校验玩法组合';
+  const minimumSongs = minimumSongsForMode(mode, roundCount);
   if (!Number.isInteger(songCount) || songCount < minimumSongs) return '当前曲库歌曲数不足';
   return null;
 }
@@ -103,7 +152,16 @@ export function seniorityDifficultyForRound(roundNumber, roundCount) {
 }
 
 export function seniorityChoiceScore(correctOrder) {
-  return SENIORITY_CORRECT_BASE_SCORE + (SENIORITY_SPEED_BONUS[correctOrder] ?? 0);
+  return SCORE_BY_PLACE[correctOrder] ?? 0;
+}
+
+export function crosswordCompletionScore(solvedCount) {
+  const count = Number(solvedCount) || 0;
+  if (count >= 6) return 5;
+  if (count >= 4) return 3;
+  if (count >= 2) return 2;
+  if (count >= 1) return 1;
+  return 0;
 }
 
 export function scoreSortingTimeline(orderIds, answerIds) {

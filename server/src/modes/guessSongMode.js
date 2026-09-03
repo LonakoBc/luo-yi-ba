@@ -2,6 +2,8 @@ import crypto from 'node:crypto';
 import { songsById } from '../catalog.js';
 import {
   HINT_STEPS,
+  PARTY_MODE,
+  ROUND_BREAK_MS,
   ROUND_DURATION_MS,
   applyGuess,
   hintLevelAt,
@@ -47,7 +49,7 @@ export class GuessSongMode {
   async startMatch(player, socket) {
     if (player.id !== this.room.hostId) return this.session.sendError(socket, '只有房主可以开始游戏');
     if (this.room.phase !== 'waiting') return this.session.sendError(socket, '游戏已经开始');
-    if (this.room.players.length !== this.room.capacity) return this.session.sendError(socket, '等待玩家坐满后才能开始');
+    if (!this.room.players.length) return this.session.sendError(socket, '至少需要一名玩家才能开始');
     await this.startRound();
   }
 
@@ -87,7 +89,10 @@ export class GuessSongMode {
 
   async finishRound() {
     if (this.room.phase !== 'playing') return;
-    Object.assign(this.room, roundCompletionState(this.room.roundNumber, this.room.roundCount, Date.now()));
+    const now = Date.now();
+    Object.assign(this.room, this.room.mode === PARTY_MODE
+      ? { phase: 'round-result', nextRoundAt: now + ROUND_BREAK_MS }
+      : roundCompletionState(this.room.roundNumber, this.room.roundCount, now));
     await this.session.save();
     this.session.broadcast();
   }

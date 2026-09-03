@@ -93,7 +93,7 @@ export class SeniorityMode {
   async startMatch(player, socket) {
     if (player.id !== this.room.hostId) return this.session.sendError(socket, '只有房主可以开始游戏');
     if (this.room.phase !== 'waiting') return this.session.sendError(socket, '游戏已经开始');
-    if (this.room.players.length !== this.room.capacity) return this.session.sendError(socket, '等待玩家坐满后才能开始');
+    if (!this.room.players.length) return this.session.sendError(socket, '至少需要一名玩家才能开始');
     await this.startRound();
   }
 

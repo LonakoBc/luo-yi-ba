@@ -21,10 +21,14 @@ $releasePaths = @(
   'server/scripts',
   'web/src/data/songs.generated.json',
   'web/src/data/presets.generated.json',
+  'web/src/data/producers.generated.json',
+  'web/src/data/musicGuessManifest.js',
   'web/src/services/gameService.js',
+  'web/src/services/crosswordService.js',
   'web/src/services/libraryService.js',
   'web/src/services/multiplayerRules.js',
   'web/src/services/multiplayerEmotes.js',
+  'web/src/services/producerGameService.js',
   'guess_songs/assets'
 )
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PLAYER_COLORS, PLAYER_SEATS, ROUND_DURATION_MS, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE, allowedRoundCounts, applyGuess, hintLevelAt, isFinalRound, playerColorFor, playerSeatFor, projectRoom, rankPlayers, roundCompletionState, scoreSortingTimeline, seniorityChoiceScore, seniorityDifficultyForRound, sortingRoundScores, validateMatchConfig } from './multiplayerRules';
+import { CROSSWORD_MODE, MUSIC_GUESS_MODE, PLAYER_COLORS, PLAYER_SEATS, PRODUCER_MODE, ROUND_DURATION_MS, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE, allowedRoundCounts, applyGuess, crosswordCompletionScore, hintLevelAt, isFinalRound, playerColorFor, playerSeatFor, projectRoom, rankPlayers, roundCompletionState, scoreSortingTimeline, seniorityChoiceScore, seniorityDifficultyForRound, sortingRoundScores, validateMatchConfig } from './multiplayerRules';
 
 const song = (id) => ({ id, title: id, staffPeople: [id], staffDisplay: id, releaseMonth: '2020-01', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], voicebanksDisplay: 'VOCALOID', concertCount: 0, special: '单曲', lyrics: '歌词' });
 
@@ -19,11 +19,20 @@ it('按人数限制轮数并校验曲库数量', () => {
   expect(validateMatchConfig({ capacity: 4, roundCount: 3, songCount: 20, mode: TRIATHLON_MODE })).toBeTruthy();
 });
 
-it('老资历按答对顺序获得 5、4、3、2 分并随轮次加难', () => {
-  expect([0, 1, 2, 3].map(seniorityChoiceScore)).toEqual([5, 4, 3, 2]);
+it('老资历按答对顺序获得 5、3、2、1 分并随轮次加难', () => {
+  expect([0, 1, 2, 3].map(seniorityChoiceScore)).toEqual([5, 3, 2, 1]);
   expect(seniorityDifficultyForRound(1, 15)).toMatchObject({ minYears: 2, maxYears: 3 });
   expect(seniorityDifficultyForRound(6, 15)).toMatchObject({ minYears: 1, maxYears: 2 });
   expect(seniorityDifficultyForRound(11, 15)).toMatchObject({ minYears: 0, maxYears: 1 });
+});
+
+it('新增多人玩法使用兼容的轮数和五分制填字分档', () => {
+  expect([CROSSWORD_MODE, PRODUCER_MODE, MUSIC_GUESS_MODE].every((mode) => allowedRoundCounts(2, mode).join(',') === '1,3,5')).toBe(true);
+  expect(crosswordCompletionScore(0)).toBe(0);
+  expect(crosswordCompletionScore(1)).toBe(1);
+  expect(crosswordCompletionScore(2)).toBe(2);
+  expect(crosswordCompletionScore(5)).toBe(3);
+  expect(crosswordCompletionScore(6)).toBe(5);
 });
 
 it('排序按两两相对顺序计分，正确率并列同档且完全倒序不得分', () => {

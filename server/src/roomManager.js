@@ -3,8 +3,9 @@ import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promise
 import path from 'node:path';
 import {
   DEFAULT_PLAYER_COLOR_IDS, GUESS_SONG_MODE, HOST_RECONNECT_GRACE_MS, MULTIPLAYER_MODE, MULTIPLAYER_PROTOCOL_VERSION,
-  SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE,
+  PARTY_MODE, SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE, CROSSWORD_MODE, CROSSWORD_ENTRY_COUNT, CROSSWORD_LIBRARY_PRESET_IDS, MUSIC_GUESS_MODE,
   PLAYER_COLORS, ROOM_CODE_ALPHABET, ROOM_RETENTION_MS, playerColorFor, resolvedPlayerColor, validateMatchConfig,
+  minimumSongsForMode, partyStageTotalRounds, validatePartyStages,
 } from '../../web/src/services/multiplayerRules.js';
 import { catalogVersion, selectPool } from './catalog.js';
 import { createModeHandler, initialModeState, supportsMode } from './modes/index.js';
@@ -129,6 +130,7 @@ class RoomSession {
     if (message.type === 'leave_room') return this.leave(player);
     if (message.type === 'select_color') return this.selectColor(player, message.colorId, socket);
     if (message.type === 'send_emote') return this.sendEmote(player, message.emoteId, socket);
+    if (message.type === 'update_room_config') return this.updateRoomConfig(player, message.config, socket);
     if (await this.modeHandler.handleCommand(player, message, socket)) return;
     this.sendError(socket, '未知命令');
   }
@@ -153,6 +155,31 @@ class RoomSession {
       && resolvedPlayerColor(item)?.color.toUpperCase() === color.color.toUpperCase());
     if (occupied) return this.sendError(socket, '这个颜色已经被其他玩家选择');
     player.colorId = color.id;
+    await this.save();
+    this.broadcast();
+  }
+
+  async updateRoomConfig(player, config, socket) {
+    if (player.id !== this.room.hostId) return this.sendError(socket, '只有房主可以调整房间规则');
+    if (this.room.phase !== 'waiting') return this.sendError(socket, '游戏开始后不能调整房间规则');
+    let next;
+    try {
+      next = this.manager.validateCreate({ ...config, catalogVersion });
+    } catch (error) {
+      return this.sendError(socket, error.message);
+    }
+    const preserved = {
+      protocolVersion: this.room.protocolVersion,
+      code: this.room.code,
+      phase: 'waiting',
+      hostId: this.room.hostId,
+      players: this.room.players,
+      createdAt: this.room.createdAt,
+      updatedAt: this.room.updatedAt,
+      allOfflineAt: this.room.allOfflineAt,
+    };
+    Object.assign(this.room, initialModeState(next.mode), next, preserved);
+    this.modeHandler = createModeHandler(next.mode, this);
     await this.save();
     this.broadcast();
   }
@@ -286,6 +313,7 @@ export class RoomManager {
       poolSongIds: input.poolSongIds,
       players: [player],
       ...initialModeState(input.mode),
+      stages: input.stages,
       createdAt: now,
       updatedAt: now,
       allOfflineAt: null,
@@ -313,24 +341,65 @@ export class RoomManager {
   validateCreate(body) {
     const nickname = validNickname(body?.nickname);
     const mode = body?.mode ?? GUESS_SONG_MODE;
+    const stages = mode === PARTY_MODE ? body?.stages : null;
     const pool = selectPool(body?.selection);
+    const partyError = mode === PARTY_MODE ? validatePartyStages(stages) : null;
+    const partyStages = stages ?? [];
+    const crosswordSelected = mode === CROSSWORD_MODE
+      || (mode === PARTY_MODE && partyStages.some(({ mode: stageMode }) => stageMode === CROSSWORD_MODE));
+    const crosswordSelectionValid = !crosswordSelected
+      || (body?.selection?.kind === 'preset' && CROSSWORD_LIBRARY_PRESET_IDS.includes(body.selection.presetId));
+    const partyStageSelectionError = mode !== PARTY_MODE ? null : partyStages.map((stage) => {
+      if (!stage.selection) return null;
+      if (stage.mode === CROSSWORD_MODE) {
+        if (stage.selection.kind !== 'preset' || !CROSSWORD_LIBRARY_PRESET_IDS.includes(stage.selection.presetId)) return '派对中的曲名填字仅支持全曲库、禾念系和五维介质系';
+        const stagePool = selectPool(stage.selection);
+        return !stagePool || stagePool.songs.length < CROSSWORD_ENTRY_COUNT ? '派对中的曲名填字曲库至少需要六首歌曲' : null;
+      }
+      if (stage.mode === MUSIC_GUESS_MODE && (stage.selection.kind !== 'music-playlists' || !Array.isArray(stage.selection.musicPlaylistIds) || !stage.selection.musicPlaylistIds.length)) return '派对中的听歌识曲至少需要选择一个本地歌单';
+      return null;
+    }).find(Boolean) ?? null;
+    const partyNeedsDates = mode === PARTY_MODE && partyStages.some(({ mode: stageMode }) => [SENIORITY_MODE, SORTING_MODE].includes(stageMode));
     const modeSongs = [SENIORITY_MODE, SORTING_MODE, TRIATHLON_MODE].includes(mode)
       ? pool?.songs.filter((song) => /^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth))
+      : partyNeedsDates ? pool?.songs.filter((song) => /^20\d{2}-(?:0[1-9]|1[0-2])$/u.test(song.releaseMonth))
       : pool?.songs;
-    const hasComparableDates = mode !== SENIORITY_MODE || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 2;
+    const partySortingRounds = mode === PARTY_MODE ? partyStages.filter(({ mode: stageMode }) => stageMode === SORTING_MODE).reduce((total, stage) => total + stage.roundCount, 0) : 0;
+    const hasComparableDates = mode === SENIORITY_MODE
+      ? new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 2
+      : !partyNeedsDates || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 2;
     const sortingDateCounts = mode === SORTING_MODE ? [...(modeSongs ?? []).reduce((counts, song) => counts.set(song.releaseMonth, (counts.get(song.releaseMonth) ?? 0) + 1), new Map()).values()] : [];
     const sortableSongCapacity = sortingDateCounts.reduce((total, count) => total + Math.min(count, body?.roundCount ?? 0), 0);
-    const hasSortableDates = mode !== SORTING_MODE || sortableSongCapacity >= body.roundCount * 5;
+    const partySortableSongCapacity = mode === PARTY_MODE
+      ? [...(modeSongs ?? []).reduce((counts, song) => counts.set(song.releaseMonth, (counts.get(song.releaseMonth) ?? 0) + 1), new Map()).values()]
+        .reduce((total, count) => total + Math.min(count, partySortingRounds), 0)
+      : 0;
+    const hasSortableDates = mode === SORTING_MODE
+      ? sortableSongCapacity >= body.roundCount * 5
+      : mode !== PARTY_MODE || partySortingRounds === 0 || partySortableSongCapacity >= partySortingRounds * 5;
     const hasTriathlonDates = mode !== TRIATHLON_MODE || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 5;
+    const minimumPartySongs = mode === PARTY_MODE
+      ? Math.max(...partyStages.map(({ mode: stageMode, roundCount }) => minimumSongsForMode(stageMode, roundCount)), 0)
+      : 0;
     const error = !nickname ? '昵称须为 1–12 个字符'
       : body?.catalogVersion !== catalogVersion ? '题库版本已更新，请刷新页面'
         : !supportsMode(mode) ? '联机玩法无效'
-          : !pool ? '曲库配置无效'
-            : !hasComparableDates ? '老资历曲库至少需要两个不同发布时间的歌曲'
-              : !hasSortableDates ? '排序曲库不足以生成每轮五首且整场不重复的题目'
-                : !hasTriathlonDates ? '铁人三项曲库至少需要五个不同发布时间的歌曲'
-              : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: modeSongs.length, mode });
+          : mode === PARTY_MODE && partyError ? partyError
+          : !crosswordSelectionValid ? '曲名填字仅支持全曲库、禾念系和五维介质系'
+            : partyStageSelectionError ? partyStageSelectionError
+              : !pool ? '曲库配置无效'
+              : mode === PARTY_MODE && modeSongs.length < minimumPartySongs ? '当前曲库不足以支持派对模式中的全部玩法'
+                : !hasComparableDates ? '老资历曲库至少需要两个不同发布时间的歌曲'
+                  : !hasSortableDates ? '排序曲库不足以生成每轮五首且整场不重复的题目'
+                    : !hasTriathlonDates ? '铁人三项曲库至少需要五个不同发布时间的歌曲'
+                      : mode === PARTY_MODE ? null
+                        : validateMatchConfig({ capacity: body.capacity, roundCount: body.roundCount, songCount: modeSongs.length, mode });
     if (error) throw Object.assign(new Error(error), { status: 400 });
-    return { mode, nickname, capacity: body.capacity, roundCount: body.roundCount, selection: body.selection, poolName: pool.name, poolSongIds: modeSongs.map(({ id }) => id) };
+    return {
+      mode, nickname, capacity: body.capacity,
+      roundCount: mode === PARTY_MODE ? partyStageTotalRounds(stages) : body.roundCount,
+      stages: mode === PARTY_MODE ? stages.map(({ mode: stageMode, roundCount, selection }) => ({ mode: stageMode, roundCount: Number(roundCount), ...(selection ? { selection } : {}) })) : null,
+      selection: body.selection, poolName: pool.name, poolSongIds: modeSongs.map(({ id }) => id),
+    };
   }
 }

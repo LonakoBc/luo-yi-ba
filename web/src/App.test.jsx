@@ -182,7 +182,8 @@ describe('App 交互', () => {
     expect(screen.getByRole('button', { name: /五维介质系/u })).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: /^全曲库/u }));
     expect(screen.getByRole('heading', { name: '让熟悉的歌名在交叉处相遇' })).toBeVisible();
-    expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
+    expect(screen.getAllByRole('button', { name: /^字块：/u })).toHaveLength(32);
+    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
     expect(document.querySelector('audio')).toBe(audio);
   });
 

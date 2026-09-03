@@ -5,7 +5,7 @@ import { createProducerGameService } from '../services/producerGameService';
 const SHOW_DEVELOPER_TOOLS = import.meta.env.DEV;
 const HINT_LABELS = ['提示 1/3：年份、出道曲与代表曲 E', '提示 2/3：数量与代表曲 D', '提示 3/3：代表曲 A/B/C', '提示已全部使用'];
 
-function ProducerSearch({ service, guessedIds, disabled, onGuess }) {
+export function ProducerSearch({ service, guessedIds, disabled, onGuess }) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const suggestions = service.search(query, guessedIds);

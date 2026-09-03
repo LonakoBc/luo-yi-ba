@@ -1,12 +1,19 @@
 import crypto from 'node:crypto';
-import { songsById } from '../catalog.js';
+import { selectPool, songsById } from '../catalog.js';
 import { GuessSongMode } from './guessSongMode.js';
 import { SeniorityMode } from './seniorityMode.js';
 import { SortingMode } from './sortingMode.js';
+import { CrosswordMode } from './crosswordMode.js';
+import { ProducerMode } from './producerMode.js';
+import { MusicGuessMode } from './musicGuessMode.js';
 import {
+  CROSSWORD_MODE,
   GUESS_SONG_MODE,
   HINT_STEPS,
   MULTIPLAYER_PROTOCOL_VERSION,
+  PARTY_MODE,
+  MUSIC_GUESS_MODE,
+  PRODUCER_MODE,
   ROUND_DURATION_MS,
   SENIORITY_MODE,
   SENIORITY_ROUND_DURATION_MS,
@@ -110,6 +117,9 @@ function pickSeniorityPair(room, stageRound) {
 
 export function initialTriathlonState() {
   return {
+    stages: [],
+    partyStageIndex: 0,
+    partyRoundNumber: 0,
     activeMode: null,
     triathlonStageRound: 0,
     usedSongIds: [],
@@ -130,16 +140,82 @@ export class TriathlonMode {
     this.guess = new GuessSongMode(session);
     this.sorting = new SortingMode(session);
     this.seniority = new SeniorityMode(session);
+    this.crossword = new CrosswordMode(session);
+    this.producer = new ProducerMode(session);
+    this.musicGuess = new MusicGuessMode(session);
   }
 
   get room() { return this.session.room; }
+
+  get party() { return this.room.mode === PARTY_MODE; }
+
+  stageDefinitions() {
+    return this.party ? this.room.stages : [
+      { mode: GUESS_SONG_MODE, roundCount: TRIATHLON_STAGE_ROUNDS },
+      { mode: SORTING_MODE, roundCount: TRIATHLON_STAGE_ROUNDS },
+      { mode: SENIORITY_MODE, roundCount: TRIATHLON_STAGE_ROUNDS },
+    ];
+  }
+
+  stageForRound(overallRound) {
+    let offset = 0;
+    for (let index = 0; index < this.stageDefinitions().length; index += 1) {
+      const stage = this.stageDefinitions()[index];
+      if (overallRound <= offset + stage.roundCount) return { ...stage, index, stageRound: overallRound - offset };
+      offset += stage.roundCount;
+    }
+    return null;
+  }
+
+  totalPartyRounds() {
+    return this.stageDefinitions().reduce((total, stage) => total + stage.roundCount, 0);
+  }
+
+  handlerFor(mode) {
+    return mode === GUESS_SONG_MODE ? this.guess
+      : mode === SORTING_MODE ? this.sorting
+        : mode === SENIORITY_MODE ? this.seniority
+          : mode === CROSSWORD_MODE ? this.crossword
+            : mode === PRODUCER_MODE ? this.producer
+              : this.musicGuess;
+  }
 
   async handleCommand(player, message, socket) {
     if (message.type === 'start_match') {
       if (player.id !== this.room.hostId) return this.session.sendError(socket, '只有房主可以开始游戏');
       if (this.room.phase !== 'waiting') return this.session.sendError(socket, '游戏已经开始');
-      if (this.room.players.length !== this.room.capacity) return this.session.sendError(socket, '等待玩家坐满后才能开始');
-      await this.startNextRound();
+      if (!this.room.players.length) return this.session.sendError(socket, '至少需要一名玩家才能开始');
+      if (!this.party && this.room.players.length !== this.room.capacity) return this.session.sendError(socket, '等待玩家坐满后才能开始');
+      if (this.party) await this.startPartyRound();
+      else await this.startNextRound();
+      return true;
+    }
+    if (this.party && this.room.activeMode === GUESS_SONG_MODE && message.type === 'submit_guess') {
+      await this.guess.submitGuess(player, message.songId, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === SORTING_MODE && message.type === 'update_sorting_order') {
+      await this.sorting.updateOrder(player, message.orderIds, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === SORTING_MODE && message.type === 'submit_sorting_order') {
+      await this.sorting.submitOrder(player, message.orderIds, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === SENIORITY_MODE && message.type === 'submit_seniority_choice') {
+      await this.seniority.submitChoice(player, message.songId, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === CROSSWORD_MODE && message.type === 'update_crossword_assignments') {
+      await this.crossword.updateAssignments(player, message.assignments, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === PRODUCER_MODE && message.type === 'submit_producer_guess') {
+      await this.producer.submitGuess(player, message.producerId, socket);
+      return true;
+    }
+    if (this.party && this.room.activeMode === MUSIC_GUESS_MODE && message.type === 'submit_music_guess') {
+      await this.musicGuess.submitGuess(player, message.trackId, socket);
       return true;
     }
     if (this.room.activeMode === GUESS_SONG_MODE && message.type === 'submit_guess') {
@@ -161,7 +237,26 @@ export class TriathlonMode {
     return false;
   }
 
+  async startPartyRound() {
+    const overallRound = (this.room.partyRoundNumber ?? 0) + 1;
+    const stage = this.stageForRound(overallRound);
+    if (!stage) return this.finishMatch();
+    const now = Date.now();
+    Object.assign(this.room, {
+      partyRoundNumber: overallRound,
+      partyStageIndex: stage.index,
+      activeMode: stage.mode,
+      roundNumber: stage.stageRound - 1,
+      roundCount: stage.roundCount,
+      phase: 'waiting',
+      startedAt: null,
+      nextRoundAt: null,
+    });
+    await this.handlerFor(stage.mode).startRound();
+  }
+
   async startNextRound() {
+    if (this.party) return this.startPartyRound();
     const overallRound = this.room.roundNumber + 1;
     const stageRound = ((overallRound - 1) % TRIATHLON_STAGE_ROUNDS) + 1;
     const activeMode = overallRound <= 3 ? GUESS_SONG_MODE : overallRound <= 6 ? SORTING_MODE : SENIORITY_MODE;
@@ -200,6 +295,28 @@ export class TriathlonMode {
   }
 
   async tick(now) {
+    if (this.party) {
+      const handler = this.handlerFor(this.room.activeMode);
+      if (this.room.phase === 'playing') {
+        if (now >= this.room.endsAt) {
+          if (this.room.activeMode === GUESS_SONG_MODE) {
+            const previous = this.room.roundCount;
+            this.room.roundCount = this.room.roundNumber + 1;
+            await this.guess.finishRound();
+            this.room.roundCount = previous;
+          } else if (this.room.activeMode === SORTING_MODE || this.room.activeMode === SENIORITY_MODE
+            || this.room.activeMode === CROSSWORD_MODE || this.room.activeMode === PRODUCER_MODE || this.room.activeMode === MUSIC_GUESS_MODE) {
+            await handler.revealRound();
+          }
+        } else if (this.room.activeMode === GUESS_SONG_MODE) {
+          this.room.hintLevel = hintLevelAt(this.room.startedAt, now);
+        }
+      } else if (this.room.phase === 'round-result' && now >= this.room.nextRoundAt) {
+        if (this.room.partyRoundNumber >= this.totalPartyRounds()) await this.finishMatch();
+        else await this.startPartyRound();
+      }
+      return;
+    }
     if (this.room.phase === 'playing') {
       if (this.room.activeMode === GUESS_SONG_MODE) {
         if (now >= this.room.endsAt) await this.guess.finishRound();
@@ -213,6 +330,14 @@ export class TriathlonMode {
   }
 
   addScheduleTimes(times) {
+    if (this.party) {
+      if (this.room.phase === 'playing') {
+        if (this.room.activeMode === GUESS_SONG_MODE) for (const step of HINT_STEPS) times.push(this.room.startedAt + step.afterMs);
+        times.push(this.room.endsAt);
+      }
+      if (this.room.phase === 'round-result') times.push(this.room.nextRoundAt);
+      return;
+    }
     if (this.room.phase === 'playing') {
       if (this.room.activeMode === GUESS_SONG_MODE) for (const step of HINT_STEPS) times.push(this.room.startedAt + step.afterMs);
       times.push(this.room.endsAt);
@@ -221,6 +346,26 @@ export class TriathlonMode {
   }
 
   project(viewerId) {
+    if (this.party) {
+      const projection = this.handlerFor(this.room.activeMode).project(viewerId);
+      const stage = this.stageDefinitions()[this.room.partyStageIndex];
+      const stagePool = stage?.selection?.kind === 'preset' ? selectPool(stage.selection) : null;
+      return {
+        ...projection,
+        protocolVersion: MULTIPLAYER_PROTOCOL_VERSION,
+        mode: PARTY_MODE,
+        activeMode: this.room.activeMode,
+        stages: this.room.stages,
+        partyStageIndex: this.room.partyStageIndex,
+        roundNumber: this.room.roundNumber,
+        roundCount: this.room.roundCount,
+        overallRoundNumber: this.room.partyRoundNumber,
+        overallRoundCount: this.totalPartyRounds(),
+        poolName: stagePool?.name ?? (stage?.selection?.kind === 'music-playlists' ? '听歌识曲独立歌单' : projection.poolName),
+        selection: stage?.selection ?? projection.selection,
+        nextLabel: this.room.partyRoundNumber >= this.totalPartyRounds() ? '结算' : this.room.roundNumber >= stage.roundCount ? '下一玩法' : '下一轮',
+      };
+    }
     let projection;
     if (this.room.activeMode === SORTING_MODE) projection = this.sorting.project(viewerId);
     else if (this.room.activeMode === SENIORITY_MODE) projection = this.seniority.project(viewerId);

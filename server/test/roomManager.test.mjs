@@ -97,7 +97,7 @@ test('reuses the lowest available waiting-room seat while preserving existing pl
   }
 });
 
-test('runs a synchronized seniority match with private choices and speed scoring', async () => {
+test('runs a synchronized seniority match with private choices and unified rank scoring', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
   const manager = new RoomManager({ dataDirectory: directory, onError: (error) => { throw error; } });
   await manager.initialize();
@@ -130,7 +130,7 @@ test('runs a synchronized seniority match with private choices and speed scoring
         : correctId;
       await session.run(() => session.command(secondSocket, { type: 'submit_seniority_choice', songId: secondChoiceId }));
       assert.equal(session.room.phase, 'round-result');
-      assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), round === 5 ? [5, 0] : [5, 4]);
+      assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), round === 5 ? [5, 0] : [5, 3]);
       const reveal = secondSocket.messages.at(-1).room;
       assert.ok(reveal.seniorityRound.left.releaseMonth);
       assert.equal(reveal.players[0].choiceId, correctId);
@@ -139,7 +139,7 @@ test('runs a synchronized seniority match with private choices and speed scoring
       if (round < 5) assert.equal(session.room.phase, 'playing');
     }
     assert.equal(session.room.phase, 'finished');
-    assert.deepEqual(session.room.players.map(({ score }) => score), [25, 16]);
+    assert.deepEqual(session.room.players.map(({ score }) => score), [25, 12]);
     assert.deepEqual(secondSocket.messages.at(-1).room.ranking.map(({ rank }) => rank), [1, 2]);
   } finally {
     if (code) await manager.delete(code);
@@ -238,14 +238,14 @@ test('runs all nine fixed triathlon rounds with cumulative scoring and progressi
         const correctId = session.room.seniorityPair.correctId;
         await session.run(() => session.command(firstSocket, { type: 'submit_seniority_choice', songId: correctId }));
         await session.run(() => session.command(secondSocket, { type: 'submit_seniority_choice', songId: correctId }));
-        assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), [5, 4]);
+        assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), [5, 3]);
       }
       assert.equal(session.room.phase, 'round-result');
       session.room.nextRoundAt = Date.now() - 1;
       await session.run(() => session.tick());
     }
     assert.equal(session.room.phase, 'finished');
-    assert.deepEqual(session.room.players.map(({ score }) => score), [45, 36]);
+    assert.deepEqual(session.room.players.map(({ score }) => score), [45, 33]);
     assert.equal(new Set(session.room.usedSongIds).size, 24);
     const finalProjection = secondSocket.messages.at(-1).room;
     assert.equal(finalProjection.nextLabel, '结算');

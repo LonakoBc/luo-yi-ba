@@ -21,26 +21,49 @@ function renderPuzzle(seed = 712) {
 }
 
 function clueFor(entry) {
-  return screen.getByRole('button', { name: new RegExp(`选择 ${entry.number} 号`, 'u') }).closest('article');
+  return screen.getByRole('button', { name: new RegExp('选择 ' + entry.number + ' 号', 'u') }).closest('article');
+}
+
+function clickTile(character) {
+  const tile = screen.getAllByRole('button', { name: '字块：' + character }).find((button) => !button.disabled);
+  expect(tile, '应该存在可用的字块：' + character).toBeTruthy();
+  fireEvent.click(tile);
 }
 
 function fillEntry(entry, puzzle, characterForIndex = (index) => entry.characters[index]) {
-  const cells = new Map(puzzle.cells.map((cell) => [`${cell.row},${cell.column}`, cell]));
+  const cells = new Map(puzzle.cells.map((cell) => [entryCellKey(cell), cell]));
   fireEvent.click(within(clueFor(entry)).getByRole('button', { name: /选择/u }));
   entryCellKeys(entry).forEach((key, index) => {
-    if (cells.get(key).isFixed) return;
-    const input = screen.queryByLabelText(`${entry.number} 号曲名第 ${index + 1} 个字`);
-    if (input) fireEvent.change(input, { target: { value: characterForIndex(index) } });
+    const cell = cells.get(key);
+    if (cell.isFixed) return;
+    const cellButton = document.querySelector('[data-crossword-cell="' + key + '"]');
+    if (!cellButton?.getAttribute('aria-label')?.endsWith('空白字格')) return;
+    clickTile(characterForIndex(index));
   });
 }
 
+function entryCellKey(cell) {
+  return cell.row + ',' + cell.column;
+}
+
+function fillAllEntries(puzzle) {
+  puzzle.entries.forEach((entry) => fillEntry(entry, puzzle));
+}
+
 describe('曲名填字页面', () => {
-  it('初始仅显示两首不同歌曲的非交叉首字，可选择曲目并无限展开或收起歌词', () => {
+  it('使用固定上限字块池，不再显示打字框或单曲提交按钮，并支持歌词提示', () => {
     const puzzle = renderPuzzle();
-    expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
-    expect(screen.getAllByLabelText(/号曲目的格子/u)).toHaveLength(2);
-    expect(puzzle.cells.filter(({ isFixed }) => isFixed)).toHaveLength(2);
-    screen.getAllByRole('textbox').forEach((input) => expect(input).toHaveValue(''));
+    expect(screen.getAllByRole('button', { name: /^字块：/u })).toHaveLength(32);
+    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
+    expect(screen.queryByRole('button', { name: /提交本条/u })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: '填写这首' })).toHaveLength(6);
+    expect(screen.getAllByLabelText(/号曲名第/u).length).toBe(puzzle.cells.length);
+    const search = screen.getByRole('searchbox', { name: '搜索字块' });
+    const searchableCharacter = screen.getAllByRole('button', { name: /^字块：/u })[0].getAttribute('aria-label').replace('字块：', '');
+    fireEvent.change(search, { target: { value: searchableCharacter } });
+    expect(screen.getAllByRole('button', { name: '字块：' + searchableCharacter }).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole('button', { name: '清空字块搜索' }));
+    expect(screen.getAllByRole('button', { name: /^字块：/u })).toHaveLength(32);
     const firstClue = clueFor(puzzle.entries[0]);
     fireEvent.click(within(firstClue).getByRole('button', { name: '歌词提示' }));
     expect(firstClue.querySelector('.crossword-lyrics')).toHaveTextContent(puzzle.entries[0].song.lyrics.replaceAll('　', ' '));
@@ -48,96 +71,87 @@ describe('曲名填字页面', () => {
     expect(firstClue.querySelector('.crossword-lyrics')).not.toBeInTheDocument();
   });
 
-  it('不完整不计次，错误仅标红错误格，全部答对后显示结算统计', () => {
+  it('填满一行或一列后自动验证，错误显示红色边缘并计入一次验证', () => {
     const puzzle = renderPuzzle(2026);
-    const first = puzzle.entries[0];
-    fireEvent.click(within(clueFor(first)).getByRole('button', { name: '提交本条' }));
-    expect(screen.getByRole('status')).toHaveTextContent('尚未填写完整');
-    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次提交');
+    const entry = puzzle.entries[0];
+    const cells = new Map(puzzle.cells.map((cell) => [entryCellKey(cell), cell]));
+    const wrongCharacters = screen.getAllByRole('button', { name: /^字块：/u })
+      .map((button) => button.getAttribute('aria-label').replace('字块：', ''))
+      .filter((character, index, characters) => !entry.characters.includes(character) && characters.indexOf(character) === index);
+    fillEntry(entry, puzzle, (index) => {
+      const cell = cells.get(entryCellKeys(entry)[index]);
+      return cell.isFixed ? entry.characters[index] : wrongCharacters[index] || wrongCharacters[0];
+    });
+    expect(screen.getByRole('status')).toHaveTextContent('自动验证未通过');
+    expect(clueFor(entry)).toHaveClass('wrong');
+    expect(document.querySelectorAll('.crossword-cell.entry-' + entry.direction + '-wrong').length).toBeGreaterThan(0);
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('1 次自动验证');
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('1 次错误');
+  });
 
-    fillEntry(first, puzzle, () => '错');
-    fireEvent.click(within(clueFor(first)).getByRole('button', { name: '提交本条' }));
-    expect(screen.getByRole('status')).toHaveTextContent('不正确');
-    expect(document.querySelectorAll('.crossword-cell.incorrect').length).toBeGreaterThan(0);
-
-    for (const entry of puzzle.entries) {
-      fillEntry(entry, puzzle);
-      fireEvent.click(within(clueFor(entry)).getByRole('button', { name: '提交本条' }));
-    }
+  it('全部曲名正确后弹出通关提示，可查看答案页并快速开始下一把', () => {
+    const puzzle = renderPuzzle(66);
+    fillAllEntries(puzzle);
     const dialog = screen.getByRole('dialog', { name: '曲名填字完成！' });
     expect(dialog).toBeVisible();
-    expect(dialog).toHaveTextContent('7次提交');
-    expect(dialog).toHaveTextContent('1次错误');
-    expect(within(dialog).getByRole('button', { name: '再来一局' })).toBeEnabled();
-    expect(within(dialog).getByRole('button', { name: '返回主页' })).toBeEnabled();
+    expect(dialog).toHaveTextContent('全部绿色，回答正确！');
+    expect(dialog).toHaveTextContent('6次自动验证');
+    fireEvent.click(within(dialog).getByRole('button', { name: '查看答案' }));
+    const answerPage = screen.getByRole('dialog', { name: '曲名答案页' });
+    expect(answerPage).toBeVisible();
+    for (const entry of puzzle.entries) expect(within(answerPage).getByText('《' + entry.song.title + '》')).toBeVisible();
+    fireEvent.click(within(answerPage).getByRole('button', { name: '快速开始下一把' }));
+    expect(screen.queryByRole('dialog', { name: '曲名答案页' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /^字块：/u })).toHaveLength(32);
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次自动验证');
   });
 
-  it('粘贴完整曲名时会跳过两个固定首字并正确填充', () => {
-    const puzzle = renderPuzzle(66);
-    const entry = puzzle.entries.find((candidate) => entryCellKeys(candidate).some((key) => {
-      const cell = puzzle.cells.find(({ row, column }) => `${row},${column}` === key);
-      return !cell.isFixed;
-    }));
-    const firstEditableIndex = entryCellKeys(entry).findIndex((key) => {
-      const cell = puzzle.cells.find(({ row, column }) => `${row},${column}` === key);
-      return !cell.isFixed;
-    });
-    fireEvent.click(within(clueFor(entry)).getByRole('button', { name: /选择/u }));
-    const input = screen.getByLabelText(`${entry.number} 号曲名第 ${firstEditableIndex + 1} 个字`);
-    fireEvent.paste(input, { clipboardData: { getData: () => entry.song.title } });
-    fireEvent.click(within(clueFor(entry)).getByRole('button', { name: '提交本条' }));
-    expect(within(clueFor(entry)).getByText(new RegExp(`已完成：《${entry.song.title}》`, 'u'))).toBeVisible();
-  });
-
-  it('允许删除错误文字，并可一键重置当前棋盘的全部进度', () => {
+  it('点击已填写字格可以把字块退回池中，重置会清空本局进度', () => {
     const puzzle = renderPuzzle(2025);
-    const cells = new Map(puzzle.cells.map((cell) => [`${cell.row},${cell.column}`, cell]));
-    const entry = puzzle.entries.find((candidate) => entryCellKeys(candidate).filter((key) => !cells.get(key).isFixed).length >= 2);
-    const editableKeys = entryCellKeys(entry).filter((key) => !cells.get(key).isFixed);
-    const firstIndex = entryCellKeys(entry).indexOf(editableKeys[0]);
-    const secondIndex = entryCellKeys(entry).indexOf(editableKeys[1]);
+    const entry = puzzle.entries[0];
+    const editableKey = entryCellKeys(entry).find((key) => !puzzle.cells.find((cell) => entryCellKey(cell) === key).isFixed);
     fireEvent.click(within(clueFor(entry)).getByRole('button', { name: /选择/u }));
-    const firstInput = screen.getByLabelText(`${entry.number} 号曲名第 ${firstIndex + 1} 个字`);
-    const secondInput = screen.getByLabelText(`${entry.number} 号曲名第 ${secondIndex + 1} 个字`);
-
-    fireEvent.change(firstInput, { target: { value: '错' } });
-    expect(firstInput).toHaveValue('错');
-    fireEvent.change(firstInput, { target: { value: '' } });
-    expect(firstInput).toHaveValue('');
-
-    fireEvent.change(firstInput, { target: { value: '错' } });
-    fireEvent.change(secondInput, { target: { value: '字' } });
-    fireEvent.keyDown(secondInput, { key: 'Backspace' });
-    fireEvent.change(secondInput, { target: { value: '' } });
-    fireEvent.keyDown(secondInput, { key: 'Backspace' });
-    expect(firstInput).toHaveValue('');
-
-    fillEntry(entry, puzzle, () => '错');
-    fireEvent.click(within(clueFor(entry)).getByRole('button', { name: '提交本条' }));
-    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('1 次提交');
+    clickTile(entry.characters[entryCellKeys(entry).indexOf(editableKey)]);
+    const cellButton = document.querySelector('[data-crossword-cell="' + editableKey + '"]');
+    expect(cellButton).not.toHaveAttribute('aria-label', expect.stringContaining('空白字格'));
+    fireEvent.click(cellButton);
+    expect(screen.getByRole('status')).toHaveTextContent('退回池中');
+    expect(document.querySelector('[data-crossword-cell="' + editableKey + '"]')).toHaveAttribute('aria-label', expect.stringContaining('空白字格'));
     fireEvent.click(screen.getByRole('button', { name: '重置填写' }));
-    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次提交');
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次自动验证');
     expect(screen.getByRole('status')).toHaveTextContent('已重置本局全部填写');
-    expect(screen.getAllByRole('button', { name: '提交本条' })).toHaveLength(6);
-    expect(firstInput).toHaveValue('');
   });
 
-  it('投降前要求确认，确认后揭晓全部答案且不计入提交或触发通关', () => {
+  it('允许把单个字块拖动到指定空格，并显示拖拽目标高亮', () => {
+    const puzzle = renderPuzzle(2023);
+    const entry = puzzle.entries[0];
+    const key = entryCellKeys(entry).find((candidate) => !puzzle.cells.find((cell) => entryCellKey(cell) === candidate).isFixed);
+    const index = entryCellKeys(entry).indexOf(key);
+    const cell = document.querySelector('[data-crossword-cell="' + key + '"]');
+    const tile = screen.getAllByRole('button', { name: '字块：' + entry.characters[index] }).find((button) => !button.disabled);
+    expect(tile).toBeTruthy();
+    const dataTransfer = {
+      effectAllowed: '',
+      dropEffect: '',
+      value: '',
+      setData: (_type, value) => { dataTransfer.value = value; },
+      getData: () => dataTransfer.value,
+    };
+    fireEvent.dragStart(tile, { dataTransfer });
+    fireEvent.dragOver(cell, { dataTransfer });
+    expect(cell).toHaveClass('drag-over');
+    fireEvent.drop(cell, { dataTransfer });
+    expect(cell).toHaveAttribute('aria-label', expect.stringContaining(entry.characters[index]));
+  });
+
+  it('投降后打开答案页且不触发通关结算', () => {
     const puzzle = renderPuzzle(2024);
     fireEvent.click(screen.getByRole('button', { name: '投降' }));
     const confirmation = screen.getByRole('dialog', { name: '要揭晓全部曲名吗？' });
-    fireEvent.click(within(confirmation).getByRole('button', { name: '继续游戏' }));
-    expect(screen.queryByRole('dialog', { name: '要揭晓全部曲名吗？' })).not.toBeInTheDocument();
-    expect(screen.getAllByRole('textbox').length).toBeGreaterThan(0);
-
-    fireEvent.click(screen.getByRole('button', { name: '投降' }));
-    fireEvent.click(within(screen.getByRole('dialog', { name: '要揭晓全部曲名吗？' })).getByRole('button', { name: '确认投降' }));
+    fireEvent.click(within(confirmation).getByRole('button', { name: '确认投降' }));
     expect(screen.getByLabelText('游戏状态')).toHaveTextContent('答案 已揭晓');
-    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0 次提交');
-    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
-    expect(screen.getAllByRole('button', { name: '答案已揭晓' })).toHaveLength(6);
-    for (const entry of puzzle.entries) expect(screen.getByText(`答案：《${entry.song.title}》`)).toBeVisible();
+    expect(screen.getByRole('dialog', { name: '曲名答案页' })).toBeVisible();
+    for (const entry of puzzle.entries) expect(screen.getByText('《' + entry.song.title + '》')).toBeVisible();
     expect(screen.queryByRole('dialog', { name: '曲名填字完成！' })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '再来一盘' })).toBeEnabled();
   });
 });

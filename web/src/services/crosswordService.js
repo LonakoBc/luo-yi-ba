@@ -5,6 +5,9 @@ export const DIRECTIONS = {
   down: { row: 1, column: 0, label: '纵' },
 };
 
+export const CHARACTER_BANK_LIMIT = 32;
+const DISTRACTOR_CHARACTERS = [...'曲名歌声风云星月天心梦光影世界时空故事少年少女春夏秋冬花雪海山夜希望远方未来喜欢音乐旋律一二三四五六七八九十的了在和你我他她它是有无不人中大上小新旧真好想看听来去会能把为与从到这那也都还再更最'].filter((character, index, characters) => characters.indexOf(character) === index);
+
 const cellKey = (row, column) => `${row},${column}`;
 const oppositeDirection = (direction) => direction === 'across' ? 'down' : 'across';
 
@@ -218,4 +221,23 @@ export function entryCellKeys(entry) {
     entry.row + vector.row * index,
     entry.column + vector.column * index,
   ));
+}
+
+export function createCharacterBank(puzzle, { random = Math.random, limit = CHARACTER_BANK_LIMIT } = {}) {
+  const requiredCharacters = puzzle.cells.filter(({ isFixed }) => !isFixed).map(({ character }) => character);
+  if (requiredCharacters.length > limit) {
+    throw new Error(`本局需要 ${requiredCharacters.length} 个字块，超过上限 ${limit}`);
+  }
+  const requiredSet = new Set(requiredCharacters);
+  const distractors = shuffled(DISTRACTOR_CHARACTERS.filter((character) => !requiredSet.has(character)), random);
+  const characters = [...requiredCharacters];
+  let distractorIndex = 0;
+  while (characters.length < limit) {
+    characters.push(distractors[distractorIndex % distractors.length] ?? DISTRACTOR_CHARACTERS[distractorIndex % DISTRACTOR_CHARACTERS.length]);
+    distractorIndex += 1;
+  }
+  return shuffled(characters, random).map((character, index) => ({
+    id: `character-${index}-${character}`,
+    character,
+  }));
 }

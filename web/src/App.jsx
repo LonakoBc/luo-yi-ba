@@ -27,7 +27,7 @@ import SongDatabasePage from './components/SongDatabasePage';
 import UpdateNoticeDialog, { UPDATE_NOTICE_STORAGE_KEY, canShowUpdateNotice } from './components/UpdateNoticeDialog';
 import { filterSongs, filtersFromSearch, filtersToSearch, songsForPreset } from './services/libraryService';
 import { buildCollectionProducerPool, buildCollectionSingerPool } from './services/collectionService';
-import { GUESS_SONG_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
+import { PARTY_MODE, MULTIPLAYER_MODES } from './services/multiplayerRules';
 import { getMusicGuessPlaylist } from './services/musicGuessService';
 import { USES_HASH_ROUTING, browserPath, readRouteLocation } from './services/appRouting';
 
@@ -39,7 +39,7 @@ function routeFromLocation(pathname, search = '') {
   if (pathname === '/multiplayer') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
   if (pathname === '/multiplayer/create') {
     const requestedMode = new URLSearchParams(search).get('mode');
-    return { page: 'multiplayer', view: 'create', mode: MULTIPLAYER_MODES.includes(requestedMode) ? requestedMode : GUESS_SONG_MODE };
+    return { page: 'multiplayer', view: 'create', mode: MULTIPLAYER_MODES.includes(requestedMode) ? requestedMode : PARTY_MODE };
   }
   if (pathname === '/multiplayer/join') return { page: 'multiplayer', view: 'entry', code: new URLSearchParams(search).get('code') };
   const multiplayerRoomMatch = pathname.match(/^\/multiplayer\/room\/([A-HJ-NP-Z2-9]{6})$/u);
@@ -213,7 +213,7 @@ export default function App({ songs = songData, presets = presetData, database =
   if (route.page === 'feedback-admin') {
     pageContent = <FeedbackAdminPage onBack={() => navigate('/')} />;
   } else if (route.page === 'multiplayer') {
-    pageContent = <MultiplayerPage view={route.view} mode={route.mode} code={route.code} songs={songs} presets={presets} onNavigate={navigate} onBack={() => navigate('/')} />;
+    pageContent = <MultiplayerPage view={route.view} mode={route.mode} code={route.code} songs={songs} presets={presets} producers={producers} onNavigate={navigate} onBack={() => navigate('/')} />;
   } else if (route.page === 'producer-select') {
     pageContent = <ProducerModePage totalCount={producers.length} famousCount={producers.filter((producer) => producer.famous).length} onChoose={(mode) => navigate(`/producer/play/${mode}`)} onBack={() => navigate('/')} Brand={Brand} />;
   } else if (route.page === 'producer-game') {

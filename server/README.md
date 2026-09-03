@@ -1,6 +1,6 @@
 # 阿里云多人联机服务
 
-该目录提供前端协议 v3 对应的 Node.js 房间服务。房间状态由单进程串行处理并以 JSON 原子写入磁盘，支持多人猜曲、老资历、歌曲排序和铁人三项，以及创建、加入、WebSocket 广播、断线恢复、房主转移、轮间推进和最终排名。
+该目录提供前端协议 v3 对应的 Node.js 房间服务。房间状态由单进程串行处理并以 JSON 原子写入磁盘，支持曲目猜猜看、谁是老资历、歌曲大排序、曲名填字、猜 P 主、听歌识曲和派对模式，以及创建、加入、WebSocket 广播、断线恢复、房主转移、轮间推进和最终排名。
 
 ## 本地运行
 
@@ -45,7 +45,7 @@ curl -fsS https://8.217.219.36/health
 curl -fsS https://8.217.219.36/api/catalog
 ```
 
-返回结果应包含 `protocolVersion: 3`，以及 `guess-song`、`seniority`、`sorting`、`triathlon` 四种模式。
+返回结果应包含 `protocolVersion: 3`，以及 `guess-song`、`seniority`、`sorting`、`crossword`、`producer`、`music-guess`、`party` 等模式。
 
 部署后可执行以下完整公网验收：
 
