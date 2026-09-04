@@ -87,11 +87,14 @@ describe('App 交互', () => {
   it('首次从主页进入时显示更新公告，确认后记住已读状态', () => {
     window.history.replaceState({}, '', '/');
     render(<App songs={songs} presets={presets} />);
-    expect(screen.getByRole('dialog', { name: '2026-08-29更新' })).toBeVisible();
-    expect(screen.getByText('1. 模式上新')).toBeVisible();
-    expect(screen.getByText('2. 曲库优化')).toBeVisible();
+    expect(screen.getByRole('dialog', { name: '2026-09-04更新' })).toBeVisible();
+    expect(screen.getByText('1. 听歌识曲更新')).toBeVisible();
+    expect(screen.getByText('2. 联机玩法拓展')).toBeVisible();
+    expect(screen.getByText('3. 曲名填字优化')).toBeVisible();
+    expect(screen.getByText('4. 曲目喜好表')).toBeVisible();
+    expect(screen.getByText('5. 曲库扩展与优化')).toBeVisible();
     fireEvent.click(screen.getByRole('button', { name: '知道了，开始探索' }));
-    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+    expect(screen.queryByRole('dialog', { name: '2026-09-04更新' })).toBeNull();
     expect(window.localStorage.getItem(UPDATE_NOTICE_STORAGE_KEY)).toBe('dismissed');
   });
 
@@ -108,10 +111,10 @@ describe('App 交互', () => {
   it('从其它模式返回主页时不会触发首次公告', () => {
     window.history.replaceState({}, '', '/play/easy');
     render(<App songs={songs} presets={presets} random={() => 0} />);
-    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+    expect(screen.queryByRole('dialog', { name: '2026-09-04更新' })).toBeNull();
     window.history.pushState({}, '', '/');
     fireEvent(window, new PopStateEvent('popstate'));
-    expect(screen.queryByRole('dialog', { name: '2026-08-29更新' })).toBeNull();
+    expect(screen.queryByRole('dialog', { name: '2026-09-04更新' })).toBeNull();
   });
 
   it('主页按新顺序展示玩法并开放 P 主入口', async () => {

@@ -211,15 +211,21 @@ function PartyStageEditor({ stages, setStages }) {
   });
   const updateStage = (mode, updater) => setStages((current) => current.map((item) => item.mode === mode ? updater(item) : item));
   const partyStageModes = [
-    ...PARTY_MODE_OPTIONS.filter((mode) => mode !== CROSSWORD_MODE && mode !== MUSIC_GUESS_MODE),
-    ...PARTY_MODE_OPTIONS.filter((mode) => mode === CROSSWORD_MODE || mode === MUSIC_GUESS_MODE),
+    GUESS_SONG_MODE,
+    SENIORITY_MODE,
+    SORTING_MODE,
+    CROSSWORD_MODE,
+    PRODUCER_MODE,
+    MUSIC_GUESS_MODE,
   ];
   return <div className="party-stage-editor">
     <p className="field-help">至少选择 3 个不同玩法；顺序就是派对赛程，每个玩法最多 3 轮。</p>
     <div className="party-stage-options">{partyStageModes.map((mode) => {
       const stage = stageFor(mode);
+      const sharedStage = [GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE].includes(mode);
+      const specialStage = [CROSSWORD_MODE, PRODUCER_MODE].includes(mode);
       const expandedLibraryStage = mode === MUSIC_GUESS_MODE;
-      return <article key={mode} className={'party-stage-option ' + (stage ? 'selected ' : '') + (expandedLibraryStage ? 'party-stage-option-expanded' : '')}>
+      return <article key={mode} className={'party-stage-option ' + (sharedStage ? 'party-stage-option-shared ' : '') + (specialStage ? 'party-stage-option-special ' : '') + (stage ? 'selected ' : '') + (expandedLibraryStage ? 'party-stage-option-expanded' : '')}>
         <button type="button" className="party-stage-toggle" aria-pressed={Boolean(stage)} onClick={() => toggleStage(mode)}><span className="party-stage-index">{stage ? stages.findIndex((item) => item.mode === mode) + 1 : '+'}</span><strong>{MODE_LABELS[mode]}</strong><small>{stage ? '已加入赛程' : '点击加入'}</small></button>
         {stage && <><div className="party-stage-controls"><div>{PARTY_STAGE_ROUND_COUNTS.map((count) => <Toggle key={count} pressed={stage.roundCount === count} onClick={() => updateStage(mode, (item) => ({ ...item, roundCount: count }))}>{count} 轮</Toggle>)}</div><div><button type="button" className="stage-order-button" onClick={() => moveStage(mode, -1)} disabled={stages.findIndex((item) => item.mode === mode) === 0} aria-label={'上移' + MODE_LABELS[mode]}>↑</button><button type="button" className="stage-order-button" onClick={() => moveStage(mode, 1)} disabled={stages.findIndex((item) => item.mode === mode) === stages.length - 1} aria-label={'下移' + MODE_LABELS[mode]}>↓</button></div></div>
           {mode === CROSSWORD_MODE && <p className="party-stage-library-note">曲名填字跟随主曲库；加入后主曲库仅可选全曲库、禾念系、五维介质系。</p>}
@@ -459,6 +465,18 @@ export function PlayerCard({ player, self }) {
     <div className="player-round-meta"><span>{player.guesses.length} 次猜测</span><span>{player.roundScore ? `本轮 +${player.roundScore}` : player.solved ? '已猜出' : '作答中'}</span></div>
     <div className="player-guesses">{player.guesses.length ? <GuessFeedbackTable player={player} self={self} /> : <p className="no-player-guesses">等待第一次猜测</p>}</div>
   </article>;
+}
+
+function FinishedRoomPanel({ room, self, onShowResults, onExit, onCopyCode, onCopyInvite }) {
+  const players = [...room.players].sort((a, b) => (a.seatIndex ?? a.joinOrder) - (b.seatIndex ?? b.joinOrder));
+  return <section className="multiplayer-panel waiting-room finished-room">
+    <p className="eyebrow">ROOM PRESERVED</p>
+    <div className="room-code"><span>原房间仍在这里</span><strong>{room.code}</strong></div>
+    <p className="waiting-copy">你已返回房间，房间成员和本局记录仍会保留在这里。</p>
+    <div className="room-share-actions"><button type="button" className="ghost-button" onClick={onCopyCode}>复制房间码</button><button type="button" className="ghost-button" onClick={onCopyInvite}>复制邀请链接</button></div>
+    <div className="waiting-seats">{players.map((player) => <div key={player.id} className="seat occupied" style={{ '--player-color': playerColorMeta(player)?.color }}><PlayerIdentity player={player} suffix={player.id === self?.id ? '（你）' : ''} /><small>{player.score ?? 0} 分</small></div>)}</div>
+    <div className="finished-room-actions"><button type="button" className="ghost-button" onClick={onShowResults}>查看最终结算</button><button type="button" className="primary-button" onClick={onExit}>返回联机首页</button></div>
+  </section>;
 }
 
 function Room({ code, songs, presets, producers, onExit }) {

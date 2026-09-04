@@ -3,6 +3,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset, songGuessIds } from './MultiplayerPage';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
 import MultiplayerSortingGame from './MultiplayerSortingGame';
+import MultiplayerProducerGame from './MultiplayerProducerGame';
 import { MultiplayerEmotePicker, MultiplayerEmotePopups } from './MultiplayerEmotes';
 
 const songs = [
@@ -30,6 +31,57 @@ it('表情面板展示完整 28 张并发送稳定的表情 ID', () => {
   rerender(<MultiplayerEmotePopups popups={[{ key: 'p1:1', playerId: 'p1', emoteId: 'luotianyi-hit', sentAt: 1 }]} players={[{ id: 'p1', nickname: '天依粉丝', color: { color: '#66CCFF' } }]} selfId="p1" />);
   expect(screen.getByAltText('天依粉丝发送了一发入魂表情')).toBeVisible();
   expect(screen.getByText('天依粉丝（你）')).toBeVisible();
+});
+
+it('表情触发卡片可以拖动并保持点击打开行为', () => {
+  const { container } = render(<MultiplayerEmotePicker onSend={vi.fn()} />);
+  const picker = container.querySelector('.multiplayer-emote-picker');
+  const trigger = screen.getByRole('button', { name: '打开表情' });
+  fireEvent.pointerDown(trigger, { pointerId: 1, button: 0, clientX: 100, clientY: 100 });
+  fireEvent.pointerMove(trigger, { pointerId: 1, clientX: 145, clientY: 130 });
+  fireEvent.pointerUp(trigger, { pointerId: 1, clientX: 145, clientY: 130 });
+  expect(picker).toHaveStyle({ '--emote-offset-x': '45px', '--emote-offset-y': '30px' });
+  expect(screen.getByRole('button', { name: '打开表情' })).toBeVisible();
+  fireEvent.click(trigger);
+  fireEvent.click(trigger);
+  expect(screen.getByRole('region', { name: '联机表情' })).toBeVisible();
+});
+
+it('猜P主提示将模糊答案字段按时间解锁到独立卡片', () => {
+  const players = [{ id: 'p1', nickname: '玩家甲', guessCount: 0, solved: false, roundScore: 0, color: { color: '#66CCFF' } }];
+  render(<MultiplayerProducerGame
+    room={{
+      phase: 'playing',
+      roundNumber: 1,
+      roundCount: 1,
+      endsAt: 20_000,
+      nextRoundAt: null,
+      hintLevel: 2,
+      producerRound: { answer: { name: '名P', debutYear: 2018, debutSong: '出道曲', hallCount: 3, legendCount: 2, mythCount: 1, representativeSongs: ['代表曲 A', '代表曲 B', '代表曲 C', '代表曲 D', '代表曲 E'] } },
+      players,
+    }}
+    self={players[0]}
+    producers={[{ id: 'candidate', name: '候选P', famous: true, debutYear: 2020, debutSong: '候选出道曲', hallCount: 1, legendCount: 0, mythCount: 0, representativeSongs: [] }]}
+    now={1_000}
+    connection="online"
+    send={vi.fn()}
+  />);
+  expect(screen.getByLabelText('猜 P 主提示')).toBeVisible();
+  expect(screen.getByText('2018')).toBeVisible();
+  expect(screen.getByText('《出道曲》')).toBeVisible();
+  expect(screen.getByText('3')).toBeVisible();
+  expect(screen.getByText('《代表曲 D》')).toBeVisible();
+  expect(screen.queryByText('《代表曲 A》')).not.toBeInTheDocument();
+  expect(document.querySelector('.producer-table .answer-row')).not.toBeInTheDocument();
+});
+
+it('派对赛程将曲名填字和猜P主排在同一行', () => {
+  const { container } = render(<MultiplayerPage view="create" mode="party" songs={songs} presets={presets} onNavigate={vi.fn()} onBack={vi.fn()} />);
+  const labels = [...container.querySelectorAll('.party-stage-options .party-stage-option > .party-stage-toggle strong')].map((node) => node.textContent);
+  expect(labels.slice(0, 5)).toEqual(['曲目猜猜看', '谁是老资历', '歌曲大排序', '曲名填字', '猜 P 主']);
+  const options = [...container.querySelectorAll('.party-stage-options .party-stage-option')];
+  expect(options.slice(0, 3).every((option) => option.classList.contains('party-stage-option-shared'))).toBe(true);
+  expect(options.slice(3, 5).every((option) => option.classList.contains('party-stage-option-special'))).toBe(true);
 });
 
 it('联机入口校验昵称和六位房间码并按玩法进入创建配置', () => {

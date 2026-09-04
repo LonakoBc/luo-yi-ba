@@ -1,9 +1,10 @@
-.multiplayer-emote-picker { position: fixed; z-index: 90; right: max(18px,env(safe-area-inset-right)); bottom: max(88px,calc(env(safe-area-inset-bottom) + 88px)); display: grid; justify-items: end; gap: 10px; }
-.multiplayer-emote-trigger { display: inline-flex; align-items: center; gap: 7px; min-height: 48px; padding: 8px 15px; border: 1px solid rgba(103,84,204,.24); border-radius: 999px; color: #fff; background: linear-gradient(135deg,#7762dc,#5eaee8); box-shadow: 0 12px 30px rgba(70,77,164,.28); cursor: pointer; }
+.multiplayer-emote-picker { position: fixed; z-index: 90; right: max(18px,env(safe-area-inset-right)); bottom: max(88px,calc(env(safe-area-inset-bottom) + 88px)); display: grid; justify-items: end; gap: 10px; transform: translate(var(--emote-offset-x,0px),var(--emote-offset-y,0px)); will-change: transform; }
+.multiplayer-emote-trigger { display: inline-flex; align-items: center; gap: 7px; min-height: 48px; padding: 8px 15px; border: 1px solid rgba(103,84,204,.24); border-radius: 999px; color: #fff; background: linear-gradient(135deg,#7762dc,#5eaee8); box-shadow: 0 12px 30px rgba(70,77,164,.28); cursor: grab; touch-action: none; }
 .multiplayer-emote-trigger:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(70,77,164,.35); }
+.multiplayer-emote-trigger:active:not(:disabled) { cursor: grabbing; }
 .multiplayer-emote-trigger:disabled { cursor: not-allowed; opacity: .55; }
 .multiplayer-emote-trigger span { font-size: 24px; line-height: 1; }.multiplayer-emote-trigger b { font-size: 12px; }
-.multiplayer-emote-panel { width: min(780px,calc(100vw - 36px)); padding: 14px; border: 1px solid rgba(119,98,220,.22); border-radius: 22px; background: rgba(251,253,255,.97); box-shadow: 0 24px 70px rgba(45,55,119,.25); backdrop-filter: blur(18px); transform: translate(var(--emote-offset-x,0px),var(--emote-offset-y,0px)); will-change: transform; }
+.multiplayer-emote-panel { width: min(780px,calc(100vw - 36px)); padding: 14px; border: 1px solid rgba(119,98,220,.22); border-radius: 22px; background: rgba(251,253,255,.97); box-shadow: 0 24px 70px rgba(45,55,119,.25); backdrop-filter: blur(18px); }
 .multiplayer-emote-panel > header { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 11px; padding: 0 2px; cursor: grab; touch-action: none; user-select: none; }
 .multiplayer-emote-panel > header:active { cursor: grabbing; }
 .multiplayer-emote-panel > header div { display: grid; gap: 2px; }.multiplayer-emote-panel > header strong { color: #283d55; font-size: 15px; }.multiplayer-emote-panel > header small { color: #70879a; font-size: 9px; }

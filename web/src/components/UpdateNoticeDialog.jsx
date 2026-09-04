@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const UPDATE_NOTICE_STORAGE_KEY = 'luo-yi-ba-update-notice-2026-08-29-v2';
+export const UPDATE_NOTICE_STORAGE_KEY = 'luo-yi-ba-update-notice-2026-09-04-v1';
 const QQ_GROUP_COPY_TEXT = '1087737854';
 
 export function canShowUpdateNotice({ initialPage, initialRoute, storage = window.localStorage }) {
@@ -63,20 +63,26 @@ export default function UpdateNoticeDialog({ onClose }) {
         <button type="button" className="update-notice-close" aria-label="关闭更新公告" onClick={onClose}>×</button>
         <div className="update-notice-mark" aria-hidden="true">♫</div>
         <p className="eyebrow">更新公告</p>
-        <h2 id="update-notice-title">2026-08-29更新</h2>
+        <h2 id="update-notice-title">2026-09-04更新</h2>
         <div className="update-notice-items">
           <article>
-            <strong>1. 模式上新</strong>
-            <span>新增加“听歌识曲”模式，玩家可根据前奏猜测歌曲，从熟悉的旋律中回忆起那首心中的歌吧。</span>
-            <span>暂时只接入洛天依曲库。</span>
+            <strong>1. 听歌识曲更新</strong>
+            <span>优化听歌识曲的读取速度以及扩展全歌姬歌单。</span>
           </article>
           <article>
-            <strong>2. 曲库优化</strong>
-            <span>新增加歌曲《迷》等，优化部分已有曲库。</span>
+            <strong>2. 联机玩法拓展</strong>
+            <span>将猜 P 主、曲名填字、听歌识曲接入联机玩法中，且现已支持表情包功能（联机欢迎加群，详见右上角）。</span>
           </article>
           <article>
-            <strong>3. BUG修复</strong>
-            <span>修复了部分反馈bug。</span>
+            <strong>3. 曲名填字优化</strong>
+            <span>玩法优化为允许从已有的字词中拖入空格内。</span>
+          </article>
+          <article>
+            <strong>4. 曲目喜好表</strong>
+            <span>根据本地数据库快速填写喜好表格分享群友（详见右上角）。</span>
+          </article>
+          <article>
+            <strong>5. 曲库扩展与优化</strong>
           </article>
         </div>
         <button type="button" className="update-notice-qq" onClick={copyQqGroup} aria-label="复制联机水友 QQ 群号">
