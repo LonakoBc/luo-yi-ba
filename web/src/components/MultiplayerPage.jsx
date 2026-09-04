@@ -191,12 +191,11 @@ function MusicGuessLibraryScope({ playlistIds, setPlaylistIds, partyScoped = fal
   </div>;
 }
 
-function PartyStageEditor({ stages, setStages, songs, presets }) {
+function PartyStageEditor({ stages, setStages }) {
   const stageFor = (mode) => stages.find((stage) => stage.mode === mode);
   const createStage = (mode) => ({
     mode,
     roundCount: 1,
-    ...(mode === CROSSWORD_MODE ? { selection: { kind: 'preset', presetId: 'all' } } : {}),
     ...(mode === MUSIC_GUESS_MODE ? { selection: { kind: 'music-playlists', musicPlaylistIds: ['all'] } } : {}),
   });
   const toggleStage = (mode) => setStages((current) => current.some((stage) => stage.mode === mode)
@@ -211,7 +210,6 @@ function PartyStageEditor({ stages, setStages, songs, presets }) {
     return next;
   });
   const updateStage = (mode, updater) => setStages((current) => current.map((item) => item.mode === mode ? updater(item) : item));
-  const crosswordPresets = presets.filter((item) => CROSSWORD_LIBRARY_PRESET_IDS.includes(item.id));
   const partyStageModes = [
     ...PARTY_MODE_OPTIONS.filter((mode) => mode !== CROSSWORD_MODE && mode !== MUSIC_GUESS_MODE),
     ...PARTY_MODE_OPTIONS.filter((mode) => mode === CROSSWORD_MODE || mode === MUSIC_GUESS_MODE),
@@ -220,11 +218,11 @@ function PartyStageEditor({ stages, setStages, songs, presets }) {
     <p className="field-help">至少选择 3 个不同玩法；顺序就是派对赛程，每个玩法最多 3 轮。</p>
     <div className="party-stage-options">{partyStageModes.map((mode) => {
       const stage = stageFor(mode);
-      const expandedLibraryStage = mode === CROSSWORD_MODE || mode === MUSIC_GUESS_MODE;
+      const expandedLibraryStage = mode === MUSIC_GUESS_MODE;
       return <article key={mode} className={'party-stage-option ' + (stage ? 'selected ' : '') + (expandedLibraryStage ? 'party-stage-option-expanded' : '')}>
         <button type="button" className="party-stage-toggle" aria-pressed={Boolean(stage)} onClick={() => toggleStage(mode)}><span className="party-stage-index">{stage ? stages.findIndex((item) => item.mode === mode) + 1 : '+'}</span><strong>{MODE_LABELS[mode]}</strong><small>{stage ? '已加入赛程' : '点击加入'}</small></button>
         {stage && <><div className="party-stage-controls"><div>{PARTY_STAGE_ROUND_COUNTS.map((count) => <Toggle key={count} pressed={stage.roundCount === count} onClick={() => updateStage(mode, (item) => ({ ...item, roundCount: count }))}>{count} 轮</Toggle>)}</div><div><button type="button" className="stage-order-button" onClick={() => moveStage(mode, -1)} disabled={stages.findIndex((item) => item.mode === mode) === 0} aria-label={'上移' + MODE_LABELS[mode]}>↑</button><button type="button" className="stage-order-button" onClick={() => moveStage(mode, 1)} disabled={stages.findIndex((item) => item.mode === mode) === stages.length - 1} aria-label={'下移' + MODE_LABELS[mode]}>↓</button></div></div>
-          {mode === CROSSWORD_MODE && <details className="party-stage-library"><summary>独立曲库：曲名填字</summary><label className="multiplayer-label">选择填字曲库<select value={stage.selection?.presetId ?? 'all'} onChange={(event) => updateStage(mode, (item) => ({ ...item, selection: { kind: 'preset', presetId: event.target.value } }))}>{crosswordPresets.map((item) => <option key={item.id} value={item.id}>{item.name} · {item.titles.length} 首</option>)}</select></label></details>}
+          {mode === CROSSWORD_MODE && <p className="party-stage-library-note">曲名填字跟随主曲库；加入后主曲库仅可选全曲库、禾念系、五维介质系。</p>}
           {mode === MUSIC_GUESS_MODE && <details className="party-stage-library"><summary>独立曲库：听歌识曲</summary><MusicGuessLibraryScope partyScoped playlistIds={stage.selection?.musicPlaylistIds ?? ['all']} setPlaylistIds={(updater) => updateStage(mode, (item) => { const current = item.selection?.musicPlaylistIds ?? ['all']; const next = typeof updater === 'function' ? updater(current) : updater; return { ...item, selection: { kind: 'music-playlists', musicPlaylistIds: next } }; })} /></details>}
         </>}
       </article>;
@@ -271,8 +269,10 @@ function NewCreateRoom({ initialMode = PARTY_MODE, nickname, songs, presets, pro
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const crosswordModeSelected = selectedMode === CROSSWORD_MODE;
-  const availablePresets = useMemo(() => crosswordModeSelected ? presets.filter((item) => CROSSWORD_LIBRARY_PRESET_IDS.includes(item.id)) : presets, [crosswordModeSelected, presets]);
-  const effectiveKind = crosswordModeSelected ? 'preset' : kind;
+  const crosswordInParty = selectedMode === PARTY_MODE && partyStages.some(({ mode }) => mode === CROSSWORD_MODE);
+  const crosswordLibraryLocked = crosswordModeSelected || crosswordInParty;
+  const availablePresets = useMemo(() => crosswordLibraryLocked ? presets.filter((item) => CROSSWORD_LIBRARY_PRESET_IDS.includes(item.id)) : presets, [crosswordLibraryLocked, presets]);
+  const effectiveKind = crosswordLibraryLocked ? 'preset' : kind;
   const effectivePresetId = availablePresets.some((item) => item.id === presetId) ? presetId : availablePresets[0]?.id;
   const preset = availablePresets.find((item) => item.id === effectivePresetId);
   const selectedSongs = useMemo(() => effectiveKind === 'custom' ? filterSongs(songs, filters) : songsForPreset(songs, preset), [effectiveKind, filters, songs, preset]);
@@ -299,8 +299,8 @@ function NewCreateRoom({ initialMode = PARTY_MODE, nickname, songs, presets, pro
         <div className="single-mode-grid">{PARTY_MODE_OPTIONS.map((mode) => <button key={mode} type="button" className={selectedMode === mode ? 'selected' : ''} onClick={() => chooseMode(mode)}><b>{MODE_LABELS[mode]}</b><small>{mode === PRODUCER_MODE ? '仅名 P 资料库' : mode === MUSIC_GUESS_MODE ? '共享片段与选项' : '可调整轮次与曲库'}</small></button>)}</div>
       </div></fieldset>
       <fieldset><legend>2. 房间人数</legend><div className="filter-options">{[2, 3, 4].map((value) => <Toggle key={value} pressed={capacity === value} onClick={() => { setCapacity(value); setRoundCount(allowedRoundCounts(value, selectedMode)[0] ?? 1); }}>{value} 人</Toggle>)}</div><p className="field-help">房主可以少人直接开局，人数上限仍为 4 人。</p></fieldset>
-      {selectedMode === PARTY_MODE ? <fieldset><legend>3. 派对赛程</legend><PartyStageEditor stages={partyStages} setStages={setPartyStages} songs={songs} presets={presets} /></fieldset> : <fieldset><legend>3. 对局轮数</legend><div className="filter-options">{allowedRoundCounts(capacity, selectedMode).map((value) => <Toggle key={value} pressed={roundCount === value} onClick={() => setRoundCount(value)}>{value} {selectedMode === SENIORITY_MODE ? '题' : selectedMode === CROSSWORD_MODE ? '盘' : '轮'}</Toggle>)}</div></fieldset>}
-      {selectedMode === PRODUCER_MODE ? <div className="multiplayer-fixed-database"><strong>猜 P 主资料库</strong><span>特殊标注：仅名 P。房间其他规则仍可调整。</span></div> : selectedMode === MUSIC_GUESS_MODE ? <MusicGuessLibraryScope playlistIds={musicPlaylistIds} setPlaylistIds={setMusicPlaylistIds} /> : <LibraryScope songs={songs} presets={availablePresets} kind={effectiveKind} setKind={setKind} presetId={effectivePresetId} setPresetId={setPresetId} filters={filters} setFilters={setFilters} forcePreset={crosswordModeSelected} />}
+      {selectedMode === PARTY_MODE ? <fieldset><legend>3. 派对赛程</legend><PartyStageEditor stages={partyStages} setStages={setPartyStages} /></fieldset> : <fieldset><legend>3. 对局轮数</legend><div className="filter-options">{allowedRoundCounts(capacity, selectedMode).map((value) => <Toggle key={value} pressed={roundCount === value} onClick={() => setRoundCount(value)}>{value} {selectedMode === SENIORITY_MODE ? '题' : selectedMode === CROSSWORD_MODE ? '盘' : '轮'}</Toggle>)}</div></fieldset>}
+      {selectedMode === PRODUCER_MODE ? <div className="multiplayer-fixed-database"><strong>猜 P 主资料库</strong><span>特殊标注：仅名 P。房间其他规则仍可调整。</span></div> : selectedMode === MUSIC_GUESS_MODE ? <MusicGuessLibraryScope playlistIds={musicPlaylistIds} setPlaylistIds={setMusicPlaylistIds} /> : <LibraryScope songs={songs} presets={availablePresets} kind={effectiveKind} setKind={setKind} presetId={effectivePresetId} setPresetId={setPresetId} filters={filters} setFilters={setFilters} forcePreset={crosswordLibraryLocked} />}
       <div className="create-room-summary"><strong>{modeName} · {capacity} 人 · {selectedMode === PARTY_MODE ? partyStageTotalRounds(partyStages) + ' 轮' : roundCount + ' ' + (selectedMode === SENIORITY_MODE ? '题' : selectedMode === CROSSWORD_MODE ? '盘' : '轮')}</strong><span>{selectedCount} {selectedMode === MUSIC_GUESS_MODE ? '个可用片段' : selectedMode === PRODUCER_MODE ? '位名 P' : '首候选曲'}{modeSongsMinimum > selectedCount ? ' · 还需要至少 ' + modeSongsMinimum + ' 个' : ''}</span></div>
       <button type="button" className="primary-button" disabled={busy || (selectedMode === PARTY_MODE && partyStages.length < PARTY_MIN_STAGE_COUNT) || selectedCount < modeSongsMinimum} onClick={submit}>{busy ? '正在创建…' : '创建房间'}</button><p className="multiplayer-error" role="alert">{error}</p>
     </section>
@@ -319,8 +319,10 @@ function RoomRuleEditor({ room, songs, presets, onSave }) {
   const [open, setOpen] = useState(false);
   const chooseMode = (nextMode) => { setMode(nextMode); setRoundCount(allowedRoundCounts(capacity, nextMode)[0] ?? 1); };
   const crosswordModeSelected = mode === CROSSWORD_MODE;
-  const availablePresets = useMemo(() => crosswordModeSelected ? presets.filter((item) => CROSSWORD_LIBRARY_PRESET_IDS.includes(item.id)) : presets, [crosswordModeSelected, presets]);
-  const effectiveKind = crosswordModeSelected ? 'preset' : kind;
+  const crosswordInParty = mode === PARTY_MODE && stages.some(({ mode: stageMode }) => stageMode === CROSSWORD_MODE);
+  const crosswordLibraryLocked = crosswordModeSelected || crosswordInParty;
+  const availablePresets = useMemo(() => crosswordLibraryLocked ? presets.filter((item) => CROSSWORD_LIBRARY_PRESET_IDS.includes(item.id)) : presets, [crosswordLibraryLocked, presets]);
+  const effectiveKind = crosswordLibraryLocked ? 'preset' : kind;
   const effectivePresetId = availablePresets.some((item) => item.id === presetId) ? presetId : availablePresets[0]?.id;
   const selection = effectiveKind === 'preset' ? { kind: 'preset', presetId: effectivePresetId } : { kind: 'custom', filters };
   if (mode === MUSIC_GUESS_MODE) selection.musicPlaylistIds = musicPlaylistIds;
@@ -329,8 +331,8 @@ function RoomRuleEditor({ room, songs, presets, onSave }) {
     {open && <div className="room-rule-editor-body">
       <div className="single-mode-grid"><button type="button" className={mode === PARTY_MODE ? 'selected' : ''} onClick={() => chooseMode(PARTY_MODE)}><b>派对模式</b><small>至少三个玩法</small></button>{PARTY_MODE_OPTIONS.map((item) => <button key={item} type="button" className={mode === item ? 'selected' : ''} onClick={() => chooseMode(item)}><b>{MODE_LABELS[item]}</b><small>单个玩法</small></button>)}</div>
       <div className="filter-options">{[2, 3, 4].map((value) => <Toggle key={value} pressed={capacity === value} disabled={value < room.players.length} onClick={() => { setCapacity(value); setRoundCount(allowedRoundCounts(value, mode)[0] ?? 1); }} >{value} 人</Toggle>)}</div>
-      {mode === PARTY_MODE ? <PartyStageEditor stages={stages} setStages={setStages} songs={songs} presets={presets} /> : <div className="filter-options">{allowedRoundCounts(capacity, mode).map((value) => <Toggle key={value} pressed={roundCount === value} onClick={() => setRoundCount(value)}>{value} 轮</Toggle>)}</div>}
-      {mode === PRODUCER_MODE ? <div className="multiplayer-fixed-database">特殊标注：仅名 P；使用对应的本地资料库。</div> : mode === MUSIC_GUESS_MODE ? <MusicGuessLibraryScope playlistIds={musicPlaylistIds} setPlaylistIds={setMusicPlaylistIds} /> : <LibraryScope songs={songs} presets={availablePresets} kind={effectiveKind} setKind={setKind} presetId={effectivePresetId} setPresetId={setPresetId} filters={filters} setFilters={setFilters} forcePreset={crosswordModeSelected} />}
+      {mode === PARTY_MODE ? <PartyStageEditor stages={stages} setStages={setStages} /> : <div className="filter-options">{allowedRoundCounts(capacity, mode).map((value) => <Toggle key={value} pressed={roundCount === value} onClick={() => setRoundCount(value)}>{value} 轮</Toggle>)}</div>}
+      {mode === PRODUCER_MODE ? <div className="multiplayer-fixed-database">特殊标注：仅名 P；使用对应的本地资料库。</div> : mode === MUSIC_GUESS_MODE ? <MusicGuessLibraryScope playlistIds={musicPlaylistIds} setPlaylistIds={setMusicPlaylistIds} /> : <LibraryScope songs={songs} presets={availablePresets} kind={effectiveKind} setKind={setKind} presetId={effectivePresetId} setPresetId={setPresetId} filters={filters} setFilters={setFilters} forcePreset={crosswordLibraryLocked} />}
       <button type="button" className="primary-button" onClick={() => onSave({ mode, capacity, roundCount: mode === PARTY_MODE ? partyStageTotalRounds(stages) : roundCount, stages: mode === PARTY_MODE ? stages : null, selection })}>保存房间规则</button>
     </div>}
   </section>;

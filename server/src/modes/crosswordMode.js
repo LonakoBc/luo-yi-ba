@@ -140,7 +140,7 @@ export class CrosswordMode {
 
   async startRound() {
     const stage = this.room.mode === 'party' ? this.room.stages?.[this.room.partyStageIndex] : null;
-    const stagePool = stage?.selection ? selectPool(stage.selection) : null;
+    const stagePool = stage?.mode !== CROSSWORD_MODE && stage?.selection ? selectPool(stage.selection) : null;
     const songs = (stagePool?.songs ?? this.room.poolSongIds.map((id) => songsById.get(id))).filter(Boolean);
     let puzzle;
     try { puzzle = generateCrossword(songs, { entryCount: CROSSWORD_ENTRY_COUNT, random }); }
@@ -181,8 +181,14 @@ export class CrosswordMode {
       crosswordWrongCount: result.wrongCount,
       crosswordAttempts: (player.crosswordAttempts ?? 0) + 1,
     });
-    await this.session.save();
-    this.session.broadcast();
+    const everyoneSolved = this.room.players.every((item) => item.id === player.id
+      ? result.solvedCount >= CROSSWORD_ENTRY_COUNT
+      : (item.crosswordSolvedCount ?? 0) >= CROSSWORD_ENTRY_COUNT);
+    if (everyoneSolved) await this.revealRound();
+    else {
+      await this.session.save();
+      this.session.broadcast();
+    }
   }
 
   async revealRound() {

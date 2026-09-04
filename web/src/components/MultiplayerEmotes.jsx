@@ -57,10 +57,28 @@ export function MultiplayerEmotePopups({ popups, players, selfId }) {
 
 export function MultiplayerEmotePicker({ disabled, onSend }) {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
   const scrollRef = useRef(null);
   const paginationTimerRef = useRef(null);
+  const dragRef = useRef(null);
+  const startDrag = (event) => {
+    if (event.target.closest('button') || (event.button !== undefined && event.button !== 0)) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, x: position.x, y: position.y };
+  };
+  const moveDrag = (event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    setPosition({ x: drag.x + event.clientX - drag.startX, y: drag.y + event.clientY - drag.startY });
+  };
+  const endDrag = (event) => {
+    if (dragRef.current?.pointerId !== event.pointerId) return;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    dragRef.current = null;
+  };
   const syncPagination = () => {
     const element = scrollRef.current;
     if (!element) return;
@@ -96,8 +114,8 @@ export function MultiplayerEmotePicker({ disabled, onSend }) {
     element.scrollTo({ left, behavior: 'smooth' });
   };
   return <div className={`multiplayer-emote-picker ${open ? 'open' : ''}`}>
-    {open && <section className="multiplayer-emote-panel" aria-label="联机表情">
-      <header><div><strong>发送表情</strong><small>28 张 · 房间内所有玩家可见</small></div><button type="button" aria-label="关闭表情面板" onClick={() => setOpen(false)}>×</button></header>
+    {open && <section className="multiplayer-emote-panel" aria-label="联机表情" style={{ '--emote-offset-x': `${position.x}px`, '--emote-offset-y': `${position.y}px` }}>
+      <header onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}><div><strong>发送表情</strong><small>28 张 · 房间内所有玩家可见 · 拖动此处移动卡片</small></div><button type="button" aria-label="关闭表情面板" onClick={() => setOpen(false)}>×</button></header>
       <div className="multiplayer-emote-scroll" ref={scrollRef} onScroll={handleScroll}>
         <div className="multiplayer-emote-grid">{MULTIPLAYER_EMOTES.map((emote) => <button key={emote.id} type="button" disabled={disabled} onClick={() => { onSend(emote.id); setOpen(false); }} aria-label={`发送${emote.singer}${emote.label}表情`}>
           <img src={multiplayerEmoteImage(emote.id)} alt="" /><span>{emote.label}</span><small>{emote.singer}</small>

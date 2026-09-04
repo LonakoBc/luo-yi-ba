@@ -24,13 +24,13 @@ function AnswerRow({ answer, hintLevel, yearDebutRevealed, finished }) {
   );
 }
 
-export default function ProducerTable({ answer, guesses, hintLevel, yearDebutRevealed, finished }) {
+export default function ProducerTable({ answer, guesses, hintLevel, yearDebutRevealed, finished, showAnswer = true }) {
   return (
     <section className="table-wrap producer-table-wrap" aria-label="P 主猜测记录">
       <table className="producer-table">
         <thead><tr><th>P 主</th><th>初投稿年份</th><th>出道曲</th><th>殿堂及以上</th><th>传说</th><th>神话</th><th>代表曲</th></tr></thead>
         <tbody>
-          <AnswerRow answer={answer} hintLevel={hintLevel} yearDebutRevealed={yearDebutRevealed} finished={finished} />
+          {showAnswer && <AnswerRow answer={answer} hintLevel={hintLevel} yearDebutRevealed={yearDebutRevealed} finished={finished} />}
           {guesses.map(({ producer, feedback }) => (
             <tr key={producer.id} className="guess-row">
               <td data-label="P 主"><span className={`producer-scalar feedback-${feedback.name?.state ?? 'miss'}`}>{producer.name}</span></td>

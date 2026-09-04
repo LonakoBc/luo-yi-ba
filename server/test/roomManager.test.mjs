@@ -343,12 +343,12 @@ test('rejects combining a music preset with singer playlists in a party stage', 
   }
 });
 
-test('keeps the party main pool independent from the crossword stage pool', async () => {
+test('restricts the party main pool when crossword is included', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
   const manager = new RoomManager({ dataDirectory: directory });
   await manager.initialize();
   try {
-    const result = manager.validateCreate({
+    assert.throws(() => manager.validateCreate({
       mode: 'party', nickname: '房主', capacity: 2, roundCount: 3,
       selection: { kind: 'preset', presetId: 'luotianyi' },
       stages: [
@@ -357,10 +357,60 @@ test('keeps the party main pool independent from the crossword stage pool', asyn
         { mode: 'crossword', roundCount: 1, selection: { kind: 'preset', presetId: 'henian' } },
       ],
       catalogVersion,
+    }), /曲名填字仅支持全曲库、禾念系和五维介质系/u);
+
+    const result = manager.validateCreate({
+      mode: 'party', nickname: '房主', capacity: 2, roundCount: 3,
+      selection: { kind: 'preset', presetId: 'henian' },
+      stages: [
+        { mode: 'guess-song', roundCount: 1 },
+        { mode: 'seniority', roundCount: 1 },
+        { mode: 'crossword', roundCount: 1, selection: { kind: 'preset', presetId: 'medium5' } },
+      ],
+      catalogVersion,
     });
-    assert.equal(result.selection.presetId, 'luotianyi');
-    assert.equal(result.stages.find(({ mode }) => mode === 'crossword').selection.presetId, 'henian');
+    assert.equal(result.selection.presetId, 'henian');
+    assert.equal('selection' in result.stages.find(({ mode }) => mode === 'crossword'), false);
   } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('settles a crossword round immediately after every player completes it', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
+  const manager = new RoomManager({ dataDirectory: directory, onError: (error) => { throw error; } });
+  await manager.initialize();
+  let code;
+  try {
+    const creator = await manager.create(manager.validateCreate({
+      mode: 'crossword', nickname: '填字玩家一', capacity: 2, roundCount: 1,
+      selection: { kind: 'preset', presetId: 'all' }, catalogVersion,
+    }));
+    code = creator.code;
+    const session = manager.get(code);
+    const joiner = await session.run(() => session.join({ nickname: '填字玩家二' }));
+    const firstSocket = new MockSocket();
+    const secondSocket = new MockSocket();
+    await session.run(() => session.connect(creator.resumeToken, firstSocket));
+    await session.run(() => session.connect(joiner.resumeToken, secondSocket));
+    await session.run(() => session.command(firstSocket, { type: 'start_match' }));
+    const tileQueues = new Map();
+    session.room.crosswordCharacterBank.forEach((tile) => {
+      const queue = tileQueues.get(tile.character) ?? [];
+      queue.push(tile.id);
+      tileQueues.set(tile.character, queue);
+    });
+    const assignments = Object.fromEntries(session.room.crosswordPuzzle.cells.filter(({ isFixed }) => !isFixed).map((cell) => {
+      const queue = tileQueues.get(cell.character);
+      return [cell.row + ',' + cell.column, queue.shift()];
+    }));
+    await session.run(() => session.command(firstSocket, { type: 'update_crossword_assignments', assignments }));
+    assert.equal(session.room.phase, 'playing');
+    await session.run(() => session.command(secondSocket, { type: 'update_crossword_assignments', assignments }));
+    assert.equal(session.room.phase, 'round-result');
+    assert.deepEqual(session.room.players.map(({ roundScore }) => roundScore), [5, 5]);
+  } finally {
+    if (code) await manager.delete(code);
     await rm(directory, { recursive: true, force: true });
   }
 });

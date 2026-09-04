@@ -3,10 +3,11 @@
 .multiplayer-emote-trigger:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(70,77,164,.35); }
 .multiplayer-emote-trigger:disabled { cursor: not-allowed; opacity: .55; }
 .multiplayer-emote-trigger span { font-size: 24px; line-height: 1; }.multiplayer-emote-trigger b { font-size: 12px; }
-.multiplayer-emote-panel { width: min(780px,calc(100vw - 36px)); padding: 14px; border: 1px solid rgba(119,98,220,.22); border-radius: 22px; background: rgba(251,253,255,.97); box-shadow: 0 24px 70px rgba(45,55,119,.25); backdrop-filter: blur(18px); }
-.multiplayer-emote-panel > header { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 11px; padding: 0 2px; }
+.multiplayer-emote-panel { width: min(780px,calc(100vw - 36px)); padding: 14px; border: 1px solid rgba(119,98,220,.22); border-radius: 22px; background: rgba(251,253,255,.97); box-shadow: 0 24px 70px rgba(45,55,119,.25); backdrop-filter: blur(18px); transform: translate(var(--emote-offset-x,0px),var(--emote-offset-y,0px)); will-change: transform; }
+.multiplayer-emote-panel > header { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 11px; padding: 0 2px; cursor: grab; touch-action: none; user-select: none; }
+.multiplayer-emote-panel > header:active { cursor: grabbing; }
 .multiplayer-emote-panel > header div { display: grid; gap: 2px; }.multiplayer-emote-panel > header strong { color: #283d55; font-size: 15px; }.multiplayer-emote-panel > header small { color: #70879a; font-size: 9px; }
-.multiplayer-emote-panel > header button { width: 30px; height: 30px; border: 0; border-radius: 50%; color: #65788a; background: #edf4f8; cursor: pointer; font-size: 20px; }
+.multiplayer-emote-panel > header button { width: 30px; height: 30px; border: 0; border-radius: 50%; color: #65788a; background: #edf4f8; cursor: pointer; font-size: 20px; touch-action: manipulation; }
 .multiplayer-emote-scroll { max-width: 100%; overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-color: #a8cce2 transparent; scrollbar-width: thin; }
 .multiplayer-emote-scroll::-webkit-scrollbar { height: 6px; }.multiplayer-emote-scroll::-webkit-scrollbar-thumb { border-radius: 999px; background: #a8cce2; }.multiplayer-emote-scroll::-webkit-scrollbar-track { background: transparent; }
 .multiplayer-emote-grid { display: grid; grid-auto-columns: calc((100% - 40px)/6); grid-auto-flow: column; grid-template-rows: repeat(2,auto); gap: 8px; min-width: 100%; padding-bottom: 5px; }

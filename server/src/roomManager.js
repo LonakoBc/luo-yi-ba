@@ -347,17 +347,14 @@ export class RoomManager {
     const pool = selectPool(body?.selection);
     const partyError = mode === PARTY_MODE ? validatePartyStages(stages) : null;
     const partyStages = stages ?? [];
-    // A party's main selection belongs to the shared song modes. Crossword
-    // keeps its own stage selection and must not validate against this pool.
-    const crosswordSelectionValid = mode !== CROSSWORD_MODE
+    const partyHasCrossword = mode === PARTY_MODE && partyStages.some(({ mode: stageMode }) => stageMode === CROSSWORD_MODE);
+    const crosswordSelectionValid = mode !== CROSSWORD_MODE && !partyHasCrossword
       || (body?.selection?.kind === 'preset' && CROSSWORD_LIBRARY_PRESET_IDS.includes(body.selection.presetId));
     const partyStageSelectionError = mode !== PARTY_MODE ? null : partyStages.map((stage) => {
-      if (!stage.selection) return null;
       if (stage.mode === CROSSWORD_MODE) {
-        if (stage.selection.kind !== 'preset' || !CROSSWORD_LIBRARY_PRESET_IDS.includes(stage.selection.presetId)) return '派对中的曲名填字仅支持全曲库、禾念系和五维介质系';
-        const stagePool = selectPool(stage.selection);
-        return !stagePool || stagePool.songs.length < CROSSWORD_ENTRY_COUNT ? '派对中的曲名填字曲库至少需要六首歌曲' : null;
+        return !pool || pool.songs.length < CROSSWORD_ENTRY_COUNT ? '派对中的曲名填字曲库至少需要六首歌曲' : null;
       }
+      if (!stage.selection) return null;
       if (stage.mode === MUSIC_GUESS_MODE) {
         const playlistIds = stage.selection.musicPlaylistIds;
         if (stage.selection.kind !== 'music-playlists' || !Array.isArray(playlistIds) || !playlistIds.length) return '派对中的听歌识曲至少需要选择一个本地歌单';
@@ -407,7 +404,7 @@ export class RoomManager {
     return {
       mode, nickname, capacity: body.capacity,
       roundCount: mode === PARTY_MODE ? partyStageTotalRounds(stages) : body.roundCount,
-      stages: mode === PARTY_MODE ? stages.map(({ mode: stageMode, roundCount, selection }) => ({ mode: stageMode, roundCount: Number(roundCount), ...(selection ? { selection } : {}) })) : null,
+      stages: mode === PARTY_MODE ? stages.map(({ mode: stageMode, roundCount, selection }) => ({ mode: stageMode, roundCount: Number(roundCount), ...((stageMode !== CROSSWORD_MODE && selection) ? { selection } : {}) })) : null,
       selection: body.selection, poolName: pool.name, poolSongIds: modeSongs.map(({ id }) => id),
     };
   }

@@ -10,7 +10,12 @@ const songs = [
   { id: 'b', title: '乙曲', releaseMonth: '2021-01', staffPeople: ['乙'], staffDisplay: '作曲：乙', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], concertCount: 0, special: '单曲', lyrics: '乙歌词', sourceLibraries: [{ id: 'luotianyi', name: '洛天依' }] },
   { id: 'c', title: '丙曲', releaseMonth: '2022-01', staffPeople: ['丙'], staffDisplay: '作曲：丙', singerMembers: ['洛天依'], singersDisplay: '洛天依', voicebankMembers: ['VOCALOID'], concertCount: 0, special: '单曲', lyrics: '丙歌词', sourceLibraries: [{ id: 'luotianyi', name: '洛天依' }] },
 ];
-const presets = [{ id: 'all', name: '全曲库', description: '全部', titles: songs.map(({ title }) => title) }];
+const presets = [
+  { id: 'all', name: '全曲库', description: '全部', titles: songs.map(({ title }) => title) },
+  { id: 'henian', name: '禾念系', description: '禾念', titles: songs.map(({ title }) => title) },
+  { id: 'medium5', name: '五维介质系', description: '五维', titles: songs.map(({ title }) => title) },
+  { id: 'luotianyi', name: '洛天依经典曲目', description: '洛天依', titles: songs.map(({ title }) => title) },
+];
 
 afterEach(() => localStorage.clear());
 
@@ -131,6 +136,17 @@ it('派对听歌识曲曲库将预设与歌姬选择分组并互斥', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Vsinger 曲库' }));
   expect(screen.getByRole('button', { name: 'Vsinger 曲库' })).toHaveAttribute('aria-pressed', 'true');
   expect(singer).toHaveAttribute('aria-pressed', 'false');
+});
+
+it('派对加入曲名填字后主曲库仅保留三种填字预设且不再显示独立曲库', () => {
+  render(<MultiplayerPage view="create" mode="party" songs={songs} presets={presets} onNavigate={vi.fn()} onBack={vi.fn()} />);
+  const stageButton = screen.getAllByRole('button').find((button) => button.className.includes('party-stage-toggle') && button.textContent.includes('曲名填字'));
+  fireEvent.click(stageButton);
+  expect(screen.getByText(/曲名填字跟随主曲库/u)).toBeVisible();
+  expect(screen.queryByText('独立曲库：曲名填字')).not.toBeInTheDocument();
+  expect(screen.queryByText('自定义筛选')).not.toBeInTheDocument();
+  const select = screen.getByLabelText('选择预设');
+  expect([...select.options].map(({ value }) => value)).toEqual(['all', 'henian', 'medium5']);
 });
 
 it('单模式听歌识曲仍允许按原规则组合曲库', () => {
