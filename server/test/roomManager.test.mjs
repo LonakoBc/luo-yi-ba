@@ -343,6 +343,28 @@ test('rejects combining a music preset with singer playlists in a party stage', 
   }
 });
 
+test('keeps the party main pool independent from the crossword stage pool', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
+  const manager = new RoomManager({ dataDirectory: directory });
+  await manager.initialize();
+  try {
+    const result = manager.validateCreate({
+      mode: 'party', nickname: '房主', capacity: 2, roundCount: 3,
+      selection: { kind: 'preset', presetId: 'luotianyi' },
+      stages: [
+        { mode: 'guess-song', roundCount: 1 },
+        { mode: 'seniority', roundCount: 1 },
+        { mode: 'crossword', roundCount: 1, selection: { kind: 'preset', presetId: 'henian' } },
+      ],
+      catalogVersion,
+    });
+    assert.equal(result.selection.presetId, 'luotianyi');
+    assert.equal(result.stages.find(({ mode }) => mode === 'crossword').selection.presetId, 'henian');
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
 test('runs a famous-producer match through a wrong guess and a correct guess without projection errors', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
   const manager = new RoomManager({ dataDirectory: directory, onError: (error) => { throw error; } });

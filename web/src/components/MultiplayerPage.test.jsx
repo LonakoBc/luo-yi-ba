@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
-import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset } from './MultiplayerPage';
+import MultiplayerPage, { CelebrationConfetti, GuessFeedbackTable, MultiplayerRoundResultDialog, PlayerCard, PlayerColorMarker, PlayerColorPicker, serverClockOffset, songGuessIds } from './MultiplayerPage';
 import MultiplayerSeniorityGame from './MultiplayerSeniorityGame';
 import MultiplayerSortingGame from './MultiplayerSortingGame';
 import { MultiplayerEmotePicker, MultiplayerEmotePopups } from './MultiplayerEmotes';
@@ -108,6 +108,12 @@ it('等待阶段的颜色选择默认折叠，点击摘要后展开', () => {
   expect(picker).not.toHaveAttribute('open');
   fireEvent.click(screen.getByText('选择你的玩家颜色'));
   expect(picker).toHaveAttribute('open');
+});
+
+it('派对猜P主的猜测结构不会被当作歌曲读取', () => {
+  const ids = songGuessIds({ guesses: [{ producer: { id: 'producer-1' }, feedback: {} }] });
+  expect([...ids]).toEqual([]);
+  expect([...songGuessIds({ guesses: [{ song: { id: 'song-1' } }] })]).toEqual(['song-1']);
 });
 
 it('派对听歌识曲曲库将预设与歌姬选择分组并互斥', () => {

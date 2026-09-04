@@ -276,7 +276,8 @@ function NewCreateRoom({ initialMode = PARTY_MODE, nickname, songs, presets, pro
   const effectivePresetId = availablePresets.some((item) => item.id === presetId) ? presetId : availablePresets[0]?.id;
   const preset = availablePresets.find((item) => item.id === effectivePresetId);
   const selectedSongs = useMemo(() => effectiveKind === 'custom' ? filterSongs(songs, filters) : songsForPreset(songs, preset), [effectiveKind, filters, songs, preset]);
-  const modeSongsMinimum = selectedMode === MUSIC_GUESS_MODE ? 4 : selectedMode === PARTY_MODE ? Math.max(...partyStages.map(({ mode, roundCount: count }) => minimumSongsForMode(mode, count)), 0) : minimumSongsForMode(selectedMode, roundCount);
+  const sharedPartyStages = partyStages.filter(({ mode }) => [GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE].includes(mode));
+  const modeSongsMinimum = selectedMode === MUSIC_GUESS_MODE ? 4 : selectedMode === PARTY_MODE ? Math.max(...sharedPartyStages.map(({ mode, roundCount: count }) => minimumSongsForMode(mode, count)), 0) : minimumSongsForMode(selectedMode, roundCount);
   const famousProducerCount = producers?.filter((producer) => producer.famous).length ?? 0;
   const selectedMusicPlaylist = getMusicGuessPlaylist(musicPlaylistIds.length === 1 ? musicPlaylistIds[0] : 'custom', musicPlaylistIds);
   const selectedCount = selectedMode === MUSIC_GUESS_MODE ? getMusicGuessPlaylistCount(selectedMusicPlaylist) : selectedMode === PRODUCER_MODE ? famousProducerCount : selectedSongs.length;
@@ -346,6 +347,10 @@ function formatTime(ms) {
 
 export function serverClockOffset(serverNow, receivedAt = Date.now()) {
   return Number.isFinite(serverNow) ? serverNow - receivedAt : 0;
+}
+
+export function songGuessIds(player) {
+  return new Set((player?.guesses ?? []).map((guess) => guess?.song?.id).filter(Boolean));
 }
 
 function playerColorMeta(player) {
@@ -502,7 +507,7 @@ function Room({ code, songs, presets, producers, onExit }) {
   }, [room?.selection, songs, presets]);
   const famousProducers = useMemo(() => (Array.isArray(producers) ? producers.filter((producer) => producer.famous) : []), [producers]);
   const service = useMemo(() => createLocalGameService(roomSongs.length ? roomSongs : songs), [roomSongs, songs]);
-  const guessedIds = useMemo(() => new Set(self?.guesses?.map((guess) => guess.song.id) ?? []), [self]);
+  const guessedIds = useMemo(() => songGuessIds(self), [self]);
   const countdown = room?.phase === 'playing' ? room.endsAt - now : room?.phase === 'round-result' ? room.nextRoundAt - now : 0;
   useEffect(() => {
     if (room?.phase !== 'playing' || !room.endsAt || now < room.endsAt + 500) return;

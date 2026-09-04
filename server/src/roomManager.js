@@ -347,9 +347,9 @@ export class RoomManager {
     const pool = selectPool(body?.selection);
     const partyError = mode === PARTY_MODE ? validatePartyStages(stages) : null;
     const partyStages = stages ?? [];
-    const crosswordSelected = mode === CROSSWORD_MODE
-      || (mode === PARTY_MODE && partyStages.some(({ mode: stageMode }) => stageMode === CROSSWORD_MODE));
-    const crosswordSelectionValid = !crosswordSelected
+    // A party's main selection belongs to the shared song modes. Crossword
+    // keeps its own stage selection and must not validate against this pool.
+    const crosswordSelectionValid = mode !== CROSSWORD_MODE
       || (body?.selection?.kind === 'preset' && CROSSWORD_LIBRARY_PRESET_IDS.includes(body.selection.presetId));
     const partyStageSelectionError = mode !== PARTY_MODE ? null : partyStages.map((stage) => {
       if (!stage.selection) return null;
@@ -384,8 +384,11 @@ export class RoomManager {
       ? sortableSongCapacity >= body.roundCount * 5
       : mode !== PARTY_MODE || partySortingRounds === 0 || partySortableSongCapacity >= partySortingRounds * 5;
     const hasTriathlonDates = mode !== TRIATHLON_MODE || new Set(modeSongs?.map(({ releaseMonth }) => releaseMonth)).size >= 5;
+    const sharedPartyStages = mode === PARTY_MODE
+      ? partyStages.filter(({ mode: stageMode }) => [GUESS_SONG_MODE, SENIORITY_MODE, SORTING_MODE].includes(stageMode))
+      : [];
     const minimumPartySongs = mode === PARTY_MODE
-      ? Math.max(...partyStages.map(({ mode: stageMode, roundCount }) => minimumSongsForMode(stageMode, roundCount)), 0)
+      ? Math.max(...sharedPartyStages.map(({ mode: stageMode, roundCount }) => minimumSongsForMode(stageMode, roundCount)), 0)
       : 0;
     const error = !nickname ? '昵称须为 1–12 个字符'
       : body?.catalogVersion !== catalogVersion ? '题库版本已更新，请刷新页面'
