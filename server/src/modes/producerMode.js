@@ -102,6 +102,7 @@ export class ProducerMode {
     if (!guess) return this.session.sendError(socket, 'P 主选择无效');
     if ((player.producerGuesses ?? []).some((entry) => entry.producer.id === guess.id)) return this.session.sendError(socket, '这位 P 主已经猜过了');
     const answer = FAMOUS_PRODUCERS.find((producer) => producer.id === this.room.producerAnswerId);
+    if (!answer) return this.session.sendError(socket, '本轮答案无效，请重新开始');
     const feedback = evaluateProducerGuess(answer, guess);
     const correctCount = this.room.players.filter((item) => item.roundScore > 0).length;
     const points = feedback.isCorrect ? (SCORE_BY_PLACE[correctCount] ?? 0) : 0;

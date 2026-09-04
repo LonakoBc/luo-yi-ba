@@ -13,6 +13,8 @@ import { isMultiplayerEmoteId, MULTIPLAYER_EMOTE_COOLDOWN_MS } from '../../web/s
 
 export { catalogVersion } from './catalog.js';
 
+const MUSIC_GUESS_PRESET_IDS = new Set(['vsinger', 'five-dimension', 'wangchuan', 'all']);
+
 function randomString(length, alphabet = ROOM_CODE_ALPHABET) {
   const bytes = crypto.randomBytes(length);
   return [...bytes].map((value) => alphabet[value % alphabet.length]).join('');
@@ -356,7 +358,11 @@ export class RoomManager {
         const stagePool = selectPool(stage.selection);
         return !stagePool || stagePool.songs.length < CROSSWORD_ENTRY_COUNT ? '派对中的曲名填字曲库至少需要六首歌曲' : null;
       }
-      if (stage.mode === MUSIC_GUESS_MODE && (stage.selection.kind !== 'music-playlists' || !Array.isArray(stage.selection.musicPlaylistIds) || !stage.selection.musicPlaylistIds.length)) return '派对中的听歌识曲至少需要选择一个本地歌单';
+      if (stage.mode === MUSIC_GUESS_MODE) {
+        const playlistIds = stage.selection.musicPlaylistIds;
+        if (stage.selection.kind !== 'music-playlists' || !Array.isArray(playlistIds) || !playlistIds.length) return '派对中的听歌识曲至少需要选择一个本地歌单';
+        if (playlistIds.some((id) => MUSIC_GUESS_PRESET_IDS.has(id)) && playlistIds.length > 1) return '听歌识曲预设曲库不能和歌姬曲库组合';
+      }
       return null;
     }).find(Boolean) ?? null;
     const partyNeedsDates = mode === PARTY_MODE && partyStages.some(({ mode: stageMode }) => [SENIORITY_MODE, SORTING_MODE].includes(stageMode));

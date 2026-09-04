@@ -101,6 +101,39 @@ it('等待阶段可选择未占用歌姬色，实际色值相同时一起禁用'
   expect(onSelect).toHaveBeenCalledWith('chiyu');
 });
 
+it('等待阶段的颜色选择默认折叠，点击摘要后展开', () => {
+  const self = { id: 'p1', seatIndex: 0, colorId: 'luotianyi', color: { id: 'luotianyi', singerName: '洛天依', colorName: '天依蓝', color: '#66CCFF' } };
+  const { container } = render(<PlayerColorPicker room={{ players: [self] }} self={self} onSelect={vi.fn()} />);
+  const picker = container.querySelector('.player-color-picker');
+  expect(picker).not.toHaveAttribute('open');
+  fireEvent.click(screen.getByText('选择你的玩家颜色'));
+  expect(picker).toHaveAttribute('open');
+});
+
+it('派对听歌识曲曲库将预设与歌姬选择分组并互斥', () => {
+  render(<MultiplayerPage view="create" mode="party" songs={songs} presets={presets} onNavigate={vi.fn()} onBack={vi.fn()} />);
+  const stageButton = screen.getAllByRole('button').find((button) => button.className.includes('party-stage-toggle') && button.textContent.includes('听歌识曲'));
+  fireEvent.click(stageButton);
+  fireEvent.click(screen.getByText('独立曲库：听歌识曲'));
+  expect(screen.getByText('预设曲库（单选）')).toBeVisible();
+  expect(screen.getByText('歌姬曲库（可多选，取并集）')).toBeVisible();
+  const all = screen.getByRole('button', { name: '全曲库' });
+  const singer = screen.getByRole('button', { name: '洛天依' });
+  fireEvent.click(singer);
+  expect(singer).toHaveAttribute('aria-pressed', 'true');
+  expect(all).toHaveAttribute('aria-pressed', 'false');
+  fireEvent.click(screen.getByRole('button', { name: 'Vsinger 曲库' }));
+  expect(screen.getByRole('button', { name: 'Vsinger 曲库' })).toHaveAttribute('aria-pressed', 'true');
+  expect(singer).toHaveAttribute('aria-pressed', 'false');
+});
+
+it('单模式听歌识曲仍允许按原规则组合曲库', () => {
+  render(<MultiplayerPage view="create" mode="music-guess" songs={songs} presets={presets} onNavigate={vi.fn()} onBack={vi.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: '洛天依' }));
+  expect(screen.getByRole('button', { name: '全曲库' })).toHaveAttribute('aria-pressed', 'true');
+  expect(screen.getByRole('button', { name: '洛天依' })).toHaveAttribute('aria-pressed', 'true');
+});
+
 it('结算彩带持续生成多组动画碎片', () => {
   render(<CelebrationConfetti />);
   expect(document.querySelectorAll('.celebration-confetti i')).toHaveLength(54);

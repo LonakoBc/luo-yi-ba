@@ -6,7 +6,7 @@ function Scalar({ value, feedback }) {
   return <span className={`producer-scalar feedback-${feedback?.state ?? 'hidden'}`}>{value}<Arrow direction={feedback?.direction} /></span>;
 }
 
-function SongTokens({ songs, feedback = [], revealed = songs.map(() => true) }) {
+function SongTokens({ songs = [], feedback = [], revealed = songs.map(() => true) }) {
   return <div className="producer-song-tags">{songs.map((song, index) => <span key={`${song}-${index}`} className={`producer-song-tag ${feedback[index]?.matched ? 'matched' : ''} ${revealed[index] ? '' : 'concealed'}`}>{revealed[index] ? song : '隐藏曲目'}</span>)}</div>;
 }
 
@@ -33,9 +33,9 @@ export default function ProducerTable({ answer, guesses, hintLevel, yearDebutRev
           <AnswerRow answer={answer} hintLevel={hintLevel} yearDebutRevealed={yearDebutRevealed} finished={finished} />
           {guesses.map(({ producer, feedback }) => (
             <tr key={producer.id} className="guess-row">
-              <td data-label="P 主"><span className={`producer-scalar feedback-${feedback.name.state}`}>{producer.name}</span></td>
+              <td data-label="P 主"><span className={`producer-scalar feedback-${feedback.name?.state ?? 'miss'}`}>{producer.name}</span></td>
               <td data-label="初投稿年份"><Scalar value={producer.debutYear} feedback={feedback.debutYear} /></td>
-              <td data-label="出道曲"><span className={`producer-scalar feedback-${feedback.debutSong.state}`}>{producer.debutSong}</span></td>
+              <td data-label="出道曲"><span className={`producer-scalar feedback-${feedback.debutSong?.state ?? 'miss'}`}>{producer.debutSong}</span></td>
               <td data-label="殿堂及以上"><Scalar value={producer.hallCount} feedback={feedback.hallCount} /></td>
               <td data-label="传说"><Scalar value={producer.legendCount} feedback={feedback.legendCount} /></td>
               <td data-label="神话"><Scalar value={producer.mythCount} feedback={feedback.mythCount} /></td>

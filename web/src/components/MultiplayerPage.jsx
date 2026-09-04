@@ -159,15 +159,33 @@ function LibraryScope({ songs, presets, kind, setKind, presetId, setPresetId, fi
   </div>;
 }
 
-function MusicGuessLibraryScope({ playlistIds, setPlaylistIds }) {
-  const selectedPlaylist = getMusicGuessPlaylist(playlistIds.length === 1 ? playlistIds[0] : 'custom', playlistIds);
+function MusicGuessLibraryScope({ playlistIds, setPlaylistIds, partyScoped = false }) {
+  const selectedIds = Array.isArray(playlistIds) && playlistIds.length ? playlistIds : ['all'];
+  const selectedPlaylist = getMusicGuessPlaylist(selectedIds.length === 1 ? selectedIds[0] : 'custom', selectedIds);
   const count = getMusicGuessPlaylistCount(selectedPlaylist);
-  const toggle = (id) => setPlaylistIds((current) => current.includes(id)
-    ? current.length <= 1 ? current : current.filter((item) => item !== id)
-    : [...current, id]);
+  const presetIds = new Set(MUSIC_GUESS_GROUP_PLAYLISTS.map((playlist) => playlist.id));
+  const togglePlaylist = (id) => setPlaylistIds((current) => {
+    const currentIds = Array.isArray(current) && current.length ? current : ['all'];
+    return currentIds.includes(id)
+      ? currentIds.length <= 1 ? currentIds : currentIds.filter((item) => item !== id)
+      : [...currentIds, id];
+  });
+  const toggleSinger = (id) => setPlaylistIds((current) => {
+    const currentIds = Array.isArray(current) && current.length ? current : ['all'];
+    const next = currentIds.includes(id)
+      ? currentIds.filter((item) => item !== id)
+      : [...currentIds.filter((item) => !presetIds.has(item)), id];
+    return next.length ? next : ['all'];
+  });
+  const renderPlaylist = (playlist, onClick = () => (partyScoped ? toggleSinger(playlist.id) : togglePlaylist(playlist.id))) => (
+    <Toggle key={playlist.id} pressed={selectedIds.includes(playlist.id)} onClick={onClick}>{playlist.title}</Toggle>
+  );
   return <div className="multiplayer-library-scope music-guess-library-scope">
     <fieldset><legend>听歌识曲曲库范围</legend><p className="field-help">参考单机模式，可组合本地歌单；每道题所有玩家播放同一个 15 秒片段。</p>
-      <div className="music-guess-playlist-options">{[...MUSIC_GUESS_GROUP_PLAYLISTS, ...MUSIC_GUESS_SINGER_PLAYLISTS].map((playlist) => <Toggle key={playlist.id} pressed={playlistIds.includes(playlist.id)} onClick={() => toggle(playlist.id)}>{playlist.title}</Toggle>)}</div>
+      {partyScoped ? <>
+        <div className="music-guess-library-section"><strong>预设曲库（单选）</strong><div className="music-guess-playlist-options">{MUSIC_GUESS_GROUP_PLAYLISTS.map((playlist) => renderPlaylist(playlist, () => setPlaylistIds([playlist.id])))}</div></div>
+        <div className="music-guess-library-section"><strong>歌姬曲库（可多选，取并集）</strong><div className="music-guess-playlist-options">{MUSIC_GUESS_SINGER_PLAYLISTS.map((playlist) => renderPlaylist(playlist))}</div></div>
+      </> : <div className="music-guess-playlist-options">{[...MUSIC_GUESS_GROUP_PLAYLISTS, ...MUSIC_GUESS_SINGER_PLAYLISTS].map((playlist) => renderPlaylist(playlist))}</div>}
     </fieldset>
     <p className="field-help">当前已匹配约 {count} 个片段 · 至少需要 4 个片段</p>
   </div>;
@@ -207,7 +225,7 @@ function PartyStageEditor({ stages, setStages, songs, presets }) {
         <button type="button" className="party-stage-toggle" aria-pressed={Boolean(stage)} onClick={() => toggleStage(mode)}><span className="party-stage-index">{stage ? stages.findIndex((item) => item.mode === mode) + 1 : '+'}</span><strong>{MODE_LABELS[mode]}</strong><small>{stage ? '已加入赛程' : '点击加入'}</small></button>
         {stage && <><div className="party-stage-controls"><div>{PARTY_STAGE_ROUND_COUNTS.map((count) => <Toggle key={count} pressed={stage.roundCount === count} onClick={() => updateStage(mode, (item) => ({ ...item, roundCount: count }))}>{count} 轮</Toggle>)}</div><div><button type="button" className="stage-order-button" onClick={() => moveStage(mode, -1)} disabled={stages.findIndex((item) => item.mode === mode) === 0} aria-label={'上移' + MODE_LABELS[mode]}>↑</button><button type="button" className="stage-order-button" onClick={() => moveStage(mode, 1)} disabled={stages.findIndex((item) => item.mode === mode) === stages.length - 1} aria-label={'下移' + MODE_LABELS[mode]}>↓</button></div></div>
           {mode === CROSSWORD_MODE && <details className="party-stage-library"><summary>独立曲库：曲名填字</summary><label className="multiplayer-label">选择填字曲库<select value={stage.selection?.presetId ?? 'all'} onChange={(event) => updateStage(mode, (item) => ({ ...item, selection: { kind: 'preset', presetId: event.target.value } }))}>{crosswordPresets.map((item) => <option key={item.id} value={item.id}>{item.name} · {item.titles.length} 首</option>)}</select></label></details>}
-          {mode === MUSIC_GUESS_MODE && <details className="party-stage-library"><summary>独立曲库：听歌识曲</summary><MusicGuessLibraryScope playlistIds={stage.selection?.musicPlaylistIds ?? ['all']} setPlaylistIds={(updater) => updateStage(mode, (item) => { const current = item.selection?.musicPlaylistIds ?? ['all']; const next = typeof updater === 'function' ? updater(current) : updater; return { ...item, selection: { kind: 'music-playlists', musicPlaylistIds: next } }; })} /></details>}
+          {mode === MUSIC_GUESS_MODE && <details className="party-stage-library"><summary>独立曲库：听歌识曲</summary><MusicGuessLibraryScope partyScoped playlistIds={stage.selection?.musicPlaylistIds ?? ['all']} setPlaylistIds={(updater) => updateStage(mode, (item) => { const current = item.selection?.musicPlaylistIds ?? ['all']; const next = typeof updater === 'function' ? updater(current) : updater; return { ...item, selection: { kind: 'music-playlists', musicPlaylistIds: next } }; })} /></details>}
         </>}
       </article>;
     })}</div>
@@ -355,8 +373,8 @@ export function PlayerColorPicker({ room, self, onSelect }) {
     .filter((player) => player.id !== self?.id)
     .map((player) => playerColorMeta(player)?.color.toUpperCase())
     .filter(Boolean));
-  return <section className="player-color-picker" aria-labelledby="player-color-picker-title">
-    <div><strong id="player-color-picker-title">选择你的玩家颜色</strong><small>同一房间内颜色不可重复</small></div>
+  return <details className="player-color-picker">
+    <summary><span><strong id="player-color-picker-title">选择你的玩家颜色</strong><small>当前：{current?.colorName ?? '未选择'} · 点击展开选择</small></span><b>展开</b></summary>
     <div className="player-color-options">{PLAYER_COLORS.map((color) => {
       const occupied = occupiedColors.has(color.color.toUpperCase());
       const selected = current?.id === color.id;
@@ -364,7 +382,7 @@ export function PlayerColorPicker({ room, self, onSelect }) {
         <PlayerColorMarker color={color} /><span>{color.singerName}</span><small>{occupied ? '已占用' : color.colorName}</small>
       </button>;
     })}</div>
-  </section>;
+  </details>;
 }
 
 function opponentFieldState(field, feedback) {
@@ -482,6 +500,7 @@ function Room({ code, songs, presets, producers, onExit }) {
     if (room.selection.kind === 'custom') return filterSongs(songs, room.selection.filters);
     return songsForPreset(songs, presets.find((preset) => preset.id === room.selection.presetId));
   }, [room?.selection, songs, presets]);
+  const famousProducers = useMemo(() => (Array.isArray(producers) ? producers.filter((producer) => producer.famous) : []), [producers]);
   const service = useMemo(() => createLocalGameService(roomSongs.length ? roomSongs : songs), [roomSongs, songs]);
   const guessedIds = useMemo(() => new Set(self?.guesses?.map((guess) => guess.song.id) ?? []), [self]);
   const countdown = room?.phase === 'playing' ? room.endsAt - now : room?.phase === 'round-result' ? room.nextRoundAt - now : 0;
@@ -531,7 +550,7 @@ function Room({ code, songs, presets, producers, onExit }) {
     {seniority && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerSeniorityGame room={room} self={self} now={now} connection={connection} send={send} /> : null}
     {sorting && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerSortingGame room={room} self={self} now={now} connection={connection} send={send} /> : null}
     {crossword && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerCrosswordGame room={room} self={self} now={now} connection={connection} send={send} /> : null}
-    {producer && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerProducerGame room={room} self={self} producers={producers} now={now} connection={connection} send={send} /> : null}
+    {producer && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerProducerGame room={room} self={self} producers={famousProducers} now={now} connection={connection} send={send} /> : null}
     {musicGuess && ['playing', 'round-result'].includes(room.phase) ? <MultiplayerMusicGuessGame room={room} self={self} now={now} connection={connection} send={send} /> : null}
     {guessSong && ['playing', 'round-result'].includes(room.phase) ? <><section className="multiplayer-round-bar"><span>第 <strong>{room.roundNumber}</strong> / {room.roundCount} 轮</span><time>{room.phase === 'playing' ? formatTime(countdown) : `${formatTime(countdown)} 后进入${room.nextLabel ?? '下一轮'}`}</time><span>提示 {room.hintLevel} / 3</span></section>
       {room.answer && Object.keys(room.answer).length ? <aside className="multiplayer-hints"><p className="eyebrow">当前线索</p>{room.answer.title && <h3>《{room.answer.title}》</h3>}<div>{room.answer.releaseMonth && <span>发布时间：{room.answer.releaseMonth}</span>}{room.answer.singersDisplay && <span>歌姬：{room.answer.singersDisplay}</span>}{room.answer.staffDisplay && <span>STAFF：{room.answer.staffDisplay}</span>}{room.answer.lyrics && <q>{room.answer.lyrics}</q>}</div></aside> : null}

@@ -13,40 +13,49 @@ function scalarFeedback(answer, guess, threshold) {
 }
 
 export function evaluateProducerGuess(answer, guess) {
-  const answerSongs = new Set(answer.representativeSongs.map(normalizeProducerSearch));
+  const answerSongs = new Set((answer?.representativeSongs ?? []).map(normalizeProducerSearch));
   return {
-    isCorrect: answer.id === guess.id,
-    name: { state: answer.id === guess.id ? 'exact' : 'miss' },
-    debutYear: scalarFeedback(answer.debutYear, guess.debutYear, 2),
-    debutSong: { state: normalizeProducerSearch(answer.debutSong) === normalizeProducerSearch(guess.debutSong) ? 'exact' : 'miss' },
-    hallCount: scalarFeedback(answer.hallCount, guess.hallCount, Math.max(2, Math.ceil(answer.hallCount * 0.2))),
-    legendCount: scalarFeedback(answer.legendCount, guess.legendCount, Math.max(2, Math.ceil(answer.legendCount * 0.2))),
-    mythCount: scalarFeedback(answer.mythCount, guess.mythCount, Math.max(2, Math.ceil(answer.mythCount * 0.2))),
-    representativeSongs: guess.representativeSongs.map((song) => ({ song, matched: answerSongs.has(normalizeProducerSearch(song)) })),
+    isCorrect: Boolean(answer && guess && answer.id === guess.id),
+    name: { state: answer?.id === guess?.id ? 'exact' : 'miss' },
+    debutYear: scalarFeedback(answer?.debutYear ?? 0, guess?.debutYear ?? 0, 2),
+    debutSong: { state: normalizeProducerSearch(answer?.debutSong) === normalizeProducerSearch(guess?.debutSong) ? 'exact' : 'miss' },
+    hallCount: scalarFeedback(answer?.hallCount ?? 0, guess?.hallCount ?? 0, Math.max(2, Math.ceil((answer?.hallCount ?? 0) * 0.2))),
+    legendCount: scalarFeedback(answer?.legendCount ?? 0, guess?.legendCount ?? 0, Math.max(2, Math.ceil((answer?.legendCount ?? 0) * 0.2))),
+    mythCount: scalarFeedback(answer?.mythCount ?? 0, guess?.mythCount ?? 0, Math.max(2, Math.ceil((answer?.mythCount ?? 0) * 0.2))),
+    representativeSongs: (guess?.representativeSongs ?? []).map((song) => ({ song, matched: answerSongs.has(normalizeProducerSearch(song)) })),
   };
 }
 
 export function createProducerGameService(producers, { random = Math.random } = {}) {
-  if (!producers.length) throw new Error('P 主候选池不能为空');
-  const byId = new Map(producers.map((producer) => [producer.id, producer]));
+  const source = (Array.isArray(producers) ? producers : []).filter((producer) => producer?.id);
+  if (!source.length) throw new Error('P 主候选池不能为空');
+  const normalizedProducers = source.map((producer) => ({
+    ...producer,
+    aliases: Array.isArray(producer.aliases) ? producer.aliases : [],
+    representativeSongs: Array.isArray(producer.representativeSongs) ? producer.representativeSongs : [],
+    searchKeys: Array.isArray(producer.searchKeys) && producer.searchKeys.length
+      ? producer.searchKeys
+      : [producer.name, ...(Array.isArray(producer.aliases) ? producer.aliases : [])].map(normalizeProducerSearch),
+  }));
+  const byId = new Map(normalizedProducers.map((producer) => [producer.id, producer]));
   const choose = (previousId, forcedId) => {
     if (forcedId && byId.has(forcedId)) return byId.get(forcedId);
-    const pool = producers.length > 1 ? producers.filter((producer) => producer.id !== previousId) : producers;
+    const pool = normalizedProducers.length > 1 ? normalizedProducers.filter((producer) => producer.id !== previousId) : normalizedProducers;
     return pool[Math.min(pool.length - 1, Math.floor(random() * pool.length))];
   };
   return {
-    producers,
+    producers: normalizedProducers,
     startGame(previousId = null, forcedId = null) {
       return { answer: choose(previousId, forcedId), guesses: [], hintLevel: 0, yearDebutRevealed: false, status: 'playing' };
     },
     search(query, guessedIds = new Set()) {
       const normalized = normalizeProducerSearch(query);
       if (!normalized) return [];
-      return producers.filter((producer) => !guessedIds.has(producer.id) && producer.searchKeys.some((key) => key.includes(normalized))).slice(0, 8);
+      return normalizedProducers.filter((producer) => !guessedIds.has(producer.id) && producer.searchKeys.some((key) => key.includes(normalized))).slice(0, 8);
     },
     resolveProducer(query) {
       const normalized = normalizeProducerSearch(query);
-      const matches = producers.filter((producer) => producer.searchKeys.some((key) => key === normalized));
+      const matches = normalizedProducers.filter((producer) => producer.searchKeys.some((key) => key === normalized));
       return matches.length === 1 ? matches[0] : null;
     },
     submitGuess(game, producerId) {

@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { RoomManager, catalogVersion } from '../src/roomManager.js';
+import producers from '../../web/src/data/producers.generated.json' with { type: 'json' };
 
 class MockSocket {
   constructor() { this.readyState = 1; this.messages = []; }
@@ -316,6 +317,63 @@ test('rejects duplicate nicknames and invalid catalog versions', async () => {
     }));
     code = result.code;
     await assert.rejects(manager.get(code).run(() => manager.get(code).join({ nickname: '玩家' })), /相同昵称/u);
+  } finally {
+    if (code) await manager.delete(code);
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('rejects combining a music preset with singer playlists in a party stage', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
+  const manager = new RoomManager({ dataDirectory: directory });
+  await manager.initialize();
+  try {
+    assert.throws(() => manager.validateCreate({
+      mode: 'party', nickname: '房主', capacity: 2, roundCount: 3,
+      selection: { kind: 'preset', presetId: 'all' },
+      stages: [
+        { mode: 'guess-song', roundCount: 1 },
+        { mode: 'seniority', roundCount: 1 },
+        { mode: 'music-guess', roundCount: 1, selection: { kind: 'music-playlists', musicPlaylistIds: ['all', 'luotianyi'] } },
+      ],
+      catalogVersion,
+    }), /预设曲库不能和歌姬曲库组合/u);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('runs a famous-producer match through a wrong guess and a correct guess without projection errors', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'luoyiba-room-'));
+  const manager = new RoomManager({ dataDirectory: directory, onError: (error) => { throw error; } });
+  await manager.initialize();
+  let code;
+  try {
+    const creator = await manager.create(manager.validateCreate({
+      mode: 'producer-famous', nickname: '名P玩家', capacity: 2, roundCount: 1,
+      selection: { kind: 'preset', presetId: 'all' }, catalogVersion,
+    }));
+    code = creator.code;
+    const session = manager.get(code);
+    const joiner = await session.run(() => session.join({ nickname: '名P玩家二' }));
+    const socket = new MockSocket();
+    const joinerSocket = new MockSocket();
+    await session.run(() => session.connect(creator.resumeToken, socket));
+    await session.run(() => session.connect(joiner.resumeToken, joinerSocket));
+    await session.run(() => session.command(socket, { type: 'start_match' }));
+    const answerId = session.room.producerAnswerId;
+    const wrongId = producers.find((producer) => producer.famous && producer.id !== answerId).id;
+    await session.run(() => session.command(socket, { type: 'submit_producer_guess', producerId: wrongId }));
+    assert.equal(session.room.phase, 'playing');
+    assert.equal(socket.messages.at(-1).room.players[0].guesses.length, 1);
+    await session.run(() => session.command(joinerSocket, { type: 'submit_producer_guess', producerId: answerId }));
+    await session.run(() => session.command(socket, { type: 'submit_producer_guess', producerId: answerId }));
+    assert.equal(session.room.phase, 'round-result');
+    assert.deepEqual(session.room.players.map(({ score }) => score), [3, 5]);
+    assert.equal(socket.messages.at(-1).room.producerRound.answer.id, answerId);
+    session.room.nextRoundAt = Date.now() - 1;
+    await session.run(() => session.tick());
+    assert.equal(session.room.phase, 'finished');
   } finally {
     if (code) await manager.delete(code);
     await rm(directory, { recursive: true, force: true });
