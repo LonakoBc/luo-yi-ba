@@ -1,4 +1,6 @@
 import { defineConfig } from 'vite';
+import { readdir, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import baseConfig from './vite.config.js';
 
@@ -13,11 +15,37 @@ function toySdkPlugin() {
   };
 }
 
+const toyPublicAssetRoots = [
+  ['public/song-covers', 'song-cover-'],
+  ['public/character-images/singers', 'character-singer-'],
+  ['public/character-images/famous-producers', 'character-producer-'],
+];
+
+function toyPublicAssetsPlugin() {
+  return {
+    name: 'toy-public-assets',
+    async generateBundle() {
+      for (const [relativeRoot, outputPrefix] of toyPublicAssetRoots) {
+        const sourceRoot = fileURLToPath(new URL(relativeRoot, import.meta.url));
+        const entries = await readdir(sourceRoot, { withFileTypes: true });
+        for (const entry of entries) {
+          if (!entry.isFile()) continue;
+          this.emitFile({
+            type: 'asset',
+            fileName: outputPrefix + entry.name,
+            source: await readFile(join(sourceRoot, entry.name)),
+          });
+        }
+      }
+    },
+  };
+}
+
 export default defineConfig({
   ...baseConfig,
   base: './',
   publicDir: false,
-  plugins: [...baseConfig.plugins, toySdkPlugin()],
+  plugins: [...baseConfig.plugins, toySdkPlugin(), toyPublicAssetsPlugin()],
   resolve: {
     ...baseConfig.resolve,
     alias: {

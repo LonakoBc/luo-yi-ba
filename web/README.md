@@ -29,7 +29,7 @@ cd D:\AProjects\luo-yi-ba\web
 npm run build:toy
 ~~~
 
-构建完成后直接上传仓库根目录的 \`toy-dist/\` 文件夹。该构建使用 \`#/xxx\` Hash 路由、相对静态资源路径并自动注入 Toy JS SDK，只包含 01《勾指起誓》、02《普通DISCO》、03《我的悲伤是水做的》、04《一花依世界》和 05《世末歌者》五首 BGM。构建末尾会检查 \`index.html\`、Toy 文件后缀白名单、根路径引用和 20MB 包体目标。
+构建完成后直接上传仓库根目录的 \`toy-dist/\` 文件夹。该构建使用 \`#/xxx\` Hash 路由、相对静态资源路径并自动注入 Toy JS SDK，包含仓库中的 12 首 BGM 和联机表情资源；听歌识曲片段仍由阿里云提供。构建末尾会检查 \`index.html\`、Toy 文件后缀白名单、根路径引用和 140MB 包体上限。
 
 多人联机仍连接阿里云服务；发布 Toy 前需要确保线上服务的 \`FRONTEND_ORIGIN\` 包含 \`https://www.bilibili.com\`。
 

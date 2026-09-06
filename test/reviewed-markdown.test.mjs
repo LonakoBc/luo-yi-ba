@@ -13,7 +13,7 @@ function fieldsFromMarkdown(markdown) {
 }
 
 for (const library of [
-  { id: 'luotianyi', singer: '洛天依', count: 309 },
+  { id: 'luotianyi', singer: '洛天依', count: 310 },
   { id: 'yuezhengling', singer: '乐正绫', count: 78 },
   { id: 'yanhe', singer: '言和', count: 74 },
   { id: 'zhiyu-moke', singer: '徵羽摩柯', count: 20 },
@@ -22,7 +22,7 @@ for (const library of [
   { id: 'xinhua', singer: '心华', count: 10 },
   { id: 'xingchen', singer: '星尘', count: 65 },
   { id: 'haiyi', singer: '海伊', count: 11 },
-  { id: 'cangqiong', singer: '苍穹', count: 13 },
+  { id: 'cangqiong', singer: '苍穹', count: 14 },
   { id: 'chiyu', singer: '赤羽', count: 24 },
   { id: 'shian', singer: '诗岸', count: 18 },
   { id: 'muxin', singer: '牧心', count: 3 },
@@ -54,7 +54,7 @@ for (const library of [
   });
 }
 
-test('十四位歌姬共享歌曲按页面去重后为 519 首', async () => {
+test('十四位歌姬共享歌曲按页面去重后为 521 首', async () => {
   const [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus] = await Promise.all([
     readFile(path.join(root, 'database', 'singers', 'luotianyi.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'database', 'singers', 'yuezhengling.json'), 'utf8').then(JSON.parse),
@@ -78,8 +78,8 @@ test('十四位歌姬共享歌曲按页面去重后为 519 首', async () => {
   assert.equal(yan.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 48);
   assert.equal(moke.filter((song) => luoByPage.has(canonical(song.vcpediaUrl))).length, 8);
   const libraries = [luo, yue, yan, moke, longya, moqingxian, xinhua, xingchen, haiyi, cangqiong, chiyu, shian, muxin, minus];
-  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 519);
-  assert.equal(libraries.flat().length, 681);
+  assert.equal(new Set(libraries.flat().map((song) => canonical(song.vcpediaUrl))).size, 521);
+  assert.equal(libraries.flat().length, 683);
   for (const song of sharedWithLuo) {
     assert.deepEqual(song, luoByPage.get(canonical(song.vcpediaUrl)), song.title);
   }

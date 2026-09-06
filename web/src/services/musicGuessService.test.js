@@ -35,7 +35,7 @@ describe('本地曲库听歌识曲服务', () => {
     });
     expect(tracks.map((track) => track.name)).toEqual(['甲曲', '丙曲', '戊曲', '己曲']);
     expect(tracks[0]).toMatchObject({
-      artist: '本地曲库',
+      artist: '洛天依',
       clipFileName: 'clip-001.mp3',
       clipUrl: 'https://media.example/clips/clip-001.mp3',
       source: 'local-catalog',

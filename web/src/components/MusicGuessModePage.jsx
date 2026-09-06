@@ -16,7 +16,7 @@ export default function MusicGuessModePage({ onChoose, onBack, Brand }) {
             <div className="music-guess-mode-copy">
               <p className="eyebrow">LIMITED TIME</p>
               <h3>限时模式</h3>
-              <p>在倒计时内尽可能猜出更多歌曲，依旧保留三条命；结算时会根据剩余生命获得额外奖励。</p>
+              <p>在倒计时内尽可能猜出更多歌曲，初始 3 点生命；结算时会根据剩余生命获得额外奖励。</p>
             </div>
             <div className="music-guess-duration-options" aria-label="选择限时时长">
               {MUSIC_GUESS_TIME_LIMITS.map((seconds) => (
@@ -31,12 +31,12 @@ export default function MusicGuessModePage({ onChoose, onBack, Brand }) {
             <div className="music-guess-mode-copy">
               <p className="eyebrow">FREE PLAY</p>
               <h3>不限时模式</h3>
-              <p>按照原有规则慢慢辨认旋律，不设倒计时，答错三次后结算。</p>
+              <p>按照原有规则慢慢辨认旋律，不设倒计时，生命耗尽后结算。</p>
             </div>
             <span className="music-guess-mode-arrow" aria-hidden="true">→</span>
           </button>
         </section>
-        <p className="music-guess-local-note">两种模式都会使用所选歌单的本地曲库与 15 秒片段。</p>
+        <p className="music-guess-local-note">两种模式均可跳过 3 次，每连续答对 5 题增加 1 点生命。</p>
       </main>
     </div>
   );

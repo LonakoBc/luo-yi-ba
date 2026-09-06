@@ -500,3 +500,5 @@
     min-width: 120px;
   }
 }
+.music-guess-option-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.music-guess-option .music-guess-option-singers { font-size: 13px; font-weight: 400; opacity: .75; }

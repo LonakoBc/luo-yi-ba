@@ -46,6 +46,19 @@ function normalize(value) {
     .replace(/[\p{P}\p{S}\s]/gu, '');
 }
 
+const TOY_ASSET_PREFIXES = Object.freeze([
+  ['/song-covers/', './song-cover-'],
+  ['/character-images/singers/', './character-singer-'],
+  ['/character-images/famous-producers/', './character-producer-'],
+]);
+
+function resolveCollectionAssetUrl(localUrl, fallback = '') {
+  const value = String(localUrl || '');
+  if (!value || import.meta.env.VITE_BUILD_TARGET !== 'toy') return value || fallback;
+  const prefix = TOY_ASSET_PREFIXES.find(([source]) => value.startsWith(source));
+  return prefix ? prefix[1] + value.slice(prefix[0].length) : value;
+}
+
 function displayTitle(clip) {
   return String(clip?.sourceName || clip?.fileName || clip?.sourceKey || '')
     .replace(/\.mp3$/iu, '')
@@ -141,7 +154,7 @@ export function collectionEntryFromSong(song) {
     kind: 'song',
     id: song.id,
     title: song.title,
-    coverUrl: songCoverManifest.covers?.[song.id]?.localUrl || song.imageUrl || '',
+    coverUrl: resolveCollectionAssetUrl(songCoverManifest.covers?.[song.id]?.localUrl, song.imageUrl),
     singers: song.singersDisplay || song.singerMembers?.join('、') || '',
   };
 }
@@ -151,7 +164,7 @@ export function collectionEntryFromProducer(producer) {
     kind: 'producer',
     id: producer.id,
     title: producer.name,
-    coverUrl: characterImageManifest.characters?.['famous-producer:' + producer.id]?.localUrl || producer.imageUrl || '',
+    coverUrl: resolveCollectionAssetUrl(characterImageManifest.characters?.['famous-producer:' + producer.id]?.localUrl, producer.imageUrl),
     singers: '',
   };
 }
@@ -161,7 +174,7 @@ export function collectionEntryFromSinger(singer) {
     kind: 'singer',
     id: singer.id,
     title: singer.name,
-    coverUrl: characterImageManifest.characters?.['singer:' + singer.id]?.localUrl || singer.imageUrl || '',
+    coverUrl: resolveCollectionAssetUrl(characterImageManifest.characters?.['singer:' + singer.id]?.localUrl, singer.imageUrl),
     singers: '',
   };
 }
@@ -180,4 +193,3 @@ export function collectionEntryFromCustom(title, coverUrl = '', kind = 'song') {
 export function collectionShouldShowCover(entries) {
   return entries.length === 1 && Boolean(entries[0]?.coverUrl);
 }
-

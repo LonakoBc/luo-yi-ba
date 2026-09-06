@@ -230,7 +230,7 @@ describe('App 交互', () => {
     const audio = document.querySelector('audio');
     await enterHomeMode(screen.getByRole('button', { name: /歌曲大排序/u }));
     expect(screen.getByRole('heading', { name: '选择曲库范围' })).toBeVisible();
-    expect(screen.getByRole('button', { name: /进入排序 · 519 首/u })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /进入排序 · 521 首/u })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: /挑战全曲库/u }));
     expect(screen.getByRole('heading', { name: '把熟悉的歌放回时间线' })).toBeVisible();
     expect(screen.getByRole('button', { name: /时间线排序/u })).toBeVisible();

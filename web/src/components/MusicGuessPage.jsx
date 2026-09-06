@@ -50,13 +50,13 @@ function GuessResult({ game, total, onRestart, onBack, mode, durationSeconds }) 
   const correctCount = game.history.filter(({ outcome }) => outcome === 'correct').length;
   const wrongCount = game.history.filter(({ outcome }) => outcome === 'wrong').length;
   return <div className="modal-backdrop" role="presentation"><section className="result-dialog music-guess-result" role="dialog" aria-modal="true" aria-labelledby="music-guess-result-title">
-    <p className="eyebrow">{game.status === 'lost' ? '三条命用完' : game.status === 'time-up' ? '时间到' : game.status === 'completed' ? '歌单挑战完成' : '本局已结算'}</p>
+    <p className="eyebrow">{game.status === 'lost' ? '生命值耗尽' : game.status === 'time-up' ? '时间到' : game.status === 'completed' ? '歌单挑战完成' : '本局已结算'}</p>
     <div className="result-icon" aria-hidden="true">♫</div>
     <h2 id="music-guess-result-title">{evaluation.title}</h2>
     <p className="music-guess-evaluation">{evaluation.description}</p>
     <div className="music-guess-result-stats"><span><strong>{game.score}</strong>得分</span><span><strong>{correctCount}</strong>猜对</span><span><strong>{wrongCount}</strong>猜错</span>{mode === 'timed' ? <span><strong>{game.lifeBonus}</strong>生命奖励</span> : <span><strong>{game.usedIds.length}</strong>首歌曲</span>}</div>
     {mode === 'timed' && <p className="music-guess-timed-result-note">{formatCountdown(durationSeconds)} 限时模式</p>}
-    <div className="music-guess-history" aria-label="本局猜曲回顾">{game.history.map((round) => <article key={round.number} className={'music-guess-history-row ' + round.outcome}><strong>第 {round.number} 题</strong><span>《{round.answer.name}》</span><small>{round.outcome === 'correct' ? '✓ 猜对了' : round.outcome === 'wrong' ? '× 猜错了' : '— 未作答'}</small></article>)}</div>
+    <div className="music-guess-history" aria-label="本局猜曲回顾">{game.history.map((round) => <article key={round.number} className={'music-guess-history-row ' + round.outcome}><strong>第 {round.number} 题</strong><span>《{round.answer.name}》</span><small>{round.outcome === 'correct' ? '✓ 猜对了' : round.outcome === 'wrong' ? '× 猜错了' : round.outcome === 'skipped' ? '↷ 已跳过' : '— 未作答'}</small></article>)}</div>
     <div className="result-actions"><button type="button" className="primary-button" onClick={onRestart}>再来一局</button><button type="button" className="ghost-button" onClick={onBack}>返回歌单</button></div>
   </section></div>;
 }
@@ -162,11 +162,11 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
       audio.load();
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.then === 'function') await playPromise;
-      if (gameRef.current?.status !== 'playing') return;
+      if (audioRef.current !== audio || gameRef.current?.round !== currentGame.round || gameRef.current?.status !== 'playing') return;
       setPlayerState('playing');
       playerTimerRef.current = window.setTimeout(finishClip, CLIP_SECONDS * 1000);
     } catch {
-      setPlayerState('error');
+      if (audioRef.current === audio && gameRef.current?.round === currentGame.round) setPlayerState('error');
     }
   }, [clearClip, finishClip]);
 
@@ -231,7 +231,7 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
     {SHOW_DEVELOPER_TOOLS && <MusicGuessDeveloperTools tracks={tracks} queuedTrackId={queuedTrackId} onQueue={setQueuedTrackId} onRestart={restart} />}
     <header className="inner-header music-guess-header"><Brand compact /><div className="music-guess-header-actions"><span className="music-guess-local-label">本地曲库</span><button type="button" className="back-button" onClick={onBack}>← 选择曲目</button></div></header>
     <main className="music-guess-main">
-      <div className="music-guess-heading"><div><p className="eyebrow">本地曲库猜曲 · {playlist.title}</p><h2>听歌识曲</h2><p>{mode === 'timed' ? '在 ' + Math.round(durationSeconds / 60) + ' 分钟内尽可能猜出更多曲名，三条命仍然有效。' : '根据所选本地曲库播放 15 秒片段，在三条命内猜出尽可能多的曲名。'}</p></div><div className="music-guess-stats" aria-label="游戏状态">{mode === 'timed' && <span><strong>{formatCountdown(remainingSeconds)}</strong>剩余</span>}<span><strong>{'♥'.repeat(game.lives)}{'♡'.repeat(3 - game.lives)}</strong>生命</span><span><strong>{game.score}</strong>得分</span><span><strong>{game.round.number}</strong>题</span></div></div>
+      <div className="music-guess-heading"><div><p className="eyebrow">本地曲库猜曲 · {playlist.title}</p><h2>听歌识曲</h2><p>{mode === 'timed' ? '在 ' + Math.round(durationSeconds / 60) + ' 分钟内尽可能猜出更多曲名，初始 3 点生命。' : '根据所选本地曲库播放 15 秒片段，初始 3 点生命，猜出尽可能多的曲名。'}</p></div><div className="music-guess-stats" aria-label="游戏状态">{mode === 'timed' && <span><strong>{formatCountdown(remainingSeconds)}</strong>剩余</span>}<span><strong>{'♥'.repeat(game.lives)}{'♡'.repeat(Math.max(0, 3 - game.lives))}</strong>生命</span><span><strong>{game.score}</strong>得分</span><span><strong>{game.round.number}</strong>题</span></div></div>
       <section className="music-guess-board" aria-label={'第 ' + game.round.number + ' 题'}>
         <div className="music-guess-player-row">
           <div className="music-guess-video-preview" aria-hidden="true"><span>♫</span><small>15s</small></div>
@@ -242,10 +242,10 @@ export default function MusicGuessPage({ playlist, onBack, Brand, random = Math.
         <audio key={game.round.answer.id} ref={audioRef} src={game.round.answer.clipUrl} preload="auto" aria-label={'第 ' + game.round.number + ' 题猜曲音频'} onError={handlePlayerError} onEnded={finishClip} onTimeUpdate={handleTimeUpdate} />
         {game.round.options.map((option) => {
           const optionClass = resolved ? option.id === game.round.answer.id ? 'correct' : option.id === game.round.selectedId ? 'wrong' : '' : option.id === game.round.selectedId ? 'selected' : '';
-          return <button type="button" key={option.id} className={'music-guess-option ' + optionClass} disabled={game.status !== 'playing'} onClick={() => chooseAnswer(option.id)}><span>{option.name}</span>{resolved && option.id === game.round.answer.id && <small>✓ 正确答案</small>}{resolved && option.id === game.round.selectedId && option.id !== game.round.answer.id && <small>× 你的选择</small>}</button>;
+          return <button type="button" key={option.id} aria-label={option.name + ' ' + option.artist} className={'music-guess-option ' + optionClass} disabled={game.status !== 'playing'} onClick={() => chooseAnswer(option.id)}><span className="music-guess-option-copy"><span>{option.name}</span><small className="music-guess-option-singers">{option.artist}</small></span>{resolved && option.id === game.round.answer.id && <small>✓ 正确答案</small>}{resolved && option.id === game.round.selectedId && option.id !== game.round.answer.id && <small>× 你的选择</small>}</button>;
         })}
       </section>
-      <div className="music-guess-actions">{game.status === 'revealed' && <button type="button" className="primary-button" onClick={advanceRound}>下一题</button>}{!FINISHED_STATUSES.includes(game.status) && <button type="button" className="surrender-button" onClick={() => setShowSurrender(true)}>投降并结算</button>}</div>
+      <p className="music-guess-note">每局可跳过 3 次；每连续答对 5 题增加 1 点生命，答错或跳过中断连对。当前连对 {game.correctStreak} 题。</p>{game.status === 'revealed' && game.round.lifeReward > 0 && <p role="status" className="music-guess-note">连续答对 5 题，生命 +1！</p>}<div className="music-guess-actions">{game.status === 'playing' && <button type="button" className="ghost-button" disabled={game.skipsRemaining === 0} onClick={() => { clearClip(); setGame((current) => service.skip(current)); }}>跳过曲目（剩余 {game.skipsRemaining} 次）</button>}{game.status === 'revealed' && <button type="button" className="primary-button" onClick={advanceRound}>下一题</button>}{!FINISHED_STATUSES.includes(game.status) && <button type="button" className="surrender-button" onClick={() => setShowSurrender(true)}>投降并结算</button>}</div>
       <p className="music-guess-note">本地曲库 · 已匹配 {tracks.length} 个 15 秒片段</p>
     </main>
     {showSurrender && <div className="modal-backdrop" role="presentation"><section className="result-dialog music-guess-confirm" role="dialog" aria-modal="true" aria-labelledby="music-guess-confirm-title"><p className="eyebrow">提前结束</p><h2 id="music-guess-confirm-title">现在投降并结算吗？</h2><p>当前歌曲会记为未作答，已经获得的分数会保留。</p><div className="result-actions"><button type="button" className="ghost-button" onClick={() => setShowSurrender(false)}>继续猜</button><button type="button" className="surrender-button" onClick={surrender}>确认投降</button></div></section></div>}

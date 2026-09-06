@@ -17,6 +17,34 @@ const manifest = ['甲曲', '乙曲', '丙曲', '丁曲', '戊曲'].map((title, 
 }));
 
 describe('本地曲库听歌识曲页面', () => {
+  it('选项显示歌姬，三次跳过立即换音频且不扣生命，结算记录跳过', async () => {
+    vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    vi.spyOn(HTMLMediaElement.prototype, 'load').mockImplementation(() => {});
+    const many = Array.from({ length: 10 }, (_, i) => ({ fileName: `clip-${i}.mp3`, sourceName: `歌曲${i}.mp3`, durationSeconds: 15, playlistIds: ['luotianyi', 'yanhe'] }));
+    render(<MusicGuessPage playlist={playlist} manifest={many} random={() => 0} onBack={vi.fn()} Brand={Brand} />);
+    await screen.findByRole('button', { name: '歌曲0 洛天依、言和' });
+    for (let i = 3; i > 0; i--) {
+      const before = document.querySelector('audio').src;
+      fireEvent.click(screen.getByRole('button', { name: `跳过曲目（剩余 ${i} 次）` }));
+      expect(document.querySelector('audio').src).not.toBe(before);
+    }
+    expect(screen.getByRole('button', { name: '跳过曲目（剩余 0 次）' })).toBeDisabled();
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('♥♥♥');
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('0得分');
+    for (let i = 3; i < 8; i++) {
+      fireEvent.click(screen.getByRole('button', { name: `歌曲${i} 洛天依、言和` }));
+      if (i < 7) fireEvent.click(screen.getByRole('button', { name: '下一题' }));
+    }
+    expect(screen.getByRole('status')).toHaveTextContent('生命 +1');
+    expect(screen.getByLabelText('游戏状态')).toHaveTextContent('♥♥♥♥');
+    fireEvent.click(screen.getByRole('button', { name: '投降并结算' }));
+    fireEvent.click(screen.getByRole('button', { name: '确认投降' }));
+    expect(screen.getAllByText('↷ 已跳过')).toHaveLength(3);
+    fireEvent.click(screen.getByRole('button', { name: '再来一局' }));
+    expect(screen.getByRole('button', { name: '跳过曲目（剩余 3 次）' })).toBeEnabled();
+  });
+
   afterEach(() => {
     cleanup();
     vi.useRealTimers();
@@ -78,7 +106,7 @@ describe('本地曲库听歌识曲页面', () => {
     fireEvent.change(screen.getByLabelText('指定下一题音频'), { target: { value: 'local-clip-003.mp3' } });
     fireEvent.click(screen.getByRole('button', { name: '设为下一题' }));
     expect(screen.getByRole('button', { name: '管理员测试' })).not.toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: '甲曲' }));
+    fireEvent.click(screen.getByRole('button', { name: '甲曲 洛天依' }));
     fireEvent.click(screen.getByRole('button', { name: '下一题' }));
     expect(document.querySelector('audio')?.getAttribute('src')).toContain('clip-003.mp3');
   });

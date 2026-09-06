@@ -3,7 +3,7 @@
   "sourceDirectory": "guess_songs/*",
   "clipDirectory": "guess_songs/assets",
   "clipLengthSeconds": 15,
-  "generatedAt": "2026-09-01T06:13:26.667Z",
+  "generatedAt": "2026-09-06T07:22:54.150Z",
   "count": 842,
   "specialStarts": {
     "保卫罗德岛.mp3": 14,
@@ -165,21 +165,6 @@
       "sourceKey": "八辈子",
       "playlistIds": [
         "luotianyi"
-      ]
-    },
-    {
-      "sourceFile": "八重回归·伪.mp3",
-      "sourceTitle": "八重回归·伪",
-      "sourceSha256": "215362adb7e2",
-      "startSeconds": 0,
-      "durationSeconds": 15,
-      "clipFile": "asset-215362adb7e2-00.mp3",
-      "clipPath": "assets/asset-215362adb7e2-00.mp3",
-      "fullFifteenSeconds": true,
-      "sourceKey": "八重回归伪",
-      "playlistIds": [
-        "luotianyi",
-        "yuezhengling"
       ]
     },
     {
@@ -6139,6 +6124,7 @@
       "clipPath": "assets/asset-a8abbeb635ce-00.mp3",
       "fullFifteenSeconds": true,
       "playlistIds": [
+        "luotianyi",
         "yuezhengling"
       ]
     },
@@ -7953,20 +7939,6 @@
       "durationSeconds": 15,
       "clipFile": "asset-78f0f515183d-00.mp3",
       "clipPath": "assets/asset-78f0f515183d-00.mp3",
-      "fullFifteenSeconds": true,
-      "playlistIds": [
-        "xinhua"
-      ]
-    },
-    {
-      "sourceKey": "为邪九九八十一",
-      "sourceFile": "为邪·九九八十一.mp3",
-      "sourceTitle": "为邪·九九八十一",
-      "sourceSha256": "bbb099039a58",
-      "startSeconds": 0,
-      "durationSeconds": 15,
-      "clipFile": "asset-bbb099039a58-00.mp3",
-      "clipPath": "assets/asset-bbb099039a58-00.mp3",
       "fullFifteenSeconds": true,
       "playlistIds": [
         "xinhua"
@@ -12030,6 +12002,35 @@
         "wangchuan",
         "xingchen"
       ]
+    },
+    {
+      "playlistIds": [
+        "luotianyi"
+      ],
+      "clipFile": "asset-9857156f1a45-00.mp3",
+      "sourceFile": "草木青时.mp3",
+      "startSeconds": 0,
+      "fullFifteenSeconds": true,
+      "durationSeconds": 15,
+      "sourceSha256": "9857156f1a45",
+      "sourceKey": "草木青时",
+      "sourceTitle": "草木青时",
+      "clipPath": "assets/asset-9857156f1a45-00.mp3"
+    },
+    {
+      "playlistIds": [
+        "cangqiong",
+        "wangchuan"
+      ],
+      "clipFile": "asset-ca6e5474d151-00.mp3",
+      "sourceFile": "风起甘露.mp3",
+      "startSeconds": 0,
+      "fullFifteenSeconds": true,
+      "durationSeconds": 15,
+      "sourceSha256": "ca6e5474d151",
+      "sourceKey": "风起甘露",
+      "sourceTitle": "风起甘露",
+      "clipPath": "assets/asset-ca6e5474d151-00.mp3"
     }
   ]
 }

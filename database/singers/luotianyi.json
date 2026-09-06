@@ -86,7 +86,7 @@
   {
     "title": "前尘如梦",
     "staff": "UP主：唐乐林",
-    "releaseMonth": "2013-01",
+    "releaseMonth": "2012-10",
     "singers": "洛天依",
     "voicebanks": "VOCALOID",
     "concertCount": 1,
@@ -446,7 +446,7 @@
   {
     "title": "权御天下",
     "staff": "UP主：乌龟Sui",
-    "releaseMonth": "2015-03",
+    "releaseMonth": "2015-02",
     "singers": "洛天依",
     "voicebanks": "VOCALOID",
     "concertCount": 6,
@@ -3706,5 +3706,17 @@
     "lyrics": "暂无歌词资料",
     "bilibiliUrl": "",
     "vcpediaUrl": "https://vcpedia.cn/%E8%8A%B1%E8%8D%89%E9%87%8E"
+  },
+  {
+    "title": "草木青时",
+    "staff": "UP主：库丘",
+    "releaseMonth": "2026-02",
+    "singers": "洛天依",
+    "voicebanks": "ACE Studio",
+    "concertCount": 0,
+    "special": "单曲",
+    "lyrics": "未提防岩下藏夜雨",
+    "bilibiliUrl": "https://www.bilibili.com/video/BV1ztcjzwEkf",
+    "vcpediaUrl": "https://vcpedia.cn/%E8%8D%89%E6%9C%A8%E9%9D%92%E6%97%B6"
   }
 ]

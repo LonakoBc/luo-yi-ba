@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const webRoot = fileURLToPath(new URL('..', import.meta.url));
 const outputRoot = path.resolve(webRoot, '../toy-dist');
-const maximumBytes = 20 * 1024 * 1024;
+const maximumBytes = 140 * 1024 * 1024;
 const expectedMultiplayerApiUrl = process.env.VITE_TOY_MULTIPLAYER_API_URL ?? 'https://8.217.219.36';
 const allowedExtensions = new Set([
   '.html', '.htm', '.css', '.js', '.json', '.wasm', '.data', '.md', '.csv', '.tsv',
@@ -30,7 +30,7 @@ const unsupported = files.filter((file) => !allowedExtensions.has(path.extname(f
 if (unsupported.length) throw new Error(`Toy 构建包含平台不支持的文件：${unsupported.map((file) => path.relative(outputRoot, file)).join(', ')}`);
 const sizes = await Promise.all(files.map(async (file) => (await stat(file)).size));
 const totalBytes = sizes.reduce((sum, size) => sum + size, 0);
-if (totalBytes > maximumBytes) throw new Error(`Toy 构建为 ${(totalBytes / 1024 / 1024).toFixed(2)}MB，超过 20MB 目标`);
+if (totalBytes > maximumBytes) throw new Error(`Toy 构建为 ${(totalBytes / 1024 / 1024).toFixed(2)}MB，超过 140MB 上限`);
 const html = await readFile(indexPath, 'utf8');
 if (!html.includes('toy-sdk.js')) throw new Error('Toy 构建未注入 Toy JS SDK');
 if (/\b(?:src|href)="\/[^/"]/u.test(html)) throw new Error('Toy index.html 仍包含根路径静态资源');

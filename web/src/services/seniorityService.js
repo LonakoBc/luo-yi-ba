@@ -1,8 +1,9 @@
 const DIFFICULTY_STAGES = [
   { minScore: 0, label: '跨年入门', minYears: 2, maxYears: 3 },
-  { minScore: 5, label: '年代进阶', minYears: 1, maxYears: 2 },
-  { minScore: 10, label: '相邻年份', minYears: 1, maxYears: 1 },
-  { minScore: 15, label: '同年较量', minYears: 0, maxYears: 0 },
+  { minScore: 10, label: '年代进阶', minYears: 1, maxYears: 2 },
+  { minScore: 20, label: '相邻年份', minYears: 1, maxYears: 1 },
+  { minScore: 30, label: '同年较量', minYears: 0, maxYears: 0 },
+  { minScore: 40, label: '同年较量', minYears: 0, maxYears: 0 },
 ];
 
 function weightedChoice(items, random) {
@@ -46,6 +47,18 @@ function correctSong(left, right, direction) {
   return left.releaseMonth < right.releaseMonth ? left : right;
 }
 
+function pickDifferentYearPair(songs, game, usedIds, random) {
+  const recent = game.history.slice(-5);
+  const year = yearOf(game.round.left);
+  if (recent.length < 5 || !recent.every(({ left, right }) => yearOf(left) === year && yearOf(right) === year)) return null;
+  const unused = songs.filter((song) => !usedIds.has(song.id) && yearOf(song) !== year);
+  const anchors = unused.filter((song) => unused.some((other) => yearOf(other) === yearOf(song) && other.releaseMonth !== song.releaseMonth));
+  if (!anchors.length) return null;
+  const left = weightedChoice(anchors, random);
+  const right = weightedChoice(unused.filter((song) => yearOf(song) === yearOf(left) && song.releaseMonth !== left.releaseMonth), random);
+  return { left, right };
+}
+
 function createRound(number, left, right, direction) {
   return {
     number,
@@ -60,16 +73,16 @@ function createRound(number, left, right, direction) {
 
 export function seniorityEvaluation(score, direction = 'older') {
   if (direction === 'newer') {
-    if (score >= 25) return { title: '追新雷达满格', description: '曲库的新鲜气息完全逃不过你的耳朵。' };
-    if (score >= 15) return { title: '新曲观察员', description: '同一年里的月份差也能被你准确捕捉。' };
-    if (score >= 10) return { title: '潮流听众', description: '相邻年份的新旧变化已经非常清晰。' };
-    if (score >= 5) return { title: '小有新意', description: '你已经能辨认不少曲目的发布时间了。' };
+    if (score >= 40) return { title: '追新雷达满格', description: '曲库的新鲜气息完全逃不过你的耳朵。' };
+    if (score >= 30) return { title: '新曲观察员', description: '同一年里的月份差也能被你准确捕捉。' };
+    if (score >= 20) return { title: '潮流听众', description: '相邻年份的新旧变化已经非常清晰。' };
+    if (score >= 10) return { title: '小有新意', description: '你已经能辨认不少曲目的发布时间了。' };
     return { title: '正在追新', description: '再听几首，很快就能建立自己的曲库年表。' };
   }
-  if (score >= 25) return { title: '活化石级资历', description: 'V 家年表已经刻进你的 DNA。' };
-  if (score >= 15) return { title: '曲库考古家', description: '同一年里的月份差也逃不过你的耳朵。' };
-  if (score >= 10) return { title: '资深听众', description: '相邻年份的时代气息已经非常清晰。' };
-  if (score >= 5) return { title: '小有资历', description: '你已经能辨认不少曲目的年代了。' };
+  if (score >= 40) return { title: '活化石级资历', description: 'V 家年表已经刻进你的 DNA。' };
+  if (score >= 30) return { title: '曲库考古家', description: '同一年里的月份差也逃不过你的耳朵。' };
+  if (score >= 20) return { title: '资深听众', description: '相邻年份的时代气息已经非常清晰。' };
+  if (score >= 10) return { title: '小有资历', description: '你已经能辨认不少曲目的年代了。' };
   return { title: '初来乍到', description: '再听几首，很快就能建立自己的曲库年表。' };
 }
 
@@ -128,6 +141,20 @@ export function createSeniorityService(rawSongs, { random = Math.random, directi
     const replaceRepeatedOldSong = game.selectionStreakCount >= 3;
     const carrySide = replaceRepeatedOldSong ? game.carrySide === 'left' ? 'right' : 'left' : game.carrySide;
     const usedIds = new Set(game.usedIds);
+    const freshPair = pickDifferentYearPair(songs, game, usedIds, random);
+    if (freshPair) {
+      usedIds.add(freshPair.left.id);
+      usedIds.add(freshPair.right.id);
+      return {
+        ...game,
+        status: 'playing',
+        round: createRound(game.round.number + 1, freshPair.left, freshPair.right, direction),
+        usedIds: [...usedIds],
+        carrySide: null,
+        selectionStreakSongId: null,
+        selectionStreakCount: 0,
+      };
+    }
     let resolvedCarrySide = carrySide;
     let anchor = game.round[resolvedCarrySide];
     let next = pickCandidate(songs, anchor, game.score, usedIds, random);

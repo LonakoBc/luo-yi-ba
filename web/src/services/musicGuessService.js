@@ -136,7 +136,7 @@ export function getMusicGuessTracks(playlist, {
       return {
         id: 'local-' + (fileName || (index + 1)),
         name,
-        artist: '本地曲库',
+        artist: MUSIC_GUESS_SINGER_PLAYLISTS.filter(({ id }) => (clip.playlistIds || []).includes(id)).map(({ title }) => title).join('、') || '歌姬待补充',
         cover: '',
         clipFileName: fileName,
         clipUrl: resolveMusicGuessClipUrl(fileName, config),
@@ -217,6 +217,8 @@ export function createMusicGuessService(rawTracks, { random = Math.random, mode 
       mode: normalizedMode.mode,
       durationSeconds: normalizedMode.durationSeconds,
       lives: 3,
+      skipsRemaining: 3,
+      correctStreak: 0,
       baseScore: 0,
       lifeBonus: 0,
       score: 0,
@@ -233,13 +235,16 @@ export function createMusicGuessService(rawTracks, { random = Math.random, mode 
     const { round } = game;
     if (!round.options.some((track) => track.id === selectedId)) return game;
     const correct = selectedId === round.answer.id;
-    const lives = game.lives - (correct ? 0 : 1);
-    const resolvedRound = { ...round, selectedId, outcome: correct ? 'correct' : 'wrong' };
+    const correctStreak = correct ? (game.correctStreak ?? 0) + 1 : 0;
+    const lifeReward = correctStreak > 0 && correctStreak % 5 === 0 ? 1 : 0;
+    const lives = game.lives - (correct ? 0 : 1) + lifeReward;
+    const resolvedRound = { ...round, selectedId, outcome: correct ? 'correct' : 'wrong', lifeReward };
     const status = lives === 0 ? 'lost' : game.usedIds.length >= tracks.length ? 'completed' : 'revealed';
     const nextGame = {
       ...game,
       status,
       lives,
+      correctStreak,
       baseScore: game.baseScore + (correct ? 1 : 0),
       score: game.baseScore + (correct ? 1 : 0),
       round: resolvedRound,
@@ -263,7 +268,7 @@ export function createMusicGuessService(rawTracks, { random = Math.random, mode 
   }
 
   function surrender(game) {
-    if (['lost', 'settled', 'completed'].includes(game.status)) return game;
+    if (['lost', 'settled', 'completed', 'time-up'].includes(game.status)) return game;
     if (game.status !== 'playing') return settle(game, 'settled');
     const resolvedRound = { ...game.round, outcome: 'unanswered' };
     return settle({ ...game, round: resolvedRound, history: [...game.history, resolvedRound] }, 'settled');
@@ -278,5 +283,13 @@ export function createMusicGuessService(rawTracks, { random = Math.random, mode 
     return settle(game, 'time-up');
   }
 
-  return { tracks, startGame, chooseAnswer, nextRound, surrender, timeUp };
+  function skip(game) {
+    if (game.status !== 'playing' || game.skipsRemaining <= 0) return game;
+    const round = { ...game.round, outcome: 'skipped' };
+    const skipped = { ...game, status: 'revealed', round, history: [...game.history, round], skipsRemaining: game.skipsRemaining - 1, correctStreak: 0 };
+    const next = nextRound(skipped);
+    return timed && next.status === 'completed' ? settle(next, 'completed') : next;
+  }
+
+  return { tracks, startGame, chooseAnswer, nextRound, skip, surrender, timeUp };
 }

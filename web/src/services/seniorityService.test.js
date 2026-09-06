@@ -11,11 +11,51 @@ const songs = [
 ];
 
 describe('谁是老资历游戏服务', () => {
-  it('按分数切换四个难度阶段', () => {
+  it.each([[9, 2, 3], [10, 1, 2], [19, 1, 2], [20, 1, 1], [29, 1, 1], [30, 0, 0], [39, 0, 0], [40, 0, 0], [100, 0, 0]])('得分 %i 的难度边界', (score, minYears, maxYears) => {
+    expect(difficultyForScore(score)).toMatchObject({ minYears, maxYears });
+  });
+
+  it.each(['older', 'newer'])('%s 连续五题同年后第六题换年份，答错也计入题数', (direction) => {
+    const pool = [2020, 2021].flatMap((year) => Array.from({ length: 10 }, (_, i) => song(`${year}-${i}`, `${year}-${String(i + 1).padStart(2, '0')}`)));
+    const service = createSeniorityService(pool, { random: () => 0, direction });
+    const initial = service.startGame();
+    let game = {
+      ...initial, score: 30, usedIds: [pool[0].id, pool[1].id],
+      round: { ...initial.round, left: pool[0], right: pool[1], correctId: pool[direction === 'older' ? 0 : 1].id },
+    };
+    for (let i = 0; i < 5; i += 1) {
+      expect(game.round.left.releaseMonth.slice(0, 4)).toBe('2020');
+      expect(game.round.right.releaseMonth.slice(0, 4)).toBe('2020');
+      const choice = i === 2 ? [game.round.left, game.round.right].find(({ id }) => id !== game.round.correctId).id : game.round.correctId;
+      game = service.nextRound(service.choose(game, choice));
+    }
+    expect(game.round.number).toBe(6);
+    expect(game.round.left.releaseMonth.slice(0, 4)).toBe('2021');
+    expect(game.round.right.releaseMonth.slice(0, 4)).toBe('2021');
+    expect(game.round.left.releaseMonth).not.toBe(game.round.right.releaseMonth);
+    expect(game.selectionStreakCount).toBe(0);
+    expect(new Set(game.usedIds).size).toBe(game.usedIds.length);
+    expect(game.history.flatMap(({ left, right }) => [left.id, right.id])).not.toContain(game.round.left.id);
+    expect(game.history.flatMap(({ left, right }) => [left.id, right.id])).not.toContain(game.round.right.id);
+    const correct = direction === 'older' ? game.round.left : game.round.right;
+    expect(game.round.correctId).toBe(correct.id);
+  });
+
+  it('只有一个年份时保持可玩，不重复使用旧歌曲', () => {
+    const pool = Array.from({ length: 10 }, (_, i) => song(`s${i}`, `2020-${String(i + 1).padStart(2, '0')}`));
+    const service = createSeniorityService(pool, { random: () => 0 });
+    let game = service.startGame();
+    for (let i = 0; i < 5; i += 1) game = service.nextRound(service.choose(game, game.round.correctId));
+    expect(game.status).toBe('playing');
+    expect(game.round.number).toBe(6);
+    expect(game.usedIds).toHaveLength(7);
+  });
+
+  it('按分数收紧年份差距', () => {
     expect(difficultyForScore(0)).toMatchObject({ minYears: 2, maxYears: 3 });
-    expect(difficultyForScore(5)).toMatchObject({ minYears: 1, maxYears: 2 });
-    expect(difficultyForScore(10)).toMatchObject({ minYears: 1, maxYears: 1 });
-    expect(difficultyForScore(15)).toMatchObject({ minYears: 0, maxYears: 0 });
+    expect(difficultyForScore(10)).toMatchObject({ minYears: 1, maxYears: 2 });
+    expect(difficultyForScore(20)).toMatchObject({ minYears: 1, maxYears: 1 });
+    expect(difficultyForScore(30)).toMatchObject({ minYears: 0, maxYears: 0 });
   });
 
   it('下一题会按当前分数收紧年份差距并最终进入同年比较', () => {
@@ -29,9 +69,9 @@ describe('谁是老资历游戏服务', () => {
       usedIds: [anchor.id],
       round: { ...base.round, left: anchor, selectedId: anchor.id },
     });
-    const oneYear = service.nextRound(makeRevealed(songs[0], 10));
+    const oneYear = service.nextRound(makeRevealed(songs[0], 20));
     expect(Math.abs(Number(oneYear.round.left.releaseMonth.slice(0, 4)) - Number(oneYear.round.right.releaseMonth.slice(0, 4)))).toBe(1);
-    const sameYear = service.nextRound(makeRevealed(songs.find(({ id }) => id === 'e'), 15));
+    const sameYear = service.nextRound(makeRevealed(songs.find(({ id }) => id === 'e'), 30));
     expect(sameYear.round.left.releaseMonth.slice(0, 4)).toBe(sameYear.round.right.releaseMonth.slice(0, 4));
     expect(sameYear.round.left.releaseMonth).not.toBe(sameYear.round.right.releaseMonth);
   });
@@ -147,12 +187,12 @@ describe('谁是老资历游戏服务', () => {
   });
 
   it('提供五档结算评价', () => {
-    expect([0, 5, 10, 15, 25].map((score) => seniorityEvaluation(score).title)).toEqual([
+    expect([0, 10, 20, 30, 40].map((score) => seniorityEvaluation(score).title)).toEqual([
       '初来乍到', '小有资历', '资深听众', '曲库考古家', '活化石级资历',
     ]);
   });
 
   it('小资历使用独立结算评价', () => {
-    expect(seniorityEvaluation(25, 'newer').title).toBe('追新雷达满格');
+    expect(seniorityEvaluation(40, 'newer').title).toBe('追新雷达满格');
   });
 });
